@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32002.185
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.PrivateServer.CLI", "Yuyuyui.PrivateServer.CLI\Yuyuyui.PrivateServer.CLI.csproj", "{9E8BAF32-0921-4E74-B288-8AD47DC6B7F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.PrivateServer", "Yuyuyui.PrivateServer\Yuyuyui.PrivateServer.csproj", "{C0F794B0-8F58-40A4-976A-E0AF3EDD470E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E8BAF32-0921-4E74-B288-8AD47DC6B7F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E8BAF32-0921-4E74-B288-8AD47DC6B7F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E8BAF32-0921-4E74-B288-8AD47DC6B7F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E8BAF32-0921-4E74-B288-8AD47DC6B7F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0F794B0-8F58-40A4-976A-E0AF3EDD470E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0F794B0-8F58-40A4-976A-E0AF3EDD470E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0F794B0-8F58-40A4-976A-E0AF3EDD470E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0F794B0-8F58-40A4-976A-E0AF3EDD470E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B53BB682-EFFF-46C7-AF7F-CD711A7457DE}
+	EndGlobalSection
+EndGlobal
