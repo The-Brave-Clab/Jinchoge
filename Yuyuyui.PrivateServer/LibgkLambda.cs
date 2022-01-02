@@ -9,6 +9,10 @@ namespace Yuyuyui.PrivateServer
         private static readonly HttpClient client = new HttpClient();
         private static readonly MediaTypeWithQualityHeaderValue octet_stream = new MediaTypeWithQualityHeaderValue("application/octet-stream");
 
+        public static readonly string GK_BIN_DEFAULT_KEY = "8d49d9db4439e344";
+        public static readonly byte[] GK_BIN_DEFAULT_IV = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+        public static readonly string GK_API_DEFAULT_KEY = "db9a0d951de48825";
+
         public enum CryptType
         {
             Binary,

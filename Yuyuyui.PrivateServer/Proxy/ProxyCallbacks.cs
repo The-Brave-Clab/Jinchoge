@@ -44,6 +44,8 @@ namespace Yuyuyui.PrivateServer
 
             if (!e.HttpClient.Request.RequestUri.Host.Contains("app.yuyuyui.jp"))
                 return;
+            
+            EntityBase entity = EntityBase.FromRequestEvent(e);
 
             // read request headers
             string apiPath = e.HttpClient.Request.RequestUri.AbsolutePath;
