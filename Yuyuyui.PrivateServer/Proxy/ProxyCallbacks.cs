@@ -2,13 +2,14 @@
 using System.Text;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Exceptions;
+using Titanium.Web.Proxy.Http;
 using Titanium.Web.Proxy.Models;
 
 namespace Yuyuyui.PrivateServer
 {
     internal class ProxyCallbacks
     {
-        private static async Task<bool> EchoService(SessionEventArgs e)
+        private static bool EchoService(SessionEventArgs e)
         {
             // Create a local echo service for downloading the cert file
             var request = e.HttpClient.Request;
@@ -40,35 +41,27 @@ namespace Yuyuyui.PrivateServer
 
         public static async Task OnRequest(object sender, SessionEventArgs e)
         {
-            if (await EchoService(e)) return;
+            if (EchoService(e)) return;
 
             if (!e.HttpClient.Request.RequestUri.Host.Contains("app.yuyuyui.jp"))
                 return;
             
-            EntityBase entity = EntityBase.FromRequestEvent(e);
+            Console.WriteLine(e.HttpClient.Request.RequestUri);
+            EntityBase entity = await EntityBase.FromRequestEvent(e);
+            await entity.Process();
 
-            // read request headers
-            string apiPath = e.HttpClient.Request.RequestUri.AbsolutePath;
+            byte[] responseBody = entity.ResponseBody;
+            Dictionary<string, string> responseHeaders = entity.ResponseHeaders;
 
-            var requestHeaders = e.HttpClient.Request.Headers;
-
-            var method = e.HttpClient.Request.Method.ToUpper();
-
-            if (e.HttpClient.Request.ContentType != null)
+            if (entity.GetType() == typeof(NotImplementedErrorEntity))
             {
-                try
-                {
-                    byte[] requestBodyBytes = await e.GetRequestBody();
-
-                    var decodedBytes = await LibgkLambda.InvokeLambda(LibgkLambda.CryptType.API, LibgkLambda.CryptDirection.Decrypt, requestBodyBytes); //, currentKey, currentIV, currentSessionKey);
-                    string decodedString = Encoding.UTF8.GetString(decodedBytes);
-                    // userDataStr += $"|\tRequest \t{e.HttpClient.Request.ContentType}\t{requestBodyBytes.Length}";
-                }
-                catch (BodyNotFoundException)
-                {
-
-                }
+                e.Respond(new Response(entity.ResponseBody) {StatusCode = 404, HttpVersion = HttpVersion.Version11});
             }
+            else
+            {
+                e.Ok(responseBody, responseHeaders.Select(p => new HttpHeader(p.Key, p.Value)));
+            }
+            
             //e.UserData = userData;
 
             // To cancel a request with a custom HTML content

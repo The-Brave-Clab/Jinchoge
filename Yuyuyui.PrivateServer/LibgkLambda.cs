@@ -57,7 +57,7 @@ namespace Yuyuyui.PrivateServer
             return $"/{typeStr}/{directionStr}";
         }
 
-        public async static Task<byte[]> InvokeLambda(CryptType type, CryptDirection direction, byte[] inputData, string key = "", byte[]? iv = null, bool session_key = false)
+        public static async Task<byte[]> InvokeLambda(CryptType type, CryptDirection direction, byte[] inputData, string key = "", byte[]? iv = null, bool session_key = false)
         {
             string apiPath = CryptToString(type, direction);
             string url = baseUrl + apiPath;

@@ -27,7 +27,7 @@ namespace Yuyuyui.PrivateServer
             File.WriteAllBytes("ca.cer", proxyServer.CertificateManager.RootCertificate!.Export(X509ContentType.Cert));
 
             proxyServer.BeforeRequest += ProxyCallbacks.OnRequest;
-            proxyServer.BeforeResponse += ProxyCallbacks.OnResponse;
+            //proxyServer.BeforeResponse += ProxyCallbacks.OnResponse;
             proxyServer.ServerCertificateValidationCallback += ProxyCallbacks.OnCertificateValidation;
             proxyServer.ClientCertificateSelectionCallback += ProxyCallbacks.OnCertificateSelection;
 
@@ -52,7 +52,7 @@ namespace Yuyuyui.PrivateServer
             explicitEndPoint!.BeforeTunnelConnectRequest -= ProxyCallbacks.OnBeforeTunnelConnect;
             explicitEndPoint!.BeforeTunnelConnectResponse -= ProxyCallbacks.OnBeforeTunnelConnect;
             proxyServer!.BeforeRequest -= ProxyCallbacks.OnRequest;
-            proxyServer!.BeforeResponse -= ProxyCallbacks.OnResponse;
+            //proxyServer!.BeforeResponse -= ProxyCallbacks.OnResponse;
             proxyServer!.ServerCertificateValidationCallback -= ProxyCallbacks.OnCertificateValidation;
             proxyServer!.ClientCertificateSelectionCallback -= ProxyCallbacks.OnCertificateSelection;
 

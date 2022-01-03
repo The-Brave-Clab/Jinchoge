@@ -1,35 +1,51 @@
 ﻿using System.ComponentModel;
+using System.Text;
+using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
+using Titanium.Web.Proxy.Exceptions;
 
 namespace Yuyuyui.PrivateServer
 {
-    public class EntityBase
+    public abstract class EntityBase
     {
         public const string BASE_API_PATH = "/api/v1";
+        public const string MIMETYPE_GK_JSON = "application/x-gk-json";
+        public const string MIMETYPE_JSON = "application/json";
+
+        public readonly string HttpMethod;
+        public readonly Uri RequestUri;
+        protected byte[] requestBody;
+        protected readonly Dictionary<string, string> requestHeaders;
+        protected readonly Dictionary<string, string> pathParameters;
+        protected byte[] responseBody;
+        protected Dictionary<string, string> responseHeaders;
+
         
-        protected SessionEventArgs? sessionEventArgs = null;
+        public byte[] RequestBody => requestBody;
+        public Dictionary<string, string> RequestHeaders => requestHeaders;
+        public Dictionary<string, string> PathParameters => pathParameters;
+        public byte[] ResponseBody => responseBody;
+        public Dictionary<string, string> ResponseHeaders => responseHeaders;
 
-        protected string? httpMethod;
-        public string? HttpMethod => httpMethod;
-
-        protected Uri? requestUri;
-        public Uri? RequestUri => requestUri;
-
-        protected Dictionary<string, string>? headers;
-
-        public string GetHeaderValue(string headerKey)
+        public string GetRequestHeaderValue(string headerKey)
         {
-            return headers[headerKey];
+            string headerKeyLower = headerKey.ToLower();
+            if (requestHeaders.ContainsKey(headerKeyLower))
+                return requestHeaders[headerKeyLower];
+            return "";
         }
-
-        protected Dictionary<string, string>? pathParameters;
 
         public string GetPathParameter(string key)
         {
             return pathParameters[key];
         }
+
+        protected bool HasRequestBody()
+        {
+            return requestBody.Length == 0;
+        }
         
-        private static string StripApiPrefix(string apiPath)
+        protected static string StripApiPrefix(string apiPath)
         {
             return apiPath.StartsWith(BASE_API_PATH) ? apiPath.Substring(BASE_API_PATH.Length) : apiPath;
         }
@@ -59,7 +75,7 @@ namespace Yuyuyui.PrivateServer
             return ExtractPathParameters(apiPathWithParameters, apiPathReal) != null;
         }
 
-        public static EntityBase FromRequestEvent(SessionEventArgs e)
+        public static async Task<EntityBase> FromRequestEvent(SessionEventArgs e)
         {
             string apiPath = StripApiPrefix(e.HttpClient.Request.RequestUri.AbsolutePath);
 
@@ -70,11 +86,35 @@ namespace Yuyuyui.PrivateServer
                 {
                     try
                     {
+                        Dictionary<string, string> headers =
+                            new Dictionary<string, string>(e.HttpClient.Request.Headers.Count());
+                        foreach (var header in e.HttpClient.Request.Headers)
+                        {
+                            string headerKey = header.Name.ToLower();
+                            if (!headers.ContainsKey(headerKey))
+                                headers.Add(headerKey, header.Value);
+                        }
+
+                        byte[] requestBodyBytes = Array.Empty<byte>();
+                        
+                        if (e.HttpClient.Request.ContentType != null)
+                        {
+                            try
+                            {
+                                requestBodyBytes = await e.GetRequestBody();
+                                // userDataStr += $"|\tRequest \t{e.HttpClient.Request.ContentType}\t{requestBodyBytes.Length}";
+                            }
+                            catch (BodyNotFoundException)
+                            {
+
+                            }
+                        }
+                        
                         return (EntityBase) TypeDescriptor.CreateInstance(
                             provider: null,
                             objectType: config.Key,
-                            argTypes: new[] {typeof(SessionEventArgs), typeof(Config)},
-                            args: new object[] {e, config.Value})!;
+                            argTypes: new[] {typeof(Uri), typeof(Dictionary<string, string>), typeof(byte[]), typeof(Config)},
+                            args: new object[] {e.HttpClient.Request.RequestUri, headers, requestBodyBytes, config.Value})!;
                     }
                     catch (Exception exception)
                     {
@@ -84,24 +124,78 @@ namespace Yuyuyui.PrivateServer
                 }
             }
 
-            return null; // error type
+            return new NotImplementedErrorEntity(e.HttpClient.Request.RequestUri, 
+                new Dictionary<string, string>(),
+                Array.Empty<byte>(), 
+                new Config
+                (
+                    apiPath, 
+                    e.HttpClient.Request.Method
+                )); // error type
         }
 
-        public EntityBase(SessionEventArgs e, Config config)
-        { 
-            sessionEventArgs = e;
+        protected abstract Task ProcessRequest();
 
-            httpMethod = sessionEventArgs!.HttpClient.Request.Method;
-            requestUri = sessionEventArgs!.HttpClient.Request.RequestUri;
-
-            headers = new Dictionary<string, string>(e.HttpClient.Request.Headers.Count());
-            foreach (var header in e.HttpClient.Request.Headers)
+        public async Task Process()
+        {
+            if (requestBody.Length > 0)
             {
-                if (!headers.ContainsKey(header.Name))
-                    headers.Add(header.Name, header.Value);
+                if (GetRequestHeaderValue("Content-Type").ToLower() == MIMETYPE_GK_JSON)
+                {
+                    bool hasSessionCookie = this.GetSessionFromCookie(out var session);
+                    if (!hasSessionCookie)
+                    {
+                        requestBody = await LibgkLambda.InvokeLambda(
+                            LibgkLambda.CryptType.API, 
+                            LibgkLambda.CryptDirection.Decrypt, 
+                            requestBody); //, currentKey, currentIV, currentSessionKey);
+                    }
+                    else
+                    {
+                        Console.WriteLine(session.sessionKey);
+                        requestBody = await LibgkLambda.InvokeLambda(
+                            LibgkLambda.CryptType.API, 
+                            LibgkLambda.CryptDirection.Decrypt, 
+                            requestBody, 
+                            key: session.sessionKey, session_key: true);
+                    }
+                }
             }
+            
+            await ProcessRequest();
+        }
+        
+        protected static T? Deserialize<T>(byte[] data) where T : class
+        {
+            var stream = new MemoryStream(data);
+            var reader = new StreamReader(stream, Encoding.UTF8);
+            return JsonSerializer.Create().Deserialize(reader, typeof(T)) as T;
+        }
 
-            pathParameters = ExtractPathParameters(config.apiPath, StripApiPrefix(requestUri.AbsolutePath));
+        protected static byte[] Serialize<T>(T obj) where T : class
+        {
+            string str = JsonConvert.SerializeObject(obj);
+            return Encoding.UTF8.GetBytes(str);
+        }
+
+        protected void SetBasicResponseHeaders(string sessionId = "", bool isGk = false)
+        {
+            responseHeaders.Add("Content-Type", isGk ? MIMETYPE_GK_JSON : MIMETYPE_JSON);
+            responseHeaders.Add("Content-Length", $"{responseBody.Length}");
+            if (!string.IsNullOrEmpty(sessionId))
+                responseHeaders.Add("Set-Cookie", $"_session_id={sessionId}");
+        }
+
+        public EntityBase(Uri requestUri, Dictionary<string, string> requestHeaders, byte[] requestBody, Config config)
+        {
+            HttpMethod = config.httpMethod;
+            RequestUri = requestUri;
+            this.requestHeaders = requestHeaders;
+            this.requestBody = requestBody;
+            responseBody = Array.Empty<byte>();
+            responseHeaders = new Dictionary<string, string>();
+
+            pathParameters = ExtractPathParameters(config.apiPath, StripApiPrefix(requestUri.AbsolutePath))!;
         }
 
         public static readonly Dictionary<Type, Config> configs = new Dictionary<Type, Config>
