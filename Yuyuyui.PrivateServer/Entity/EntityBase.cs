@@ -157,7 +157,7 @@ namespace Yuyuyui.PrivateServer
                             LibgkLambda.CryptType.API, 
                             LibgkLambda.CryptDirection.Decrypt, 
                             requestBody, 
-                            key: session.sessionKey, session_key: true);
+                            session.sessionKey, sessionKey: true);
                     }
                 }
             }
@@ -198,7 +198,7 @@ namespace Yuyuyui.PrivateServer
             pathParameters = ExtractPathParameters(config.apiPath, StripApiPrefix(requestUri.AbsolutePath))!;
         }
 
-        public static readonly Dictionary<Type, Config> configs = new Dictionary<Type, Config>
+        public static readonly Dictionary<Type, Config> configs = new()
         {
             {
                 typeof(ArticleEntity),

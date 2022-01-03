@@ -10,7 +10,7 @@
             return directory;
         }
 
-        private static readonly Random random = new Random();
+        private static readonly Random random = new();
 
         public static string GenerateRandomHexString(int length)
         {
@@ -24,19 +24,21 @@
             const string chars = "0123456789";
             string suffix = new string(Enumerable.Repeat((byte) 0, 9)
                 .Select(_ => chars[random.Next(chars.Length)]).ToArray());
-            char prefix = chars[random.Next(9) + 1];
+            char prefix = chars[random.Next(chars.Length - 1) + 1];
             return $"{prefix}{suffix}";
         }
-        
+
         public static long CurrentUnixTime()
         {
             return FromDateTime(DateTime.UtcNow);
         }
+
         private static long FromDateTime(DateTime dateTime)
         {
             double totalSeconds = (dateTime.ToUniversalTime() - UNIX_EPOCH).TotalSeconds;
-            return (long)totalSeconds;
+            return (long) totalSeconds;
         }
+
         private static readonly DateTime UNIX_EPOCH = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     }
 }

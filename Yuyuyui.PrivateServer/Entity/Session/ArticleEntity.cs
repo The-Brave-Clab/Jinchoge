@@ -13,7 +13,7 @@
 
         protected override Task ProcessRequest()
         {
-            Response responseObj = new Response
+            Response responseObj = new()
             {
                 articles = new Response.Article[]
                 {
@@ -64,7 +64,7 @@
 
         public class Response
         {
-            public IList<Article> articles { get; set; } = new List<Article>();
+            public IList<Article> articles { get; set; } = Array.Empty<Article>();
 
             public class Article
             {

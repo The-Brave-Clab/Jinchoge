@@ -20,7 +20,7 @@ namespace Yuyuyui.PrivateServer
             var requestObj = Deserialize<SessionsEntity.Request>(requestBody);
             PrivateServer.PlayerSession sessionDetail = PrivateServer.CreateSessionForPlayer(requestObj!.uuid);
 
-            SessionsEntity.Response responseObj = new SessionsEntity.Response
+            SessionsEntity.Response responseObj = new()
             {
                 session_id = sessionDetail.sessionID,
                 code = sessionDetail.player.code,

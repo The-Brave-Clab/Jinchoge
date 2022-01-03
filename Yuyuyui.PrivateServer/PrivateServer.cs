@@ -103,7 +103,7 @@
             var cookies = cookie.Split(';',
                     StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
                 .Select(c => c.Split('='))
-                .ToDictionary(e => e[0], e => e[1]);
+                .ToDictionary(e => e[0], e => e.Length > 1 ? e[1] : "");
 
             if (cookies.ContainsKey("_session_id"))
             {

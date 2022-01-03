@@ -9,14 +9,13 @@
             Config config)
             : base(requestUri, requestHeaders, requestBody, config)
         {
-            
         }
-        
+
         protected override Task ProcessRequest()
         {
-            Response responseObj = new Response
+            Response responseObj = new()
             {
-                requirement_version = new Response.RequirementVersion
+                requirement_version = new()
                 {
                     version = "3.14.0",
                     need_update = false,
@@ -25,16 +24,16 @@
                     enable_cooperation = false
                 }
             };
-            
+
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-            
+
             return Task.CompletedTask;
         }
 
         public class Response
         {
-            public RequirementVersion requirement_version { get; set; } = new ();
+            public RequirementVersion requirement_version { get; set; } = new();
 
             public class RequirementVersion
             {
