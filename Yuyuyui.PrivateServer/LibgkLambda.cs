@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Net;
+using System.Web;
 using System.Net.Http.Headers;
 
 namespace Yuyuyui.PrivateServer
@@ -59,7 +60,6 @@ namespace Yuyuyui.PrivateServer
             string key = "", byte[]? iv = null, bool sessionKey = false)
         {
             string apiPath = CryptToString(type, direction);
-            string url = baseUrl + apiPath;
 
             List<string> queryParams = new List<string>(3);
             if (!string.IsNullOrEmpty(key))
@@ -69,8 +69,11 @@ namespace Yuyuyui.PrivateServer
             if (sessionKey)
                 queryParams.Add($"session_key=1");
 
+            string queryStr = "";
             if (queryParams.Count > 0)
-                url += $"?{string.Join("&", queryParams)}";
+                queryStr = $"?{string.Join("&", queryParams)}";
+
+            string url = $"{baseUrl}{apiPath}{queryStr}";
 
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
 
@@ -80,6 +83,11 @@ namespace Yuyuyui.PrivateServer
 
             HttpResponseMessage response = await PrivateServer.HttpClient.SendAsync(requestMessage);
             byte[] decodedBytes = await response.Content.ReadAsByteArrayAsync();
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                Utils.LogError($"Libgk Call Failed! {apiPath}{queryStr}");
+            }
 
             return decodedBytes;
         }

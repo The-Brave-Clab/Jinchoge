@@ -29,30 +29,23 @@ namespace Yuyuyui.PrivateServer
 
             Utils.LogWarning("Redirected to official API Server!");
 
-            // requestBody is decrypted, before we send it we need to encrypt it back, with default key
-            var encryptedBody = await LibgkLambda.InvokeLambda(
-                LibgkLambda.CryptType.API,
-                LibgkLambda.CryptDirection.Encrypt,
-                requestBody); //, currentKey, currentIV, currentSessionKey);
-
             HttpRequestMessage requestMessage = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, RequestUri);
 
-            requestMessage.Content = new ByteArrayContent(encryptedBody);
+            requestMessage.Content = new ByteArrayContent(Array.Empty<byte>());
             //requestMessage.Headers.Accept.Add(gk_json);
-            requestMessage.Content.Headers.ContentType = gk_json;
+            requestMessage.Content.Headers.ContentType = gk_json;  // The official server requires this.
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", BASIC_AUTH_TOKEN);
             requestMessage.Headers.UserAgent.TryParseAdd(GetRequestHeaderValue("User-Agent"));
             requestMessage.Headers.Host = "app.yuyuyui.jp";
             requestMessage.Headers.Connection.Add("Keep-Alive");
             requestMessage.Headers.AcceptEncoding.TryParseAdd("gzip");
 
-            foreach (var header in requestHeaders)
+            foreach (var header in requestHeaders
+                         .Where(header => 
+                             header.Key.StartsWith("X-", StringComparison.CurrentCultureIgnoreCase)))
             {
-                if (!header.Key.StartsWith("X-", StringComparison.CurrentCultureIgnoreCase))
-                    continue;
-                requestMessage.Content.Headers.Add(header.Key, header.Value);
+                requestMessage.Headers.Add(header.Key, header.Value);
             }
-            
 
             HttpResponseMessage response = await PrivateServer.HttpClient.SendAsync(requestMessage);
             byte[] responseBytes = await response.Content.ReadAsByteArrayAsync();
