@@ -29,7 +29,6 @@ namespace Yuyuyui.PrivateServer
 
             if (requestBody.Length > 0)
             {
-                Console.WriteLine(Encoding.UTF8.GetString(requestBody));
                 File.WriteAllBytes(tutorialProgressFile, requestBody);
             }
 

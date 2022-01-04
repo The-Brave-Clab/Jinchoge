@@ -8,6 +8,15 @@ namespace Yuyuyui.PrivateServer.CLI
     {
         public static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+            Utils.SetLogCallbacks(
+                o => { ColoredOutput.WriteLine(o, ConsoleColor.Green); },
+                Console.WriteLine,
+                o => { ColoredOutput.WriteLine(o, ConsoleColor.Yellow); },
+                o => { ColoredOutput.WriteLine(o, ConsoleColor.Red); }
+            );
+
             var endpoint = Proxy.StartProxy();
 
             //foreach (var endPoint in proxyServer.ProxyEndPoints)

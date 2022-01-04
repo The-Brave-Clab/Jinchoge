@@ -28,9 +28,10 @@ namespace Yuyuyui.PrivateServer
 
             if (requestBody.Length > 0)
             {
-                Console.WriteLine(Encoding.UTF8.GetString(requestBody));
                 Request request = Deserialize<Request>(requestBody)!;
-                File.WriteAllText(regulationCheckedFile, $"{request.regulation_version.current_version}");
+                int checkVersion = request.regulation_version.current_version;
+                Utils.Log($"Player agreed to regulation version {checkVersion}");
+                File.WriteAllText(regulationCheckedFile, $"{checkVersion}");
             }
 
             if (!File.Exists(regulationCheckedFile))

@@ -46,7 +46,6 @@ namespace Yuyuyui.PrivateServer
             if (!e.HttpClient.Request.RequestUri.Host.Contains("app.yuyuyui.jp"))
                 return;
             
-            Console.WriteLine(e.HttpClient.Request.RequestUri);
             EntityBase entity = await EntityBase.FromRequestEvent(e);
             await entity.Process();
 

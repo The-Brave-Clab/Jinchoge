@@ -17,7 +17,6 @@ namespace Yuyuyui.PrivateServer
         
         protected override Task ProcessRequest()
         {
-            Console.WriteLine(Encoding.UTF8.GetString(requestBody));
             var requestObj = Deserialize<SessionsEntity.Request>(requestBody);
             PrivateServer.PlayerSession sessionDetail = PrivateServer.CreateSessionForPlayer(requestObj!.uuid, this);
 

@@ -84,43 +84,50 @@
             var playerDataFile = Path.Combine(dataFolder, PLAYER_DATA_FILE);
             File.AppendAllText(playerDataFile, $"{player}\n");
 
-            Console.WriteLine($"Registered new player: {player}");
+            Utils.Log($"Registered new player {player.code}");
 
             return player;
         }
 
         public static PlayerSession CreateSessionForPlayer(string uuid, EntityBase entity)
         {
+            PlayerSession session;
+            string verb = "";
             try
             {
-                PlayerSession foundSession = playerSessions.First(p => p.Value.player.uuid == uuid).Value;
-                Console.WriteLine($"Found session for player {foundSession.player}: Session ID = {foundSession.sessionID}, Session Key = {foundSession.sessionKey}");
-                return foundSession;
+                session = playerSessions.First(p => p.Value.player.uuid == uuid).Value;
+                verb = "Found";
             }
             catch (InvalidOperationException)
             {
-                var session = new PlayerSession
+                session = new PlayerSession
                 {
                     sessionID = Utils.GenerateRandomHexString(32),
                     sessionKey = Utils.GenerateRandomHexString(16),
                     player = playerUUID.ContainsKey(uuid) ? playerUUID[uuid] : RegisterNewPlayer(uuid),
-                    deviceInfo = new DeviceInfo
-                    {
-                        os = entity.GetRequestHeaderValue("X-APP-PLATFORM").Split(' ')[0] == "Android" ? DeviceInfo.OS.Android : DeviceInfo.OS.iOS,
-                        platformName = entity.GetRequestHeaderValue("X-APP-PLATFORM"),
-                        unityVersion = entity.GetRequestHeaderValue("X-Unity-Version"),
-                        appVersion = entity.GetRequestHeaderValue("X-APP-VERSION"),
-                        deviceName = entity.GetRequestHeaderValue("X-APP-DEVICE"),
-                        userAgent = entity.GetRequestHeaderValue("User-Agent"),
-                    }
                 };
 
                 playerSessions.Add(session.sessionID, session);
 
-                Console.WriteLine($"Created session for player {session.player}: Session ID = {session.sessionID}, Session Key = {session.sessionKey}");
-
-                return session;
+                verb = "Created";
             }
+
+            Utils.Log(
+                $"{verb} session for player {session.player.code}\n\tSession  ID = {session.sessionID}\n\tSession Key = {session.sessionKey}");
+
+            session.deviceInfo = new DeviceInfo
+            {
+                os = entity.GetRequestHeaderValue("X-APP-PLATFORM").Split(' ')[0] == "Android"
+                    ? DeviceInfo.OS.Android
+                    : DeviceInfo.OS.iOS,
+                platformName = entity.GetRequestHeaderValue("X-APP-PLATFORM"),
+                unityVersion = entity.GetRequestHeaderValue("X-Unity-Version"),
+                appVersion = entity.GetRequestHeaderValue("X-APP-VERSION"),
+                deviceName = entity.GetRequestHeaderValue("X-APP-DEVICE"),
+                userAgent = entity.GetRequestHeaderValue("User-Agent"),
+            };
+
+            return session;
         }
 
         public static bool GetSessionFromCookie(this EntityBase entity, out PlayerSession session)

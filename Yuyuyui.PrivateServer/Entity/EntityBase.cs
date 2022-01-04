@@ -85,6 +85,8 @@ namespace Yuyuyui.PrivateServer
         {
             string apiPath = StripApiPrefix(e.HttpClient.Request.RequestUri.AbsolutePath);
 
+            Utils.LogTrace(apiPath);
+
             foreach (var config in configs)
             {
                 if (ApiPathMatch(config.Value.apiPath, apiPath) &&
@@ -131,7 +133,7 @@ namespace Yuyuyui.PrivateServer
                     }
                     catch (Exception exception)
                     {
-                        Console.WriteLine(exception);
+                        Utils.LogError(exception);
                         throw;
                     }
                 }
@@ -164,7 +166,6 @@ namespace Yuyuyui.PrivateServer
                     }
                     else
                     {
-                        Console.WriteLine(session.sessionKey);
                         requestBody = await LibgkLambda.InvokeLambda(
                             LibgkLambda.CryptType.API,
                             LibgkLambda.CryptDirection.Decrypt,
@@ -180,7 +181,7 @@ namespace Yuyuyui.PrivateServer
             }
             catch (Exception e)
             {
-                Console.Write(e.ToString());
+                Utils.LogError(e.ToString());
                 throw;
             }
         }

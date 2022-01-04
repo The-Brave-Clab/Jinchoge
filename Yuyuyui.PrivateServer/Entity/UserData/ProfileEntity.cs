@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -31,14 +31,14 @@ namespace Yuyuyui.PrivateServer
                 // Doing a deserialization and then a serialization will escape the unicode characters
                 RequestResponse request = Deserialize<RequestResponse>(requestBody)!;
                 byte[] body = Serialize(request);
-                Console.WriteLine(Encoding.UTF8.GetString(body));
+                Utils.Log($"Updated user profile:\n\tNickname\t{request.profile.nickname}\n\t Comment\t{request.profile.comment}");
                 File.WriteAllBytes(profileFile, body);
             }
 
             if (!File.Exists(profileFile))
             {
                 File.WriteAllText(profileFile, 
-                    "{\"profile\":{\"nickname\":\"NONE\",\"comment\":\"よく寝て、よく食べる\"}}");
+                    "{\"profile\":{\"nickname\":\"NONE\",\"comment\":\"NONE\"}}");
             }
             
             responseBody = File.ReadAllBytes(profileFile);

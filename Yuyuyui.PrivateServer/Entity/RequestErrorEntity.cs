@@ -24,7 +24,7 @@
             // S2000: Maintenance, shows message
             // A1321: Network error, small window with message, with prefix
             // A0120: Input Error
-            Console.WriteLine(responseObj.error.message);
+            Utils.LogError(responseObj.error.message);
 
             responseBody = Serialize(responseObj);
 
