@@ -4,10 +4,11 @@
     {
         public ArticleEntity(
             Uri requestUri,
+            string httpMethod,
             Dictionary<string, string> requestHeaders,
             byte[] requestBody,
             Config config)
-            : base(requestUri, requestHeaders, requestBody, config)
+            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
         {
         }
 

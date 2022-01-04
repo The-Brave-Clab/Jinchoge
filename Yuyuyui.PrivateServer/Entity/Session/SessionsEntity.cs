@@ -6,10 +6,11 @@ namespace Yuyuyui.PrivateServer
     {
         public SessionsEntity(
             Uri requestUri,
+            string httpMethod,
             Dictionary<string, string> requestHeaders,
             byte[] requestBody,
             Config config)
-            : base(requestUri, requestHeaders, requestBody, config)
+            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
         {
         }
 
@@ -17,7 +18,7 @@ namespace Yuyuyui.PrivateServer
         {
             Console.WriteLine(Encoding.UTF8.GetString(requestBody));
             var requestObj = Deserialize<Request>(requestBody);
-            PrivateServer.PlayerSession sessionDetail = PrivateServer.CreateSessionForPlayer(requestObj!.uuid);
+            PrivateServer.PlayerSession sessionDetail = PrivateServer.CreateSessionForPlayer(requestObj!.uuid, this);
 
             Response responseObj = new()
             {

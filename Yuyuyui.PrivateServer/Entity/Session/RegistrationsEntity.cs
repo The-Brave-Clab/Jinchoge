@@ -6,10 +6,11 @@ namespace Yuyuyui.PrivateServer
     {
         public RegistrationsEntity(
             Uri requestUri,
+            string httpMethod,
             Dictionary<string, string> requestHeaders,
             byte[] requestBody,
             Config config)
-            : base(requestUri, requestHeaders, requestBody, config)
+            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
         {
             
         }
@@ -18,7 +19,7 @@ namespace Yuyuyui.PrivateServer
         {
             Console.WriteLine(Encoding.UTF8.GetString(requestBody));
             var requestObj = Deserialize<SessionsEntity.Request>(requestBody);
-            PrivateServer.PlayerSession sessionDetail = PrivateServer.CreateSessionForPlayer(requestObj!.uuid);
+            PrivateServer.PlayerSession sessionDetail = PrivateServer.CreateSessionForPlayer(requestObj!.uuid, this);
 
             SessionsEntity.Response responseObj = new()
             {
@@ -29,7 +30,7 @@ namespace Yuyuyui.PrivateServer
             };
             
             responseBody = Serialize(responseObj);
-            SetBasicResponseHeaders(sessionDetail.sessionID);
+            SetBasicResponseHeaders();
             
             return Task.CompletedTask;
         }

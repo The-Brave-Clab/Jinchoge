@@ -3,8 +3,8 @@
     public class RequestErrorEntity : BaseEntity<RequestErrorEntity>
     {
         private Response responseObj;
-        public RequestErrorEntity(string code, string message, Uri requestedUri, Config requestConfig)
-            : base(requestedUri, new Dictionary<string, string>(), Array.Empty<byte>(), requestConfig)
+        public RequestErrorEntity(string code, string message, Uri requestedUri, string httpMethod, Config requestConfig)
+            : base(requestedUri, httpMethod, new Dictionary<string, string>(), Array.Empty<byte>(), requestConfig)
         {
             responseObj = new Response
             {

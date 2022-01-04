@@ -10,7 +10,7 @@
             public static PlayerID FromString(string str)
             {
                 var split = str.Split(",");
-                return new PlayerID {uuid = split[0], code = split[1]};
+                return new PlayerID { uuid = split[0], code = split[1] };
             }
 
             public override string ToString()
@@ -24,8 +24,25 @@
             public PlayerID player;
             public string sessionID;
             public string sessionKey;
+            public DeviceInfo deviceInfo;
         }
-        
+
+        public struct DeviceInfo
+        {
+            public enum OS
+            {
+                Android,
+                iOS
+            }
+
+            public OS os;
+            public string platformName;
+            public string unityVersion;
+            public string appVersion;
+            public string deviceName;
+            public string userAgent;
+        }
+
         private static string dataFolder;
 
         private static Dictionary<string, PlayerID> playerUUID;
@@ -40,7 +57,7 @@
             playerUUID = new Dictionary<string, PlayerID>();
             playerCode = new Dictionary<string, PlayerID>();
             playerSessions = new Dictionary<string, PlayerSession>();
-            
+
             dataFolder = Utils.EnsureDirectory(DATA_FOLDER);
             var playerDataFile = Path.Combine(dataFolder, PLAYER_DATA_FILE);
 
@@ -48,7 +65,7 @@
             {
                 File.AppendAllText(playerDataFile, null);
             }
-            
+
             var players = File.ReadLines(playerDataFile);
             foreach (var s in players)
             {
@@ -60,19 +77,19 @@
 
         private static PlayerID RegisterNewPlayer(string uuid)
         {
-            var player = new PlayerID {uuid = uuid, code = Utils.GenerateRandomPlayerCode()};
+            var player = new PlayerID { uuid = uuid, code = Utils.GenerateRandomPlayerCode() };
             playerUUID.Add(player.uuid, player);
             playerCode.Add(player.code, player);
-            
+
             var playerDataFile = Path.Combine(dataFolder, PLAYER_DATA_FILE);
             File.AppendAllText(playerDataFile, $"{player}\n");
-            
+
             Console.WriteLine($"Registered new player: {player}");
-            
+
             return player;
         }
 
-        public static PlayerSession CreateSessionForPlayer(string uuid)
+        public static PlayerSession CreateSessionForPlayer(string uuid, EntityBase entity)
         {
             try
             {
@@ -86,13 +103,22 @@
                 {
                     sessionID = Utils.GenerateRandomHexString(32),
                     sessionKey = Utils.GenerateRandomHexString(16),
-                    player = playerUUID.ContainsKey(uuid) ? playerUUID[uuid] : RegisterNewPlayer(uuid)
+                    player = playerUUID.ContainsKey(uuid) ? playerUUID[uuid] : RegisterNewPlayer(uuid),
+                    deviceInfo = new DeviceInfo
+                    {
+                        os = entity.GetRequestHeaderValue("X-APP-PLATFORM").Split(' ')[0] == "Android" ? DeviceInfo.OS.Android : DeviceInfo.OS.iOS,
+                        platformName = entity.GetRequestHeaderValue("X-APP-PLATFORM"),
+                        unityVersion = entity.GetRequestHeaderValue("X-Unity-Version"),
+                        appVersion = entity.GetRequestHeaderValue("X-APP-VERSION"),
+                        deviceName = entity.GetRequestHeaderValue("X-APP-DEVICE"),
+                        userAgent = entity.GetRequestHeaderValue("User-Agent"),
+                    }
                 };
 
                 playerSessions.Add(session.sessionID, session);
-                
+
                 Console.WriteLine($"Created session for player {session.player}: Session ID = {session.sessionID}, Session Key = {session.sessionKey}");
-            
+
                 return session;
             }
         }
@@ -113,6 +139,12 @@
 
             session = new PlayerSession();
             return false;
+        }
+
+        public static string EnsurePlayerDataFolder(PlayerID playerID)
+        {
+            string dir = Path.Combine(DATA_FOLDER, $"{playerID.code}");
+            return Utils.EnsureDirectory(dir);
         }
     }
 }
