@@ -1,14 +1,20 @@
 ﻿namespace Yuyuyui.PrivateServer
 {
-    public class NotImplementedErrorEntity : BaseEntity<NotImplementedErrorEntity>
+    public class RequestErrorEntity : BaseEntity<RequestErrorEntity>
     {
-        public NotImplementedErrorEntity(
-            Uri requestUri,
-            Dictionary<string, string> requestHeaders,
-            byte[] requestBody,
-            Config config)
-            : base(requestUri, requestHeaders, requestBody, config)
+        private Response responseObj;
+        public RequestErrorEntity(string code, string message, Uri requestedUri, Config requestConfig)
+            : base(requestedUri, new Dictionary<string, string>(), Array.Empty<byte>(), requestConfig)
         {
+            responseObj = new Response
+            {
+                error = new ErrorBody
+                {
+                    code = code,
+                    message = message,
+                    status = 0
+                }
+            };
         }
 
         protected override Task ProcessRequest()
@@ -18,18 +24,7 @@
             // S2000: Maintenance, shows message
             // A1321: Network error, small window with message, with prefix
             // A0120: Input Error
-
-            string errorMessage = $"API {StripApiPrefix(RequestUri.AbsolutePath)} has not been implemented yet.";
-            Console.WriteLine(errorMessage);
-            Response responseObj = new Response
-            {
-                error = new ErrorBody
-                {
-                    code = "S2000",
-                    message = errorMessage,
-                    status = 0
-                }
-            };
+            Console.WriteLine(responseObj.error.message);
 
             responseBody = Serialize(responseObj);
 

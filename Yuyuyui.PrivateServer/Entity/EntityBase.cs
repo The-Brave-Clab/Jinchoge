@@ -124,14 +124,8 @@ namespace Yuyuyui.PrivateServer
                 }
             }
 
-            return new NotImplementedErrorEntity(e.HttpClient.Request.RequestUri, 
-                new Dictionary<string, string>(),
-                Array.Empty<byte>(), 
-                new Config
-                (
-                    apiPath, 
-                    e.HttpClient.Request.Method
-                )); // error type
+            return new RequestErrorEntity("S2000", $"API Not Implemented:\n\n{apiPath}",
+                e.HttpClient.Request.RequestUri, new Config(apiPath, e.HttpClient.Request.Method)); // error type
         }
 
         protected abstract Task ProcessRequest();

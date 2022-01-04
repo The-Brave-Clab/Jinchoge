@@ -53,7 +53,7 @@ namespace Yuyuyui.PrivateServer
             byte[] responseBody = entity.ResponseBody;
             Dictionary<string, string> responseHeaders = entity.ResponseHeaders;
 
-            if (entity.GetType() == typeof(NotImplementedErrorEntity))
+            if (entity.GetType() == typeof(RequestErrorEntity))
             {
                 e.Respond(new Response(entity.ResponseBody) {StatusCode = 404, HttpVersion = HttpVersion.Version11});
             }
