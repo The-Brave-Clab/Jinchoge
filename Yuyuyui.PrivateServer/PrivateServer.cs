@@ -51,6 +51,8 @@
 
         private const string DATA_FOLDER = "Data";
         private const string PLAYER_DATA_FILE = "players.dat";
+        
+        public static readonly HttpClient HttpClient = new();
 
         static PrivateServer()
         {

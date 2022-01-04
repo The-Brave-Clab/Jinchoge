@@ -30,14 +30,18 @@ namespace Yuyuyui.PrivateServer
 
         public bool HeaderContainsKey(string headerKey)
         {
-            return requestHeaders.ContainsKey(headerKey.ToLower());
+            return requestHeaders.Any(header =>
+                string.Equals(header.Key, headerKey, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public string GetRequestHeaderValue(string headerKey)
         {
-            string headerKeyLower = headerKey.ToLower();
-            if (requestHeaders.ContainsKey(headerKeyLower))
-                return requestHeaders[headerKeyLower];
+            foreach (var header in requestHeaders.Where(header =>
+                         string.Equals(header.Key, headerKey, StringComparison.CurrentCultureIgnoreCase)))
+            {
+                return header.Value;
+            }
+
             return "";
         }
 
@@ -98,9 +102,12 @@ namespace Yuyuyui.PrivateServer
                             new Dictionary<string, string>(e.HttpClient.Request.Headers.Count());
                         foreach (var header in e.HttpClient.Request.Headers)
                         {
-                            string headerKey = header.Name.ToLower();
-                            if (!headers.ContainsKey(headerKey))
-                                headers.Add(headerKey, header.Value);
+                            if (!headers.Any(alreadyAddedHeader =>
+                                    string.Equals(alreadyAddedHeader.Key, header.Name,
+                                        StringComparison.CurrentCultureIgnoreCase)))
+                            {
+                                headers.Add(header.Name, header.Value);
+                            }
                         }
 
                         byte[] requestBodyBytes = Array.Empty<byte>();
@@ -117,17 +124,23 @@ namespace Yuyuyui.PrivateServer
                             }
                         }
 
-                        return (EntityBase)TypeDescriptor.CreateInstance(
+                        return (EntityBase) TypeDescriptor.CreateInstance(
                             provider: null,
                             objectType: config.Key,
                             argTypes: new[]
                             {
-                                typeof(Uri), typeof(string), typeof(Dictionary<string, string>), typeof(byte[]),
+                                typeof(Uri), 
+                                typeof(string), 
+                                typeof(Dictionary<string, string>), 
+                                typeof(byte[]),
                                 typeof(Config)
                             },
                             args: new object[]
                             {
-                                e.HttpClient.Request.RequestUri, e.HttpClient.Request.Method, headers, requestBodyBytes,
+                                e.HttpClient.Request.RequestUri, 
+                                e.HttpClient.Request.Method, 
+                                headers, 
+                                requestBodyBytes,
                                 config.Value
                             })!;
                     }
@@ -383,10 +396,10 @@ namespace Yuyuyui.PrivateServer
             //	typeof(DMMUserPaymentEntity),
             //	new Config("/portalsite/dmm/payments", string.Empty, 0)
             //},
-            //{
-            //	typeof(BillingItemListEntity),
-            //	new Config("/platform_products", "Json/Shop/billing_item_list", 0)
-            //},
+            {
+            	typeof(BillingItemListEntity),
+            	new Config("/platform_products", "GET")
+            },
             //{
             //	typeof(BillingPointShopEntity),
             //	new Config("/billing_point_shop", string.Empty, 0)
@@ -488,8 +501,8 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/users/{0}", string.Empty, 0)
             //},
             {
-            	typeof(ProfileEntity),
-            	new Config("/my/profile", "PUT")
+                typeof(ProfileEntity),
+                new Config("/my/profile", "PUT")
             },
             //{
             //	typeof(LoginBonusEntity),
@@ -623,10 +636,14 @@ namespace Yuyuyui.PrivateServer
             //	typeof(CharacterFamiliarityEntity),
             //	new Config("/my/character_familiarities", string.Empty, 0)
             //},
-            //{
-            //	typeof(GameResourceVersionEntity),
-            //	new Config("/resource_versions/{0}", "Json/Download/resource_version", 0)
-            //},
+            {
+                typeof(GameResourceVersionEntity),
+                new Config("/resource_versions/{type}", "GET")
+            },
+            {
+                typeof(ScenarioResourceVersionEntity),
+                new Config("/resource_versions/scenario/{scenarioID}", "GET")
+            },
             //{
             //	typeof(MasterDataListEntity),
             //	new Config(string.Empty, string.Empty, 0)

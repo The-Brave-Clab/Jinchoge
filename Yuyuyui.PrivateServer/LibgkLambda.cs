@@ -6,7 +6,6 @@ namespace Yuyuyui.PrivateServer
     public class LibgkLambda
     {
         private static string baseUrl = "https://ntnip45uf1.execute-api.ap-northeast-1.amazonaws.com/test";
-        private static readonly HttpClient client = new();
         private static readonly MediaTypeWithQualityHeaderValue octet_stream = new("application/octet-stream");
 
         public static readonly string GK_BIN_DEFAULT_KEY = "8d49d9db4439e344";
@@ -79,7 +78,7 @@ namespace Yuyuyui.PrivateServer
             requestMessage.Headers.Accept.Add(octet_stream);
             requestMessage.Content.Headers.ContentType = octet_stream;
 
-            HttpResponseMessage response = await client.SendAsync(requestMessage);
+            HttpResponseMessage response = await PrivateServer.HttpClient.SendAsync(requestMessage);
             byte[] decodedBytes = await response.Content.ReadAsByteArrayAsync();
 
             return decodedBytes;
