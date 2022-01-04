@@ -2,26 +2,9 @@
 {
     public static class PrivateServer
     {
-        public struct PlayerID
-        {
-            public string uuid { get; set; }
-            public string code { get; set; }
-
-            public static PlayerID FromString(string str)
-            {
-                var split = str.Split(",");
-                return new PlayerID { uuid = split[0], code = split[1] };
-            }
-
-            public override string ToString()
-            {
-                return $"{uuid},{code}";
-            }
-        }
-
         public struct PlayerSession
         {
-            public PlayerID player;
+            public PlayerProfile player;
             public string sessionID;
             public string sessionKey;
             public DeviceInfo deviceInfo;
@@ -45,19 +28,19 @@
 
         private static string dataFolder;
 
-        private static Dictionary<string, PlayerID> playerUUID;
-        private static Dictionary<string, PlayerID> playerCode;
+        private static Dictionary<string, PlayerProfile> playerUUID;
+        private static Dictionary<string, PlayerProfile> playerCode;
         private static Dictionary<string, PlayerSession> playerSessions;
 
-        private const string DATA_FOLDER = "Data";
-        private const string PLAYER_DATA_FILE = "players.dat";
+        public const string DATA_FOLDER = "Data";
+        public const string PLAYER_DATA_FILE = "players.dat";
         
         public static readonly HttpClient HttpClient = new();
 
         static PrivateServer()
         {
-            playerUUID = new Dictionary<string, PlayerID>();
-            playerCode = new Dictionary<string, PlayerID>();
+            playerUUID = new Dictionary<string, PlayerProfile>();
+            playerCode = new Dictionary<string, PlayerProfile>();
             playerSessions = new Dictionary<string, PlayerSession>();
 
             dataFolder = Utils.EnsureDirectory(DATA_FOLDER);
@@ -71,20 +54,24 @@
             var players = File.ReadLines(playerDataFile);
             foreach (var s in players)
             {
-                var player = PlayerID.FromString(s);
+                var split = s.Split(',');
+                string uuid = split[0];
+                string code = split[1];
+                PlayerProfile player = PlayerProfile.Load(code);
                 playerUUID.Add(player.uuid, player);
                 playerCode.Add(player.code, player);
             }
         }
 
-        private static PlayerID RegisterNewPlayer(string uuid)
+        private static PlayerProfile RegisterNewPlayer(string uuid)
         {
-            var player = new PlayerID { uuid = uuid, code = Utils.GenerateRandomPlayerCode() };
+            var player = new PlayerProfile { uuid = uuid, code = Utils.GenerateRandomPlayerCode() };
             playerUUID.Add(player.uuid, player);
             playerCode.Add(player.code, player);
 
             var playerDataFile = Path.Combine(dataFolder, PLAYER_DATA_FILE);
-            File.AppendAllText(playerDataFile, $"{player}\n");
+            File.AppendAllText(playerDataFile, $"{player.uuid},{player.code}\n");
+            player.Save();
 
             Utils.Log($"Registered new player {player.code}");
 
@@ -150,9 +137,9 @@
             return false;
         }
 
-        public static string EnsurePlayerDataFolder(PlayerID playerID)
+        public static string EnsurePlayerDataFolder(string playerCode)
         {
-            string dir = Path.Combine(DATA_FOLDER, $"{playerID.code}");
+            string dir = Path.Combine(DATA_FOLDER, $"{playerCode}");
             return Utils.EnsureDirectory(dir);
         }
     }

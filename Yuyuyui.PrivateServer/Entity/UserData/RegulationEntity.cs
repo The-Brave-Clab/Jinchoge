@@ -4,7 +4,6 @@ namespace Yuyuyui.PrivateServer
 {
     public class RegulationEntity : BaseEntity<RegulationEntity>
     {
-        public const string REGULATION_CHECKED_FILE = "regulation.txt";
         public RegulationEntity(
             Uri requestUri,
             string httpMethod,
@@ -22,24 +21,19 @@ namespace Yuyuyui.PrivateServer
             {
                 throw new Exception("Session not found!");
             }
-            
-            string playerDataDir = PrivateServer.EnsurePlayerDataFolder(playerSession.player);
-            string regulationCheckedFile = Path.Combine(playerDataDir, REGULATION_CHECKED_FILE);
+
+            PlayerProfile player = playerSession.player;
 
             if (requestBody.Length > 0)
             {
                 Request request = Deserialize<Request>(requestBody)!;
                 int checkVersion = request.regulation_version.current_version;
                 Utils.Log($"Player agreed to regulation version {checkVersion}");
-                File.WriteAllText(regulationCheckedFile, $"{checkVersion}");
-            }
-
-            if (!File.Exists(regulationCheckedFile))
-            {
-                File.WriteAllText(regulationCheckedFile, "0");
+                player.regulationVersion = checkVersion;
+                player.Save();
             }
             
-            int checkedVersion = int.Parse(File.ReadAllText(regulationCheckedFile));
+            int checkedVersion = player.regulationVersion;
             
             Response responseObj = new()
             {

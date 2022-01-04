@@ -27,6 +27,8 @@ namespace Yuyuyui.PrivateServer
                 Utils.Log($"\t{pathParameter.Key} = {pathParameter.Value}");
             }
 
+            Utils.LogWarning("Redirected to official API Server!");
+
             // requestBody is decrypted, before we send it we need to encrypt it back, with default key
             var encryptedBody = await LibgkLambda.InvokeLambda(
                 LibgkLambda.CryptType.API,

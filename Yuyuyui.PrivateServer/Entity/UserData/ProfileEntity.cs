@@ -4,7 +4,6 @@ namespace Yuyuyui.PrivateServer
 {
     public class ProfileEntity : BaseEntity<ProfileEntity>
     {
-        public const string PROFILE_FILE = "profile.json";
         public ProfileEntity(
             Uri requestUri,
             string httpMethod,
@@ -22,9 +21,8 @@ namespace Yuyuyui.PrivateServer
             {
                 throw new Exception("Session not found!");
             }
-            
-            string playerDataDir = PrivateServer.EnsurePlayerDataFolder(playerSession.player);
-            string profileFile = Path.Combine(playerDataDir, PROFILE_FILE);
+
+            PlayerProfile player = playerSession.player;
 
             if (requestBody.Length > 0)
             {
@@ -32,16 +30,21 @@ namespace Yuyuyui.PrivateServer
                 RequestResponse request = Deserialize<RequestResponse>(requestBody)!;
                 byte[] body = Serialize(request);
                 Utils.Log($"Updated user profile:\n\tNickname\t{request.profile.nickname}\n\t Comment\t{request.profile.comment}");
-                File.WriteAllBytes(profileFile, body);
+                player.nickname = request.profile.nickname;
+                player.comment = request.profile.comment;
+                player.Save();
             }
 
-            if (!File.Exists(profileFile))
+            RequestResponse responseObj = new RequestResponse
             {
-                File.WriteAllText(profileFile, 
-                    "{\"profile\":{\"nickname\":\"NONE\",\"comment\":\"NONE\"}}");
-            }
+                profile = new()
+                {
+                    nickname = player.nickname,
+                    comment = player.comment
+                }
+            };
             
-            responseBody = File.ReadAllBytes(profileFile);
+            responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
 
             return Task.CompletedTask;

@@ -117,7 +117,6 @@ namespace Yuyuyui.PrivateServer
                             try
                             {
                                 requestBodyBytes = await e.GetRequestBody();
-                                // userDataStr += $"|\tRequest \t{e.HttpClient.Request.ContentType}\t{requestBodyBytes.Length}";
                             }
                             catch (BodyNotFoundException)
                             {
@@ -154,7 +153,7 @@ namespace Yuyuyui.PrivateServer
 
             return new RequestErrorEntity(
                 "S2000",
-                $"API Not Implemented:\n\n{e.HttpClient.Request.Method} {apiPath}",
+                $"\n\nAPI Not Implemented:\n\n{e.HttpClient.Request.Method} {apiPath}",
                 e.HttpClient.Request.RequestUri,
                 e.HttpClient.Request.Method,
                 new Config(apiPath, e.HttpClient.Request.Method)
