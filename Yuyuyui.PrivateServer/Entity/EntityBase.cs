@@ -486,10 +486,10 @@ namespace Yuyuyui.PrivateServer
             //	typeof(UserInfoEntity),
             //	new Config("/users/{0}", string.Empty, 0)
             //},
-            //{
-            //	typeof(ProfileEntity),
-            //	new Config("/my/profile", string.Empty, 0)
-            //},
+            {
+            	typeof(ProfileEntity),
+            	new Config("/my/profile", "PUT")
+            },
             //{
             //	typeof(LoginBonusEntity),
             //	new Config("/my/checkin", "Json/LoginBonus/loginbonus", 0)
