@@ -19,19 +19,17 @@ namespace Yuyuyui.PrivateServer
         protected override Task ProcessRequest()
         {
             bool isSession = this.GetSessionFromCookie(out var playerSession);
-            string playerDataDir = PrivateServer.EnsurePlayerDataFolder(playerSession.player);
-            string tutorialProgressFile = Path.Combine(playerDataDir, TUTORIAL_PROGRESS_SAVE_FILE);
             if (!isSession)
             {
                 throw new Exception("Session not found!");
             }
 
-            Console.WriteLine(HttpMethod);
+            string playerDataDir = PrivateServer.EnsurePlayerDataFolder(playerSession.player);
+            string tutorialProgressFile = Path.Combine(playerDataDir, TUTORIAL_PROGRESS_SAVE_FILE);
 
             if (requestBody.Length > 0)
             {
                 Console.WriteLine(Encoding.UTF8.GetString(requestBody));
-                var requestObj = Deserialize<Request>(requestBody);
                 File.WriteAllBytes(tutorialProgressFile, requestBody);
             }
 

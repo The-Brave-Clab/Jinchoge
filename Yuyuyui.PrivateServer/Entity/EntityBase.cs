@@ -240,7 +240,7 @@ namespace Yuyuyui.PrivateServer
             },
             {
                 typeof(RegulationEntity),
-                new Config("/my/regulation_version", "GET")
+                new Config("/my/regulation_version", "GET", "PUT")
             },
             //{
             //	typeof(HeaderEntity),
