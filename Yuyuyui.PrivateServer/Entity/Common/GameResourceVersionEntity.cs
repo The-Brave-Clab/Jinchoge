@@ -27,7 +27,7 @@ namespace Yuyuyui.PrivateServer
                 Utils.Log($"\t{pathParameter.Key} = {pathParameter.Value}");
             }
 
-            Utils.LogWarning("Redirected to official API Server!");
+            Utils.LogWarning("Redirected to the official API Server!");
 
             HttpRequestMessage requestMessage = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, RequestUri);
 

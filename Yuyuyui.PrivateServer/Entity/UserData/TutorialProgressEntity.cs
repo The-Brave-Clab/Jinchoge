@@ -14,14 +14,7 @@
 
         protected override Task ProcessRequest()
         {
-            bool isSession = this.GetSessionFromCookie(out var playerSession);
-            if (!isSession)
-            {
-                throw new Exception("Session not found!");
-            }
-
-            PlayerProfile player = playerSession.player;
-
+            var player = GetPlayerFromCookies();
             if (requestBody.Length > 0)
             {
                 Request requestObj = Deserialize<Request>(requestBody)!;

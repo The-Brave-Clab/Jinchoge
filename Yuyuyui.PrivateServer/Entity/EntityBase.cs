@@ -211,6 +211,17 @@ namespace Yuyuyui.PrivateServer
             return Encoding.UTF8.GetBytes(str);
         }
 
+        protected PlayerProfile GetPlayerFromCookies()
+        {
+            bool isSession = this.GetSessionFromCookie(out var playerSession);
+            if (!isSession)
+            {
+                throw new Exception("Session not found!");
+            }
+
+            return playerSession.player;
+        }
+
         protected void SetBasicResponseHeaders(string sessionId = "", bool isGk = false)
         {
             responseHeaders.Add("Content-Type", isGk ? MIMETYPE_GK_JSON : MIMETYPE_JSON);
