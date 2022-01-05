@@ -1,6 +1,6 @@
 namespace Yuyuyui.PrivateServer
 {
-    public class Accessory : UserDataBase<Accessory>
+    public class Accessory : BaseUserData<Accessory>
     {
         public long id { get; set; }
         public int master_id { get; set; } // from master_data

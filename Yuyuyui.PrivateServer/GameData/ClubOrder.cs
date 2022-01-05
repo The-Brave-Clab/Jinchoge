@@ -1,6 +1,6 @@
 ﻿namespace Yuyuyui.PrivateServer
 {
-    public class ClubOrder : UserDataBase<ClubOrder>
+    public class ClubOrder : BaseUserData<ClubOrder>
     {
         public long id { get; set; } // 7 digits
         public int master_id { get; set; } // from master_data

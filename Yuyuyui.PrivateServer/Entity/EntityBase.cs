@@ -346,10 +346,10 @@ namespace Yuyuyui.PrivateServer
             //	typeof(EventStageEntity),
             //	new Config("/special/chapters/{0}/episodes/{1}/stages", string.Empty, 0)
             //},
-            //{
-            //	typeof(CardsEntity),
-            //	new Config("/my/cards", "Json/Card/card_user", 0)
-            //},
+            {
+            	typeof(CardsEntity),
+            	new Config("/my/cards", "GET")
+            },
             //{
             //	typeof(EnhancementResultTransactionCreateEntity),
             //	new Config("/my/cards/{0}/enhancement/transactions", "Json/Card/Enhancement/transaction_create", 0)

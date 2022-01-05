@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Yuyuyui.PrivateServer
 {
-    public abstract class UserDataBase<T> where T : UserDataBase<T>
+    public abstract class BaseUserData<T> where T : BaseUserData<T>
     {
         protected abstract string Identifier { get; }
 

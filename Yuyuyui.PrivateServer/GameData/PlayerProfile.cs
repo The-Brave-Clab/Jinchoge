@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Yuyuyui.PrivateServer
 {
-    public class PlayerProfile : UserDataBase<PlayerProfile>
+    public class PlayerProfile : BaseUserData<PlayerProfile>
     {
         public ID id { get; set; } = new();
         public Profile profile { get; set; } = new();
@@ -14,6 +14,8 @@ namespace Yuyuyui.PrivateServer
         public IList<long> accessories = new List<long>();
 
         public IList<long> clubOrders = new List<long>();
+
+        public IList<long> cards = new List<long>();
 
         protected override string Identifier => id.code;
 
