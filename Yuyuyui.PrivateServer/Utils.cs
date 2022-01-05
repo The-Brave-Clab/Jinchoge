@@ -18,20 +18,21 @@
 
         private static readonly Random random = new();
 
-        public static string GenerateRandomHexString(int length)
+        private static string RandomStrFromChar(string chars, int length)
         {
-            const string chars = "0123456789abcdef";
             return new string(Enumerable.Repeat((byte) 0, length)
                 .Select(_ => chars[random.Next(chars.Length)]).ToArray());
         }
 
-        public static string GenerateRandomPlayerCode() // "1000000000" ~ "9999999999", first digit 0 is preserved
+        public static string GenerateRandomHexString(int length)
         {
-            const string chars = "0123456789";
-            string suffix = new string(Enumerable.Repeat((byte) 0, 9)
-                .Select(_ => chars[random.Next(chars.Length)]).ToArray());
-            char prefix = chars[random.Next(chars.Length - 1) + 1];
-            return $"{prefix}{suffix}";
+            return RandomStrFromChar("0123456789abcdef", length);
+        }
+
+        public static string GenerateRandomDigit(int length) // first digit 0 is preserved
+        {
+            return
+                $"{RandomStrFromChar("123456789", 1)}{RandomStrFromChar("0123456789", length - 1)}";
         }
 
         #endregion

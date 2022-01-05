@@ -1,8 +1,8 @@
 namespace Yuyuyui.PrivateServer
 {
-    public class ProfileEntity : BaseEntity<ProfileEntity>
+    public class AccessoryListEntity : BaseEntity<AccessoryListEntity>
     {
-        public ProfileEntity(
+        public AccessoryListEntity(
             Uri requestUri,
             string httpMethod,
             Dictionary<string, string> requestHeaders,
@@ -22,28 +22,30 @@ namespace Yuyuyui.PrivateServer
 
             PlayerProfile player = playerSession.player;
 
-            if (requestBody.Length > 0)
+            if (player.accessories.Count == 0)
             {
-                RequestResponse request = Deserialize<RequestResponse>(requestBody)!;
-                Utils.Log($"Updated user profile:\n\tNickname\t{request.profile.nickname}\n\t Comment\t{request.profile.comment}");
-                player.profile = request.profile;
+                var newGyuuki = Accessory.DefaultAccessory();
+                player.accessories.Add($"{newGyuuki.id}", newGyuuki);
                 player.Save();
+                Utils.Log("Assigned default accessory to player.");
             }
 
-            RequestResponse responseObj = new RequestResponse
+            Utils.LogWarning("Stub API!");
+
+            Response responseObj = new()
             {
-                profile = player.profile
+                accessories = player.accessories
             };
-            
+
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
 
             return Task.CompletedTask;
         }
 
-        public class RequestResponse
+        public class Response
         {
-            public PlayerProfile.Profile profile { get; set; } = new();
+            public IDictionary<string, Accessory> accessories = new Dictionary<string, Accessory>();
         }
     }
 }

@@ -258,19 +258,19 @@ namespace Yuyuyui.PrivateServer
             //{
             //	typeof(HeaderEntity),
             //	new Config("/my/header", "Json/header", 0)
-            //},
-            //{
-            //	typeof(BadgeEntity),
-            //	new Config("/my/badge", string.Empty, 0)
-            //},
+            // },
+            {
+            	typeof(BadgeEntity),
+            	new Config("/my/badge", "GET")
+            },
             //{
             //	typeof(BannerEntity),
             //	new Config("/banners", string.Empty, 0)
             //},
-            //{
-            //	typeof(AccessoryListEntity),
-            //	new Config("/my/accessories", "Json/Accessory/accessory_user", 0)
-            //},
+            {
+            	typeof(AccessoryListEntity),
+            	new Config("/my/accessories", "GET")
+            },
             //{
             //	typeof(AccessoryEnhancementResultEntity),
             //	new Config("/my/accessories/{0}", "Json/Accessory/accessory_effect", 0)

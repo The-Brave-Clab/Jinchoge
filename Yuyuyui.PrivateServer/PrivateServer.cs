@@ -70,7 +70,7 @@
                 id = new()
                 {
                     uuid = uuid, 
-                    code = Utils.GenerateRandomPlayerCode()
+                    code = Utils.GenerateRandomDigit(10)
                 }
             };
             playerUUID.Add(player.id.uuid, player);

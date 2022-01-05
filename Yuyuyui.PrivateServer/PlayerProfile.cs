@@ -9,6 +9,8 @@ namespace Yuyuyui.PrivateServer
         public Profile profile { get; set; } = new();
         public Data data { get; set; } = new();
 
+        public IDictionary<string, Accessory> accessories = new Dictionary<string, Accessory>();
+
         public void Save()
         {
             string file = Path.Combine(PrivateServer.EnsurePlayerDataFolder(id.code), $"{id.code}.json");
