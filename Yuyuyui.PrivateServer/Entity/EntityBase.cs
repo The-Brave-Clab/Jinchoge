@@ -426,10 +426,14 @@ namespace Yuyuyui.PrivateServer
             //	typeof(ExchangeItemUpdateEntity),
             //	new Config("/exchange_booths/{0}/exchange_item/{1}/exchange", "Json/ExchangeBooth/exchange_item_transaction_update", 0)
             //},
-            //{
-            //	typeof(HavingPointBonusEntity),
-            //	new Config("/cards/having_point_bonus", string.Empty, 0)
-            //},
+            {
+                typeof(EventBonusCardsEntity),
+                new Config("/cards/event_bonus_cards", "GET")
+            },
+            {
+                typeof(EventBonusCharacterCardsEntity),
+                new Config("/cards/event_bonus_character_cards", "GET")
+            },
             //{
             //	typeof(GachaEntity),
             //	new Config("/gachas", "Json/Gacha/top", 0)
