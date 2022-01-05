@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Yuyuyui.PrivateServer
 {
     public class BadgeEntity : BaseEntity<BadgeEntity>
@@ -16,39 +18,64 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            Utils.LogWarning("Stub API!");
 
-            Response responseObj = new()
+            if (requestBody.Length > 0)
             {
-                badge = new()
+                Utils.LogWarning("Needs more tests!");
+                Request request = Deserialize<Request>(requestBody)!;
+                if (request.sub_category_id == -1)
                 {
-                    has_complete_mission = true,
-                    has_complete_daily_mission = true,
-                    has_present = true,
-                    has_fellow_request = true,
-                    has_complete_club_working = true,
-                    end_at_exchange = Utils.CurrentUnixTime() + 120,
-                    has_exchangeable_bingo = true,
-                    end_at_event = Utils.CurrentUnixTime() + 180,
-                    end_at_playback_event = Utils.CurrentUnixTime() + 240,
-                    new_title = 1,
-                    new_album_categories = new Dictionary<string, IList<int>>
-                    {
-                        {
-                            "1", new List<int>
-                            {
-                                1,
-                            }
-                        },
-                    },
-                    end_at_collab_event = Utils.CurrentUnixTime() + 320
+                    player.newAlbum.Remove(request.category_id);
+                    Utils.Log(
+                        $"Updated user new album status:\n\tCategory\t{request.category_id}");
                 }
-            };
+                else
+                {
+                    player.newAlbum[request.category_id].Remove(request.sub_category_id);
+                    if (player.newAlbum[request.category_id].Count == 0)
+                        player.newAlbum.Remove(request.category_id);
+                    Utils.Log(
+                        $"Updated user new album status:\n\tCategory\t{request.category_id}\n\tSubcategory\t{request.sub_category_id}");
+                }
+                player.Save();
+                
+                responseBody = Encoding.UTF8.GetBytes("{}");
+            }
+            else
+            {
+                Utils.LogWarning("Stub API!");
+                
+                Response responseObj = new()
+                {
+                    badge = new()
+                    {
+                        has_complete_mission = true, // update automatically?
+                        has_complete_daily_mission = true, // update automatically?
+                        has_present = true, // update automatically?
+                        has_fellow_request = true, // update automatically?
+                        has_complete_club_working = true, // update automatically?
+                        end_at_exchange = Utils.CurrentUnixTime() + 120, // ?
+                        has_exchangeable_bingo = true, // update automatically?
+                        end_at_event = Utils.CurrentUnixTime() + 180, // ?
+                        end_at_playback_event = Utils.CurrentUnixTime() + 240, // ?
+                        new_title = 1, // ?
+                        new_album_categories = player.newAlbum, // album { category_id : [ sub_category_id ] }
+                        end_at_collab_event = Utils.CurrentUnixTime() + 320 // ?
+                    }
+                };
 
-            responseBody = Serialize(responseObj);
+                responseBody = Serialize(responseObj);
+            }
+            
             SetBasicResponseHeaders();
 
             return Task.CompletedTask;
+        }
+
+        public class Request
+        {
+            public int category_id { get; set; }
+            public int sub_category_id { get; set; }
         }
 
         public class Response
@@ -68,8 +95,8 @@ namespace Yuyuyui.PrivateServer
                 public long? end_at_playback_event { get; set; } = null; // assumption
                 public int new_title { get; set; } // unknown
 
-                public IDictionary<string, IList<int>> new_album_categories { get; set; } =
-                    new Dictionary<string, IList<int>>(); // assumption
+                public IDictionary<int, IList<int>> new_album_categories { get; set; } =
+                    new Dictionary<int, IList<int>>(); // category_id, sub_category_id
 
                 public long? end_at_collab_event { get; set; } = null; // assumption
             }

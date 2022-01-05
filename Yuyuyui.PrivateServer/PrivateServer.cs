@@ -65,12 +65,18 @@
 
         private static PlayerProfile RegisterNewPlayer(string uuid)
         {
+            string newCode = Utils.GenerateRandomDigit(10);
+            while (PlayerProfile.Exists(newCode))
+            {
+                newCode = Utils.GenerateRandomDigit(10);
+            }
+            
             var player = new PlayerProfile
             {
                 id = new()
                 {
                     uuid = uuid, 
-                    code = Utils.GenerateRandomDigit(10)
+                    code = newCode
                 }
             };
             playerUUID.Add(player.id.uuid, player);
@@ -142,12 +148,6 @@
 
             session = new PlayerSession();
             return false;
-        }
-
-        public static string EnsurePlayerDataFolder(string playerCode)
-        {
-            string dir = Path.Combine(DATA_FOLDER, $"{playerCode}");
-            return Utils.EnsureDirectory(dir);
         }
     }
 }

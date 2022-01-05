@@ -3,26 +3,17 @@ using Newtonsoft.Json;
 
 namespace Yuyuyui.PrivateServer
 {
-    public class PlayerProfile
+    public class PlayerProfile : UserDataBase<PlayerProfile>
     {
         public ID id { get; set; } = new();
         public Profile profile { get; set; } = new();
         public Data data { get; set; } = new();
 
-        public IDictionary<string, Accessory> accessories = new Dictionary<string, Accessory>();
+        public IDictionary<int, IList<int>> newAlbum = new Dictionary<int, IList<int>>();
 
-        public void Save()
-        {
-            string file = Path.Combine(PrivateServer.EnsurePlayerDataFolder(id.code), $"{id.code}.json");
-            File.WriteAllText(file, JsonConvert.SerializeObject(this, Formatting.Indented));
-        }
+        public IList<long> accessories = new List<long>();
 
-        public static PlayerProfile Load(string code)
-        {
-            string file = Path.Combine(PrivateServer.DATA_FOLDER, code, $"{code}.json");
-            string content = File.ReadAllText(file, Encoding.UTF8);
-            return JsonConvert.DeserializeObject<PlayerProfile>(content)!;
-        }
+        protected override string Identifier => id.code;
 
         public class ID
         {

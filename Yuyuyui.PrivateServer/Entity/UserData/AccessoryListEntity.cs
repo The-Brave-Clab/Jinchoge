@@ -19,7 +19,8 @@ namespace Yuyuyui.PrivateServer
             if (player.accessories.Count == 0)
             {
                 var newGyuuki = Accessory.DefaultAccessory();
-                player.accessories.Add($"{newGyuuki.id}", newGyuuki);
+                player.accessories.Add(newGyuuki.id);
+                newGyuuki.Save();
                 player.Save();
                 Utils.Log("Assigned default accessory to player.");
             }
@@ -29,6 +30,8 @@ namespace Yuyuyui.PrivateServer
             Response responseObj = new()
             {
                 accessories = player.accessories
+                    .Select(l => Accessory.Load($"{l}"))
+                    .ToDictionary(p => $"{p.id}", p => p)
             };
 
             responseBody = Serialize(responseObj);

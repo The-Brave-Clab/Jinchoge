@@ -1,6 +1,6 @@
 namespace Yuyuyui.PrivateServer
 {
-    public class Accessory
+    public class Accessory : UserDataBase<Accessory>
     {
         public long id { get; set; }
         public int master_id { get; set; } // from master_data
@@ -14,9 +14,14 @@ namespace Yuyuyui.PrivateServer
 
         public static Accessory DefaultAccessory()
         {
+            long new_id = long.Parse(Utils.GenerateRandomDigit(8));
+            while (Exists($"{new_id}"))
+            {
+                new_id = long.Parse(Utils.GenerateRandomDigit(8));
+            }
             return new Accessory
             {
-                id = long.Parse(Utils.GenerateRandomDigit(8)),
+                id = new_id,
                 master_id = 500001, // Gyuuki
                 level = 1,
                 cost = 11,
@@ -27,6 +32,8 @@ namespace Yuyuyui.PrivateServer
                 next_quantity = 1,
             };
         }
+
+        protected override string Identifier => $"{id}";
     }
 }
 

@@ -89,7 +89,7 @@ namespace Yuyuyui.PrivateServer
         {
             string apiPath = StripApiPrefix(e.HttpClient.Request.RequestUri.AbsolutePath);
 
-            Utils.LogTrace(apiPath);
+            Utils.LogTrace($"{e.HttpClient.Request.Method} {apiPath}");
 
             foreach (var config in configs)
             {
@@ -272,7 +272,7 @@ namespace Yuyuyui.PrivateServer
             // },
             {
             	typeof(BadgeEntity),
-            	new Config("/my/badge", "GET")
+            	new Config("/my/badge", "GET", "PUT")
             },
             {
             	typeof(BannerEntity),

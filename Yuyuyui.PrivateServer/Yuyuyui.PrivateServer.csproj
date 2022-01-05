@@ -11,8 +11,4 @@
     <PackageReference Include="Titanium.Web.Proxy" Version="3.1.1397" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="GameData" />
-  </ItemGroup>
-
 </Project>
