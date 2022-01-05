@@ -29,18 +29,16 @@ namespace Yuyuyui.PrivateServer
                 Request request = Deserialize<Request>(requestBody)!;
                 int checkVersion = request.regulation_version.current_version;
                 Utils.Log($"Player agreed to regulation version {checkVersion}");
-                player.regulationVersion = checkVersion;
+                player.data.regulationVersion = checkVersion;
                 player.Save();
             }
-            
-            int checkedVersion = player.regulationVersion;
             
             Response responseObj = new()
             {
                 regulation_version = new()
                 {
                     current_version = 1,
-                    checked_version = checkedVersion,
+                    checked_version = player.data.regulationVersion,
                     regulation_url = "http://download.cert"
                 }
             };

@@ -26,22 +26,15 @@ namespace Yuyuyui.PrivateServer
 
             if (requestBody.Length > 0)
             {
-                // Doing a deserialization and then a serialization will escape the unicode characters
                 RequestResponse request = Deserialize<RequestResponse>(requestBody)!;
-                byte[] body = Serialize(request);
                 Utils.Log($"Updated user profile:\n\tNickname\t{request.profile.nickname}\n\t Comment\t{request.profile.comment}");
-                player.nickname = request.profile.nickname;
-                player.comment = request.profile.comment;
+                player.profile = request.profile;
                 player.Save();
             }
 
             RequestResponse responseObj = new RequestResponse
             {
-                profile = new()
-                {
-                    nickname = player.nickname,
-                    comment = player.comment
-                }
+                profile = player.profile
             };
             
             responseBody = Serialize(responseObj);
@@ -52,13 +45,7 @@ namespace Yuyuyui.PrivateServer
 
         public class RequestResponse
         {
-            public Profile profile { get; set; } = new();
-
-            public class Profile
-            {
-                public string nickname { get; set; } = "";
-                public string comment { get; set; } = "";
-            }
+            public PlayerProfile.Profile profile { get; set; } = new();
         }
     }
 }

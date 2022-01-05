@@ -25,14 +25,14 @@
             if (requestBody.Length > 0)
             {
                 Request requestObj = Deserialize<Request>(requestBody)!;
-                player.tutorialProgress = requestObj.progress;
+                player.data.tutorialProgress = requestObj.progress;
                 player.Save();
             }
 
             Response responseObj = new()
             {
-                progress = player.tutorialProgress,
-                tutee = player.tutorialProgress != 1000
+                progress = player.data.tutorialProgress,
+                tutee = player.data.tutorialProgress != 1000
             };
 
             responseBody = Serialize(responseObj);

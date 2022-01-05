@@ -58,22 +58,29 @@
                 string uuid = split[0];
                 string code = split[1];
                 PlayerProfile player = PlayerProfile.Load(code);
-                playerUUID.Add(player.uuid, player);
-                playerCode.Add(player.code, player);
+                playerUUID.Add(player.id.uuid, player);
+                playerCode.Add(player.id.code, player);
             }
         }
 
         private static PlayerProfile RegisterNewPlayer(string uuid)
         {
-            var player = new PlayerProfile { uuid = uuid, code = Utils.GenerateRandomPlayerCode() };
-            playerUUID.Add(player.uuid, player);
-            playerCode.Add(player.code, player);
+            var player = new PlayerProfile
+            {
+                id = new()
+                {
+                    uuid = uuid, 
+                    code = Utils.GenerateRandomPlayerCode()
+                }
+            };
+            playerUUID.Add(player.id.uuid, player);
+            playerCode.Add(player.id.code, player);
 
             var playerDataFile = Path.Combine(dataFolder, PLAYER_DATA_FILE);
-            File.AppendAllText(playerDataFile, $"{player.uuid},{player.code}\n");
+            File.AppendAllText(playerDataFile, $"{player.id.uuid},{player.id.code}\n");
             player.Save();
 
-            Utils.Log($"Registered new player {player.code}");
+            Utils.Log($"Registered new player {player.id.code}");
 
             return player;
         }
@@ -84,7 +91,7 @@
             string verb = "";
             try
             {
-                session = playerSessions.First(p => p.Value.player.uuid == uuid).Value;
+                session = playerSessions.First(p => p.Value.player.id.uuid == uuid).Value;
                 verb = "Found";
             }
             catch (InvalidOperationException)
@@ -102,7 +109,7 @@
             }
 
             Utils.Log(
-                $"{verb} session for player {session.player.code}\n\tSession  ID = {session.sessionID}\n\tSession Key = {session.sessionKey}");
+                $"{verb} session for player {session.player.id.code}\n\tSession  ID = {session.sessionID}\n\tSession Key = {session.sessionKey}");
 
             session.deviceInfo = new DeviceInfo
             {
