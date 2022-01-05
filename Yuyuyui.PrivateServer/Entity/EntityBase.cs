@@ -486,10 +486,10 @@ namespace Yuyuyui.PrivateServer
             //	typeof(ClubWorkingSlotEntity),
             //	new Config("/my/club_working/slots", "Json/ClubWorking/Slot", 0)
             //},
-            //{
-            //	typeof(ClubWorkingOrderEntity),
-            //	new Config("/my/club_working/orders", "Json/ClubWorking/Order", 0)
-            //},
+            {
+            	typeof(ClubWorkingOrderEntity),
+            	new Config("/my/club_working/orders", "GET")
+            },
             //{
             //	typeof(ClubWorkingStartEntity),
             //	new Config("/my/club_working/workings/start", "Json/ClubWorking/Start", 0)

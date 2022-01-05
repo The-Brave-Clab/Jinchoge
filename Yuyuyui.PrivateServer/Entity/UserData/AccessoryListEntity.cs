@@ -42,7 +42,7 @@ namespace Yuyuyui.PrivateServer
 
         public class Response
         {
-            public IDictionary<string, Accessory> accessories = new Dictionary<string, Accessory>();
+            public IDictionary<string, Accessory> accessories { get; set; } = new Dictionary<string, Accessory>();
         }
     }
 }

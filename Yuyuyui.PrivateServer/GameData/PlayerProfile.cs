@@ -13,6 +13,8 @@ namespace Yuyuyui.PrivateServer
 
         public IList<long> accessories = new List<long>();
 
+        public IList<long> clubOrders = new List<long>();
+
         protected override string Identifier => id.code;
 
         public class ID
