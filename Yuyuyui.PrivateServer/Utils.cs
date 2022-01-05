@@ -58,17 +58,34 @@
 
         public delegate void LogCallback(object obj);
 
-        public static LogCallback LogTrace;
-        public static LogCallback Log;
-        public static LogCallback LogWarning;
-        public static LogCallback LogError;
+        private static LogCallback? LogTraceFunction;
+        private static LogCallback? LogFunction;
+        private static LogCallback? LogWarningFunction;
+        private static LogCallback? LogErrorFunction;
+
+        public static void LogTrace(object obj)
+        {
+            LogTraceFunction?.Invoke(obj);
+        }
+        public static void Log(object obj)
+        {
+            LogFunction?.Invoke(obj);
+        }
+        public static void LogWarning(object obj)
+        {
+            LogWarningFunction?.Invoke(obj);
+        }
+        public static void LogError(object obj)
+        {
+            LogErrorFunction?.Invoke(obj);
+        }
 
         public static void SetLogCallbacks(LogCallback logTrace, LogCallback log, LogCallback logWarning, LogCallback logError)
         {
-            LogTrace = logTrace;
-            Log = log;
-            LogWarning = logWarning;
-            LogError = logError;
+            LogTraceFunction = logTrace;
+            LogFunction = log;
+            LogWarningFunction = logWarning;
+            LogErrorFunction = logError;
         }
 
         #endregion

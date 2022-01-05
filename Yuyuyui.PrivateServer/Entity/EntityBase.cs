@@ -128,17 +128,17 @@ namespace Yuyuyui.PrivateServer
                             objectType: config.Key,
                             argTypes: new[]
                             {
-                                typeof(Uri), 
-                                typeof(string), 
-                                typeof(Dictionary<string, string>), 
+                                typeof(Uri),
+                                typeof(string),
+                                typeof(Dictionary<string, string>),
                                 typeof(byte[]),
                                 typeof(Config)
                             },
                             args: new object[]
                             {
-                                e.HttpClient.Request.RequestUri, 
-                                e.HttpClient.Request.Method, 
-                                headers, 
+                                e.HttpClient.Request.RequestUri,
+                                e.HttpClient.Request.Method,
+                                headers,
                                 requestBodyBytes,
                                 config.Value
                             })!;
@@ -156,7 +156,8 @@ namespace Yuyuyui.PrivateServer
                 $"\n\nAPI Not Implemented:\n\n{e.HttpClient.Request.Method} {apiPath}",
                 e.HttpClient.Request.RequestUri,
                 e.HttpClient.Request.Method,
-                new Config(apiPath, e.HttpClient.Request.Method)
+                new Config(apiPath, e.HttpClient.Request.Method),
+                $"API Not Implemented:\n\t{e.HttpClient.Request.Method} {apiPath}"
             ); // error type
         }
 
@@ -271,16 +272,16 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/my/header", "Json/header", 0)
             // },
             {
-            	typeof(BadgeEntity),
-            	new Config("/my/badge", "GET", "PUT")
+                typeof(BadgeEntity),
+                new Config("/my/badge", "GET", "PUT")
             },
             {
-            	typeof(BannerEntity),
-            	new Config("/banners", "GET")
+                typeof(BannerEntity),
+                new Config("/banners", "GET")
             },
             {
-            	typeof(AccessoryListEntity),
-            	new Config("/my/accessories", "GET")
+                typeof(AccessoryListEntity),
+                new Config("/my/accessories", "GET")
             },
             //{
             //	typeof(AccessoryEnhancementResultEntity),
@@ -347,8 +348,8 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/special/chapters/{0}/episodes/{1}/stages", string.Empty, 0)
             //},
             {
-            	typeof(CardsEntity),
-            	new Config("/my/cards", "GET")
+                typeof(CardsEntity),
+                new Config("/my/cards", "GET")
             },
             //{
             //	typeof(EnhancementResultTransactionCreateEntity),
@@ -407,8 +408,8 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/portalsite/dmm/payments", string.Empty, 0)
             //},
             {
-            	typeof(BillingItemListEntity),
-            	new Config("/platform_products", "GET")
+                typeof(BillingItemListEntity),
+                new Config("/platform_products", "GET")
             },
             //{
             //	typeof(BillingPointShopEntity),
@@ -491,8 +492,8 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/my/club_working/slots", "Json/ClubWorking/Slot", 0)
             //},
             {
-            	typeof(ClubWorkingOrderEntity),
-            	new Config("/my/club_working/orders", "GET")
+                typeof(ClubWorkingOrderEntity),
+                new Config("/my/club_working/orders", "GET")
             },
             //{
             //	typeof(ClubWorkingStartEntity),

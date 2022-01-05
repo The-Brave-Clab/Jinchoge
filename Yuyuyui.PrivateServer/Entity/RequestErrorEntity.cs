@@ -3,7 +3,9 @@
     public class RequestErrorEntity : BaseEntity<RequestErrorEntity>
     {
         private Response responseObj;
-        public RequestErrorEntity(string code, string message, Uri requestedUri, string httpMethod, Config requestConfig)
+
+        private string? logMessage = null;
+        public RequestErrorEntity(string code, string message, Uri requestedUri, string httpMethod, Config requestConfig, string? logMessage = null)
             : base(requestedUri, httpMethod, new Dictionary<string, string>(), Array.Empty<byte>(), requestConfig)
         {
             responseObj = new Response
@@ -15,6 +17,7 @@
                     status = 0
                 }
             };
+            this.logMessage = logMessage;
         }
 
         protected override Task ProcessRequest()
@@ -24,7 +27,7 @@
             // S2000: Maintenance, shows message
             // A1321: Network error, small window with message, with prefix
             // A0120: Input Error
-            Utils.LogError(responseObj.error.message);
+            Utils.LogError(string.IsNullOrEmpty(logMessage) ? responseObj.error.message : logMessage);
 
             responseBody = Serialize(responseObj);
 
