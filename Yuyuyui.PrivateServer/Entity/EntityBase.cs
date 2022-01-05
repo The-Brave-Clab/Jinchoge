@@ -274,10 +274,10 @@ namespace Yuyuyui.PrivateServer
             	typeof(BadgeEntity),
             	new Config("/my/badge", "GET")
             },
-            //{
-            //	typeof(BannerEntity),
-            //	new Config("/banners", string.Empty, 0)
-            //},
+            {
+            	typeof(BannerEntity),
+            	new Config("/banners", "GET")
+            },
             {
             	typeof(AccessoryListEntity),
             	new Config("/my/accessories", "GET")

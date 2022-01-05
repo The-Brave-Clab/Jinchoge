@@ -2,7 +2,7 @@ namespace Yuyuyui.PrivateServer
 {
     public class Accessory
     {
-        public int id { get; set; }
+        public long id { get; set; }
         public int master_id { get; set; } // from master_data
         public int level { get; set; }
         public int cost { get; set; }
@@ -16,7 +16,7 @@ namespace Yuyuyui.PrivateServer
         {
             return new Accessory
             {
-                id = int.Parse(Utils.GenerateRandomDigit(8)),
+                id = long.Parse(Utils.GenerateRandomDigit(8)),
                 master_id = 500001, // Gyuuki
                 level = 1,
                 cost = 11,
