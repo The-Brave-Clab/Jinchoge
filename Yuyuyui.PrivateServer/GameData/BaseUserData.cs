@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
+using YamlDotNet.Serialization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -9,20 +10,24 @@ namespace Yuyuyui.PrivateServer
 
         private static string GetFileName(string identifier)
         {
-            return Path.Combine(EnsurePlayerDataFolder(typeof(T).Name), $"{identifier}.json");
+            return Path.Combine(EnsurePlayerDataFolder(typeof(T).Name), $"{identifier}.yaml");
         }
 
         public void Save()
         {
             string file = GetFileName(Identifier);
-            File.WriteAllText(file, JsonConvert.SerializeObject(this, Formatting.Indented));
+            //File.WriteAllText(file, JsonConvert.SerializeObject(this, Formatting.Indented));
+            var serializer = new Serializer();
+            File.WriteAllText(file, serializer.Serialize(this));
         }
 
         public static T Load(string identifier)
         {
             string file = GetFileName(identifier);
             string content = File.ReadAllText(file, Encoding.UTF8);
-            return JsonConvert.DeserializeObject<T>(content)!;
+            //return JsonConvert.DeserializeObject<T>(content)!;
+            var deserializer = new Deserializer();
+            return deserializer.Deserialize<T>(content);
         }
 
         public static bool Exists(string identifier)
