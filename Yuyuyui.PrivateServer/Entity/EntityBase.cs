@@ -323,10 +323,10 @@ namespace Yuyuyui.PrivateServer
             	typeof(ChapterEntity),
             	new Config("/my/chapters", "GET")
             },
-            //{
-            //	typeof(StageEntity),
-            //	new Config("/my/chapters/{0}/episodes/{1}/stages", "Json/Story/quest", 0)
-            //},
+            {
+            	typeof(StageEntity),
+            	new Config("/my/chapters/{chapter_id}/episodes/{episode_id}/stages", "GET")
+            },
             //{
             //	typeof(GuestEntity),
             //	new Config("/my/supporters", "Json/Story/guest", 0)
@@ -411,10 +411,10 @@ namespace Yuyuyui.PrivateServer
                 typeof(BillingItemListEntity),
                 new Config("/platform_products", "GET")
             },
-            //{
-            //	typeof(BillingPointShopEntity),
-            //	new Config("/billing_point_shop", string.Empty, 0)
-            //},
+            {
+            	typeof(BillingPointShopEntity),
+            	new Config("/billing_point_shop", "GET")
+            },
             //{
             //	typeof(ExchangeItemListEntity),
             //	new Config("/exchange_booths", "Json/ExchangeBooth/exchange_item_list", 0)
@@ -702,7 +702,11 @@ namespace Yuyuyui.PrivateServer
             {
                 typeof(UpdateClickCountsEntity), // new
                 new Config("/click_counts/update_click_counts", "POST")
-            }
+            },
+            {
+                typeof(EventItemsEntity), // new
+                new Config("/my/event_items", "GET")
+            },
         };
     }
 
