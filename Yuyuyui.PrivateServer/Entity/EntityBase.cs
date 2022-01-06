@@ -591,10 +591,10 @@ namespace Yuyuyui.PrivateServer
             //	typeof(AlbumReadEntity),
             //	new Config("/my/adventure_books/{0}", "Json/StoryAlbum/album_read", 0)
             //},
-            //{
-            //	typeof(DeckEntity),
-            //	new Config("/my/decks", string.Empty, 0)
-            //},
+            {
+            	typeof(DeckEntity),
+            	new Config("/my/decks", "GET")
+            },
             //{
             //	typeof(DeckUpdateEntity),
             //	new Config("/my/decks", string.Empty, 0)

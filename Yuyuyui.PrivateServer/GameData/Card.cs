@@ -157,84 +157,89 @@ namespace Yuyuyui.PrivateServer
             };
         }
 
-        public CardWithSupport CreateWithSupport(
-            SupportCard? support, 
-            SupportCard? support_2, 
-            SupportCard? assist,
-            Accessory? accessory_0,
-            Accessory? accessory_1)
+        public Unit CreateUnit(
+            SupportCard? support = null, 
+            SupportCard? support2 = null, 
+            SupportCard? assist = null,
+            Accessory? accessory0 = null,
+            Accessory? accessory1 = null)
         {
-            CardWithSupport withSupport = new CardWithSupport
+            Unit unit = new Unit
             {
-                id = CardWithSupport.GetID(),
-                hit_point = hit_point,
+                id = Unit.GetID(),
+                hitPoint = hit_point,
                 attack = attack,
-                user_card_id = id,
-                support = support,
-                support_2 = support_2,
-                assist = assist,
-                accessories = new List<Accessory>(),
+                baseCardID = id,
+                supportCardID = support?.user_card_id,
+                supportCard2ID = support2?.user_card_id,
+                assistCardID = assist?.user_card_id,
+                accessories = new List<long>(),
                 master_id = master_id,
                 potential = potential,
-                evolution_level = evolution_level,
+                evolutionLevel = evolution_level,
                 level = level
             };
             
-            if (accessory_0 != null)
-                withSupport.accessories.Add(accessory_0);
-            if (accessory_1 != null)
-                withSupport.accessories.Add(accessory_1);
+            if (accessory0 != null)
+                unit.accessories.Add(accessory0.id);
+            if (accessory1 != null)
+                unit.accessories.Add(accessory1.id);
 
-            return withSupport;
+            return unit;
         }
     }
 
     public class SupportCard
     {
-        public int hit_point { get; set; }
-        public int attack { get; set; }
+        public int hit_point { get; set; } // TODO: can be removed?
+        public int attack { get; set; } // TODO: can be removed?
         public long user_card_id { get; set; } // card id
-        public int master_id { get; set; }
-        public int potential { get; set; }
-        public int evolution_level { get; set; }
-        public int level { get; set; }
+        public int master_id { get; set; } // TODO: can be removed?
+        public int potential { get; set; } // TODO: can be removed?
+        public int evolution_level { get; set; } // TODO: can be removed?
+        public int level { get; set; } // TODO: can be removed?
 
         public Card GetCard()
         {
             return Card.Load($"{user_card_id}");
         }
-    }
 
-    public class CardWithSupport : BaseUserData<CardWithSupport>
-    {
-        public long id { get; set; } // This is NOT the card ID!
-        public int hit_point { get; set; }
-        public int attack { get; set; }
-        public long user_card_id { get; set; } // This IS the card ID!
-        public SupportCard? support { get; set; } = null;
-        public SupportCard? support_2 { get; set; } = null; // UR support?
-        public SupportCard? assist { get; set; } = null; // Miko?
-        public IList<Accessory> accessories { get; set; } = new List<Accessory>(); // Seirei
-        public int master_id { get; set; }
-        public int potential { get; set; }
-        public int evolution_level { get; set; }
-        public int level { get; set; }
-        protected override string Identifier => $"{id}";
-        
-        public static long GetID()
+        public static implicit operator Dictionary<string, long>(SupportCard? sc)
         {
-            long new_id = long.Parse(Utils.GenerateRandomDigit(9));
-            while (Exists($"{new_id}"))
+            if (sc == null) return new Dictionary<string, long>();
+            return new Dictionary<string, long>
             {
-                new_id = long.Parse(Utils.GenerateRandomDigit(9));
-            }
-
-            return new_id;
+                {"hit_point", sc.hit_point},
+                {"attack", sc.attack},
+                {"user_card_id", sc.user_card_id},
+                {"master_id", sc.master_id},
+                {"potential", sc.potential},
+                {"evolution_level", sc.evolution_level},
+                {"level", sc.level}
+            };
         }
 
-        public Card GetCard()
+        public static implicit operator SupportCard?(Dictionary<string, long> dic)
         {
-            return Card.Load($"{user_card_id}");
+            if (dic.Count == 0) return null;
+
+            try
+            {
+                return new()
+                {
+                    hit_point = (int) dic["hit_point"],
+                    attack = (int) dic["attack"],
+                    user_card_id = dic["user_card_id"],
+                    master_id = (int) dic["master_id"],
+                    potential = (int) dic["potential"],
+                    evolution_level = (int) dic["evolution_level"],
+                    level = (int) dic["level"],
+                };
+            }
+            catch (KeyNotFoundException e)
+            {
+                return null;
+            }
         }
     }
 }

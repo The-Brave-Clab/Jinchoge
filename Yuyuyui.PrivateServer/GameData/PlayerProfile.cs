@@ -14,6 +14,8 @@
 
         public IList<long> cards { get; set; } = new List<long>();
 
+        public IList<long> decks { get; set; } = new List<long>();
+
         public IList<long> evolutionItems = new List<long>();
 
         public IList<CharacterFamiliarity> characterFamiliarities { get; set; } = new List<CharacterFamiliarity>();
