@@ -18,7 +18,7 @@
             {
                 requirement_version = new()
                 {
-                    version = "3.14.0",
+                    version = "3.15.0",
                     need_update = false,
                     review = false,
                     api_server = "https://app.yuyuyui.jp",

@@ -16,7 +16,9 @@
 
         public IList<long> decks { get; set; } = new List<long>();
 
+        public IList<long> enhancementItems = new List<long>();
         public IList<long> evolutionItems = new List<long>();
+        public IList<long> staminaItems = new List<long>();
 
         public IList<CharacterFamiliarity> characterFamiliarities { get; set; } = new List<CharacterFamiliarity>();
 

@@ -315,10 +315,10 @@ namespace Yuyuyui.PrivateServer
             //	typeof(BraveSystemEnhacementEntity),
             //	new Config("/my/brave_system/components/{0}", "Json/Strategy/brave_enhance", 0)
             //},
-            // {
-            // 	typeof(EpisodeEntity),
-            // 	new Config("/my/chapters/{0}/episodes", "Json/Story/chapter", 0)
-            // },
+            {
+            	typeof(EpisodeEntity),
+            	new Config("/my/chapters/{chapter_id}/episodes", "GET")
+            },
             {
             	typeof(ChapterEntity),
             	new Config("/my/chapters", "GET")
@@ -551,18 +551,18 @@ namespace Yuyuyui.PrivateServer
             //	typeof(BattleResultEntity),
             //	new Config("/level_design/quests/{0}/finish", "Json/Battle/battle_result", 0)
             //},
-            //{
-            //	typeof(EnhancementItemsEntity),
-            //	new Config("/my/enhancement_items", "Json/item/enhancement_item_user", 0)
-            //},
+            {
+            	typeof(EnhancementItemsEntity),
+            	new Config("/my/enhancement_items", "GET")
+            },
             //{
             //	typeof(EnhancementItemDisposalEntity),
             //	new Config("/my/enhancement_items/{0}/disposal", string.Empty, 0)
             //},
-            //{
-            //	typeof(StaminaItemsEntity),
-            //	new Config("/my/stamina_items/", string.Empty, 0)
-            //},
+            {
+            	typeof(StaminaItemsEntity),
+            	new Config("/my/stamina_items", "GET")
+            },
             //{
             //	typeof(StaminaTransactionCreateEntity),
             //	new Config("/my/stamina_items/{0}/transactions", string.Empty, 0)
