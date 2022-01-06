@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using Org.BouncyCastle.Crypto.Digests;
+
+namespace Yuyuyui.PrivateServer
 {
     public class Card : BaseUserData<Card>
     {
@@ -140,5 +142,99 @@
         }
 
         protected override string Identifier => $"{id}";
+
+        public SupportCard AsSupport()
+        {
+            return new SupportCard
+            {
+                hit_point = hit_point,
+                attack = attack,
+                user_card_id = id,
+                master_id = master_id,
+                potential = potential,
+                evolution_level = evolution_level,
+                level = level
+            };
+        }
+
+        public CardWithSupport CreateWithSupport(
+            SupportCard? support, 
+            SupportCard? support_2, 
+            SupportCard? assist,
+            Accessory? accessory_0,
+            Accessory? accessory_1)
+        {
+            CardWithSupport withSupport = new CardWithSupport
+            {
+                id = CardWithSupport.GetID(),
+                hit_point = hit_point,
+                attack = attack,
+                user_card_id = id,
+                support = support,
+                support_2 = support_2,
+                assist = assist,
+                accessories = new List<Accessory>(),
+                master_id = master_id,
+                potential = potential,
+                evolution_level = evolution_level,
+                level = level
+            };
+            
+            if (accessory_0 != null)
+                withSupport.accessories.Add(accessory_0);
+            if (accessory_1 != null)
+                withSupport.accessories.Add(accessory_1);
+
+            return withSupport;
+        }
+    }
+
+    public class SupportCard
+    {
+        public int hit_point { get; set; }
+        public int attack { get; set; }
+        public long user_card_id { get; set; } // card id
+        public int master_id { get; set; }
+        public int potential { get; set; }
+        public int evolution_level { get; set; }
+        public int level { get; set; }
+
+        public Card GetCard()
+        {
+            return Card.Load($"{user_card_id}");
+        }
+    }
+
+    public class CardWithSupport : BaseUserData<CardWithSupport>
+    {
+        public long id { get; set; } // This is NOT the card ID!
+        public int hit_point { get; set; }
+        public int attack { get; set; }
+        public long user_card_id { get; set; } // This IS the card ID!
+        public SupportCard? support { get; set; } = null;
+        public SupportCard? support_2 { get; set; } = null; // UR support?
+        public SupportCard? assist { get; set; } = null; // Miko?
+        public IList<Accessory> accessories { get; set; } = new List<Accessory>(); // Seirei
+        public int master_id { get; set; }
+        public int potential { get; set; }
+        public int evolution_level { get; set; }
+        public int level { get; set; }
+        protected override string Identifier => $"{id}";
+        
+        public static long GetID()
+        {
+            long new_id = long.Parse(Utils.GenerateRandomDigit(9));
+            while (Exists($"{new_id}"))
+            {
+                new_id = long.Parse(Utils.GenerateRandomDigit(9));
+            }
+
+            return new_id;
+        }
+
+        public Card GetCard()
+        {
+            return Card.Load($"{user_card_id}");
+        }
     }
 }
