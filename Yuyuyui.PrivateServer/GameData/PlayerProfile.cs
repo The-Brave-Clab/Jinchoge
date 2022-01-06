@@ -6,15 +6,17 @@
         public Profile profile { get; set; } = new();
         public Data data { get; set; } = new();
 
-        public IDictionary<int, IList<int>> newAlbum = new Dictionary<int, IList<int>>();
+        public IDictionary<int, IList<int>> newAlbum { get; set; } = new Dictionary<int, IList<int>>();
 
-        public IList<long> accessories = new List<long>();
+        public IList<long> accessories { get; set; } = new List<long>();
 
-        public IList<long> clubOrders = new List<long>();
+        public IList<long> clubOrders { get; set; } = new List<long>();
 
-        public IList<long> cards = new List<long>();
+        public IList<long> cards { get; set; } = new List<long>();
 
         public IList<long> evolutionItems = new List<long>();
+
+        public IList<CharacterFamiliarity> characterFamiliarities { get; set; } = new List<CharacterFamiliarity>();
 
         protected override string Identifier => id.code;
 

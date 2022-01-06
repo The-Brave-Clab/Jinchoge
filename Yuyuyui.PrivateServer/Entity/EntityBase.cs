@@ -315,14 +315,14 @@ namespace Yuyuyui.PrivateServer
             //	typeof(BraveSystemEnhacementEntity),
             //	new Config("/my/brave_system/components/{0}", "Json/Strategy/brave_enhance", 0)
             //},
-            //{
-            //	typeof(EpisodeEntity),
-            //	new Config("/my/chapters/{0}/episodes", "Json/Story/chapter", 0)
-            //},
-            //{
-            //	typeof(ChapterEntity),
-            //	new Config("/my/chapters", "Json/Story/stage", 0)
-            //},
+            // {
+            // 	typeof(EpisodeEntity),
+            // 	new Config("/my/chapters/{0}/episodes", "Json/Story/chapter", 0)
+            // },
+            {
+            	typeof(ChapterEntity),
+            	new Config("/my/chapters", "GET")
+            },
             //{
             //	typeof(StageEntity),
             //	new Config("/my/chapters/{0}/episodes/{1}/stages", "Json/Story/quest", 0)
@@ -335,10 +335,10 @@ namespace Yuyuyui.PrivateServer
             //	typeof(CheckBattleTokensEntity),
             //	new Config("/check_battle_tokens", string.Empty, 0)
             //},
-            //{
-            //	typeof(EventChapterEntity),
-            //	new Config("/special/chapters", string.Empty, 0)
-            //},
+            {
+            	typeof(EventChapterEntity),
+            	new Config("/special/chapters", "GET")
+            },
             //{
             //	typeof(EventEpisodeEntity),
             //	new Config("/special/chapters/{0}/episodes", string.Empty, 0)
@@ -647,10 +647,10 @@ namespace Yuyuyui.PrivateServer
             //	typeof(WeekdayStaminaRecoveryTransactionUpdate),
             //	new Config("/billing_point_shop/weekday_stamina_recovery/transactions/{0}", string.Empty, 0)
             //},
-            //{
-            //	typeof(CharacterFamiliarityEntity),
-            //	new Config("/my/character_familiarities", string.Empty, 0)
-            //},
+            {
+            	typeof(CharacterFamiliarityEntity),
+            	new Config("/my/character_familiarities", "GET")
+            },
             {
                 typeof(GameResourceVersionEntity),
                 new Config("/resource_versions/{type}", "GET")
