@@ -12,9 +12,9 @@
         public int critical { get; set; }
         public int agility { get; set; }
         public int footing_point { get; set; } // weight in database
-        public long? active_skill_id { get; set; } = null;
-        public long? support_skill_id { get; set; } = null;
-        public long? leader_skill_id { get; set; } = null;
+        public long? active_skill_id { get; set; }
+        public long? support_skill_id { get; set; }
+        public long? leader_skill_id { get; set; }
         public int active_skill_level { get; set; }
         public int support_skill_level { get; set; }
         public int evolution_level { get; set; }

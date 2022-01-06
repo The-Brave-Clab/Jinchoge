@@ -371,10 +371,10 @@ namespace Yuyuyui.PrivateServer
             //	typeof(BirthdateRegistrationEntity),
             //	new Config("/my/birthdate_registration", "Json/Shop/age_authorize", 0)
             //},
-            //{
-            //	typeof(IABItemStatsEntity),
-            //	new Config("/my/billing_point", "Json/Shop/IAB_item_stats", 0)
-            //},
+            {
+            	typeof(IABItemStatsEntity),
+            	new Config("/my/billing_point", "GET")
+            },
             //{
             //	typeof(StaminaRecoveryTransactionCreateEntity),
             //	new Config("/billing_point_shop/stamina_recovery/transactions", "Json/Shop/recover_stamina_create", 0)
@@ -435,10 +435,10 @@ namespace Yuyuyui.PrivateServer
                 typeof(EventBonusCharacterCardsEntity),
                 new Config("/cards/event_bonus_character_cards", "GET")
             },
-            //{
-            //	typeof(GachaEntity),
-            //	new Config("/gachas", "Json/Gacha/top", 0)
-            //},
+            {
+            	typeof(GachaEntity),
+            	new Config("/gachas", "GET")
+            },
             //{
             //	typeof(GachaTicketEntity),
             //	new Config("/my/gacha_tickets", "Json/Gacha/ticket", 0)
@@ -571,10 +571,10 @@ namespace Yuyuyui.PrivateServer
             //	typeof(StaminaTransactionUpdateEntity),
             //	new Config("/my/stamina_items/{0}/transactions/{1}", string.Empty, 0)
             //},
-            //{
-            //	typeof(EvolutionItemsEntity),
-            //	new Config("/my/evolution_items", string.Empty, 0)
-            //},
+            {
+            	typeof(EvolutionItemsEntity),
+            	new Config("/my/evolution_items", "GET")
+            },
             //{
             //	typeof(EnhancementItemDisposalTransactionCreateEntity),
             //	new Config("/my/enhancement_items/{0}/disposal/transactions", string.Empty, 0)
@@ -699,6 +699,10 @@ namespace Yuyuyui.PrivateServer
             //	typeof(BattleContinueInfoEntity),
             //	new Config("/battle/continue/transactions/{0}", string.Empty, 0)
             //},
+            {
+                typeof(UpdateClickCountsEntity), // new
+                new Config("/click_counts/update_click_counts", "POST")
+            }
         };
     }
 

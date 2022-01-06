@@ -1,7 +1,4 @@
-﻿using System.Text;
-using Newtonsoft.Json;
-
-namespace Yuyuyui.PrivateServer
+﻿namespace Yuyuyui.PrivateServer
 {
     public class PlayerProfile : BaseUserData<PlayerProfile>
     {
@@ -16,6 +13,8 @@ namespace Yuyuyui.PrivateServer
         public IList<long> clubOrders = new List<long>();
 
         public IList<long> cards = new List<long>();
+
+        public IList<long> evolutionItems = new List<long>();
 
         protected override string Identifier => id.code;
 
@@ -35,6 +34,8 @@ namespace Yuyuyui.PrivateServer
         {
             public int regulationVersion { get; set; } = 0;
             public int tutorialProgress { get; set; } = 0;
+
+            public int paidBlessing { get; set; } = 1000000; // we only do fixed paid in private server
         }
     }
 }
