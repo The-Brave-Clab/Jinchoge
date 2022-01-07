@@ -1,8 +1,8 @@
 ﻿namespace Yuyuyui.PrivateServer
 {
-    public class IABItemStatsEntity : BaseEntity<IABItemStatsEntity>
+    public class PopupEntity : BaseEntity<PopupEntity>
     {
-        public IABItemStatsEntity(
+        public PopupEntity(
             Uri requestUri,
             string httpMethod,
             Dictionary<string, string> requestHeaders,
@@ -14,14 +14,11 @@
 
         protected override Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
-
-            Utils.LogWarning("Fixed number of 1,000,000 paid blessings");
+            Utils.LogWarning("Stub API! Returns nothing for now.");
 
             Response responseObj = new()
             {
-                paid_point = player.data.paidBlessing,
-                free_point = player.data.freeBlessing
+                popups = new List<Response.Popup>()
             };
 
             responseBody = Serialize(responseObj);
@@ -32,8 +29,14 @@
 
         public class Response
         {
-            public int paid_point { get; set; }
-            public int free_point { get; set; }
+            public IList<Popup> popups { get; set; } = new List<Popup>();
+
+            public class Popup
+            {
+                public int id { get; set; }
+                public long image_id { get; set; }
+                public int display_type { get; set; } // 1: with Don't show anymore, 2: without
+            }
         }
     }
 }

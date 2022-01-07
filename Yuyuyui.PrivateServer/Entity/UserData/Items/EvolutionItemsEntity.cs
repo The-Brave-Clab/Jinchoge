@@ -16,9 +16,14 @@
         {
             var player = GetPlayerFromCookies();
 
+            if (!player.items.ContainsKey("evolution"))
+            {
+                player.items.Add("evolution", new List<long>());
+            }
+
             Response responseObj = new()
             {
-                evolution_items = player.evolutionItems.ToDictionary(c => c, c => Item.Load($"{c}"))
+                evolution_items = player.items["evolution"].ToDictionary(c => c, c => Item.Load($"{c}"))
             };
 
             responseBody = Serialize(responseObj);

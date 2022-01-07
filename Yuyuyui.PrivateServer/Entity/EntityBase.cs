@@ -267,10 +267,10 @@ namespace Yuyuyui.PrivateServer
                 typeof(RegulationEntity),
                 new Config("/my/regulation_version", "GET", "PUT")
             },
-            //{
-            //	typeof(HeaderEntity),
-            //	new Config("/my/header", "Json/header", 0)
-            // },
+            {
+            	typeof(HeaderEntity),
+            	new Config("/my/header", "GET")
+             },
             {
                 typeof(BadgeEntity),
                 new Config("/my/badge", "GET", "PUT")
@@ -519,10 +519,10 @@ namespace Yuyuyui.PrivateServer
                 typeof(ProfileEntity),
                 new Config("/my/profile", "PUT")
             },
-            //{
-            //	typeof(LoginBonusEntity),
-            //	new Config("/my/checkin", "Json/LoginBonus/loginbonus", 0)
-            //},
+            {
+            	typeof(LoginBonusEntity),
+            	new Config("/my/checkin", "POST")
+            },
             //{
             //	typeof(MissionListEntity),
             //	new Config("/my/missions", "Json/Mission/mission_list", 0)
@@ -699,14 +699,24 @@ namespace Yuyuyui.PrivateServer
             //	typeof(BattleContinueInfoEntity),
             //	new Config("/battle/continue/transactions/{0}", string.Empty, 0)
             //},
+            
+            // The following entities don't have mono code!
             {
-                typeof(UpdateClickCountsEntity), // new
+                typeof(UpdateClickCountsEntity),
                 new Config("/click_counts/update_click_counts", "POST")
             },
             {
-                typeof(EventItemsEntity), // new
+                typeof(EventItemsEntity),
                 new Config("/my/event_items", "GET")
             },
+            {
+                typeof(PopupEntity),
+                new Config("/popups", "GET")
+            },
+            {
+                typeof(BuffsEntity),
+                new Config("/my/buffs", "GET")
+            }
         };
     }
 

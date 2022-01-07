@@ -16,9 +16,14 @@
         {
             var player = GetPlayerFromCookies();
 
+            if (!player.items.ContainsKey("enhancement"))
+            {
+                player.items.Add("enhancement", new List<long>());
+            }
+
             Response responseObj = new()
             {
-                enhancement_items = player.enhancementItems.ToDictionary(c => c, c => Item.Load($"{c}"))
+                enhancement_items = player.items["enhancement"].ToDictionary(c => c, c => Item.Load($"{c}"))
             };
 
             responseBody = Serialize(responseObj);

@@ -1,8 +1,8 @@
 ﻿namespace Yuyuyui.PrivateServer
 {
-    public class IABItemStatsEntity : BaseEntity<IABItemStatsEntity>
+    public class BuffsEntity : BaseEntity<BuffsEntity>
     {
-        public IABItemStatsEntity(
+        public BuffsEntity(
             Uri requestUri,
             string httpMethod,
             Dictionary<string, string> requestHeaders,
@@ -15,13 +15,12 @@
         protected override Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
-
-            Utils.LogWarning("Fixed number of 1,000,000 paid blessings");
+            
+            Utils.LogError("Not documented! Returns nothing for now.");
 
             Response responseObj = new()
             {
-                paid_point = player.data.paidBlessing,
-                free_point = player.data.freeBlessing
+                buffs = new List<int>()
             };
 
             responseBody = Serialize(responseObj);
@@ -32,8 +31,7 @@
 
         public class Response
         {
-            public int paid_point { get; set; }
-            public int free_point { get; set; }
+            public IList<int> buffs { get; set; } = new List<int>(); // the type of content is unknown!
         }
     }
 }

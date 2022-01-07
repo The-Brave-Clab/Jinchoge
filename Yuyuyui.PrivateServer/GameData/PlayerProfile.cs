@@ -16,10 +16,12 @@
 
         public IList<long> decks { get; set; } = new List<long>();
 
-        public IList<long> enhancementItems = new List<long>();
-        public IList<long> evolutionItems = new List<long>();
-        public IList<long> eventItems = new List<long>();
-        public IList<long> staminaItems = new List<long>();
+        public IDictionary<string, IList<long>> items { get; set; } = new Dictionary<string, IList<long>>();
+
+        // public IList<long> enhancementItems = new List<long>();
+        // public IList<long> evolutionItems = new List<long>();
+        // public IList<long> eventItems = new List<long>();
+        // public IList<long> staminaItems = new List<long>();
 
         public IList<CharacterFamiliarity> characterFamiliarities { get; set; } = new List<CharacterFamiliarity>();
 
@@ -39,10 +41,22 @@
 
         public class Data
         {
+            public int level { get; set; } = 1;
+            public long exp { get; set; } = 0;
             public int regulationVersion { get; set; } = 0;
             public int tutorialProgress { get; set; } = 0;
 
-            public int paidBlessing { get; set; } = 1000000; // we only do fixed paid in private server
+            public int paidBlessing { get; set; } = 999900; // we only do fixed paid in private server
+            public int freeBlessing { get; set; } = 0;
+            public int money { get; set; } = 0;
+            public int friendPoint { get; set; } = 0;
+            public int braveCoin { get; set; } = 0;
+            public int taishaPoint { get; set; } = 0;
+
+            public long? titleItemID { get; set; } = null;
+            public int stamina { get; set; } = 140; // wip
+            public int weekdayStamina { get; set; } = 6;
+
         }
     }
 }
