@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
@@ -20,6 +21,7 @@ namespace Yuyuyui.PrivateServer
         protected readonly Dictionary<string, string> pathParameters;
         protected byte[] responseBody;
         protected Dictionary<string, string> responseHeaders;
+        protected IPEndPoint localEndPoint;
 
 
         public byte[] RequestBody => requestBody;
@@ -85,44 +87,25 @@ namespace Yuyuyui.PrivateServer
             return ExtractPathParameters(apiPathWithParameters, apiPathReal) != null;
         }
 
-        public static async Task<EntityBase> FromRequestEvent(SessionEventArgs e)
+        private static EntityBase FromHttpRequest(
+            Uri uri, 
+            string httpMethod, 
+            Dictionary<string, string> headers,
+            byte[] requestBodyBytes,
+            IPEndPoint localEndPoint)
         {
-            string apiPath = StripApiPrefix(e.HttpClient.Request.RequestUri.AbsolutePath);
+            string apiPath = StripApiPrefix(uri.AbsolutePath);
 
-            Utils.LogTrace($"{e.HttpClient.Request.Method} {apiPath}");
+            Utils.LogTrace($"{httpMethod} {apiPath}");
 
             foreach (var config in configs)
             {
                 if (ApiPathMatch(config.Value.apiPath, apiPath) &&
-                    config.Value.httpMethods.Contains(e.HttpClient.Request.Method))
+                    config.Value.httpMethods.Contains(httpMethod))
                 {
                     try
                     {
-                        Dictionary<string, string> headers =
-                            new Dictionary<string, string>(e.HttpClient.Request.Headers.Count());
-                        foreach (var header in e.HttpClient.Request.Headers)
-                        {
-                            if (!headers.Any(alreadyAddedHeader =>
-                                    string.Equals(alreadyAddedHeader.Key, header.Name,
-                                        StringComparison.CurrentCultureIgnoreCase)))
-                            {
-                                headers.Add(header.Name, header.Value);
-                            }
-                        }
-
-                        byte[] requestBodyBytes = Array.Empty<byte>();
-
-                        if (e.HttpClient.Request.ContentType != null)
-                        {
-                            try
-                            {
-                                requestBodyBytes = await e.GetRequestBody();
-                            }
-                            catch (BodyNotFoundException)
-                            {
-                            }
-                        }
-
+                        
                         return (EntityBase) TypeDescriptor.CreateInstance(
                             provider: null,
                             objectType: config.Key,
@@ -132,15 +115,17 @@ namespace Yuyuyui.PrivateServer
                                 typeof(string),
                                 typeof(Dictionary<string, string>),
                                 typeof(byte[]),
-                                typeof(Config)
+                                typeof(Config),
+                                typeof(IPEndPoint)
                             },
                             args: new object[]
                             {
-                                e.HttpClient.Request.RequestUri,
-                                e.HttpClient.Request.Method,
+                                uri,
+                                httpMethod,
                                 headers,
                                 requestBodyBytes,
-                                config.Value
+                                config.Value,
+                                localEndPoint
                             })!;
                     }
                     catch (Exception exception)
@@ -153,12 +138,79 @@ namespace Yuyuyui.PrivateServer
 
             return new RequestErrorEntity(
                 "S2000",
-                $"\n\nAPI Not Implemented:\n\n{e.HttpClient.Request.Method} {apiPath}",
+                $"\n\nAPI Not Implemented:\n\n{httpMethod} {apiPath}",
+                uri,
+                httpMethod,
+                new Config(apiPath, httpMethod),
+                $"API Not Implemented:\n\t{httpMethod} {apiPath}"
+            ); // error type
+        }
+
+        public static async Task<EntityBase> FromRequestEvent(SessionEventArgs e)
+        {
+            Dictionary<string, string> headers =
+                new Dictionary<string, string>(e.HttpClient.Request.Headers.Count());
+            foreach (var header in e.HttpClient.Request.Headers)
+            {
+                if (!headers.Any(alreadyAddedHeader =>
+                        string.Equals(alreadyAddedHeader.Key, header.Name,
+                            StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    headers.Add(header.Name, header.Value);
+                }
+            }
+
+            byte[] requestBodyBytes = Array.Empty<byte>();
+            
+            if (e.HttpClient.Request.ContentType != null)
+            {
+                try
+                {
+                    requestBodyBytes = await e.GetRequestBody();
+                }
+                catch (BodyNotFoundException)
+                {
+                }
+            }
+
+            return FromHttpRequest(
                 e.HttpClient.Request.RequestUri,
                 e.HttpClient.Request.Method,
-                new Config(apiPath, e.HttpClient.Request.Method),
-                $"API Not Implemented:\n\t{e.HttpClient.Request.Method} {apiPath}"
-            ); // error type
+                headers,
+                requestBodyBytes,
+                e.ClientLocalEndPoint);
+        }
+
+        public static EntityBase FromHttpContext(HttpListenerContext ctx)
+        {
+            var request = ctx.Request;
+            request.ShowRequestProperties2();
+            Uri uri = request.Url!;
+            
+            Dictionary<string, string> headers =
+                new Dictionary<string, string>(request.Headers.Count);
+            foreach (var headerKey in request.Headers.AllKeys)
+            {
+                if (headerKey == null) continue;
+                var value = request.Headers.Get(headerKey);
+                if (value == null) continue;
+                Utils.Log($"{headerKey}={value}");
+                headers.Add(headerKey, value);
+            }
+            
+            byte[] requestBodyBytes = Array.Empty<byte>();
+
+            if (request.HasEntityBody)
+            {
+                requestBodyBytes = request.InputStream.ReadAllBytes();
+            }
+            
+            return FromHttpRequest(
+                uri,
+                request.HttpMethod,
+                headers,
+                requestBodyBytes,
+                request.LocalEndPoint);
         }
 
         protected abstract Task ProcessRequest();
@@ -232,7 +284,7 @@ namespace Yuyuyui.PrivateServer
         }
 
         public EntityBase(Uri requestUri, string httpMethod, Dictionary<string, string> requestHeaders,
-            byte[] requestBody, Config config)
+            byte[] requestBody, Config config, IPEndPoint localEndPoint)
         {
             AcceptedHttpMethods = config.httpMethods;
             HttpMethod = httpMethod;
@@ -241,6 +293,7 @@ namespace Yuyuyui.PrivateServer
             this.requestBody = requestBody;
             responseBody = Array.Empty<byte>();
             responseHeaders = new Dictionary<string, string>();
+            this.localEndPoint = localEndPoint;
 
             pathParameters = ExtractPathParameters(config.apiPath, StripApiPrefix(requestUri.AbsolutePath))!;
         }

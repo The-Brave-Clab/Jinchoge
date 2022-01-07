@@ -1,23 +1,28 @@
-﻿namespace Yuyuyui.PrivateServer;
+﻿using System.Net;
 
-public class EventChapterEntity : ChapterEntity
+namespace Yuyuyui.PrivateServer
 {
-    public EventChapterEntity(
-        Uri requestUri,
-        string httpMethod,
-        Dictionary<string, string> requestHeaders,
-        byte[] requestBody,
-        Config config)
-        : base(requestUri, httpMethod, requestHeaders, requestBody, config)
-    {
-    }
 
-    protected override Response GetChapters()
+    public class EventChapterEntity : ChapterEntity
     {
-        Utils.LogWarning("Stub API! Returns nothing for now.");
-        return new()
+        public EventChapterEntity(
+            Uri requestUri,
+            string httpMethod,
+            Dictionary<string, string> requestHeaders,
+            byte[] requestBody,
+            Config config,
+            IPEndPoint localEndPoint)
+            : base(requestUri, httpMethod, requestHeaders, requestBody, config, localEndPoint)
         {
-            chapters = new Dictionary<int, Chapter>()
-        };
+        }
+
+        protected override Response GetChapters()
+        {
+            Utils.LogWarning("Stub API! Returns nothing for now.");
+            return new()
+            {
+                chapters = new Dictionary<int, Chapter>()
+            };
+        }
     }
 }

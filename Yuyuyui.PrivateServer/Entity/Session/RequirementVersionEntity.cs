@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System.Net;
+
+namespace Yuyuyui.PrivateServer
 {
     public class RequirementVersionEntity : BaseEntity<RequirementVersionEntity>
     {
@@ -7,13 +9,15 @@
             string httpMethod,
             Dictionary<string, string> requestHeaders,
             byte[] requestBody,
-            Config config)
-            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
+            Config config,
+            IPEndPoint localEndPoint)
+            : base(requestUri, httpMethod, requestHeaders, requestBody, config, localEndPoint)
         {
         }
 
         protected override Task ProcessRequest()
         {
+            Utils.LogError(localEndPoint.Address);
             Response responseObj = new()
             {
                 requirement_version = new()
@@ -21,7 +25,7 @@
                     version = "3.15.0",
                     need_update = false,
                     review = false,
-                    api_server = "https://app.yuyuyui.jp",
+                    api_server = $"http://{localEndPoint.Address}:44461", // TODO
                     enable_cooperation = false
                 }
             };

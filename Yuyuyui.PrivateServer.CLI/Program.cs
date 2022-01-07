@@ -23,6 +23,12 @@ namespace Yuyuyui.PrivateServer.CLI
             Console.Write("Listening at ");
             ColoredOutput.WriteLine($"{endpoint.IpAddress}:{endpoint.Port}", ConsoleColor.Cyan);
 
+            HttpServer httpServer = new HttpServer(44461);
+            httpServer.Start();
+            Console.Write("Http Server Listening at ");
+            ColoredOutput.WriteLine($"{httpServer.Port}", ConsoleColor.Cyan);
+            
+
             Console.WriteLine();
 
             ColoredOutput.WriteLine("Please use one of the following addresses as your proxy:", ConsoleColor.Yellow);
@@ -55,6 +61,7 @@ namespace Yuyuyui.PrivateServer.CLI
             Console.Read();
 
             Proxy.Stop();
+            httpServer.Stop();
         }
     }
 }

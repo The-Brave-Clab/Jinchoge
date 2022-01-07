@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System.Net;
+
+namespace Yuyuyui.PrivateServer
 {
     public class EnhancementItemsEntity : BaseEntity<EnhancementItemsEntity>
     {
@@ -7,8 +9,9 @@
             string httpMethod,
             Dictionary<string, string> requestHeaders,
             byte[] requestBody,
-            Config config)
-            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
+            Config config,
+            IPEndPoint localEndPoint)
+            : base(requestUri, httpMethod, requestHeaders, requestBody, config, localEndPoint)
         {
         }
 

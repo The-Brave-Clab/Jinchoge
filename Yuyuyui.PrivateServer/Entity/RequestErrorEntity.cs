@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System.Net;
+
+namespace Yuyuyui.PrivateServer
 {
     public class RequestErrorEntity : BaseEntity<RequestErrorEntity>
     {
@@ -6,7 +8,7 @@
 
         private string? logMessage = null;
         public RequestErrorEntity(string code, string message, Uri requestedUri, string httpMethod, Config requestConfig, string? logMessage = null)
-            : base(requestedUri, httpMethod, new Dictionary<string, string>(), Array.Empty<byte>(), requestConfig)
+            : base(requestedUri, httpMethod, new Dictionary<string, string>(), Array.Empty<byte>(), requestConfig, IPEndPoint.Parse("0.0.0.0:12345"))
         {
             responseObj = new Response
             {

@@ -135,10 +135,7 @@
         public static bool GetSessionFromCookie(this EntityBase entity, out PlayerSession session)
         {
             string cookie = entity.GetRequestHeaderValue("Cookie");
-            var cookies = cookie.Split(';',
-                    StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
-                .Select(c => c.Split('='))
-                .ToDictionary(e => e[0], e => e.Length > 1 ? e[1] : "");
+            var cookies = Utils.GetCookieDictFromString(cookie);
 
             if (cookies.ContainsKey("_session_id"))
             {

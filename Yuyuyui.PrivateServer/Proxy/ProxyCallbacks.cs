@@ -9,9 +9,9 @@ namespace Yuyuyui.PrivateServer
 {
     internal class ProxyCallbacks
     {
+        // Create a local echo service for downloading the cert file
         private static bool EchoService(SessionEventArgs e)
         {
-            // Create a local echo service for downloading the cert file
             var request = e.HttpClient.Request;
             if (!e.IsHttps && request.Host == "download.cert")
             {

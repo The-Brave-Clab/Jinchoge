@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System.Net;
+
+namespace Yuyuyui.PrivateServer
 {
     public static class Utils
     {
@@ -86,6 +88,40 @@
             LogFunction = log;
             LogWarningFunction = logWarning;
             LogErrorFunction = logError;
+        }
+
+        #endregion
+
+        #region Misc
+
+        public static byte[] ReadAllBytes(this Stream inputStream)
+        {
+            if (inputStream is MemoryStream stream)
+                return stream.ToArray();
+
+            using var memoryStream = new MemoryStream();
+            inputStream.CopyTo(memoryStream);
+            return memoryStream.ToArray();
+        }
+
+        public static Dictionary<string, string> GetCookieDictFromString(string cookie)
+        {
+            return cookie.Split(';',
+                    StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+                .Select(c => c.Split('='))
+                .ToDictionary(e => e[0], e => e.Length > 1 ? e[1] : "")!;
+        }
+
+        public static void ShowRequestProperties2 (this HttpListenerRequest request)
+        {
+            Console.WriteLine("KeepAlive: {0}", request.KeepAlive);
+            Console.WriteLine("Local end point: {0}", request.LocalEndPoint.ToString());
+            Console.WriteLine("Remote end point: {0}", request.RemoteEndPoint.ToString());
+            Console.WriteLine("Is local? {0}", request.IsLocal);
+            Console.WriteLine("HTTP method: {0}", request.HttpMethod);
+            Console.WriteLine("Protocol version: {0}", request.ProtocolVersion);
+            Console.WriteLine("Is authenticated: {0}", request.IsAuthenticated);
+            Console.WriteLine("Is secure: {0}", request.IsSecureConnection);
         }
 
         #endregion

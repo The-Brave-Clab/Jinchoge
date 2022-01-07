@@ -1,14 +1,18 @@
-﻿namespace Yuyuyui.PrivateServer;
+﻿using System.Net;
 
-public class ScenarioResourceVersionEntity : GameResourceVersionEntity
+namespace Yuyuyui.PrivateServer
 {
-    public ScenarioResourceVersionEntity(
-        Uri requestUri,
-        string httpMethod,
-        Dictionary<string, string> requestHeaders,
-        byte[] requestBody,
-        Config config)
-        : base(requestUri, httpMethod, requestHeaders, requestBody, config)
+    public class ScenarioResourceVersionEntity : GameResourceVersionEntity
     {
+        public ScenarioResourceVersionEntity(
+            Uri requestUri,
+            string httpMethod,
+            Dictionary<string, string> requestHeaders,
+            byte[] requestBody,
+            Config config,
+            IPEndPoint localEndPoint)
+            : base(requestUri, httpMethod, requestHeaders, requestBody, config, localEndPoint)
+        {
+        }
     }
 }
