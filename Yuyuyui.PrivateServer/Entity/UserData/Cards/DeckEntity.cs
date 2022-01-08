@@ -82,7 +82,7 @@ namespace Yuyuyui.PrivateServer
                             id = d.id,
                             leader_deck_card_id = d.leaderUnitID,
                             name = d.name,
-                            cards = d.units.Select(id => (Response.CardWithSupport) Unit.Load($"{id}")!).ToList()
+                            cards = d.units.Select(id => (Unit.CardWithSupport) Unit.Load($"{id}")!).ToList()
                         };
                     }).ToList()
             };
@@ -102,63 +102,7 @@ namespace Yuyuyui.PrivateServer
                 public long id { get; set; }
                 public long leader_deck_card_id { get; set; }
                 public string? name { get; set; } = null;
-                public IList<CardWithSupport> cards { get; set; } = new List<CardWithSupport>();
-            }
-
-            public class CardWithSupport
-            {
-                public long id { get; set; }
-                public int hit_point { get; set; }
-                public int attack { get; set; }
-                public long? user_card_id { get; set; }
-                public Dictionary<string, long> support { get; set; } = new();
-                public Dictionary<string, long> support2 { get; set; } = new();
-                public Dictionary<string, long> assist { get; set; } = new();
-                public IList<Accessory> accessories { get; set; } = new List<Accessory>();
-                public int? master_id { get; set; }
-                public int? potential { get; set; }
-                public int? evolution_level { get; set; }
-                public int? level { get; set; }
-                
-                public static implicit operator CardWithSupport?(Unit? unit)
-                {
-                    if (unit == null) return null;
-                    return new CardWithSupport
-                    {
-                        id = unit.id,
-                        hit_point = unit.hitPoint,
-                        attack = unit.attack,
-                        user_card_id = unit.baseCardID,
-                        support = unit.Support()?.AsSupport(),
-                        support2 = unit.Support2()?.AsSupport(),
-                        assist = unit.Assist()?.AsSupport(),
-                        accessories = unit.accessories.Select(id => Accessory.Load($"{id}")).ToList(),
-                        master_id = unit.master_id,
-                        potential = unit.potential,
-                        evolution_level = unit.evolutionLevel,
-                        level = unit.level
-                    };
-                }
-                
-                public static implicit operator Unit?(CardWithSupport? sc)
-                {
-                    if (sc == null) return null;
-                    return new Unit
-                    {
-                        id = sc.id,
-                        hitPoint = sc.hit_point,
-                        attack = sc.attack,
-                        baseCardID = sc.user_card_id,
-                        supportCardID = ((SupportCard?) sc.support)!.user_card_id,
-                        supportCard2ID = ((SupportCard?) sc.support2)!.user_card_id,
-                        assistCardID = ((SupportCard?) sc.assist)!.user_card_id,
-                        accessories = sc.accessories.Select(a => a.id).ToList(),
-                        master_id = sc.master_id,
-                        potential = sc.potential,
-                        evolutionLevel = sc.evolution_level,
-                        level = sc.level
-                    };
-                }
+                public IList<Unit.CardWithSupport> cards { get; set; } = new List<Unit.CardWithSupport>();
             }
         }
     }

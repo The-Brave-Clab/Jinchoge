@@ -26,6 +26,9 @@ namespace Yuyuyui.PrivateServer
                 unixtime = Utils.CurrentUnixTime(),
                 gk_key = sessionDetail.sessionKey
             };
+
+            sessionDetail.player.data.lastActive = responseObj.unixtime;
+            sessionDetail.player.Save();
             
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders(sessionDetail.sessionID);

@@ -511,10 +511,10 @@ namespace Yuyuyui.PrivateServer
             //	typeof(ClubWorkingForceCompleteTransactionUpdateEntity),
             //	new Config("/my/club_working/workings/{0}/transactions/{1}", "Json/ClubWorking/complete_transaction_update", 0)
             //},
-            //{
-            //	typeof(UserInfoEntity),
-            //	new Config("/users/{0}", string.Empty, 0)
-            //},
+            {
+            	typeof(UserInfoEntity),
+            	new Config("/users/{user_id}", "GET")
+            },
             {
                 typeof(ProfileEntity),
                 new Config("/my/profile", "PUT")

@@ -25,6 +25,8 @@
 
         public IList<CharacterFamiliarity> characterFamiliarities { get; set; } = new List<CharacterFamiliarity>();
 
+        public IList<long> friends { get; set; } = new List<long>(); // friend user id
+
         protected override string Identifier => id.code;
 
         public class ID
@@ -57,6 +59,7 @@
             public int stamina { get; set; } = 140; // wip
             public int weekdayStamina { get; set; } = 6;
 
+            public long lastActive { get; set; } = 0; // unixtime
         }
     }
 }
