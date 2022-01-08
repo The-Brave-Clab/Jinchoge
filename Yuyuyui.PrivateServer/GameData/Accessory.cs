@@ -1,6 +1,6 @@
 namespace Yuyuyui.PrivateServer
 {
-    public class Accessory : BaseUserData<Accessory>
+    public class Accessory : BasePlayerData<Accessory, long>
     {
         public long id { get; set; }
         public int master_id { get; set; } // from master_data
@@ -15,7 +15,7 @@ namespace Yuyuyui.PrivateServer
         public static Accessory DefaultAccessory()
         {
             long new_id = long.Parse(Utils.GenerateRandomDigit(8));
-            while (Exists($"{new_id}"))
+            while (Exists(new_id))
             {
                 new_id = long.Parse(Utils.GenerateRandomDigit(8));
             }
@@ -33,7 +33,7 @@ namespace Yuyuyui.PrivateServer
             };
         }
 
-        protected override string Identifier => $"{id}";
+        protected override long Identifier => id;
     }
 }
 

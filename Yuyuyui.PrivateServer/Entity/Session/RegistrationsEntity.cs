@@ -23,7 +23,7 @@ namespace Yuyuyui.PrivateServer
             SessionsEntity.Response responseObj = new()
             {
                 session_id = sessionDetail.sessionID,
-                code = sessionDetail.player.id.code,
+                code = $"{sessionDetail.player.id.code}",
                 unixtime = Utils.CurrentUnixTime(),
                 gk_key = sessionDetail.sessionKey
             };

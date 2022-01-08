@@ -1,6 +1,6 @@
 ﻿namespace Yuyuyui.PrivateServer
 {
-    public class PlayerProfile : BaseUserData<PlayerProfile>
+    public class PlayerProfile : BasePlayerData<PlayerProfile, string>
     {
         public ID id { get; set; } = new();
         public Profile profile { get; set; } = new();
@@ -25,7 +25,7 @@
 
         public IList<CharacterFamiliarity> characterFamiliarities { get; set; } = new List<CharacterFamiliarity>();
 
-        public IList<long> friends { get; set; } = new List<long>(); // friend user id
+        public IList<string> friends { get; set; } = new List<string>(); // friend user id
 
         protected override string Identifier => id.code;
 

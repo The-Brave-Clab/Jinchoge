@@ -38,7 +38,7 @@
 
             Response responseObj = new()
             {
-                cards = player.cards.ToDictionary(c => c, c => Card.Load($"{c}"))
+                cards = player.cards.ToDictionary(c => c, Card.Load)
             };
 
             responseBody = Serialize(responseObj);

@@ -1,6 +1,6 @@
 ﻿namespace Yuyuyui.PrivateServer
 {
-    public class Item : BaseUserData<Item>
+    public class Item : BasePlayerData<Item, long>
     {
         public long id { get; set; } // 8 digits
         public int master_id { get; set; } // from master_data
@@ -9,7 +9,7 @@
         private static long GetID()
         {
             long new_id = long.Parse(Utils.GenerateRandomDigit(7));
-            while (Exists($"{new_id}"))
+            while (Exists(new_id))
             {
                 new_id = long.Parse(Utils.GenerateRandomDigit(7));
             }
@@ -17,6 +17,6 @@
             return new_id;
         }
 
-        protected override string Identifier => $"{id}";
+        protected override long Identifier => id;
     }
 }

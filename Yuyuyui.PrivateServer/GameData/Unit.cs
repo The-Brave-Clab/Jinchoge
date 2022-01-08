@@ -1,6 +1,6 @@
 ﻿namespace Yuyuyui.PrivateServer;
 
-public class Unit : BaseUserData<Unit>
+public class Unit : BasePlayerData<Unit, long>
 {
     public long id { get; set; } // This is NOT the card ID!
     public int hitPoint { get; set; } // TODO: Can be removed?
@@ -14,12 +14,12 @@ public class Unit : BaseUserData<Unit>
     public int? potential { get; set; } = null; // TODO: Can be removed?
     public int? evolutionLevel { get; set; } = null; // TODO: Can be removed?
     public int? level { get; set; } = null; // TODO: Can be removed?
-    protected override string Identifier => $"{id}";
+    protected override long Identifier => id;
 
     public static long GetID()
     {
         long new_id = long.Parse(Utils.GenerateRandomDigit(9));
-        while (Exists($"{new_id}"))
+        while (Exists(new_id))
         {
             new_id = long.Parse(Utils.GenerateRandomDigit(9));
         }
@@ -27,9 +27,9 @@ public class Unit : BaseUserData<Unit>
         return new_id;
     }
 
-    public Card GetCard()
+    public Card? GetCard()
     {
-        return Card.Load($"{baseCardID}");
+        return baseCardID == null ? null : Card.Load((long) baseCardID);
     }
 
     public static Unit CreateEmptyUnit()
@@ -53,20 +53,17 @@ public class Unit : BaseUserData<Unit>
 
     public Card? Support()
     {
-        if (supportCardID == null) return null;
-        return Card.Load($"{supportCardID}");
+        return supportCardID == null ? null : Card.Load((long) supportCardID);
     }
 
     public Card? Support2()
     {
-        if (supportCard2ID == null) return null;
-        return Card.Load($"{supportCard2ID}");
+        return supportCard2ID == null ? null : Card.Load((long) supportCard2ID);
     }
 
     public Card? Assist()
     {
-        if (assistCardID == null) return null;
-        return Card.Load($"{assistCardID}");
+        return assistCardID == null ? null : Card.Load((long) assistCardID);
     }
 
     // This is used for JSON response
@@ -97,7 +94,7 @@ public class Unit : BaseUserData<Unit>
                 support = unit.Support()?.AsSupport(),
                 support_2 = unit.Support2()?.AsSupport(),
                 assist = unit.Assist()?.AsSupport(),
-                accessories = unit.accessories.Select(id => Accessory.Load($"{id}")).ToList(),
+                accessories = unit.accessories.Select(Accessory.Load).ToList(),
                 master_id = unit.master_id,
                 potential = unit.potential,
                 evolution_level = unit.evolutionLevel,

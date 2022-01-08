@@ -24,7 +24,7 @@ public class GachaProductData
     public string detail_url { get; set; } = "";
     public string caution_url { get; set; } = "";
     public IList<Lineup> lineups { get; set; } = new List<Lineup>();
-    public PickupContent pickup_content { get; set; }
+    public PickupContent pickup_content { get; set; } = new();
 
     public class Lineup
     {

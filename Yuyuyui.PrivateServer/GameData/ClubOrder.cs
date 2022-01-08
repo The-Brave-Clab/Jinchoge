@@ -1,6 +1,6 @@
 ﻿namespace Yuyuyui.PrivateServer
 {
-    public class ClubOrder : BaseUserData<ClubOrder>
+    public class ClubOrder : BasePlayerData<ClubOrder, long>
     {
         public long id { get; set; } // 7 digits
         public int master_id { get; set; } // from master_data
@@ -12,6 +12,6 @@
             public string title { get; set; } = "";
         }
 
-        protected override string Identifier => $"{id}";
+        protected override long Identifier => id;
     }
 }

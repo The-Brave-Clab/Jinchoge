@@ -23,7 +23,7 @@
                 club_orders = player.clubOrders
                     .Select(l =>
                     {
-                        ClubOrder order = ClubOrder.Load($"{l}");
+                        ClubOrder order = ClubOrder.Load(l);
                         return new Response.ClubOrderWithReward
                         {
                             id = order.id,

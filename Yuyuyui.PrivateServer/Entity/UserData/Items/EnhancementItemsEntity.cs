@@ -23,7 +23,7 @@
 
             Response responseObj = new()
             {
-                enhancement_items = player.items["enhancement"].ToDictionary(c => c, c => Item.Load($"{c}"))
+                enhancement_items = player.items["enhancement"].ToDictionary(c => c, Item.Load)
             };
 
             responseBody = Serialize(responseObj);

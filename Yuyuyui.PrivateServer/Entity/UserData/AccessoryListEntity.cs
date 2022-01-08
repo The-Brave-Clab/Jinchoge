@@ -30,7 +30,7 @@ namespace Yuyuyui.PrivateServer
             Response responseObj = new()
             {
                 accessories = player.accessories
-                    .Select(l => Accessory.Load($"{l}"))
+                    .Select(Accessory.Load)
                     .ToDictionary(p => $"{p.id}", p => p)
             };
 

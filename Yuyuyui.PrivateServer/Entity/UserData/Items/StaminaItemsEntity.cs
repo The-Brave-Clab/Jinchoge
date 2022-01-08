@@ -23,7 +23,7 @@
 
             Response responseObj = new()
             {
-                stamina_items = player.items["stamina"].ToDictionary(c => c, c => Item.Load($"{c}"))
+                stamina_items = player.items["stamina"].ToDictionary(c => c, Item.Load)
             };
 
             responseBody = Serialize(responseObj);

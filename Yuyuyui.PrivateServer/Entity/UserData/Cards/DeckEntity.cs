@@ -22,10 +22,10 @@ namespace Yuyuyui.PrivateServer
             {
                 // when player's deck is empty, it has to be a new player
                 // which means there has to be four cards, and they are in order.
-                var yuuna = Card.Load($"{player.cards[0]}");
-                var tougou = Card.Load($"{player.cards[1]}");
-                var fuu = Card.Load($"{player.cards[2]}");
-                var itsuki = Card.Load($"{player.cards[3]}");
+                var yuuna = Card.Load(player.cards[0]);
+                var tougou = Card.Load(player.cards[1]);
+                var fuu = Card.Load(player.cards[2]);
+                var itsuki = Card.Load(player.cards[3]);
 
                 var yuunaUnit = yuuna.CreateUnit(tougou.AsSupport());
                 var fuuUnit = fuu.CreateUnit();
@@ -74,7 +74,7 @@ namespace Yuyuyui.PrivateServer
             Response responseObj = new()
             {
                 decks = player.decks
-                    .Select(id => Deck.Load($"{id}"))
+                    .Select(Deck.Load)
                     .Select(d =>
                     {
                         return new Response.Deck
@@ -82,7 +82,7 @@ namespace Yuyuyui.PrivateServer
                             id = d.id,
                             leader_deck_card_id = d.leaderUnitID,
                             name = d.name,
-                            cards = d.units.Select(id => (Unit.CardWithSupport) Unit.Load($"{id}")!).ToList()
+                            cards = d.units.Select(id => (Unit.CardWithSupport) Unit.Load(id)!).ToList()
                         };
                     }).ToList()
             };

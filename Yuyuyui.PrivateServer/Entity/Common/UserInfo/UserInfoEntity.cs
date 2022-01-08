@@ -27,7 +27,7 @@
                     accessed_at = player.data.lastActive,
                     fellowship_count = player.friends.Count,
                     title_item_id = player.data.titleItemID,
-                    leader_card = Unit.Load($"{Deck.Load($"{player.decks[0]}").leaderUnitID}")!
+                    leader_card = Unit.Load(Deck.Load(player.decks[0]).leaderUnitID)!
                 }
             };
 

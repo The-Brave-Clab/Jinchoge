@@ -2,7 +2,7 @@
 
 namespace Yuyuyui.PrivateServer
 {
-    public class Card : BaseUserData<Card>
+    public class Card : BasePlayerData<Card, long>
     {
         public long id { get; set; } // 8 digits
         public int master_id { get; set; } // from master_data
@@ -29,7 +29,7 @@ namespace Yuyuyui.PrivateServer
         private static long GetID()
         {
             long new_id = long.Parse(Utils.GenerateRandomDigit(8));
-            while (Exists($"{new_id}"))
+            while (Exists(new_id))
             {
                 new_id = long.Parse(Utils.GenerateRandomDigit(8));
             }
@@ -141,7 +141,7 @@ namespace Yuyuyui.PrivateServer
             };
         }
 
-        protected override string Identifier => $"{id}";
+        protected override long Identifier => id;
 
         public SupportCard AsSupport()
         {
@@ -201,7 +201,7 @@ namespace Yuyuyui.PrivateServer
 
         public Card GetCard()
         {
-            return Card.Load($"{user_card_id}");
+            return Card.Load(user_card_id);
         }
 
         public static implicit operator Dictionary<string, long>(SupportCard? sc)
@@ -236,7 +236,7 @@ namespace Yuyuyui.PrivateServer
                     level = (int) dic["level"],
                 };
             }
-            catch (KeyNotFoundException e)
+            catch (KeyNotFoundException)
             {
                 return null;
             }
