@@ -50,6 +50,17 @@ namespace Yuyuyui.PrivateServer
             return result;
         }
 
+        public static void Delete(TIdentifier identifier)
+        {
+            Cache.Remove(identifier);
+            File.Delete(GetFileName(identifier));
+        }
+
+        public void Delete()
+        {
+            Delete(Identifier);
+        }
+
         public static bool Exists(TIdentifier identifier)
         {
             return File.Exists(GetFileName(identifier));
