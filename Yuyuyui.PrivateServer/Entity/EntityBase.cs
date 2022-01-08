@@ -451,14 +451,14 @@ namespace Yuyuyui.PrivateServer
             //	typeof(GachaTransactionUpdateEntity),
             //	new Config("/gachas/{0}/lineups/{1}/transactions/{2}", "Json/Gacha/transaction_update", 0)
             //},
-            //{
-            //	typeof(PresentsEntity),
-            //	new Config("/my/gifts", "Json/Present/presents", 0)
-            //},
-            //{
-            //	typeof(PresentsHistoryEntity),
-            //	new Config("/my/gifts/received", string.Empty, 0)
-            //},
+            {
+            	typeof(PresentsEntity),
+            	new Config("/my/gifts", "GET")
+            },
+            {
+            	typeof(PresentsHistoryEntity),
+            	new Config("/my/gifts/received", "GET")
+            },
             //{
             //	typeof(UpdatePresentEntity),
             //	new Config("/my/gifts/{0}", "Json/Present/update_present", 0)

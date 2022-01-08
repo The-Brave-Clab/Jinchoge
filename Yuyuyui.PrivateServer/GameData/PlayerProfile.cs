@@ -27,6 +27,9 @@
 
         public IList<string> friends { get; set; } = new List<string>(); // friend user id
 
+        public IList<long> receivedGifts { get; set; } = new List<long>();
+        public IList<long> acceptedGifts { get; set; } = new List<long>();
+
         protected override string Identifier => id.code;
 
         public class ID

@@ -43,6 +43,11 @@
         {
             return FromDateTime(DateTime.UtcNow);
         }
+        
+        public static DateTime FromUnixTime(long unixTime)
+        {
+            return UNIX_EPOCH.AddSeconds(unixTime).ToLocalTime();
+        }
 
         private static long FromDateTime(DateTime dateTime)
         {
@@ -50,7 +55,7 @@
             return (long) totalSeconds;
         }
 
-        private static readonly DateTime UNIX_EPOCH = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime UNIX_EPOCH = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         #endregion
 
