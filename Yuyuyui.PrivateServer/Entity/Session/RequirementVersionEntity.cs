@@ -21,7 +21,7 @@
                     version = "3.15.0",
                     need_update = false,
                     review = false,
-                    api_server = "https://app.yuyuyui.jp",
+                    api_server = $"http://{PrivateServer.PRIVATE_API_SERVER}",
                     enable_cooperation = false
                 }
             };

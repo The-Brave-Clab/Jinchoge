@@ -29,14 +29,15 @@ namespace Yuyuyui.PrivateServer
 
             Utils.LogWarning("Redirected to the official API Server!");
 
-            HttpRequestMessage requestMessage = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, RequestUri);
+            HttpRequestMessage requestMessage = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, 
+                new Uri($"https://{PrivateServer.OFFICIAL_API_SERVER}{RequestUri.AbsolutePath}"));
 
             requestMessage.Content = new ByteArrayContent(Array.Empty<byte>());
             //requestMessage.Headers.Accept.Add(gk_json);
             requestMessage.Content.Headers.ContentType = gk_json;  // The official server requires this.
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", BASIC_AUTH_TOKEN);
             requestMessage.Headers.UserAgent.TryParseAdd(GetRequestHeaderValue("User-Agent"));
-            requestMessage.Headers.Host = "app.yuyuyui.jp";
+            requestMessage.Headers.Host = PrivateServer.OFFICIAL_API_SERVER;
             requestMessage.Headers.Connection.Add("Keep-Alive");
             requestMessage.Headers.AcceptEncoding.TryParseAdd("gzip");
 

@@ -34,6 +34,9 @@
 
         public const string DATA_FOLDER = "Data";
         public const string PLAYER_DATA_FILE = "players.dat";
+
+        public const string OFFICIAL_API_SERVER = "app.yuyuyui.jp";
+        public const string PRIVATE_API_SERVER = "private.yuyuyui.org";
         
         public static readonly HttpClient HttpClient = new();
 
