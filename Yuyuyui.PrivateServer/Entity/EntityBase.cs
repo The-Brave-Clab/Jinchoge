@@ -363,10 +363,10 @@ namespace Yuyuyui.PrivateServer
             //	typeof(EvolutionCardResultEntitiy),
             //	new Config("/my/cards/{0}/evolution", "Json/Room/evolution_card_result", 0)
             //},
-            //{
-            //	typeof(ShopEntity),
-            //	new Config("/shops", "Json/Shop/shop", 0)
-            //},
+            {
+            	typeof(ShopEntity),
+            	new Config("/shops", "GET")
+            },
             //{
             //	typeof(BirthdateRegistrationEntity),
             //	new Config("/my/birthdate_registration", "Json/Shop/age_authorize", 0)
