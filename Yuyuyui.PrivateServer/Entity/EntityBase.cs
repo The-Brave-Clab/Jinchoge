@@ -268,9 +268,9 @@ namespace Yuyuyui.PrivateServer
                 new Config("/my/regulation_version", "GET", "PUT")
             },
             {
-            	typeof(HeaderEntity),
-            	new Config("/my/header", "GET")
-             },
+                typeof(HeaderEntity),
+                new Config("/my/header", "GET")
+            },
             {
                 typeof(BadgeEntity),
                 new Config("/my/badge", "GET", "PUT")
@@ -316,16 +316,16 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/my/brave_system/components/{0}", "Json/Strategy/brave_enhance", 0)
             //},
             {
-            	typeof(EpisodeEntity),
-            	new Config("/my/chapters/{chapter_id}/episodes", "GET")
+                typeof(EpisodeEntity),
+                new Config("/my/chapters/{chapter_id}/episodes", "GET")
             },
             {
-            	typeof(ChapterEntity),
-            	new Config("/my/chapters", "GET")
+                typeof(ChapterEntity),
+                new Config("/my/chapters", "GET")
             },
             {
-            	typeof(StageEntity),
-            	new Config("/my/chapters/{chapter_id}/episodes/{episode_id}/stages", "GET")
+                typeof(StageEntity),
+                new Config("/my/chapters/{chapter_id}/episodes/{episode_id}/stages", "GET")
             },
             //{
             //	typeof(GuestEntity),
@@ -336,8 +336,8 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/check_battle_tokens", string.Empty, 0)
             //},
             {
-            	typeof(EventChapterEntity),
-            	new Config("/special/chapters", "GET")
+                typeof(EventChapterEntity),
+                new Config("/special/chapters", "GET")
             },
             //{
             //	typeof(EventEpisodeEntity),
@@ -364,16 +364,16 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/my/cards/{0}/evolution", "Json/Room/evolution_card_result", 0)
             //},
             {
-            	typeof(ShopEntity),
-            	new Config("/shops", "GET")
+                typeof(ShopEntity),
+                new Config("/shops", "GET")
             },
             //{
             //	typeof(BirthdateRegistrationEntity),
             //	new Config("/my/birthdate_registration", "Json/Shop/age_authorize", 0)
             //},
             {
-            	typeof(IABItemStatsEntity),
-            	new Config("/my/billing_point", "GET")
+                typeof(IABItemStatsEntity),
+                new Config("/my/billing_point", "GET")
             },
             //{
             //	typeof(StaminaRecoveryTransactionCreateEntity),
@@ -412,8 +412,8 @@ namespace Yuyuyui.PrivateServer
                 new Config("/platform_products", "GET")
             },
             {
-            	typeof(BillingPointShopEntity),
-            	new Config("/billing_point_shop", "GET")
+                typeof(BillingPointShopEntity),
+                new Config("/billing_point_shop", "GET")
             },
             //{
             //	typeof(ExchangeItemListEntity),
@@ -436,8 +436,8 @@ namespace Yuyuyui.PrivateServer
                 new Config("/cards/event_bonus_character_cards", "GET")
             },
             {
-            	typeof(GachaEntity),
-            	new Config("/gachas", "GET")
+                typeof(GachaEntity),
+                new Config("/gachas", "GET")
             },
             //{
             //	typeof(GachaTicketEntity),
@@ -452,12 +452,12 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/gachas/{0}/lineups/{1}/transactions/{2}", "Json/Gacha/transaction_update", 0)
             //},
             {
-            	typeof(PresentsEntity),
-            	new Config("/my/gifts", "GET")
+                typeof(PresentsEntity),
+                new Config("/my/gifts", "GET")
             },
             {
-            	typeof(PresentsHistoryEntity),
-            	new Config("/my/gifts/received", "GET")
+                typeof(PresentsHistoryEntity),
+                new Config("/my/gifts/received", "GET")
             },
             //{
             //	typeof(UpdatePresentEntity),
@@ -512,16 +512,16 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/my/club_working/workings/{0}/transactions/{1}", "Json/ClubWorking/complete_transaction_update", 0)
             //},
             {
-            	typeof(UserInfoEntity),
-            	new Config("/users/{user_id}", "GET")
+                typeof(UserInfoEntity),
+                new Config("/users/{user_id}", "GET")
             },
             {
                 typeof(ProfileEntity),
                 new Config("/my/profile", "PUT")
             },
             {
-            	typeof(LoginBonusEntity),
-            	new Config("/my/checkin", "POST")
+                typeof(LoginBonusEntity),
+                new Config("/my/checkin", "POST")
             },
             //{
             //	typeof(MissionListEntity),
@@ -552,16 +552,16 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/level_design/quests/{0}/finish", "Json/Battle/battle_result", 0)
             //},
             {
-            	typeof(EnhancementItemsEntity),
-            	new Config("/my/enhancement_items", "GET")
+                typeof(EnhancementItemsEntity),
+                new Config("/my/enhancement_items", "GET")
             },
             //{
             //	typeof(EnhancementItemDisposalEntity),
             //	new Config("/my/enhancement_items/{0}/disposal", string.Empty, 0)
             //},
             {
-            	typeof(StaminaItemsEntity),
-            	new Config("/my/stamina_items", "GET")
+                typeof(StaminaItemsEntity),
+                new Config("/my/stamina_items", "GET")
             },
             //{
             //	typeof(StaminaTransactionCreateEntity),
@@ -572,8 +572,8 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/my/stamina_items/{0}/transactions/{1}", string.Empty, 0)
             //},
             {
-            	typeof(EvolutionItemsEntity),
-            	new Config("/my/evolution_items", "GET")
+                typeof(EvolutionItemsEntity),
+                new Config("/my/evolution_items", "GET")
             },
             //{
             //	typeof(EnhancementItemDisposalTransactionCreateEntity),
@@ -592,8 +592,8 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/my/adventure_books/{0}", "Json/StoryAlbum/album_read", 0)
             //},
             {
-            	typeof(DeckEntity),
-            	new Config("/my/decks", "GET")
+                typeof(DeckEntity),
+                new Config("/my/decks", "GET")
             },
             //{
             //	typeof(DeckUpdateEntity),
@@ -648,8 +648,8 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/billing_point_shop/weekday_stamina_recovery/transactions/{0}", string.Empty, 0)
             //},
             {
-            	typeof(CharacterFamiliarityEntity),
-            	new Config("/my/character_familiarities", "GET")
+                typeof(CharacterFamiliarityEntity),
+                new Config("/my/character_familiarities", "GET")
             },
             {
                 typeof(GameResourceVersionEntity),
@@ -699,7 +699,7 @@ namespace Yuyuyui.PrivateServer
             //	typeof(BattleContinueInfoEntity),
             //	new Config("/battle/continue/transactions/{0}", string.Empty, 0)
             //},
-            
+
             // The following entities don't have mono code!
             {
                 typeof(UpdateClickCountsEntity),
@@ -716,7 +716,11 @@ namespace Yuyuyui.PrivateServer
             {
                 typeof(BuffsEntity),
                 new Config("/my/buffs", "GET")
-            }
+            },
+            {
+                typeof(AutoClearTicketsEntity),
+                new Config("/my/auto_clear_tickets", "GET")
+            },
         };
     }
 
