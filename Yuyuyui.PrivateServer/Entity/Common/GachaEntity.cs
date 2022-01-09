@@ -14,6 +14,8 @@
 
         protected override Task ProcessRequest()
         {
+            var player = GetPlayerFromCookies();
+            
             Utils.LogWarning("Stub API! Only returns the 2 default gachas");
 
             Response responseObj = new()
@@ -37,7 +39,7 @@
                                 lot_count = 1,
                                 consumption_resource_id = 1,
                                 consumption_amount = 250,
-                                consumable = false,
+                                consumable = player.data.paidBlessing + player.data.freeBlessing >= 250,
                                 has_right = true,
                                 button_extra = null,
                                 button_title = null,
@@ -51,7 +53,7 @@
                                 lot_count = 10,
                                 consumption_resource_id = 1,
                                 consumption_amount = 2300,
-                                consumable = false,
+                                consumable = player.data.paidBlessing + player.data.freeBlessing >= 2300,
                                 has_right = true,
                                 button_extra = null,
                                 button_title = null,
@@ -65,7 +67,7 @@
                                 lot_count = 1,
                                 consumption_resource_id = 2,
                                 consumption_amount = 60,
-                                consumable = false,
+                                consumable = player.data.paidBlessing >= 60,
                                 has_right = true,
                                 button_extra = null,
                                 button_title = null,
