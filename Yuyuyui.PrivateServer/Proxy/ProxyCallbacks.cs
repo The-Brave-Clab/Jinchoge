@@ -48,7 +48,22 @@ namespace Yuyuyui.PrivateServer
                 return;
             
             EntityBase entity = await EntityBase.FromRequestEvent(e);
-            await entity.Process();
+            
+            try
+            {
+                await entity.Process();
+            }
+            catch (APIErrorException apiError)
+            {
+                entity = new RequestErrorEntity(
+                    apiError.errorCode,
+                    $"{apiError.body}",
+                    e.HttpClient.Request.RequestUri,
+                    e.HttpClient.Request.Method,
+                    new Config(entity.RequestUri.AbsolutePath, e.HttpClient.Request.Method),
+                    $"{apiError.body}");
+                await entity.Process();
+            }
 
             byte[] responseBody = entity.ResponseBody;
             Dictionary<string, string> responseHeaders = entity.ResponseHeaders;

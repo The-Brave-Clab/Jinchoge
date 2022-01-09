@@ -157,7 +157,7 @@ namespace Yuyuyui.PrivateServer
                 e.HttpClient.Request.RequestUri,
                 e.HttpClient.Request.Method,
                 new Config(apiPath, e.HttpClient.Request.Method),
-                $"API Not Implemented:\n\t{e.HttpClient.Request.Method} {apiPath}"
+                $"API Not Implemented: {e.HttpClient.Request.Method} {apiPath}"
             ); // error type
         }
 
@@ -191,6 +191,10 @@ namespace Yuyuyui.PrivateServer
             try
             {
                 await ProcessRequest();
+            }
+            catch (APIErrorException)
+            {
+                throw;
             }
             catch (Exception e)
             {

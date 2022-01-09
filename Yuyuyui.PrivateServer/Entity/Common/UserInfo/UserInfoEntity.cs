@@ -14,7 +14,12 @@
 
         protected override Task ProcessRequest()
         {
-            var player = PlayerProfile.Load(GetPathParameter("user_id"));
+            var userCode = GetPathParameter("user_id");
+            if (!PlayerProfile.Exists(userCode))
+            {
+                throw new APIErrorException("A0201", $"Player {userCode} not found!");
+            }
+            var player = PlayerProfile.Load(userCode);
             
             Response responseObj = new()
             {

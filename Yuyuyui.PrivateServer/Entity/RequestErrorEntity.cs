@@ -27,7 +27,8 @@
             // S2000: Maintenance, shows message
             // A1321: Network error, small window with message, with prefix
             // A0120: Input Error
-            Utils.LogError(string.IsNullOrEmpty(logMessage) ? responseObj.error.message : logMessage);
+            string messageBody = string.IsNullOrEmpty(logMessage) ? responseObj.error.message : logMessage;
+            Utils.LogError($"<APIError> {responseObj.error.code}: {messageBody}");
 
             responseBody = Serialize(responseObj);
 
@@ -44,6 +45,24 @@
             public string code { get; set; } = "";
             public string message { get; set; } = "";
             public int status { get; set; }
+        }
+    }
+    
+    public class APIErrorException : Exception
+    {
+        public string errorCode;
+        public object body;
+
+        public APIErrorException(string errorCode, object body)
+            : base($"<APIError> {errorCode}: {body}")
+        {
+            this.errorCode = errorCode;
+            this.body = body;
+        }
+
+        public override string ToString()
+        {
+            return $"<APIError> {errorCode}: {body}";
         }
     }
 }
