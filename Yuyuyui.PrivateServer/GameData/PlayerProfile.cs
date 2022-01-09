@@ -11,6 +11,7 @@
         public IList<long> accessories { get; set; } = new List<long>();
 
         public IList<long> clubOrders { get; set; } = new List<long>();
+        public IList<long> clubWorkingSlots { get; set; } = new List<long>();
 
         public IList<long> cards { get; set; } = new List<long>();
 

@@ -28,10 +28,10 @@ namespace Yuyuyui.PrivateServer
 
         private static long GetID()
         {
-            long new_id = long.Parse(Utils.GenerateRandomDigit(8));
+            long new_id = long.Parse(Utils.GenerateRandomDigit(9));
             while (Exists(new_id))
             {
-                new_id = long.Parse(Utils.GenerateRandomDigit(8));
+                new_id = long.Parse(Utils.GenerateRandomDigit(9));
             }
 
             return new_id;

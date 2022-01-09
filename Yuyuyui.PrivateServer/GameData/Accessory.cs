@@ -14,10 +14,10 @@ namespace Yuyuyui.PrivateServer
 
         public static Accessory DefaultAccessory()
         {
-            long new_id = long.Parse(Utils.GenerateRandomDigit(8));
+            long new_id = long.Parse(Utils.GenerateRandomDigit(9));
             while (Exists(new_id))
             {
-                new_id = long.Parse(Utils.GenerateRandomDigit(8));
+                new_id = long.Parse(Utils.GenerateRandomDigit(9));
             }
             return new Accessory
             {

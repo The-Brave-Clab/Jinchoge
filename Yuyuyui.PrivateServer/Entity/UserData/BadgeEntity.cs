@@ -21,7 +21,7 @@ namespace Yuyuyui.PrivateServer
 
             if (requestBody.Length > 0)
             {
-                Utils.LogWarning("Needs more tests!");
+                Utils.LogWarning("PUT Method, Needs more tests!");
                 Request request = Deserialize<Request>(requestBody)!;
                 if (request.sub_category_id == -1)
                 {

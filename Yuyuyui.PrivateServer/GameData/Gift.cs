@@ -5,8 +5,8 @@
         protected override long Identifier => id;
 
         public long id { get; set; }
-        public string title { get; set; } = "";
-        public string name { get; set; } = "";
+        public string title { get; set; } = ""; // items.db/gifts
+        public string name { get; set; } = ""; // items.db/gifts
         public long reception_at { get; set; } // unixtime
         public long received_at { get; set; } // unixtime, 0 if not applicable, player accepted the gift
         public long receivable_at { get; set; } // unixtime, 0 if not applicable, player haven't accepted the gift

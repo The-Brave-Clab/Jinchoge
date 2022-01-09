@@ -487,10 +487,10 @@ namespace Yuyuyui.PrivateServer
             //	typeof(SendFellowRequestEntity),
             //	new Config("/users/{0}/fellow_requests", "Json/Friend/send_fellow_requests", 0)
             //},
-            //{
-            //	typeof(ClubWorkingSlotEntity),
-            //	new Config("/my/club_working/slots", "Json/ClubWorking/Slot", 0)
-            //},
+            {
+            	typeof(ClubWorkingSlotEntity),
+            	new Config("/my/club_working/slots", "GET")
+            },
             {
                 typeof(ClubWorkingOrderEntity),
                 new Config("/my/club_working/orders", "GET")
