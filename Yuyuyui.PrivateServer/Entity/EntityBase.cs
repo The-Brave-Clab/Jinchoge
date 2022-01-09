@@ -467,26 +467,26 @@ namespace Yuyuyui.PrivateServer
             //	typeof(PresentBulkEntity),
             //	new Config("/my/gifts/bulk", string.Empty, 0)
             //},
-            //{
-            //	typeof(FriendEntity),
-            //	new Config("/my/fellowships", "Json/Friend/fellowships", 0)
-            //},
-            //{
-            //	typeof(DeleteFriendEntity),
-            //	new Config("/my/fellowships/{0}/removal", "Json/Friend/delete_fellowships", 0)
-            //},
-            //{
-            //	typeof(FellowRequestEntity),
-            //	new Config("/my/fellow_requests", "Json/Friend/fellow_requests", 0)
-            //},
-            //{
-            //	typeof(UpdateFellowRequestEntity),
-            //	new Config("/my/fellow_requests/{0}", "Json/Friend/fellow_requests_rejected", 0)
-            //},
-            //{
-            //	typeof(SendFellowRequestEntity),
-            //	new Config("/users/{0}/fellow_requests", "Json/Friend/send_fellow_requests", 0)
-            //},
+            {
+            	typeof(FriendEntity),
+            	new Config("/my/fellowships", "GET")
+            },
+            {
+            	typeof(DeleteFriendEntity),
+            	new Config("/my/fellowships/{user_id}/removal", "POST")
+            },
+            {
+            	typeof(FellowRequestEntity),
+            	new Config("/my/fellow_requests", "GET")
+            },
+            {
+            	typeof(UpdateFellowRequestEntity),
+            	new Config("/my/fellow_requests/{request_id}", "PUT")
+            },
+            {
+            	typeof(SendFellowRequestEntity),
+            	new Config("/users/{user_id}/fellow_requests", "POST")
+            },
             {
             	typeof(ClubWorkingSlotEntity),
             	new Config("/my/club_working/slots", "GET")

@@ -27,6 +27,7 @@
         public IList<CharacterFamiliarity> characterFamiliarities { get; set; } = new List<CharacterFamiliarity>();
 
         public IList<string> friends { get; set; } = new List<string>(); // friend user id
+        public IList<long> friendRequests { get; set; } = new List<long>(); // request id
 
         public IList<long> receivedGifts { get; set; } = new List<long>();
         public IList<long> acceptedGifts { get; set; } = new List<long>();

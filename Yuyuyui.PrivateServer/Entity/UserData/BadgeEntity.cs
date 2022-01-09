@@ -52,7 +52,7 @@ namespace Yuyuyui.PrivateServer
                         has_complete_mission = true, // update automatically?
                         has_complete_daily_mission = true, // update automatically?
                         has_present = player.receivedGifts.Count > 0,
-                        has_fellow_request = true, // update automatically?
+                        has_fellow_request = player.friendRequests.Count > 0,
                         has_complete_club_working = true, // update automatically?
                         end_at_exchange = Utils.CurrentUnixTime() + 120, // ?
                         has_exchangeable_bingo = true, // update automatically?
