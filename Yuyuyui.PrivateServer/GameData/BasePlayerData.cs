@@ -3,13 +3,33 @@ using YamlDotNet.Serialization;
 
 namespace Yuyuyui.PrivateServer
 {
-    public abstract class BasePlayerData<TSelf, TIdentifier> 
+    public abstract class BasePlayerData<TSelf, TIdentifier>
         where TSelf : BasePlayerData<TSelf, TIdentifier>
         where TIdentifier : notnull
     {
         protected abstract TIdentifier Identifier { get; }
 
         private static readonly Dictionary<TIdentifier, TSelf> Cache = new();
+
+        private static readonly Dictionary<TIdentifier, object> locks = new();
+
+        private static object GetLockObj(TIdentifier identifier)
+        {
+            lock (locks)
+            {
+                if (locks.ContainsKey(identifier))
+                    return locks[identifier];
+
+                object lockObj = new object();
+                locks.Add(identifier, lockObj);
+                return lockObj;
+            }
+        }
+
+        private object GetLockObj()
+        {
+            return GetLockObj(Identifier);
+        }
 
         private static string GetFileName(TIdentifier identifier)
         {
@@ -18,48 +38,62 @@ namespace Yuyuyui.PrivateServer
 
         public void DeleteFile()
         {
-            File.Delete(GetFileName(Identifier));
-            Cache.Remove(Identifier);
+            lock (GetLockObj())
+                File.Delete(GetFileName(Identifier));
+            lock (Cache)
+                Cache.Remove(Identifier);
         }
 
         public void Save()
         {
-            string file = GetFileName(Identifier);
-            //File.WriteAllText(file, JsonConvert.SerializeObject(this, Formatting.Indented));
-            var serializer = new Serializer();
-            File.WriteAllText(file, serializer.Serialize(this));
-            
-            // Update cache
-            if (!Cache.ContainsKey(Identifier))
+            lock (GetLockObj())
             {
-                Cache.Add(Identifier, (TSelf) this);
+                string file = GetFileName(Identifier);
+                //File.WriteAllText(file, JsonConvert.SerializeObject(this, Formatting.Indented));
+                var serializer = new Serializer();
+                File.WriteAllText(file, serializer.Serialize(this));
+
+                // Update cache
+                if (!Cache.ContainsKey(Identifier))
+                {
+                    Cache.Add(Identifier, (TSelf)this);
+                }
             }
         }
 
         public static TSelf Load(TIdentifier identifier)
         {
-            // Get directly from cache if possible
-            if (Cache.ContainsKey(identifier))
+            lock (Cache)
             {
-                return Cache[identifier];
+                // Get directly from cache if possible
+                if (Cache.ContainsKey(identifier))
+                {
+                    return Cache[identifier];
+                }
             }
-            
-            string file = GetFileName(identifier);
-            string content = File.ReadAllText(file, Encoding.UTF8);
-            //return JsonConvert.DeserializeObject<T>(content)!;
-            var deserializer = new Deserializer();
-            TSelf result = deserializer.Deserialize<TSelf>(content);
 
-            // Add to cache
-            Cache.Add(identifier, result);
+            lock (GetLockObj(identifier))
+            {
+                string file = GetFileName(identifier);
+                string content = File.ReadAllText(file, Encoding.UTF8);
+                //return JsonConvert.DeserializeObject<T>(content)!;
+                var deserializer = new Deserializer();
+                TSelf result = deserializer.Deserialize<TSelf>(content);
 
-            return result;
+                // Add to cache
+                lock (Cache)
+                    Cache.Add(identifier, result);
+
+                return result;
+            }
         }
 
         public static void Delete(TIdentifier identifier)
         {
-            Cache.Remove(identifier);
-            File.Delete(GetFileName(identifier));
+            lock (Cache)
+                Cache.Remove(identifier);
+            lock (GetLockObj(identifier))
+                File.Delete(GetFileName(identifier));
         }
 
         public void Delete()
@@ -69,7 +103,8 @@ namespace Yuyuyui.PrivateServer
 
         public static bool Exists(TIdentifier identifier)
         {
-            return File.Exists(GetFileName(identifier));
+            lock (GetLockObj(identifier))
+                return File.Exists(GetFileName(identifier));
         }
 
         private static string EnsurePlayerDataFolder(string subFolder)

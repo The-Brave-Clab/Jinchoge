@@ -10,11 +10,28 @@ namespace Yuyuyui.PrivateServer.CLI
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
+            object logLock = new();
             Utils.SetLogCallbacks(
-                o => { ColoredOutput.WriteLine(o, ConsoleColor.Green); },
-                Console.WriteLine,
-                o => { ColoredOutput.WriteLine(o, ConsoleColor.Yellow); },
-                o => { ColoredOutput.WriteLine(o, ConsoleColor.Red); }
+                o =>
+                {
+                    lock (logLock) 
+                        ColoredOutput.WriteLine(o, ConsoleColor.Green);
+                },
+                o =>
+                {
+                    lock (logLock) 
+                        Console.WriteLine(o);
+                },
+                o =>
+                {
+                    lock (logLock) 
+                        ColoredOutput.WriteLine(o, ConsoleColor.Yellow);
+                },
+                o =>
+                {
+                    lock (logLock) 
+                        ColoredOutput.WriteLine(o, ConsoleColor.Red);
+                }
             );
 
             var endpoint = Proxy.StartProxy();

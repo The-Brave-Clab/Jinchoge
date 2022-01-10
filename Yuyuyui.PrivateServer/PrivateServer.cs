@@ -37,6 +37,8 @@
 
         public const string OFFICIAL_API_SERVER = "app.yuyuyui.jp";
         public const string PRIVATE_API_SERVER = "private.yuyuyui.org";
+
+        private static object dataFileLock = new();
         
         public static readonly HttpClient HttpClient = new();
 
@@ -46,15 +48,26 @@
             playerCode = new Dictionary<string, PlayerProfile>();
             playerSessions = new Dictionary<string, PlayerSession>();
 
-            dataFolder = Utils.EnsureDirectory(DATA_FOLDER);
-            var playerDataFile = Path.Combine(dataFolder, PLAYER_DATA_FILE);
 
-            if (!File.Exists(playerDataFile))
+            lock (dataFileLock)
             {
-                File.AppendAllText(playerDataFile, null);
+                dataFolder = Utils.EnsureDirectory(DATA_FOLDER);
             }
 
-            var players = File.ReadLines(playerDataFile);
+            var playerDataFile = Path.Combine(dataFolder, PLAYER_DATA_FILE);
+
+            lock(dataFileLock)
+            {
+                if (!File.Exists(playerDataFile))
+                {
+                    File.AppendAllText(playerDataFile, null);
+                }
+            }
+
+            IEnumerable<string> players;
+            lock (dataFileLock)
+                players = File.ReadLines(playerDataFile);
+            
             foreach (var s in players)
             {
                 var split = s.Split(',');
@@ -86,7 +99,8 @@
             playerCode.Add(player.id.code, player);
 
             var playerDataFile = Path.Combine(dataFolder, PLAYER_DATA_FILE);
-            File.AppendAllText(playerDataFile, $"{player.id.uuid},{player.id.code}\n");
+            lock (dataFileLock)
+                File.AppendAllText(playerDataFile, $"{player.id.uuid},{player.id.code}\n");
             player.Save();
 
             Utils.Log($"Registered new player {player.id.code}");
