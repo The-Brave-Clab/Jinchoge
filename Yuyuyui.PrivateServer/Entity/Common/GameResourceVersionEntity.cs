@@ -34,7 +34,7 @@ namespace Yuyuyui.PrivateServer
 
             requestMessage.Content = new ByteArrayContent(Array.Empty<byte>());
             //requestMessage.Headers.Accept.Add(gk_json);
-            requestMessage.Content.Headers.ContentType = gk_json;  // The official server requires this.
+            //requestMessage.Content.Headers.ContentType = gk_json;  // The official server requires this.
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", BASIC_AUTH_TOKEN);
             requestMessage.Headers.UserAgent.TryParseAdd(GetRequestHeaderValue("User-Agent"));
             requestMessage.Headers.Host = PrivateServer.PRIVATE_PUBLIC_API_SERVER;
