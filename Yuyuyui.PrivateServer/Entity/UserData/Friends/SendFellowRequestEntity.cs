@@ -22,6 +22,11 @@ namespace Yuyuyui.PrivateServer
             // Get the requested player
             // Respects the path parameter
             var friend = PlayerProfile.Load(friendCode);
+            
+            // We don't care about the request body anymore
+            // {
+            //     "user_id" = "1234567890"
+            // }
 
             FriendRequest friendRequest;
 
@@ -42,11 +47,6 @@ namespace Yuyuyui.PrivateServer
             }
             catch (InvalidOperationException)
             {
-                // We don't care about the request body anymore
-                // {
-                //     "user_id" = "1234567890"
-                // }
-
                 friendRequest = FriendRequest.CreateOrLoad(player, friend);
             }
 
