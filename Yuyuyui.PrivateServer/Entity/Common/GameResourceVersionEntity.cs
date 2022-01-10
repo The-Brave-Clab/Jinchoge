@@ -27,17 +27,17 @@ namespace Yuyuyui.PrivateServer
                 Utils.Log($"\t{pathParameter.Key} = {pathParameter.Value}");
             }
 
-            Utils.LogWarning("Redirected to the official API Server!");
+            Utils.Log("Redirected to the unofficial public API Server!");
 
             HttpRequestMessage requestMessage = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, 
-                new Uri($"https://{PrivateServer.OFFICIAL_API_SERVER}{RequestUri.AbsolutePath}"));
+                new Uri($"https://{PrivateServer.PRIVATE_PUBLIC_API_SERVER}/test{RequestUri.AbsolutePath}"));
 
             requestMessage.Content = new ByteArrayContent(Array.Empty<byte>());
             //requestMessage.Headers.Accept.Add(gk_json);
             requestMessage.Content.Headers.ContentType = gk_json;  // The official server requires this.
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", BASIC_AUTH_TOKEN);
             requestMessage.Headers.UserAgent.TryParseAdd(GetRequestHeaderValue("User-Agent"));
-            requestMessage.Headers.Host = PrivateServer.OFFICIAL_API_SERVER;
+            requestMessage.Headers.Host = PrivateServer.PRIVATE_PUBLIC_API_SERVER;
             requestMessage.Headers.Connection.Add("Keep-Alive");
             requestMessage.Headers.AcceptEncoding.TryParseAdd("gzip");
 
@@ -51,12 +51,15 @@ namespace Yuyuyui.PrivateServer
             HttpResponseMessage response = await PrivateServer.HttpClient.SendAsync(requestMessage);
             byte[] responseBytes = await response.Content.ReadAsByteArrayAsync();
             
-            // the response is in default key, we need to decrypt it
-            responseBody = await LibgkLambda.InvokeLambda(
-                LibgkLambda.CryptType.API,
-                LibgkLambda.CryptDirection.Decrypt,
-                responseBytes);
+            // // the response from official server is in default key, we need to decrypt it
+            // responseBody = await LibgkLambda.InvokeLambda(
+            //     LibgkLambda.CryptType.API,
+            //     LibgkLambda.CryptDirection.Decrypt,
+            //     responseBytes);
 
+            // the response from unofficial server is not encrypted
+            responseBody = responseBytes;
+            
             SetBasicResponseHeaders();
         }
     }

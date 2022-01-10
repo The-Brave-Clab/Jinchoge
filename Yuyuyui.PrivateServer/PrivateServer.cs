@@ -36,7 +36,8 @@
         public const string PLAYER_DATA_FILE = "players.dat";
 
         public const string OFFICIAL_API_SERVER = "app.yuyuyui.jp";
-        public const string PRIVATE_API_SERVER = "private.yuyuyui.org";
+        public const string PRIVATE_LOCAL_API_SERVER = "private.yuyuyui.org";
+        public const string PRIVATE_PUBLIC_API_SERVER = "936fkiz1v2.execute-api.ap-northeast-1.amazonaws.com";
 
         private static object dataFileLock = new();
         

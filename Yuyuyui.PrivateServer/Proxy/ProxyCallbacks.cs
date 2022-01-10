@@ -44,7 +44,7 @@ namespace Yuyuyui.PrivateServer
             if (EchoService(e)) return;
 
             if (!e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.OFFICIAL_API_SERVER) &&
-                !e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.PRIVATE_API_SERVER))
+                !e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.PRIVATE_LOCAL_API_SERVER))
                 return;
             
             EntityBase entity = await EntityBase.FromRequestEvent(e);
@@ -102,7 +102,7 @@ namespace Yuyuyui.PrivateServer
         public static async Task OnResponse(object sender, SessionEventArgs e)
         {
             if (!e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.OFFICIAL_API_SERVER) &&
-                !e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.PRIVATE_API_SERVER))
+                !e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.PRIVATE_LOCAL_API_SERVER))
                 return;
 
             //RequestUserData userData = (RequestUserData)e.UserData!;
@@ -167,7 +167,7 @@ namespace Yuyuyui.PrivateServer
             }
 
             e.DecryptSsl = e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.OFFICIAL_API_SERVER)
-                || e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.PRIVATE_API_SERVER);
+                || e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.PRIVATE_LOCAL_API_SERVER);
 
             return Task.CompletedTask;
         }
