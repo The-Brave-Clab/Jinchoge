@@ -25,7 +25,7 @@ public class ScenarioResourceVersionEntity : GameResourceVersionEntity
 
         string languageOption = "";
         var player = GetPlayerFromCookies();
-        if (player.friends.Contains("0000000101"))
+        if (player.friends.Contains(ConfigPlayer.All[ConfigPlayer.Language][ConfigPlayer.English].id.code))
         {
             Utils.Log("Player language is English");
             languageOption = "/en";

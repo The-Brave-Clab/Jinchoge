@@ -22,7 +22,7 @@ namespace Yuyuyui.PrivateServer
             // Get the requested player
             // Respects the path parameter
             var friend = PlayerProfile.Load(friendCode);
-            
+
             // We don't care about the request body anymore
             // {
             //     "user_id" = "1234567890"
@@ -30,33 +30,31 @@ namespace Yuyuyui.PrivateServer
 
             FriendRequest friendRequest;
 
-            if (friend.id.code == "0000000101") // config player
+            // The game client checks if the friend has already been added
+            // so we don't check it here.
+
+            // However, we check if the same request have sent from the other player
+            // if so, we should automatically make it accepted
+            try
             {
-                Utils.LogWarning($"Player sent friend request to a config player <{friend.profile.comment}>");
-                friendRequest = FriendRequest.CreateOrLoad(player, friend);
+                friendRequest =
+                    player.friendRequests
+                        .Select(FriendRequest.Load)
+                        .First(fr => fr.fromUser == friend.id.code);
+                Utils.Log(
+                    $"Found symmetric friend request {friendRequest.id} ({friendRequest.fromUser}=>{friendRequest.toUser})!");
                 friendRequest.status = 1; // Accept
                 friendRequest.ProcessStatus();
             }
-            else
+            catch (InvalidOperationException)
             {
-                // The game client checks if the friend has already been added
-                // so we don't check it here.
+                friendRequest = FriendRequest.CreateOrLoad(player, friend);
 
-                // However, we check if the same request have sent from the other player
-                // if so, we should automatically make it accepted
-                try
+                if (friend.IsConfigPlayer())
                 {
-                    friendRequest =
-                        player.friendRequests
-                            .Select(FriendRequest.Load)
-                            .First(fr => fr.fromUser == friend.id.code);
-                    Utils.Log($"Found symmetric friend request {friendRequest.id} ({friendRequest.fromUser}=>{friendRequest.toUser})!");
+                    Utils.Log($"Player sent friend request to a config player <{friend.profile.comment}>");
                     friendRequest.status = 1; // Accept
                     friendRequest.ProcessStatus();
-                }
-                catch (InvalidOperationException)
-                {
-                    friendRequest = FriendRequest.CreateOrLoad(player, friend);
                 }
             }
 
