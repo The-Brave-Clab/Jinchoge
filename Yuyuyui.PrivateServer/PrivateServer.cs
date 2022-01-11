@@ -78,6 +78,42 @@
                 playerUUID.Add(player.id.uuid, player);
                 playerCode.Add(player.id.code, player);
             }
+            // Create dummy data
+            if (!Card.Exists(1)) // a dummy card
+            {
+                Card dummyCard = Card.DefaultYuuna();
+                dummyCard.id = 1;
+                dummyCard.Save();
+            }
+
+            if (!Unit.Exists(1)) // a dummy unit
+            {
+                Unit dummyUnit = Card.Load(1).CreateUnit();
+                dummyUnit.id = 1;
+                dummyUnit.Save();
+            }
+            
+            // Create config users
+            if (!PlayerProfile.Exists("0000000101")) // English Language
+            {
+                PlayerProfile engPlayer = new PlayerProfile()
+                {
+                    id = new()
+                    {
+                        code = "0000000101",
+                        uuid = "0000000000000000000000000000000000000000000000000000000000000101"
+                    },
+                    profile = new()
+                    {
+                        nickname = "EN",
+                        comment = "English Language"
+                    }
+                };
+                
+                engPlayer.Save();
+                
+                Utils.Log("Created English config player");
+            }
         }
 
         private static PlayerProfile RegisterNewPlayer(string uuid)

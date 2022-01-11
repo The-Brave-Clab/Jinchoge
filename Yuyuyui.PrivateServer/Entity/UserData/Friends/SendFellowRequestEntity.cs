@@ -30,24 +30,34 @@ namespace Yuyuyui.PrivateServer
 
             FriendRequest friendRequest;
 
-            // The game client checks if the friend has already been added
-            // so we don't check it here.
-
-            // However, we check if the same request have sent from the other player
-            // if so, we should automatically make it accepted
-            try
+            if (friend.id.code == "0000000101") // config player
             {
-                friendRequest =
-                    player.friendRequests
-                        .Select(FriendRequest.Load)
-                        .First(fr => fr.fromUser == friend.id.code);
-                Utils.Log($"Found symmetric friend request {friendRequest.id} ({friendRequest.fromUser}=>{friendRequest.toUser})!");
+                Utils.LogWarning($"Player sent friend request to a config player <{friend.profile.comment}>");
+                friendRequest = FriendRequest.CreateOrLoad(player, friend);
                 friendRequest.status = 1; // Accept
                 friendRequest.ProcessStatus();
             }
-            catch (InvalidOperationException)
+            else
             {
-                friendRequest = FriendRequest.CreateOrLoad(player, friend);
+                // The game client checks if the friend has already been added
+                // so we don't check it here.
+
+                // However, we check if the same request have sent from the other player
+                // if so, we should automatically make it accepted
+                try
+                {
+                    friendRequest =
+                        player.friendRequests
+                            .Select(FriendRequest.Load)
+                            .First(fr => fr.fromUser == friend.id.code);
+                    Utils.Log($"Found symmetric friend request {friendRequest.id} ({friendRequest.fromUser}=>{friendRequest.toUser})!");
+                    friendRequest.status = 1; // Accept
+                    friendRequest.ProcessStatus();
+                }
+                catch (InvalidOperationException)
+                {
+                    friendRequest = FriendRequest.CreateOrLoad(player, friend);
+                }
             }
 
             Response responseObj = new()

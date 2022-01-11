@@ -18,7 +18,7 @@
 
         private static readonly Random random = new();
 
-        private static string RandomStrFromChar(string chars, int length)
+        public static string RandomStrFromChar(string chars, int length)
         {
             return new string(Enumerable.Repeat((byte) 0, length)
                 .Select(_ => chars[random.Next(chars.Length)]).ToArray());

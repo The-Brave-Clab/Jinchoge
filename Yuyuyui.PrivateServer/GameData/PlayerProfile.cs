@@ -33,6 +33,8 @@
         public IList<long> acceptedGifts { get; set; } = new List<long>();
 
         protected override string Identifier => id.code;
+        
+        
 
         public class ID
         {

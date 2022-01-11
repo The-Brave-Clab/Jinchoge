@@ -48,8 +48,11 @@
             Utils.Log($"Created friend request {request.id} ({from.id.code}=>{to.id.code})");
 
             // and save into the requested user's profile
-            to.friendRequests.Add(request.id);
-            to.Save();
+            if (!to.id.code.StartsWith("0"))
+            {
+                to.friendRequests.Add(request.id);
+                to.Save();
+            }
             Utils.Log($"Friend request {request.id} sent to player {to.id.code}");
 
             return request;
@@ -83,10 +86,13 @@
                 PlayerProfile to = PlayerProfile.Load(toUser);
                 
                 from.friends.Add(to.id.code);
-                to.friends.Add(from.id.code);
-                
                 from.Save();
-                to.Save();
+                
+                if (!to.id.code.StartsWith("0"))
+                {
+                    to.friends.Add(from.id.code);
+                    to.Save();
+                }
                 
                 Utils.Log($"Player {from.id.code} and {to.id.code} are friends now!");
             }

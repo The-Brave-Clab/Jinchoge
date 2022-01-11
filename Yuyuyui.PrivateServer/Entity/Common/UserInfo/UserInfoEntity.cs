@@ -15,6 +15,7 @@
         protected override Task ProcessRequest()
         {
             var userCode = GetPathParameter("user_id");
+
             if (!PlayerProfile.Exists(userCode))
             {
                 throw new APIErrorException("A0201", $"Player {userCode} not found!");
@@ -49,6 +50,9 @@
 
                 public static implicit operator User(PlayerProfile player)
                 {
+                    Unit leaderUnit = player.id.code.StartsWith("0") ? 
+                        Unit.Load(1) : 
+                        Unit.Load(Deck.Load(player.decks[0]).leaderUnitID);
                     return new()
                     {
                         id = player.id.code,
@@ -58,7 +62,7 @@
                         accessed_at = player.data.lastActive,
                         fellowship_count = player.friends.Count,
                         title_item_id = player.data.titleItemID,
-                        leader_card = Unit.Load(Deck.Load(player.decks[0]).leaderUnitID)!
+                        leader_card = leaderUnit!
                     };
                 }
             }
