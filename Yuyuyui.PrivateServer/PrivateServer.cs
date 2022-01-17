@@ -32,8 +32,11 @@
         private static Dictionary<string, PlayerProfile> playerCode;
         private static Dictionary<string, PlayerSession> playerSessions;
 
-        public const string DATA_FOLDER = "Data";
+        public const string PLAYER_DATA_FOLDER = "PlayerData";
         public const string PLAYER_DATA_FILE = "players.dat";
+
+        public const string LOCAL_DATA_FOLDER = "Resources";
+        public const string LOCAL_DATA_VERSION_FILE = "master_data.version.json";
 
         public const string OFFICIAL_API_SERVER = "app.yuyuyui.jp";
         public const string PRIVATE_LOCAL_API_SERVER = "private.yuyuyui.org";
@@ -52,7 +55,7 @@
 
             lock (dataFileLock)
             {
-                dataFolder = Utils.EnsureDirectory(DATA_FOLDER);
+                dataFolder = Utils.EnsureDirectory(PLAYER_DATA_FOLDER);
             }
 
             var playerDataFile = Path.Combine(dataFolder, PLAYER_DATA_FILE);

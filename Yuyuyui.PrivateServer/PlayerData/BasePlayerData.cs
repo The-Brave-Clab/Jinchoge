@@ -109,7 +109,7 @@ namespace Yuyuyui.PrivateServer
 
         private static string EnsurePlayerDataFolder(string subFolder)
         {
-            string dir = Path.Combine(PrivateServer.DATA_FOLDER, subFolder);
+            string dir = Path.Combine(PrivateServer.PLAYER_DATA_FOLDER, subFolder);
             return Utils.EnsureDirectory(dir);
         }
     }
