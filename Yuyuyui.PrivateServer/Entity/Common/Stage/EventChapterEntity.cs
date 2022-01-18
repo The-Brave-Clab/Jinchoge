@@ -17,7 +17,7 @@ public class EventChapterEntity : ChapterEntity
         Utils.LogWarning("Stub API! Returns nothing for now.");
         return new()
         {
-            chapters = new Dictionary<int, Chapter>()
+            chapters = new Dictionary<long, Chapter>()
         };
     }
 }

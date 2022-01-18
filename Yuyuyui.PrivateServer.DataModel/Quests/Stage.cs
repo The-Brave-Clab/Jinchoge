@@ -18,7 +18,7 @@ namespace Yuyuyui.PrivateServer.DataModel
         public long Money { get; set; }
         public int FriendPoint { get; set; } // All 50
         public int GuestFriendPoint { get; set; } // All 20
-        public int ExchangePointRate { get; set; }
+        public float ExchangePointRate { get; set; }
         public string? ScoreReward1ContentType { get; set; } = null;
         public long? ScoreReward1ItemCategoryId { get; set; } = null;
         public long? ScoreReward1ContentId { get; set; } = null;

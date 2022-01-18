@@ -603,18 +603,18 @@ namespace Yuyuyui.PrivateServer
             //	typeof(DeckUpdateEntity),
             //	new Config("/my/decks", string.Empty, 0)
             //},
-            //{
-            //	typeof(QuestTransactionCreateEntity),
-            //	new Config("/stages/{0}/transactions", string.Empty, 0)
-            //},
-            //{
-            //	typeof(QuestTransactionUpdateEntity),
-            //	new Config("/stages/{0}/transactions/{1}", string.Empty, 0)
-            //},
-            //{
-            //	typeof(QuestTransactionResultEntity),
-            //	new Config("/stages/{0}/transactions/{1}/result", string.Empty, 0)
-            //},
+            {
+            	typeof(QuestTransactionCreateEntity),
+            	new Config("/stages/{stage_id}/transactions", "POST")
+            },
+            {
+            	typeof(QuestTransactionUpdateEntity),
+            	new Config("/stages/{stage_id}/transactions/{transaction_id}", "PUT")
+            },
+            {
+            	typeof(QuestTransactionResultEntity),
+            	new Config("/stages/{stage_id}/transactions/{transaction_id}/result", "PUT")
+            },
             //{
             //	typeof(QuestTransactionRetireEntity),
             //	new Config("/stages/{0}/transactions/{1}/retire", string.Empty, 0)
@@ -661,7 +661,7 @@ namespace Yuyuyui.PrivateServer
             },
             {
                 typeof(ScenarioResourceVersionEntity),
-                new Config("/resource_versions/scenario/{scenarioID}", "GET")
+                new Config("/resource_versions/scenario/{scenario_id}", "GET")
             },
             //{
             //	typeof(MasterDataListEntity),

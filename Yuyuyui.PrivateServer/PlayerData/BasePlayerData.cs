@@ -36,14 +36,6 @@ namespace Yuyuyui.PrivateServer
             return Path.Combine(EnsurePlayerDataFolder(typeof(TSelf).Name), $"{identifier}.yaml");
         }
 
-        public void DeleteFile()
-        {
-            lock (GetLockObj())
-                File.Delete(GetFileName(Identifier));
-            lock (Cache)
-                Cache.Remove(Identifier);
-        }
-
         public void Save()
         {
             lock (GetLockObj())

@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using Yuyuyui.PrivateServer.DataModel;
+
+namespace Yuyuyui.PrivateServer
 {
     public class EpisodeEntity : BaseEntity<EpisodeEntity>
     {
@@ -22,22 +24,17 @@
                 Utils.Log($"\t{pathParameter.Key} = {pathParameter.Value}");
             }
 
-            Utils.LogWarning("Stub API, only returns the one that is required by tutorial for now");
+            long chapterId = long.Parse(GetPathParameter("chapter_id"));
 
+            Utils.LogWarning("Finished status not filled!");
+
+            using var questsDb = new QuestsContext();
             Response responseObj = new()
             {
-                episodes = new Dictionary<int, Response.Episode>
-                {
-                    {
-                        1001, new()
-                        {
-                            id = 1001,
-                            master_id = 1001,
-                            finish = false,
-                            detail_url = "https://article.yuyuyui.jp/article/episodes/1001"
-                        }
-                    }
-                }
+                episodes = questsDb.Episodes
+                    .Where(e => e.ChapterId == chapterId)
+                    .Select(e => Response.Episode.GetFromDatabase(e, player))
+                    .ToDictionary(e => e.id, e => e)
             };
 
             responseBody = Serialize(responseObj);
@@ -48,14 +45,26 @@
 
         public class Response
         {
-            public IDictionary<int, Episode> episodes { get; set; } = new Dictionary<int, Episode>();
+            public IDictionary<long, Episode> episodes { get; set; } = new Dictionary<long, Episode>();
 
             public class Episode
             {
-                public long id { get; set; }
+                public long id { get; set; } // When dealing with transaction, this should be the id of the player progress
                 public long master_id { get; set; } // Don't know the difference
                 public bool finish { get; set; }
                 public string detail_url { get; set; } = "";
+
+                public static Episode GetFromDatabase(Yuyuyui.PrivateServer.DataModel.Episode dbEpisode,
+                    PlayerProfile player)
+                {
+                    return new()
+                    {
+                        id = dbEpisode.Id,
+                        master_id = dbEpisode.Id,
+                        finish = true,
+                        detail_url = $"https://article.yuyuyui.jp/article/episodes/{dbEpisode.Id}"
+                    };
+                }
             }
         }
     }

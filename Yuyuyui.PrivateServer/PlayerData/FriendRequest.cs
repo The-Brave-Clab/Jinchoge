@@ -64,7 +64,7 @@
             Utils.Log($"Friend request {id} removed from player {toPlayer.id.code}");
             
             // delete the file
-            DeleteFile();
+            Delete();
             Utils.Log($"Friend request {id} ({fromUser}=>{toUser}) deleted!");
         }
 
