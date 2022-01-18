@@ -14,7 +14,7 @@ namespace Yuyuyui.PrivateServer
 
         public static ExplicitProxyEndPoint StartProxy(int port = DEFAULT_PORT)
         {
-            proxyServer = new ProxyServer();
+            proxyServer = new ProxyServer(false, false, false);
             proxyServer.EnableHttp2 = true;
 
             // locally trust root certificate used by this proxy 
