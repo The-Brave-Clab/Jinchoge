@@ -5,9 +5,9 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class LoginBonusSheetColumn
     {
-        public byte[]? Id { get; set; }
-        public byte[]? LoginBonusSheetId { get; set; }
-        public byte[]? Progress { get; set; }
-        public byte[]? GiftId { get; set; }
+        public long Id { get; set; }
+        public long LoginBonusSheetId { get; set; }
+        public int Progress { get; set; }
+        public long GiftId { get; set; }
     }
 }

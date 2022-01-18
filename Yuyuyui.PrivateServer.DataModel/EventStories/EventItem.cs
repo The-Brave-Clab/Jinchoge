@@ -5,12 +5,12 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class EventItem
     {
-        public byte[]? Id { get; set; }
-        public byte[]? SpecialChapterId { get; set; }
-        public byte[]? ExchangeBoothId { get; set; }
-        public byte[]? ContentId { get; set; }
-        public byte[]? Name { get; set; }
-        public byte[]? Rarity { get; set; }
-        public byte[]? ImageId { get; set; }
+        public long Id { get; set; }
+        public long SpecialChapterId { get; set; }
+        public long ExchangeBoothId { get; set; }
+        public long ContentId { get; set; }
+        public string Name { get; set; }
+        public int Rarity { get; set; }
+        public long ImageId { get; set; }
     }
 }

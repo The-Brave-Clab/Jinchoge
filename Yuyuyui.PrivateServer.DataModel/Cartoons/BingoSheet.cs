@@ -5,13 +5,13 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class BingoSheet
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Priority { get; set; }
-        public byte[]? CartoonChapterId { get; set; }
-        public byte[]? StartAt { get; set; }
-        public byte[]? EndAt { get; set; }
-        public byte[]? TestStartAt { get; set; }
-        public byte[]? TestEndAt { get; set; }
-        public byte[]? BingoRewardId { get; set; }
+        public long Id { get; set; }
+        public long Priority { get; set; }
+        public long CartoonChapterId { get; set; }
+        public string StartAt { get; set; }
+        public string EndAt { get; set; }
+        public string TestStartAt { get; set; }
+        public string TestEndAt { get; set; }
+        public long BingoRewardId { get; set; }
     }
 }

@@ -5,12 +5,12 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class BraveSystemComponent
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Kind { get; set; }
-        public byte[]? Name { get; set; }
-        public byte[]? Description { get; set; }
-        public byte[]? MaxLevel { get; set; }
-        public byte[]? SkillCategory { get; set; }
-        public byte[]? ImageId { get; set; }
+        public long Id { get; set; }
+        public int Kind { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int MaxLevel { get; set; }
+        public int SkillCategory { get; set; }
+        public long ImageId { get; set; }
     }
 }

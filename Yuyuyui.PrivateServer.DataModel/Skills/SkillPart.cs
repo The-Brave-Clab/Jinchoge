@@ -5,30 +5,30 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class SkillPart
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Name { get; set; }
-        public byte[]? PartType { get; set; }
-        public byte[]? Attribute { get; set; }
-        public byte[]? AddSpAttribute { get; set; }
-        public byte[]? AddSpValue { get; set; }
-        public byte[]? AttackType { get; set; }
-        public byte[]? CharacterType { get; set; }
-        public byte[]? RarityType { get; set; }
-        public byte[]? AreaType { get; set; }
-        public byte[]? TargetSide { get; set; }
-        public byte[]? BuffType { get; set; }
-        public byte[]? BuffStatus { get; set; }
-        public byte[]? ValueType { get; set; }
-        public byte[]? Value { get; set; }
-        public byte[]? HitMin { get; set; }
-        public byte[]? HitMax { get; set; }
-        public byte[]? Width { get; set; }
-        public byte[]? Height { get; set; }
-        public byte[]? Angle { get; set; }
-        public byte[]? MoveX { get; set; }
-        public byte[]? BgEffect { get; set; }
-        public byte[]? EffectTime { get; set; }
-        public byte[]? ZoonId { get; set; }
-        public byte[]? AreaId { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public int PartType { get; set; }
+        public int? Attribute { get; set; }
+        public int? AddSpAttribute { get; set; }
+        public float? AddSpValue { get; set; }
+        public int? AttackType { get; set; }
+        public int? CharacterType { get; set; }
+        public int? RarityType { get; set; }
+        public int? AreaType { get; set; }
+        public int? TargetSide { get; set; }
+        public int? BuffType { get; set; }
+        public int? BuffStatus { get; set; }
+        public int? ValueType { get; set; }
+        public float? Value { get; set; }
+        public int? HitMin { get; set; }
+        public int? HitMax { get; set; }
+        public float? Width { get; set; }
+        public float? Height { get; set; }
+        public float? Angle { get; set; }
+        public float? MoveX { get; set; }
+        public string? BgEffect { get; set; } // All null, data type unknown
+        public long? EffectTime { get; set; }
+        public long? ZoonId { get; set; }
+        public long? AreaId { get; set; }
     }
 }

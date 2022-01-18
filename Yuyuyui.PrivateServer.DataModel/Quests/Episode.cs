@@ -5,16 +5,16 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class Episode
     {
-        public byte[]? Id { get; set; }
-        public byte[]? ChapterId { get; set; }
-        public byte[]? Number { get; set; }
-        public byte[]? Name { get; set; }
-        public byte[]? BackgroundId { get; set; }
-        public byte[]? StartQuestId { get; set; }
-        public byte[]? StartStageId { get; set; }
-        public byte[]? GoogleplayAchievementId { get; set; }
-        public byte[]? EpisodeNaviId { get; set; }
-        public byte[]? NaviMessage { get; set; }
-        public byte[]? Element { get; set; }
+        public long Id { get; set; }
+        public long ChapterId { get; set; }
+        public int Number { get; set; }
+        public string Name { get; set; }
+        public long BackgroundId { get; set; }
+        public long StartQuestId { get; set; }
+        public long StartStageId { get; set; }
+        public string? GoogleplayAchievementId { get; set; }
+        public long EpisodeNaviId { get; set; } // Looks like character id, but what is 102?
+        public string? NaviMessage { get; set; } // All null
+        public int Element { get; set; }
     }
 }

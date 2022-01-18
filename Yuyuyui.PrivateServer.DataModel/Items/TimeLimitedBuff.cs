@@ -5,9 +5,9 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class TimeLimitedBuff
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Name { get; set; }
-        public byte[]? Kind { get; set; }
-        public byte[]? Rate { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public int Kind { get; set; }
+        public float Rate { get; set; }
     }
 }

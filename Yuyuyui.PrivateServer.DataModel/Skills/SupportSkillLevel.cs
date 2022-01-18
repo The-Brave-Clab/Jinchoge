@@ -5,9 +5,9 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class SupportSkillLevel
     {
-        public byte[]? Id { get; set; }
-        public byte[]? SupportSkillLevelCategory { get; set; }
-        public byte[]? Level { get; set; }
-        public byte[]? LevelUpParam { get; set; }
+        public long Id { get; set; }
+        public int SupportSkillLevelCategory { get; set; }
+        public int Level { get; set; }
+        public int? LevelUpParam { get; set; }
     }
 }

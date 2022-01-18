@@ -5,18 +5,18 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class Accessory
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Name { get; set; }
-        public byte[]? Rarity { get; set; }
-        public byte[]? Element { get; set; }
-        public byte[]? MaxLevel { get; set; }
-        public byte[]? MinCost { get; set; }
-        public byte[]? MaxCost { get; set; }
-        public byte[]? MinHitPoint { get; set; }
-        public byte[]? MaxHitPoint { get; set; }
-        public byte[]? MinAttack { get; set; }
-        public byte[]? MaxAttack { get; set; }
-        public byte[]? SkillId { get; set; }
-        public byte[]? UniqueId { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public int Rarity { get; set; }
+        public int Element { get; set; }
+        public int MaxLevel { get; set; }
+        public int MinCost { get; set; }
+        public int MaxCost { get; set; }
+        public int MinHitPoint { get; set; }
+        public int MaxHitPoint { get; set; }
+        public int MinAttack { get; set; }
+        public int MaxAttack { get; set; }
+        public long SkillId { get; set; }
+        public int UniqueId { get; set; }
     }
 }

@@ -5,8 +5,8 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class CartoonChapter
     {
-        public byte[]? Id { get; set; }
-        public byte[]? ChapterNum { get; set; }
-        public byte[]? Title { get; set; }
+        public long Id { get; set; }
+        public long ChapterNum { get; set; }
+        public string Title { get; set; }
     }
 }

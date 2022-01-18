@@ -22,7 +22,7 @@ namespace Yuyuyui.PrivateServer.DataModel
         public virtual DbSet<PassiveSkill> PassiveSkills { get; set; } = null!;
         public virtual DbSet<SkillPart> SkillParts { get; set; } = null!;
         public virtual DbSet<SupportSkillLevel> SupportSkillLevels { get; set; } = null!;
-        public virtual DbSet<ZoonSkill> ZoonSkills { get; set; } = null!;
+        public virtual DbSet<AreaSkill> ZoonSkills { get; set; } = null!;
 
         protected override string DatabaseFileName => "skills";
 
@@ -336,7 +336,7 @@ namespace Yuyuyui.PrivateServer.DataModel
                 entity.Property(e => e.SupportSkillLevelCategory).HasColumnName("support_skill_level_category");
             });
 
-            modelBuilder.Entity<ZoonSkill>(entity =>
+            modelBuilder.Entity<AreaSkill>(entity =>
             {
                 entity.HasNoKey();
 

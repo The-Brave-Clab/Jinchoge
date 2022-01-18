@@ -5,8 +5,8 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class InstantStaminaItem
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Name { get; set; }
-        public byte[]? Stamina { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public int Stamina { get; set; }
     }
 }

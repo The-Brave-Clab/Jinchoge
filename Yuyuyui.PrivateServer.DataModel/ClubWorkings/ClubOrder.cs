@@ -5,15 +5,15 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class ClubOrder
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Title { get; set; }
-        public byte[]? Description { get; set; }
-        public byte[]? Rarity { get; set; }
-        public byte[]? Duration { get; set; }
-        public byte[]? RewardBox1Id { get; set; }
-        public byte[]? RewardBox2Id { get; set; }
-        public byte[]? RewardBox3Id { get; set; }
-        public byte[]? FamiliarityExp { get; set; }
-        public byte[]? ExpiredAt { get; set; }
+        public long Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public int Rarity { get; set; }
+        public long Duration { get; set; }
+        public long RewardBox1Id { get; set; }
+        public long? RewardBox2Id { get; set; }
+        public long? RewardBox3Id { get; set; }
+        public int FamiliarityExp { get; set; }
+        public string? ExpiredAt { get; set; }
     }
 }

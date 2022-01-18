@@ -5,14 +5,14 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class Character
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Name { get; set; }
-        public byte[]? CvName { get; set; }
-        public byte[]? SelfVoiceId { get; set; }
-        public byte[]? AWordVoiceId { get; set; }
-        public byte[]? MorningVoiceId { get; set; }
-        public byte[]? DaytimeVoiceId { get; set; }
-        public byte[]? NightVoiceId { get; set; }
-        public byte[]? SleepVoiceId { get; set; }
+        public long Id { get; set; }
+        public string? Name { get; set; }
+        public string? CvName { get; set; }
+        public string? SelfVoiceId { get; set; }
+        public string? AWordVoiceId { get; set; }
+        public string? MorningVoiceId { get; set; }
+        public string? DaytimeVoiceId { get; set; }
+        public string? NightVoiceId { get; set; }
+        public string? SleepVoiceId { get; set; }
     }
 }

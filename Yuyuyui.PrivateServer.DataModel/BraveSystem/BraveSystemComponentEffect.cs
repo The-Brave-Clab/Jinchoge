@@ -5,9 +5,9 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class BraveSystemComponentEffect
     {
-        public byte[]? Id { get; set; }
-        public byte[]? BraveSystemComponentId { get; set; }
-        public byte[]? Level { get; set; }
-        public byte[]? Effect { get; set; }
+        public long Id { get; set; }
+        public long BraveSystemComponentId { get; set; }
+        public int Level { get; set; }
+        public int Effect { get; set; }
     }
 }

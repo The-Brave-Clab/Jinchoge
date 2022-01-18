@@ -5,10 +5,10 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class SpecialEpisodeCondition
     {
-        public byte[]? Id { get; set; }
-        public byte[]? SpecialEpisodeId { get; set; }
-        public byte[]? FinishSpecialEpisodeId { get; set; }
-        public byte[]? StartAt { get; set; }
-        public byte[]? EndAt { get; set; }
+        public long Id { get; set; }
+        public long SpecialEpisodeId { get; set; }
+        public long? FinishSpecialEpisodeId { get; set; }
+        public string? StartAt { get; set; }
+        public string? EndAt { get; set; }
     }
 }

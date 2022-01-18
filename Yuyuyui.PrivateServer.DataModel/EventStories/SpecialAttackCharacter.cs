@@ -5,16 +5,16 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class SpecialAttackCharacter
     {
-        public byte[]? Id { get; set; }
-        public byte[]? SpecialChapterId { get; set; }
-        public byte[]? CharacterId { get; set; }
-        public byte[]? ContentType { get; set; }
-        public byte[]? ContentId { get; set; }
-        public byte[]? EffectRate { get; set; }
-        public byte[]? Rarity { get; set; }
-        public byte[]? StartAt { get; set; }
-        public byte[]? EndAt { get; set; }
-        public byte[]? TestStartAt { get; set; }
-        public byte[]? TestEndAt { get; set; }
+        public long Id { get; set; }
+        public long SpecialChapterId { get; set; }
+        public long CharacterId { get; set; }
+        public string ContentType { get; set; }
+        public long ContentId { get; set; }
+        public int EffectRate { get; set; }
+        public int Rarity { get; set; }
+        public string StartAt { get; set; }
+        public string EndAt { get; set; }
+        public string TestStartAt { get; set; }
+        public string TestEndAt { get; set; }
     }
 }

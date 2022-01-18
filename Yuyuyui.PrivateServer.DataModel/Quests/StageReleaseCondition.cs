@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Yuyuyui.PrivateServer.DataModel
 {
-    public partial class StageReleaseCondition
+    public partial class StageReleaseCondition // Consider merge with SpecialStageCondition
     {
-        public byte[]? Id { get; set; }
-        public byte[]? StageId { get; set; }
-        public byte[]? FinishStageId { get; set; }
+        public long Id { get; set; }
+        public long StageId { get; set; }
+        public long? FinishStageId { get; set; }
     }
 }

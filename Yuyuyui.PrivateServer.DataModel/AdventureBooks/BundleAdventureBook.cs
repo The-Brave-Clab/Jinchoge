@@ -5,7 +5,7 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class BundleAdventureBook
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Name { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
     }
 }

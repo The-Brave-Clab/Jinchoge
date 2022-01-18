@@ -5,8 +5,8 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class SpecialStageCondition
     {
-        public byte[]? Id { get; set; }
-        public byte[]? SpecialStageId { get; set; }
-        public byte[]? FinishSpecialStageId { get; set; }
+        public long Id { get; set; }
+        public long SpecialStageId { get; set; }
+        public long? FinishSpecialStageId { get; set; }
     }
 }

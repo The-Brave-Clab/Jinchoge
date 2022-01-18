@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Yuyuyui.PrivateServer.DataModel
 {
-    public partial class StageBattle
+    public partial class StageBattle // Consider merge with SpecialStageBattle
     {
-        public byte[]? Id { get; set; }
-        public byte[]? StageId { get; set; }
-        public byte[]? ScoreSpeedExpeditionSecond { get; set; }
+        public long Id { get; set; }
+        public long StageId { get; set; }
+        public int ScoreSpeedExpeditionSecond { get; set; }
     }
 }

@@ -5,16 +5,16 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class SpecialEpisode
     {
-        public byte[]? Id { get; set; }
-        public byte[]? SpecialChapterId { get; set; }
-        public byte[]? Number { get; set; }
-        public byte[]? Name { get; set; }
-        public byte[]? MapMoveCharacterId { get; set; }
-        public byte[]? BackgroundId { get; set; }
-        public byte[]? StartQuestId { get; set; }
-        public byte[]? StartSpecialStageId { get; set; }
-        public byte[]? EpisodeNaviId { get; set; }
-        public byte[]? NaviMessage { get; set; }
-        public byte[]? Element { get; set; }
+        public long Id { get; set; }
+        public long SpecialChapterId { get; set; }
+        public int Number { get; set; }
+        public string? Name { get; set; }
+        public long MapMoveCharacterId { get; set; }
+        public long BackgroundId { get; set; }
+        public long StartQuestId { get; set; }
+        public long StartSpecialStageId { get; set; }
+        public long? EpisodeNaviId { get; set; }
+        public string? NaviMessage { get; set; } // All null
+        public int? Element { get; set; }
     }
 }

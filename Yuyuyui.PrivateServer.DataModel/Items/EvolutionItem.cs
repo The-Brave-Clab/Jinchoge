@@ -5,13 +5,13 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class EvolutionItem
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Name { get; set; }
-        public byte[]? Description { get; set; }
-        public byte[]? TypeName { get; set; }
-        public byte[]? Category { get; set; }
-        public byte[]? Size { get; set; }
-        public byte[]? ImageId { get; set; }
-        public byte[]? QuantityLimit { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string? TypeName { get; set; }
+        public string? Category { get; set; }
+        public string Size { get; set; } // 大中小
+        public long ImageId { get; set; }
+        public long QuantityLimit { get; set; }
     }
 }

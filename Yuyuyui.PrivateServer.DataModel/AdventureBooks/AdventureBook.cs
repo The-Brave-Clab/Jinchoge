@@ -5,23 +5,23 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class AdventureBook
     {
-        public byte[]? Id { get; set; }
-        public byte[]? FileId { get; set; }
-        public byte[]? Category { get; set; }
-        public byte[]? CategoryId { get; set; }
-        public byte[]? SubCategory { get; set; }
-        public byte[]? SubCategoryId { get; set; }
-        public byte[]? Episode { get; set; }
-        public byte[]? EpisodeId { get; set; }
-        public byte[]? Name { get; set; }
-        public byte[]? ChapterName { get; set; }
-        public byte[]? DisplayName { get; set; }
-        public byte[]? Label { get; set; }
-        public byte[]? AdventureBookTicketId { get; set; }
-        public byte[]? AdventureBookTicketQuantity { get; set; }
-        public byte[]? TicketUsableStartAt { get; set; }
-        public byte[]? TicketUsableEndAt { get; set; }
-        public byte[]? TestTicketUsableStartAt { get; set; }
-        public byte[]? TestTicketUsableEndAt { get; set; }
+        public long Id { get; set; }
+        public string FileId { get; set; }
+        public string Category { get; set; }
+        public long CategoryId { get; set; }
+        public string SubCategory { get; set; }
+        public long SubCategoryId { get; set; }
+        public string? Episode { get; set; }
+        public long EpisodeId { get; set; }
+        public string Name { get; set; }
+        public string? ChapterName { get; set; }
+        public string DisplayName { get; set; }
+        public string? Label { get; set; }
+        public long? AdventureBookTicketId { get; set; }
+        public int? AdventureBookTicketQuantity { get; set; }
+        public string? TicketUsableStartAt { get; set; } // "YYYY/M/D HH:MM:SS" (UTC) Consider Deserialize
+        public string? TicketUsableEndAt { get; set; }
+        public string? TestTicketUsableStartAt { get; set; }
+        public string? TestTicketUsableEndAt { get; set; }
     }
 }

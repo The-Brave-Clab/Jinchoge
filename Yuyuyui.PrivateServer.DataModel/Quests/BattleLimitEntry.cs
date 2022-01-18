@@ -5,7 +5,7 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class BattleLimitEntry
     {
-        public byte[]? Id { get; set; }
-        public byte[]? EnableId { get; set; }
+        public long Id { get; set; }
+        public string EnableId { get; set; } // "<long>,<long>,<long>" or "<long>...", character ids maybe?
     }
 }

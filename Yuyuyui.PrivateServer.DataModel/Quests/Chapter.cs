@@ -5,17 +5,17 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class Chapter
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Name { get; set; }
-        public byte[]? ShortName { get; set; }
-        public byte[]? ImageId { get; set; }
-        public byte[]? BannerId { get; set; }
-        public byte[]? IsEvent { get; set; }
-        public byte[]? EventType { get; set; }
-        public byte[]? EventUrl { get; set; }
-        public byte[]? EpisodeNaviId { get; set; }
-        public byte[]? EpisodeDialogId { get; set; }
-        public byte[]? SpecialEvent { get; set; }
-        public byte[]? SpecialAttackLimit { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public string ShortName { get; set; }
+        public long ImageId { get; set; }
+        public long? BannerId { get; set; } // All null
+        public string IsEvent { get; set; } // boolean, All FALSE
+        public int? EventType { get; set; } // All null
+        public string? EventUrl { get; set; } // All null
+        public string EpisodeNaviId { get; set; } // <long>,<long>,<long>, character ids
+        public string EpisodeDialogId { get; set; } // "titleCallAll" and "titleCall"
+        public string? SpecialEvent { get; set; } // All null, data type unknown (maybe int)
+        public int? SpecialAttackLimit { get; set; } // All null
     }
 }

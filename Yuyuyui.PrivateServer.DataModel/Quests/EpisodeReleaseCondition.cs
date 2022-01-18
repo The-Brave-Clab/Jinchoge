@@ -5,8 +5,8 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class EpisodeReleaseCondition
     {
-        public byte[]? Id { get; set; }
-        public byte[]? EpisodeId { get; set; }
-        public byte[]? FinishEpisodeId { get; set; }
+        public long Id { get; set; }
+        public long EpisodeId { get; set; }
+        public long? FinishEpisodeId { get; set; }
     }
 }

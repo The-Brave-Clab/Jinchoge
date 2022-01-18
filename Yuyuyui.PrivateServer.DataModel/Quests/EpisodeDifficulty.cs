@@ -5,20 +5,20 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class EpisodeDifficulty
     {
-        public byte[]? Id { get; set; }
-        public byte[]? EpisodeId { get; set; }
-        public byte[]? Difficulty { get; set; }
-        public byte[]? ScoreCompletedReward1ContentType { get; set; }
-        public byte[]? ScoreCompletedReward1ItemCategoryId { get; set; }
-        public byte[]? ScoreCompletedReward1ContentId { get; set; }
-        public byte[]? ScoreCompletedReward1Quantity { get; set; }
-        public byte[]? ScoreCompletedReward2ContentType { get; set; }
-        public byte[]? ScoreCompletedReward2ItemCategoryId { get; set; }
-        public byte[]? ScoreCompletedReward2ContentId { get; set; }
-        public byte[]? ScoreCompletedReward2Quantity { get; set; }
-        public byte[]? ScoreCompletedReward3ContentType { get; set; }
-        public byte[]? ScoreCompletedReward3ItemCategoryId { get; set; }
-        public byte[]? ScoreCompletedReward3ContentId { get; set; }
-        public byte[]? ScoreCompletedReward3Quantity { get; set; }
+        public long Id { get; set; }
+        public long EpisodeId { get; set; }
+        public int Difficulty { get; set; }
+        public string? ScoreCompletedReward1ContentType { get; set; }
+        public long? ScoreCompletedReward1ItemCategoryId { get; set; }
+        public long? ScoreCompletedReward1ContentId { get; set; }
+        public int? ScoreCompletedReward1Quantity { get; set; }
+        public string? ScoreCompletedReward2ContentType { get; set; }
+        public long? ScoreCompletedReward2ItemCategoryId { get; set; }
+        public long? ScoreCompletedReward2ContentId { get; set; }
+        public int? ScoreCompletedReward2Quantity { get; set; }
+        public string? ScoreCompletedReward3ContentType { get; set; }
+        public long? ScoreCompletedReward3ItemCategoryId { get; set; }
+        public long? ScoreCompletedReward3ContentId { get; set; }
+        public int? ScoreCompletedReward3Quantity { get; set; }
     }
 }

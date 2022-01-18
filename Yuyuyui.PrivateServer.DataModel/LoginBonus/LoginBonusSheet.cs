@@ -5,14 +5,14 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class LoginBonusSheet
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Kind { get; set; }
-        public byte[]? MaxProgress { get; set; }
-        public byte[]? StartAt { get; set; }
-        public byte[]? EndAt { get; set; }
-        public byte[]? TestStartAt { get; set; }
-        public byte[]? TestEndAt { get; set; }
-        public byte[]? NextSheetId { get; set; }
-        public byte[]? ComebackDate { get; set; }
+        public long Id { get; set; }
+        public int Kind { get; set; }
+        public int MaxProgress { get; set; }
+        public string StartAt { get; set; }
+        public string EndAt { get; set; }
+        public string TestStartAt { get; set; }
+        public string TestEndAt { get; set; }
+        public long? NextSheetId { get; set; }
+        public string? ComebackDate { get; set; } // Date in m/d/yy
     }
 }

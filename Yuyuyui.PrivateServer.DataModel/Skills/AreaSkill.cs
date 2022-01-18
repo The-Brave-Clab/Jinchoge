@@ -5,13 +5,13 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class AreaSkill
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Name { get; set; }
-        public byte[]? Detail { get; set; }
-        public byte[]? PrefabName { get; set; }
-        public byte[]? AreaType { get; set; }
-        public byte[]? Part { get; set; }
-        public byte[]? PartMin { get; set; }
-        public byte[]? PartMax { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public string Detail { get; set; }
+        public string? PrefabName { get; set; } // All null
+        public int AreaType { get; set; }
+        public long Part { get; set; }
+        public float? PartMin { get; set; }
+        public float? PartMax { get; set; }
     }
 }

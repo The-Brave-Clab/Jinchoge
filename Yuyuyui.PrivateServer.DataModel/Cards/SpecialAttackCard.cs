@@ -5,17 +5,17 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class SpecialAttackCard
     {
-        public byte[]? Id { get; set; }
-        public byte[]? SpecialChapterId { get; set; }
-        public byte[]? BaseCardId { get; set; }
-        public byte[]? ContentType { get; set; }
-        public byte[]? ContentId { get; set; }
-        public byte[]? EffectRate { get; set; }
-        public byte[]? PotentialEffectRate { get; set; }
-        public byte[]? PotentialLimit { get; set; }
-        public byte[]? StartAt { get; set; }
-        public byte[]? EndAt { get; set; }
-        public byte[]? TestStartAt { get; set; }
-        public byte[]? TestEndAt { get; set; }
+        public long Id { get; set; }
+        public long SpecialChapterId { get; set; }
+        public long BaseCardId { get; set; }
+        public string ContentType { get; set; }
+        public long ContentId { get; set; }
+        public int EffectRate { get; set; }
+        public int PotentialEffectRate { get; set; }
+        public int PotentialLimit { get; set; }
+        public string? StartAt { get; set; }
+        public string? EndAt { get; set; }
+        public string? TestStartAt { get; set; }
+        public string? TestEndAt { get; set; }
     }
 }

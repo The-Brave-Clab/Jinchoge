@@ -5,10 +5,10 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class ClubOrderRewardBox
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Title { get; set; }
-        public byte[]? ItemCategory { get; set; }
-        public byte[]? ItemMasterId { get; set; }
-        public byte[]? HasQuestion { get; set; }
+        public long Id { get; set; }
+        public string Title { get; set; }
+        public int ItemCategory { get; set; }
+        public long? ItemMasterId { get; set; }
+        public int HasQuestion { get; set; } // 01 boolean
     }
 }

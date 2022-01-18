@@ -5,11 +5,11 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class UserLevel
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Level { get; set; }
-        public byte[]? MaxStamina { get; set; }
-        public byte[]? MaxExp { get; set; }
-        public byte[]? MaxFellow { get; set; }
-        public byte[]? EnhancementItemCapacity { get; set; }
+        public long Id { get; set; }
+        public int Level { get; set; } // though the value is the same with id, we do int here for easier usage
+        public int MaxStamina { get; set; }
+        public long MaxExp { get; set; }
+        public int MaxFellow { get; set; }
+        public int EnhancementItemCapacity { get; set; }
     }
 }

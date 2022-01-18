@@ -5,10 +5,10 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class ActivityRequestSheet
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Title { get; set; }
-        public byte[]? Time { get; set; }
-        public byte[]? Description { get; set; }
-        public byte[]? ImageId { get; set; }
+        public long Id { get; set; }
+        public string Title { get; set; }
+        public long Time { get; set; }
+        public string? Description { get; set; } // ?
+        public long ImageId { get; set; }
     }
 }

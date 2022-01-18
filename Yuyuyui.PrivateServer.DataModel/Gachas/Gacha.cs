@@ -5,32 +5,32 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class Gacha
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Name { get; set; }
-        public byte[]? Description { get; set; }
-        public byte[]? Kind { get; set; }
-        public byte[]? StepupGroup { get; set; }
-        public byte[]? StepupOrder { get; set; }
-        public byte[]? StepupLoop { get; set; }
-        public byte[]? SpecialGet { get; set; }
-        public byte[]? SpecialGetCount { get; set; }
-        public byte[]? SpecialSaveRarity { get; set; }
-        public byte[]? SelectGacha { get; set; }
-        public byte[]? SelectCount { get; set; }
-        public byte[]? SpecialSelect { get; set; }
-        public byte[]? MinUserLevel { get; set; }
-        public byte[]? MaxUserLevel { get; set; }
-        public byte[]? CountDownGacha { get; set; }
-        public byte[]? NoTicketDisplay { get; set; }
-        public byte[]? NoDisplayEndAt { get; set; }
-        public byte[]? StartAt { get; set; }
-        public byte[]? EndAt { get; set; }
-        public byte[]? TestStartAt { get; set; }
-        public byte[]? TestEndAt { get; set; }
-        public byte[]? GachaTopicId { get; set; }
-        public byte[]? PickupType { get; set; }
-        public byte[]? PickupId { get; set; }
-        public byte[]? SkipType { get; set; }
-        public byte[]? PopupSeName { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int Kind { get; set; }
+        public long? StepupGroup { get; set; } // Is this id?
+        public int? StepupOrder { get; set; }
+        public int? StepupLoop { get; set; } // boolean, 1 for true, null for false
+        public int? SpecialGet { get; set; } // boolean, 1 for true, null for false
+        public int? SpecialGetCount { get; set; }
+        public int? SpecialSaveRarity { get; set; }
+        public int? SelectGacha { get; set; } // boolean, 1 for true, null for false
+        public int? SelectCount { get; set; }
+        public int? SpecialSelect { get; set; } // boolean, 1 for true, null for false
+        public int? MinUserLevel { get; set; }
+        public int? MaxUserLevel { get; set; }
+        public int? CountDownGacha { get; set; } // boolean, 1 for true, null for false
+        public int? NoTicketDisplay { get; set; } // boolean, 1 for true, null for false
+        public int? NoDisplayEndAt { get; set; } // boolean, 1 for true, null for false
+        public string StartAt { get; set; }
+        public string EndAt { get; set; }
+        public string TestStartAt { get; set; }
+        public string TestEndAt { get; set; }
+        public long? GachaTopicId { get; set; } // All null
+        public string? PickupType { get; set; } // "<string>;<string>;<string>;<string>...<string>"
+        public string? PickupId { get; set; } // "<long>;<long>;<long>...<long>"
+        public int? SkipType { get; set; } // 01 boolean
+        public string? PopupSeName { get; set; }
     }
 }

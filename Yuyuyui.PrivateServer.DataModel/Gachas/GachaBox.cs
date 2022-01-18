@@ -5,11 +5,11 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class GachaBox
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Description { get; set; }
-        public byte[]? Category1Weight { get; set; }
-        public byte[]? Category2Weight { get; set; }
-        public byte[]? Category3Weight { get; set; }
-        public byte[]? Category4Weight { get; set; }
+        public long Id { get; set; }
+        public string Description { get; set; }
+        public int Category1Weight { get; set; }
+        public int Category2Weight { get; set; }
+        public int Category3Weight { get; set; }
+        public int Category4Weight { get; set; }
     }
 }

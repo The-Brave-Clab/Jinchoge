@@ -5,11 +5,11 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class FamiliarityLevel
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Level { get; set; }
-        public byte[]? MaxExp { get; set; }
-        public byte[]? SupportPointBonus { get; set; }
-        public byte[]? HitPointCoefficient { get; set; }
-        public byte[]? AttackCoefficient { get; set; }
+        public long Id { get; set; }
+        public int Level { get; set; }
+        public long? MaxExp { get; set; }
+        public int SupportPointBonus { get; set; }
+        public float HitPointCoefficient { get; set; }
+        public float AttackCoefficient { get; set; }
     }
 }

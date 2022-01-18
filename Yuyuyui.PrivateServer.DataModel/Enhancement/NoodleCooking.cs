@@ -5,11 +5,11 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class NoodleCooking
     {
-        public byte[]? Id { get; set; }
-        public byte[]? EnhancementItemId { get; set; }
-        public byte[]? CharacterId { get; set; }
-        public byte[]? NoodleId { get; set; }
-        public byte[]? SpecialNoodleId { get; set; }
-        public byte[]? SpecialHitPercent { get; set; }
+        public long Id { get; set; }
+        public long EnhancementItemId { get; set; }
+        public long CharacterId { get; set; }
+        public long NoodleId { get; set; }
+        public long SpecialNoodleId { get; set; }
+        public int SpecialHitPercent { get; set; }
     }
 }

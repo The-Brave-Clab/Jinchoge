@@ -5,13 +5,13 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class StaminaItem
     {
-        public byte[]? Id { get; set; }
-        public byte[]? Name { get; set; }
-        public byte[]? Stamina { get; set; }
-        public byte[]? AddType { get; set; }
-        public byte[]? Description { get; set; }
-        public byte[]? ImageId { get; set; }
-        public byte[]? MultiUse { get; set; }
-        public byte[]? Priority { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public int Stamina { get; set; }
+        public int AddType { get; set; }
+        public string Description { get; set; }
+        public long ImageId { get; set; }
+        public int MultiUse { get; set; } // 01 boolean
+        public int Priority { get; set; }
     }
 }

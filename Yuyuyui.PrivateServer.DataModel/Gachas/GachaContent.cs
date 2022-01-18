@@ -5,14 +5,14 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class GachaContent
     {
-        public byte[]? Id { get; set; }
-        public byte[]? GachaBoxId { get; set; }
-        public byte[]? Category { get; set; }
-        public byte[]? ContentId { get; set; }
-        public byte[]? ContentType { get; set; }
-        public byte[]? Weight { get; set; }
-        public byte[]? SelectId { get; set; }
-        public byte[]? SpecialWeightGroup { get; set; }
-        public byte[]? Remarks { get; set; }
+        public long Id { get; set; }
+        public long GachaBoxId { get; set; }
+        public int Category { get; set; }
+        public long ContentId { get; set; }
+        public string ContentType { get; set; }
+        public int Weight { get; set; }
+        public long? SelectId { get; set; }
+        public int? SpecialWeightGroup { get; set; }
+        public string? Remarks { get; set; } // All null
     }
 }

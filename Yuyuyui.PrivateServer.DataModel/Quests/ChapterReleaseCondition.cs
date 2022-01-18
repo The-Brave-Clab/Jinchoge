@@ -5,9 +5,9 @@ namespace Yuyuyui.PrivateServer.DataModel
 {
     public partial class ChapterReleaseCondition
     {
-        public byte[]? Id { get; set; }
-        public byte[]? ChapterId { get; set; }
-        public byte[]? FinishEpisodeId { get; set; }
-        public byte[]? ChapterHide { get; set; }
+        public long Id { get; set; }
+        public long ChapterId { get; set; }
+        public long? FinishEpisodeId { get; set; } // All null
+        public string ChapterHide { get; set; } // boolean, TRUE or FALSE
     }
 }
