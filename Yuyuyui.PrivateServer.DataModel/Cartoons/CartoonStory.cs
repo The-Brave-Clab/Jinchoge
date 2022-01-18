@@ -8,6 +8,6 @@ namespace Yuyuyui.PrivateServer.DataModel
         public long Id { get; set; }
         public long CartoonChapterId { get; set; }
         public int StoryNum { get; set; }
-        public string Title { get; set; }
+        public string Title { get; set; } = "";
     }
 }

@@ -7,7 +7,7 @@ namespace Yuyuyui.PrivateServer.DataModel
     {
         public long Id { get; set; }
         public long ChapterId { get; set; }
-        public long? FinishEpisodeId { get; set; } // All null
-        public string ChapterHide { get; set; } // boolean, TRUE or FALSE
+        public long? FinishEpisodeId { get; set; } = null; // All null
+        public string ChapterHide { get; set; } = ""; // boolean, TRUE or FALSE
     }
 }

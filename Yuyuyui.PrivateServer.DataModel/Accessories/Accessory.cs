@@ -6,7 +6,7 @@ namespace Yuyuyui.PrivateServer.DataModel
     public partial class Accessory
     {
         public long Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
         public int Rarity { get; set; }
         public int Element { get; set; }
         public int MaxLevel { get; set; }

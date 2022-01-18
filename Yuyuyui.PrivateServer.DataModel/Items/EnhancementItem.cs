@@ -6,8 +6,8 @@ namespace Yuyuyui.PrivateServer.DataModel
     public partial class EnhancementItem
     {
         public long Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string Name { get; set; } = "";
+        public string Description { get; set; } = "";
         public int Exp { get; set; }
         public int CostCoefficient { get; set; }
         public int DisposalPrice { get; set; }
@@ -18,7 +18,7 @@ namespace Yuyuyui.PrivateServer.DataModel
         public int Rarity { get; set; }
         public int AssistLevelPotential { get; set; }
         public int Priority { get; set; }
-        public long? AvailableCharacterId1 { get; set; }
-        public long? AvailableCharacterId2 { get; set; }
+        public long? AvailableCharacterId1 { get; set; } = null;
+        public long? AvailableCharacterId2 { get; set; } = null;
     }
 }

@@ -7,7 +7,7 @@ namespace Yuyuyui.PrivateServer.DataModel
     {
         public long Id { get; set; }
         public long TowerEventId { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
         public int Level { get; set; }
         public long SpecialStageId { get; set; }
     }

@@ -10,8 +10,8 @@ namespace Yuyuyui.PrivateServer.DataModel
         public long NeedPoint { get; set; }
         public long GiftId { get; set; }
         public long ContentId { get; set; }
-        public string ContentType { get; set; }
+        public string ContentType { get; set; } = "";
         public long Quantity { get; set; }
-        public int? PickUp { get; set; } // boolean, 1 for true, null for false
+        public int? PickUp { get; set; } = null; // boolean, 1 for true, null for false
     }
 }

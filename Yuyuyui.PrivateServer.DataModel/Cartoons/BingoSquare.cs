@@ -10,7 +10,7 @@ namespace Yuyuyui.PrivateServer.DataModel
         public int Position { get; set; }
         public long BingoOpenItemId { get; set; }
         public int BingoOpenItemNum { get; set; }
-        public long? BingoRewardId { get; set; } // All null
+        public long? BingoRewardId { get; set; } = null; // All null
         public long CartoonFrameId { get; set; }
     }
 }

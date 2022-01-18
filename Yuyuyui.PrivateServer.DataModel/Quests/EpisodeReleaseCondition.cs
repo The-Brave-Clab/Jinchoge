@@ -7,6 +7,6 @@ namespace Yuyuyui.PrivateServer.DataModel
     {
         public long Id { get; set; }
         public long EpisodeId { get; set; }
-        public long? FinishEpisodeId { get; set; }
+        public long? FinishEpisodeId { get; set; } = null;
     }
 }

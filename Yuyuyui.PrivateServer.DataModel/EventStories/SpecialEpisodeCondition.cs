@@ -7,8 +7,8 @@ namespace Yuyuyui.PrivateServer.DataModel
     {
         public long Id { get; set; }
         public long SpecialEpisodeId { get; set; }
-        public long? FinishSpecialEpisodeId { get; set; }
-        public string? StartAt { get; set; }
-        public string? EndAt { get; set; }
+        public long? FinishSpecialEpisodeId { get; set; } = null;
+        public string? StartAt { get; set; } = null;
+        public string? EndAt { get; set; } = null;
     }
 }

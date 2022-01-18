@@ -8,16 +8,16 @@ namespace Yuyuyui.PrivateServer.DataModel
         public long Id { get; set; }
         public long BaseCardId { get; set; }
         public long CharacterId { get; set; }
-        public string Name { get; set; }
-        public string? Nickname { get; set; }
+        public string Name { get; set; } = "";
+        public string? Nickname { get; set; } = null;
         public long ImageId { get; set; }
         public int ExtraImagePotential { get; set; }
-        public long? PotentialGiftId { get; set; }
-        public string? PotentialGiftText { get; set; }
-        public int? PotentialGiftBorder { get; set; }
-        public long? LeaderSkillId { get; set; }
-        public long? ActiveSkillId { get; set; }
-        public long? SupportSkillId { get; set; }
+        public long? PotentialGiftId { get; set; } = null;
+        public string? PotentialGiftText { get; set; } = null;
+        public int? PotentialGiftBorder { get; set; } = null;
+        public long? LeaderSkillId { get; set; } = null;
+        public long? ActiveSkillId { get; set; } = null;
+        public long? SupportSkillId { get; set; } = null;
         public int AttackType { get; set; }
         public int LevelCategory { get; set; }
         public int GrowthKind { get; set; }
@@ -42,25 +42,25 @@ namespace Yuyuyui.PrivateServer.DataModel
         public float PotentialHitPointArgument { get; set; }
         public float PotentialAttackArgument { get; set; }
         public float AttackPace { get; set; }
-        public long? LevelMaxGiftId { get; set; }
-        public int? EvolutionRewardBraveCoin { get; set; }
-        public long? EvolutionRecipeId { get; set; }
-        public long? EvolutionCardId { get; set; }
+        public long? LevelMaxGiftId { get; set; } = null;
+        public int? EvolutionRewardBraveCoin { get; set; } = null;
+        public long? EvolutionRecipeId { get; set; } = null;
+        public long? EvolutionCardId { get; set; } = null;
         public int EvolutionLevel { get; set; }
-        public long? EvolutionRewardAccessory1Id { get; set; }
-        public long? EvolutionRewardAccessory2Id { get; set; }
-        public long? EvolutionRewardAccessory3Id { get; set; }
-        public long? EvolutionRewardAccessory4Id { get; set; }
-        public long? EvolutionRewardAccessory5Id { get; set; }
-        public string? GetVoice { get; set; }
-        public string? HomeVoice01 { get; set; }
-        public string? HomeVoice02 { get; set; }
-        public string? HomeVoice03 { get; set; }
-        public string? ActiveSkillVoiceId { get; set; }
-        public string? ActiveSkillVoiceId1 { get; set; }
-        public long? LimitBreakRewardAccessoryId { get; set; }
-        public long? LimitBreakRewardGiftId { get; set; }
-        public string? LimitBreakRewardText { get; set; }
-        public int? Scaling { get; set; } // Work like a boolean? 1 for true, null for false
+        public long? EvolutionRewardAccessory1Id { get; set; } = null;
+        public long? EvolutionRewardAccessory2Id { get; set; } = null;
+        public long? EvolutionRewardAccessory3Id { get; set; } = null;
+        public long? EvolutionRewardAccessory4Id { get; set; } = null;
+        public long? EvolutionRewardAccessory5Id { get; set; } = null;
+        public string? GetVoice { get; set; } = null;
+        public string? HomeVoice01 { get; set; } = null;
+        public string? HomeVoice02 { get; set; } = null;
+        public string? HomeVoice03 { get; set; } = null;
+        public string? ActiveSkillVoiceId { get; set; } = null;
+        public string? ActiveSkillVoiceId1 { get; set; } = null;
+        public long? LimitBreakRewardAccessoryId { get; set; } = null;
+        public long? LimitBreakRewardGiftId { get; set; } = null;
+        public string? LimitBreakRewardText { get; set; } = null;
+        public int? Scaling { get; set; } = null; // Work like a boolean? 1 for true, null for false
     }
 }

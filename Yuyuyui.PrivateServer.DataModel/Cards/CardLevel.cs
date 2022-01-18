@@ -8,6 +8,6 @@ namespace Yuyuyui.PrivateServer.DataModel
         public long Id { get; set; }
         public int LevelCategory { get; set; }
         public int Level { get; set; }
-        public long? MaxExp { get; set; }
+        public long? MaxExp { get; set; } = null;
     }
 }

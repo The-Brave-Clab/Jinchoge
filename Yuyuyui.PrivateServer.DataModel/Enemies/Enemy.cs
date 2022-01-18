@@ -7,7 +7,7 @@ namespace Yuyuyui.PrivateServer.DataModel
     {
         public long Id { get; set; }
         public int EnemyType { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
         public float ImageScale { get; set; }
         public int Radius { get; set; } // Only 1 and 3
         public int Attack { get; set; }
@@ -70,10 +70,10 @@ namespace Yuyuyui.PrivateServer.DataModel
         public int Ps5Level { get; set; }
         public int AsFirstInterval { get; set; }
         public int BeforeWait { get; set; }
-        public long? SlaveEnemy1Id { get; set; }
-        public long? SlaveEnemy2Id { get; set; }
-        public int? SummonSizeType { get; set; } // All null
-        public int? CharacterType { get; set; }
-        public long? MasterId { get; set; }
+        public long? SlaveEnemy1Id { get; set; } = null;
+        public long? SlaveEnemy2Id { get; set; } = null;
+        public int? SummonSizeType { get; set; } = null; // All null
+        public int? CharacterType { get; set; } = null;
+        public long? MasterId { get; set; } = null;
     }
 }

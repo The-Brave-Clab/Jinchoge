@@ -7,7 +7,7 @@ namespace Yuyuyui.PrivateServer.DataModel
     {
         public long Id { get; set; }
         public int Level { get; set; }
-        public long? MaxExp { get; set; }
+        public long? MaxExp { get; set; } = null;
         public int SupportPointBonus { get; set; }
         public float HitPointCoefficient { get; set; }
         public float AttackCoefficient { get; set; }
