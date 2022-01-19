@@ -40,6 +40,22 @@ namespace Yuyuyui.PrivateServer
             var dbEpisode = questsDb.Episodes.First(e => e.Id == dbStage.EpisodeId);
             var dbChapter = questsDb.Chapters.First(c => c.Id == dbEpisode.ChapterId);
 
+            var stageProgress = StageProgress.GetOrCreate(player, dbStage.Id);
+            var episodeProgress = EpisodeProgress.GetOrCreate(player, dbEpisode.Id);
+            var chapterProgress = ChapterProgress.GetOrCreate(player, dbChapter.Id);
+
+            if (!episodeProgress.stages.Contains(stageProgress.id))
+            {
+                episodeProgress.stages.Add(stageProgress.id);
+                episodeProgress.Save();
+            }
+
+            if (!chapterProgress.episodes.Contains(episodeProgress.id))
+            {
+                chapterProgress.episodes.Add(episodeProgress.id);
+                chapterProgress.Save();
+            }
+
             Response responseObj = new()
             {
                 boss = new(), // TODO
@@ -58,6 +74,10 @@ namespace Yuyuyui.PrivateServer
                     result_type = 1
                 }
             };
+            
+            responseObj.chapter.id = chapterProgress.id;
+            responseObj.episode.id = episodeProgress.id;
+            responseObj.stage.id = stageProgress.id;
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();

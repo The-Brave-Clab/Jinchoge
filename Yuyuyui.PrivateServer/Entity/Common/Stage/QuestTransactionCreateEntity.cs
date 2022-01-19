@@ -16,7 +16,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override Task ProcessRequest()
         {
-            //var player = GetPlayerFromCookies();
+            var player = GetPlayerFromCookies();
             
             Utils.Log("Path parameters:");
             foreach (var pathParameter in pathParameters)

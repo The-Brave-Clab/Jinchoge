@@ -30,7 +30,7 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
             
-            Utils.LogWarning("Locked status, release status and completed status not filled!");
+            Utils.LogWarning("Locked status not filled!");
 
             using var questsDb = new QuestsContext();
             Response response = new()

@@ -40,6 +40,22 @@ namespace Yuyuyui.PrivateServer
             var dbEpisode = questsDb.Episodes.First(e => e.Id == dbStage.EpisodeId);
             var dbChapter = questsDb.Chapters.First(c => c.Id == dbEpisode.ChapterId);
 
+            var stageProgress = StageProgress.GetOrCreate(player, dbStage.Id);
+            var episodeProgress = EpisodeProgress.GetOrCreate(player, dbEpisode.Id);
+            var chapterProgress = ChapterProgress.GetOrCreate(player, dbChapter.Id);
+            
+            // The references are validated when updating the transaction.
+            // We only update the progress data here.
+            stageProgress.finished = stageProgress.finished || 
+                                     requestObj.battle_result.finished_score_scenario;
+            stageProgress.finishedInTime = stageProgress.finishedInTime || 
+                                           requestObj.battle_result.finished_score_speed;
+            stageProgress.finishedNoInjury = stageProgress.finishedNoInjury ||
+                                             requestObj.battle_result.finished_score_no_injury;
+            stageProgress.Save();
+
+            // TODO: check episode & stage finished status here!
+
             Response responseObj = new()
             {
                 chapter = Chapter.GetFromDatabase(dbChapter, player),
@@ -48,6 +64,10 @@ namespace Yuyuyui.PrivateServer
                 battle_result = new(), // TODO
                 title_items = null, // TODO
             };
+
+            responseObj.chapter.id = chapterProgress.id;
+            responseObj.episode.id = episodeProgress.id;
+            responseObj.stage.id = stageProgress.id;
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();

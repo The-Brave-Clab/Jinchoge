@@ -32,6 +32,8 @@
         public IList<long> receivedGifts { get; set; } = new List<long>();
         public IList<long> acceptedGifts { get; set; } = new List<long>();
 
+        public Progress progress { get; set; } = new();
+
         protected override string Identifier => id.code;
 
         public class ID
@@ -65,6 +67,13 @@
             public int weekdayStamina { get; set; } = 6;
 
             public long lastActive { get; set; } = 0; // unixtime
+        }
+
+        public class Progress
+        {
+            public IDictionary<long, long> chapters { get; set; } = new Dictionary<long, long>(); // master_id, id
+            public IDictionary<long, long> episodes { get; set; } = new Dictionary<long, long>(); // master_id, id
+            public IDictionary<long, long> stages { get; set; } = new Dictionary<long, long>(); // master_id, id
         }
     }
 }

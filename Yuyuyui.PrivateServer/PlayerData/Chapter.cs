@@ -17,7 +17,7 @@ public class Chapter
 
     public static Chapter GetFromDatabase(Yuyuyui.PrivateServer.DataModel.Chapter dbChapter, PlayerProfile player)
     {
-        return new Chapter
+        Chapter result = new Chapter
         {
             id = dbChapter.Id,
             master_id = dbChapter.Id,
@@ -27,10 +27,22 @@ public class Chapter
             detail_url = $"https://article.yuyuyui.jp/article/episodes/{dbChapter.Id}",
             stack_point = 0,
             locked = false, // TODO
-            new_released = false, // TODO
-            completed = false, // TODO
-            available_user_level = 0
+            new_released = false,
+            completed = false,
+            available_user_level = 0 // TODO
         };
+
+        if (player.progress.chapters.ContainsKey(dbChapter.Id))
+        {
+            result.new_released = false;
+            result.completed = ChapterProgress.Load(player.progress.chapters[dbChapter.Id]).finished;
+        }
+        else
+        {
+            result.new_released = true;
+        }
+
+        return result;
     }
 
 }

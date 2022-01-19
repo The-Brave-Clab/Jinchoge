@@ -61,7 +61,8 @@ namespace Yuyuyui.PrivateServer
                     {
                         id = dbEpisode.Id,
                         master_id = dbEpisode.Id,
-                        finish = true,
+                        finish = player.progress.episodes.ContainsKey(dbEpisode.Id) && 
+                                 EpisodeProgress.Load(player.progress.episodes[dbEpisode.Id]).finished,
                         detail_url = $"https://article.yuyuyui.jp/article/episodes/{dbEpisode.Id}"
                     };
                 }

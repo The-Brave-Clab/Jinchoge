@@ -9,7 +9,7 @@ namespace Yuyuyui.PrivateServer.DataModel
         public long ChapterId { get; set; }
         public long EpisodeId { get; set; }
         public int Number { get; set; }
-        public int Kind { get; set; }
+        public int Kind { get; set; } // 0: Daily, 1: Battle, 2: Boss, 100~107: EventDifficultyType1~8
         public int Difficulty { get; set; }
         public int StaminaUsage { get; set; }
         public int CardExp { get; set; }

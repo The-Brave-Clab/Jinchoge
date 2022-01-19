@@ -17,18 +17,18 @@ namespace Yuyuyui.PrivateServer
         protected override Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
-            
+
             Utils.Log("Path parameters:");
             foreach (var pathParameter in pathParameters)
             {
                 Utils.Log($"\t{pathParameter.Key} = {pathParameter.Value}");
             }
-            
+
             long chapterId = long.Parse(GetPathParameter("chapter_id"));
             long episodeId = long.Parse(GetPathParameter("episode_id"));
 
             Utils.LogWarning("Many status not filled.");
-            
+
             using var questsDb = new QuestsContext();
             Response responseObj = new()
             {
@@ -50,7 +50,9 @@ namespace Yuyuyui.PrivateServer
 
             public class Stage
             {
-                public long id { get; set; } // When dealing with transaction, this should be the id of the player progress
+                public long
+                    id { get; set; } // When dealing with transaction, this should be the id of the player progress
+
                 public long master_id { get; set; } // Don't know the difference
                 public bool finish { get; set; }
                 public int score_finished_count { get; set; } // star count?
@@ -64,12 +66,12 @@ namespace Yuyuyui.PrivateServer
 
                 public static Stage GetFromDatabase(Yuyuyui.PrivateServer.DataModel.Stage dbStage, PlayerProfile player)
                 {
-                    return new()
+                    Stage result = new()
                     {
                         id = dbStage.Id,
                         master_id = dbStage.Id,
-                        finish = true, // TODO
-                        score_finished_count = 3, // TODO
+                        finish = false,
+                        score_finished_count = 0,
                         locked = false, // TODO
                         campaign_exchange_point_rate = dbStage.ExchangePointRate,
                         campaign_stamina_rate = 1, // TODO
@@ -78,6 +80,33 @@ namespace Yuyuyui.PrivateServer
                         play_auto_clear = false,
                         no_friend = dbStage.NoFriend
                     };
+
+                    if (player.progress.stages.ContainsKey(dbStage.Id))
+                    {
+                        StageProgress progress = StageProgress.Load(player.progress.stages[dbStage.Id]);
+                        result.finish = progress.finished;
+
+                        // Scenario only stages will also affect the total star count of the episode
+                        // so we manually set it to zero
+                        if (dbStage.Kind == 0)
+                        {
+                            result.score_finished_count = 0;
+                        }
+                        else if (progress.finished)
+                        {
+                            result.score_finished_count = 1;
+                            if (progress.finishedInTime)
+                                ++result.score_finished_count;
+                            if (progress.finishedNoInjury)
+                                ++result.score_finished_count;
+                        }
+                        else
+                        {
+                            result.score_finished_count = 0;
+                        }
+                    }
+
+                    return result;
                 }
             }
         }
