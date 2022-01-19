@@ -74,6 +74,7 @@
             public IDictionary<long, long> chapters { get; set; } = new Dictionary<long, long>(); // master_id, id
             public IDictionary<long, long> episodes { get; set; } = new Dictionary<long, long>(); // master_id, id
             public IDictionary<long, long> stages { get; set; } = new Dictionary<long, long>(); // master_id, id
+            public IList<long> adventureBooksRead { get; set; } = new List<long>(); // adventure_book_id
         }
     }
 }

@@ -52,7 +52,7 @@ namespace Yuyuyui.PrivateServer
 
         protected bool HasRequestBody()
         {
-            return requestBody.Length == 0;
+            return requestBody.Length != 0;
         }
 
         protected static string StripApiPrefix(string apiPath)
@@ -587,14 +587,14 @@ namespace Yuyuyui.PrivateServer
             //	typeof(EnhancementItemDisposalTransactionUpdateEntity),
             //	new Config("/my/enhancement_items/{0}/disposal/transactions/{1}", string.Empty, 0)
             //},
-            //{
-            //	typeof(AlbumListEntity),
-            //	new Config("/my/adventure_books", "Json/StoryAlbum/album_list", 0)
-            //},
-            //{
-            //	typeof(AlbumReadEntity),
-            //	new Config("/my/adventure_books/{0}", "Json/StoryAlbum/album_read", 0)
-            //},
+            {
+            	typeof(AlbumListEntity),
+            	new Config("/my/adventure_books", "GET", "POST")
+            },
+            {
+            	typeof(AlbumReadEntity),
+            	new Config("/my/adventure_books/{adventure_books_id}", "PUT")
+            },
             {
                 typeof(DeckEntity),
                 new Config("/my/decks", "GET")
