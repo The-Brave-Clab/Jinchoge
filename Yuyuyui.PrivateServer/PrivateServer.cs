@@ -32,6 +32,8 @@
         private static Dictionary<string, PlayerProfile> playerCode;
         private static Dictionary<string, PlayerSession> playerSessions;
 
+        public const string YUYUYUI_APP_VERSION = "3.16.0";
+
         public const string PLAYER_DATA_FOLDER = "PlayerData";
         public const string PLAYER_DATA_FILE = "players.dat";
 
