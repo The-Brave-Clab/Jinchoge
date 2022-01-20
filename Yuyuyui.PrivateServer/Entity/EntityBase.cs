@@ -91,6 +91,8 @@ namespace Yuyuyui.PrivateServer
 
             Utils.LogTrace($"{e.HttpClient.Request.Method} {apiPath}");
 
+            var headersAndBody = await Proxy.GetRequestHeadersAndBody(e);
+
             foreach (var config in configs)
             {
                 if (ApiPathMatch(config.Value.apiPath, apiPath) &&
@@ -98,31 +100,6 @@ namespace Yuyuyui.PrivateServer
                 {
                     try
                     {
-                        Dictionary<string, string> headers =
-                            new Dictionary<string, string>(e.HttpClient.Request.Headers.Count());
-                        foreach (var header in e.HttpClient.Request.Headers)
-                        {
-                            if (!headers.Any(alreadyAddedHeader =>
-                                    string.Equals(alreadyAddedHeader.Key, header.Name,
-                                        StringComparison.CurrentCultureIgnoreCase)))
-                            {
-                                headers.Add(header.Name, header.Value);
-                            }
-                        }
-
-                        byte[] requestBodyBytes = Array.Empty<byte>();
-
-                        if (e.HttpClient.Request.ContentType != null)
-                        {
-                            try
-                            {
-                                requestBodyBytes = await e.GetRequestBody();
-                            }
-                            catch (BodyNotFoundException)
-                            {
-                            }
-                        }
-
                         return (EntityBase) TypeDescriptor.CreateInstance(
                             provider: null,
                             objectType: config.Key,
@@ -138,8 +115,8 @@ namespace Yuyuyui.PrivateServer
                             {
                                 e.HttpClient.Request.RequestUri,
                                 e.HttpClient.Request.Method,
-                                headers,
-                                requestBodyBytes,
+                                headersAndBody.Item1,
+                                headersAndBody.Item2,
                                 config.Value
                             })!;
                     }
@@ -157,6 +134,8 @@ namespace Yuyuyui.PrivateServer
                 e.HttpClient.Request.RequestUri,
                 e.HttpClient.Request.Method,
                 new Config(apiPath, e.HttpClient.Request.Method),
+                headersAndBody.Item1,
+                headersAndBody.Item2,
                 $"API Not Implemented: {e.HttpClient.Request.Method} {apiPath}"
             ); // error type
         }
@@ -725,6 +704,10 @@ namespace Yuyuyui.PrivateServer
                 typeof(AutoClearTicketsEntity),
                 new Config("/my/auto_clear_tickets", "GET")
             },
+            {
+                typeof(CharacterTitleItemsEntity),
+                new Config("/my/character_title_items", "POST")
+            }
         };
     }
 

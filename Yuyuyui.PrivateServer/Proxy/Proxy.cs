@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using Titanium.Web.Proxy;
+using Titanium.Web.Proxy.EventArguments;
+using Titanium.Web.Proxy.Exceptions;
 using Titanium.Web.Proxy.Models;
 
 namespace Yuyuyui.PrivateServer
@@ -57,6 +59,35 @@ namespace Yuyuyui.PrivateServer
             proxyServer!.ClientCertificateSelectionCallback -= ProxyCallbacks.OnCertificateSelection;
 
             proxyServer!.Stop();
+        }
+
+        public static async Task<Tuple<Dictionary<string, string>, byte[]>> GetRequestHeadersAndBody(SessionEventArgs e)
+        {
+            byte[] requestBodyBytes = Array.Empty<byte>();
+            Dictionary<string, string> headers =
+                new Dictionary<string, string>(e.HttpClient.Request.Headers.Count());
+            foreach (var header in e.HttpClient.Request.Headers)
+            {
+                if (!headers.Any(alreadyAddedHeader =>
+                        string.Equals(alreadyAddedHeader.Key, header.Name,
+                            StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    headers.Add(header.Name, header.Value);
+                }
+            }
+
+            if (e.HttpClient.Request.ContentType != null)
+            {
+                try
+                {
+                    requestBodyBytes = await e.GetRequestBody();
+                }
+                catch (BodyNotFoundException)
+                {
+                }
+            }
+
+            return new Tuple<Dictionary<string, string>, byte[]>(headers, requestBodyBytes);
         }
     }
 }
