@@ -21,11 +21,11 @@ namespace Yuyuyui.PrivateServer
             if (player.decks.Count == 0)
             {
                 // when player's deck is empty, it has to be a new player
-                // which means there has to be four cards, and they are in order.
-                var yuuna = Card.Load(player.cards[0]);
-                var tougou = Card.Load(player.cards[1]);
-                var fuu = Card.Load(player.cards[2]);
-                var itsuki = Card.Load(player.cards[3]);
+                // which means there has to be these four cards.
+                var yuuna = Card.Load(player.cards[100011]);
+                var tougou = Card.Load(player.cards[100020]);
+                var fuu = Card.Load(player.cards[100040]);
+                var itsuki = Card.Load(player.cards[100050]);
 
                 var yuunaUnit = yuuna.CreateUnit(tougou.AsSupport());
                 var fuuUnit = fuu.CreateUnit();
@@ -70,6 +70,8 @@ namespace Yuyuyui.PrivateServer
                 player.Save();
                 Utils.Log("Assigned default decks to player.");
             }
+            
+            Utils.LogWarning("Unit calculation is not done yet!");
 
             Response responseObj = new()
             {
