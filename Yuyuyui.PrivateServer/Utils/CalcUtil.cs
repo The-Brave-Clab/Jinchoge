@@ -33,14 +33,6 @@ namespace Yuyuyui.PrivateServer
             return (int) (Math.Ceiling(num2) + 0.5f);
         }
 
-        public static int CalcParamByLevel(int targetLevel, int minLevel, int maxLevel, int minValue, int maxValue,
-            float growth)
-        {
-            float num = (targetLevel - minLevel) / (float) (maxLevel - minLevel);
-            num = Math.Clamp(num, 0f, 1f);
-            return minValue + (int) ((maxValue - minValue) * Math.Pow(num, growth));
-        }
-
         #endregion
 
         #region CharacterFamilarity
@@ -72,25 +64,7 @@ namespace Yuyuyui.PrivateServer
 
         #endregion
 
-
-        #region Accessory
-
-        // public static AccessoryData CalcAccessoryParamByLevel(int targetLevel, AccessoryData data)
-        // {
-        //     AccessoryData accessoryData = data.Clone();
-        //     if (targetLevel == data.level)
-        //     {
-        //         return accessoryData;
-        //     }
-        //     MasterAccessoryData masterAccessoryData = accessoryData.MasterData();
-        //     float value = GrowthKind.GetValue(3);
-        //     accessoryData.hit_point = LogicUtil.CalcParamByLevel(targetLevel, 1, masterAccessoryData.max_level, masterAccessoryData.min_hit_point, masterAccessoryData.max_hit_point, value);
-        //     accessoryData.attack = LogicUtil.CalcParamByLevel(targetLevel, 1, masterAccessoryData.max_level, masterAccessoryData.min_attack, masterAccessoryData.max_attack, value);
-        //     accessoryData.cost = LogicUtil.CalcParamByLevel(targetLevel, 1, masterAccessoryData.max_level, masterAccessoryData.min_cost, masterAccessoryData.max_cost, value);
-        //     return accessoryData;
-        // }
-
-        #endregion
+        #region GeneralCalc
 
         public static double CalcPotentialCoefficient(int potential, float potentialArgument)
         {
@@ -101,6 +75,16 @@ namespace Yuyuyui.PrivateServer
 
             return 1.0;
         }
+
+        public static int CalcParamByLevel(int targetLevel, int minLevel, int maxLevel, int minValue, int maxValue,
+            float growth)
+        {
+            float num = (targetLevel - minLevel) / (float) (maxLevel - minLevel);
+            num = Math.Clamp(num, 0f, 1f);
+            return minValue + (int) ((maxValue - minValue) * Math.Pow(num, growth));
+        }
+
+        #endregion
     }
 
 

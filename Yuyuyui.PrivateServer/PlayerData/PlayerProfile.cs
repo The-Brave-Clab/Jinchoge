@@ -8,7 +8,7 @@
 
         public IDictionary<int, IList<int>> newAlbum { get; set; } = new Dictionary<int, IList<int>>();
 
-        public IList<long> accessories { get; set; } = new List<long>();
+        public IDictionary<long, long> accessories { get; set; } = new Dictionary<long, long>(); // master_id, id
 
         public IList<long> clubOrders { get; set; } = new List<long>();
         public IList<long> clubWorkingSlots { get; set; } = new List<long>();
