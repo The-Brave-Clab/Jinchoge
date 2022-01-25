@@ -17,7 +17,7 @@
 
         public IList<long> decks { get; set; } = new List<long>();
 
-        public IDictionary<string, IList<long>> items { get; set; } = new Dictionary<string, IList<long>>();
+        public Items items { get; set; } = new();
 
         // public IList<long> enhancementItems = new List<long>();
         // public IList<long> evolutionItems = new List<long>();
@@ -75,6 +75,15 @@
             public IDictionary<long, long> episodes { get; set; } = new Dictionary<long, long>(); // master_id, id
             public IDictionary<long, long> stages { get; set; } = new Dictionary<long, long>(); // master_id, id
             public IList<long> adventureBooksRead { get; set; } = new List<long>(); // adventure_book_id
+        }
+
+        public class Items
+        {
+            public IDictionary<long, long> autoClearTickets { get; set; } = new Dictionary<long, long>(); // master_id, id
+            public IDictionary<long, long> enhancement { get; set; } = new Dictionary<long, long>(); // master_id, id
+            public IDictionary<long, long> eventItems { get; set; } = new Dictionary<long, long>(); // master_id, id
+            public IDictionary<long, long> evolution { get; set; } = new Dictionary<long, long>(); // master_id, id
+            public IDictionary<long, long> stamina { get; set; } = new Dictionary<long, long>(); // master_id, id
         }
     }
 }

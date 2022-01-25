@@ -16,14 +16,11 @@
         {
             var player = GetPlayerFromCookies();
 
-            if (!player.items.ContainsKey("stamina"))
-            {
-                player.items.Add("stamina", new List<long>());
-            }
-
             Response responseObj = new()
             {
-                stamina_items = player.items["stamina"].ToDictionary(c => c, Item.Load)
+                stamina_items = player.items.stamina
+                    .Select(p => p.Value)
+                    .ToDictionary(c => c, Item.Load)
             };
 
             responseBody = Serialize(responseObj);
