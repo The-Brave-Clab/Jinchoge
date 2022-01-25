@@ -578,10 +578,10 @@ namespace Yuyuyui.PrivateServer
                 typeof(DeckEntity),
                 new Config("/my/decks", "GET")
             },
-            //{
-            //	typeof(DeckUpdateEntity),
-            //	new Config("/my/decks", string.Empty, 0)
-            //},
+            {
+            	typeof(DeckUpdateEntity),
+            	new Config("/my/decks/{deck_id}", "PUT")
+            },
             {
             	typeof(QuestTransactionCreateEntity),
             	new Config("/stages/{stage_id}/transactions", "POST")

@@ -5,8 +5,8 @@ public class Unit : BasePlayerData<Unit, long>
     public long id { get; set; } // This is NOT the card ID!
     public long? baseCardID { get; set; } = null; // This IS the card ID!
     public long? supportCardID { get; set; } = null; // id of support card, same for the following 2
-    public long? supportCard2ID { get; set; } = null; // UR support?
-    public long? assistCardID { get; set; } = null; // Miko?
+    public long? supportCard2ID { get; set; } = null; // UR support
+    public long? assistCardID { get; set; } = null; // Miko
     public IList<long> accessories { get; set; } = new List<long>(); // Seirei ID
     protected override long Identifier => id;
 

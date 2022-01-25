@@ -77,16 +77,8 @@ namespace Yuyuyui.PrivateServer
             {
                 decks = player.decks
                     .Select(Deck.Load)
-                    .Select(d =>
-                    {
-                        return new Response.Deck
-                        {
-                            id = d.id,
-                            leader_deck_card_id = d.leaderUnitID,
-                            name = d.name,
-                            cards = d.units.Select(id => (Unit.CardWithSupport) Unit.Load(id)!).ToList()
-                        };
-                    }).ToList()
+                    .Select(Response.Deck.FromPlayerDeck)
+                    .ToList()
             };
 
             responseBody = Serialize(responseObj);
@@ -105,6 +97,17 @@ namespace Yuyuyui.PrivateServer
                 public long leader_deck_card_id { get; set; }
                 public string? name { get; set; } = null;
                 public IList<Unit.CardWithSupport> cards { get; set; } = new List<Unit.CardWithSupport>();
+
+                public static Deck FromPlayerDeck(Yuyuyui.PrivateServer.Deck d)
+                {
+                    return new Response.Deck
+                    {
+                        id = d.id,
+                        leader_deck_card_id = d.leaderUnitID,
+                        name = d.name,
+                        cards = d.units.Select(id => (Unit.CardWithSupport) Unit.Load(id)!).ToList()
+                    };
+                }
             }
         }
     }
