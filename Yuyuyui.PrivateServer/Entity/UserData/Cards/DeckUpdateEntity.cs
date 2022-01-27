@@ -16,7 +16,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override Task ProcessRequest()
         {
-            //var player = GetPlayerFromCookies();
+            var player = GetPlayerFromCookies();
 
             Request requestObj = Deserialize<Request>(requestBody)!;
 
@@ -39,7 +39,7 @@ namespace Yuyuyui.PrivateServer
 
             Response responseObj = new()
             {
-                deck = DeckEntity.Response.Deck.FromPlayerDeck(targetDeck)
+                deck = DeckEntity.Response.Deck.FromPlayerDeck(targetDeck, player)
             };
 
             responseBody = Serialize(responseObj);

@@ -74,7 +74,7 @@
                 public int exceeded_stamina { get; set; }
                 public long stamina_full_recover_at { get; set; } // unixtime, 0 if not applied
                 public int stamina_recovery_second { get; set; } // looks like fixed 300?
-                public int money { get; set; }
+                public long money { get; set; }
                 public int friend_point { get; set; }
                 public int billing_point { get; set; }
                 public int brave_coin { get; set; }

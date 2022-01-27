@@ -39,15 +39,29 @@ public class Unit : BasePlayerData<Unit, long>
         };
     }
 
-    public int GetHP()
+    public int GetHP(PlayerProfile belongTo)
     {
+        // TODO: not finished yet!
         if (baseCardID == null) return 0;
-        // TODO <UnitCalculation>
         int hp = 0;
-        hp += GetCard()!.GetHitPoint();
+        var card = GetCard()!;
+        var masterCard = card.MasterData();
+        hp += card.GetHitPoint();
 
         if (supportCardID != null)
-            hp += Support()!.GetHitPoint();
+        {
+            var supportCard = Support()!;
+            var masterSupport = supportCard.MasterData();
+            hp += supportCard.GetHitPoint();
+            
+            // get bonus
+            CharacterFamiliarity familiarity =
+                belongTo.GetCharacterFamiliarity(masterCard.CharacterId, masterSupport.CharacterId);
+            int bonus = CalcUtil.AssistLevelHitPointBonus(familiarity.assist_level);
+            float coefficient = familiarity.GetLevelData().HitPointCoefficient;
+
+            hp = CalcUtil.CalcAddedFamiliarityAndAssist(hp, bonus, coefficient);
+        }
 
         if (supportCard2ID != null)
             hp += Support2()!.GetHitPoint();
@@ -58,15 +72,29 @@ public class Unit : BasePlayerData<Unit, long>
         return hp;
     }
 
-    public int GetAtk()
+    public int GetAtk(PlayerProfile belongTo)
     {
+        // TODO: not finished yet!
         if (baseCardID == null) return 0;
-        // TODO <UnitCalculation>
         int atk = 0;
-        atk += GetCard()!.GetAttack();
+        var card = GetCard()!;
+        var masterCard = card.MasterData();
+        atk += card.GetAttack();
 
         if (supportCardID != null)
-            atk += Support()!.GetAttack();
+        {
+            var supportCard = Support()!;
+            var masterSupport = supportCard.MasterData();
+            atk += supportCard.GetAttack();
+            
+            // get bonus
+            CharacterFamiliarity familiarity =
+                belongTo.GetCharacterFamiliarity(masterCard.CharacterId, masterSupport.CharacterId);
+            int bonus = CalcUtil.AssistLevelAttackBonus(familiarity.assist_level);
+            float coefficient = familiarity.GetLevelData().AttackCoefficient;
+
+            atk = CalcUtil.CalcAddedFamiliarityAndAssist(atk, bonus, coefficient);
+        }
 
         if (supportCard2ID != null)
             atk += Support2()!.GetAttack();
@@ -132,14 +160,14 @@ public class Unit : BasePlayerData<Unit, long>
         public int? evolution_level { get; set; }
         public int? level { get; set; }
 
-        public static implicit operator CardWithSupport?(Unit? unit)
+        public static CardWithSupport? FromUnit(Unit? unit, PlayerProfile? belongTo)
         {
             if (unit == null) return null;
             return new CardWithSupport
             {
                 id = unit.id,
-                hit_point = unit.GetHP(),
-                attack = unit.GetAtk(),
+                hit_point = unit.GetHP(belongTo!),
+                attack = unit.GetAtk(belongTo!),
                 user_card_id = unit.baseCardID,
                 support = unit.Support()?.AsSupport(),
                 support_2 = unit.Support2()?.AsSupport(),

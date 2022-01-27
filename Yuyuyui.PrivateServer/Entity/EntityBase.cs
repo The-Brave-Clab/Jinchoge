@@ -334,14 +334,14 @@ namespace Yuyuyui.PrivateServer
                 typeof(CardsEntity),
                 new Config("/my/cards", "GET")
             },
-            //{
-            //	typeof(EnhancementResultTransactionCreateEntity),
-            //	new Config("/my/cards/{0}/enhancement/transactions", "Json/Card/Enhancement/transaction_create", 0)
-            //},
-            //{
-            //	typeof(EnhancementResultTransactionUpdateEntity),
-            //	new Config("/my/cards/{0}/enhancement/transactions/{1}", "Json/Card/Enhancement/transaction_update", 0)
-            //},
+            {
+            	typeof(EnhancementResultTransactionCreateEntity),
+            	new Config("/my/cards/{card_id}/enhancement/transactions", "POST")
+            },
+            {
+            	typeof(EnhancementResultTransactionUpdateEntity),
+            	new Config("/my/cards/{card_id}/enhancement/transactions/{transaction_id}", "PUT")
+            },
             //{
             //	typeof(EvolutionCardResultEntitiy),
             //	new Config("/my/cards/{0}/evolution", "Json/Room/evolution_card_result", 0)

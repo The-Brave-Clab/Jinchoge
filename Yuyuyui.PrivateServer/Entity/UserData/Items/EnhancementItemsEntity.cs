@@ -25,34 +25,30 @@ namespace Yuyuyui.PrivateServer
 
             Response responseObj = new()
             {
-                enhancement_items = itemsDb.EnhancementItems
-                    .Where(i => i.Id < 10000)
-                    .Select(i => new Response.EnhancementItem
+                enhancement_items = player.items.enhancement
+                    .Select(p =>
                     {
-                        id = 1000000 + i.Id,
-                        master_id = i.Id,
-                        quantity = 60,
-                        active_skill_level_potential = i.ActiveSkillLevelPotential,
-                        rarity = i.Rarity,
-                        available_character_1_id = i.AvailableCharacterId1,
-                        available_character_2_id = i.AvailableCharacterId2,
-                        pair_limited = i.AvailableCharacterId1 != null && i.AvailableCharacterId2 != null,
-                        priority = i.Priority,
-                        support_skill_level_potential = i.SupportSkillLevelPotential,
-                        support_skill_level_category = i.SupportSkillLevelCategory
+                        EnhancementItem masterData = 
+                            itemsDb.EnhancementItems.First(m => m.Id == p.Key);
+                        Item userItem = Item.Load(p.Value);
+                        return new Response.EnhancementItem
+                        {
+                            id = p.Value,
+                            master_id = masterData.Id,
+                            quantity = userItem.quantity,
+                            active_skill_level_potential = masterData.ActiveSkillLevelPotential,
+                            rarity = masterData.Rarity,
+                            available_character_1_id = masterData.AvailableCharacterId1,
+                            available_character_2_id = masterData.AvailableCharacterId2,
+                            pair_limited = masterData.AvailableCharacterId1 != null &&
+                                           masterData.AvailableCharacterId2 != null,
+                            priority = masterData.Priority,
+                            support_skill_level_potential = masterData.SupportSkillLevelPotential,
+                            support_skill_level_category = masterData.SupportSkillLevelCategory
+                        };
                     })
                     .ToList()
             };
-
-            var responseStr = JsonConvert.SerializeObject(responseObj, Formatting.Indented);
-            
-
-            // Response responseObj = new()
-            // {
-            //     enhancement_items = player.items.enhancement
-            //         .Select(p => p.Value)
-            //         .ToDictionary(c => c, Item.Load)
-            // };
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();

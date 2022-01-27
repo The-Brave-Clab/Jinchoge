@@ -59,7 +59,7 @@
             public long id { get; set; } // 8 digits
             public long master_id { get; set; } // from master_data
             public int level { get; set; }
-            public int exp { get; set; }
+            public long exp { get; set; }
             public int potential { get; set; }
             public int hit_point { get; set; }
             public int attack { get; set; }

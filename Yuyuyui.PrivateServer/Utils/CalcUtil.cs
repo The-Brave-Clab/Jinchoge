@@ -32,18 +32,86 @@ namespace Yuyuyui.PrivateServer
             double num2 = num * CalcPotentialCoefficient(potential, potentialArgument);
             return (int) (Math.Ceiling(num2) + 0.5f);
         }
+        
+        public static CardLevel GetLevelFromExp(int levelCategory, long exp)
+        {
+            using var cardsDb = new CardsContext();
+            IEnumerable<CardLevel> source = cardsDb.CardLevels
+                .Where(i => i.LevelCategory == levelCategory); // all level data in current category
+            CardLevel? masterCardLevelData = source.FirstOrDefault(i => i.MaxExp >= exp); // find one
+            if (masterCardLevelData != null) // if found
+            {
+                return masterCardLevelData;
+            }
+            return source.Last(); // if not found, return the highest level in current category
+        }
+        
+        public static CardLevel GetExpFromLevel(int levelCategory, int level)
+        {
+            using var cardsDb = new CardsContext();
+            IEnumerable<CardLevel> source = cardsDb.CardLevels
+                .Where(i => i.LevelCategory == levelCategory);
+            return source.First(i => i.Level == level);
+        }
+        
+        #endregion
+
+        #region Enhancement
+        
+        public static float CalcActiveEnhancementChance(EnhancementItem item, long skillId, int level, int count)
+        {
+            using var skillsDb = new SkillsContext();
+            ActiveSkillComplete? activeSkillData = skillsDb.ActiveSkills
+                .FirstOrDefault(i => i.Id == skillId);
+            if (activeSkillData == null)
+            {
+                return 0f;
+            }
+            int levelCategory = activeSkillData.LevelCategory ?? 0; // those with null category are enemy skills
+            ActiveSkillLevel? masterActiveSkillLevelData = skillsDb.ActiveSkillLevels
+                .FirstOrDefault(arg => arg.LevelCategoy == levelCategory && arg.Level == level);
+            if (masterActiveSkillLevelData == null || masterActiveSkillLevelData.LevelUpParam == null)
+            {
+                return 0f;
+            }
+            return item.ActiveSkillLevelPotential * count / (float)masterActiveSkillLevelData.LevelUpParam;
+        }
+        
+        public static float CalcSupportEnhancementChance(
+            EnhancementItem item, long skillId, int levelCategory, int level, int count)
+        {
+            using var skillsDb = new SkillsContext();
+            PassiveSkill? passiveSkillData = skillsDb.PassiveSkills
+                .FirstOrDefault(i => i.Id == skillId);
+            if (passiveSkillData == null)
+            {
+                return 0f;
+            }
+            SupportSkillLevel? masterSupportSkillData = skillsDb.SupportSkillLevels
+                .FirstOrDefault(arg => arg.SupportSkillLevelCategory == levelCategory && arg.Level == level);
+            if (masterSupportSkillData == null || masterSupportSkillData.LevelUpParam == null)
+            {
+                return 0f;
+            }
+            return item.SupportSkillLevelPotential * count / (float)masterSupportSkillData.LevelUpParam;
+        }
+        
+        public static int CalcRequiredEnhancementMoney(int useUdonNum, double costCoefficient)
+        {
+            return (int)Math.Floor(500 * costCoefficient) * useUdonNum; // the source code is not like this. why?
+        }
 
         #endregion
 
         #region CharacterFamilarity
-
-        public static Tuple<int, int> CalcAssistBonus(int assistLevel)
+        
+        public static int CalcAddedFamiliarityAndAssist(float original, 
+            float assistBonus, double familiarityCoefficient)
         {
-            Tuple<int, int> result = new Tuple<int, int>(
-                AssistLevelHitPointBonus(assistLevel), AssistLevelAttackBonus(assistLevel));
+            int result = (int) Math.Floor((float) ((original + assistBonus) * familiarityCoefficient));
             return result;
         }
-
+        
         public static int AssistLevelHitPointBonus(int assistLevel)
         {
             float num = 200f;
@@ -51,7 +119,7 @@ namespace Yuyuyui.PrivateServer
             float num2 = 2f;
             float num3 = 10000f;
             float num4 = num * (float)Math.Pow((float)assistLevel, p);
-            float num5 = ((float)assistLevel > num3) ? (num3 * 2f) : ((float)assistLevel * num2);
+            float num5 = assistLevel > num3 ? num3 * 2f : assistLevel * num2;
             return (int) Math.Floor(num4 + num5);
         }
 
@@ -60,6 +128,25 @@ namespace Yuyuyui.PrivateServer
             float num = 100f;
             float p = 0.3f;
             return (int) Math.Floor(num * Math.Pow((float)assistLevel, p));
+        }
+        
+        public static FamiliarityLevel GetFamiliarityRankFromExp(long exp)
+        {
+            using var charactersDb = new CharactersContext();
+            IEnumerable<FamiliarityLevel> source = charactersDb.FamiliarityLevels;
+            FamiliarityLevel? masterFamiliarityLevelData = source.FirstOrDefault(i => i.MaxExp >= exp);
+            if (masterFamiliarityLevelData != null) // if found
+            {
+                return masterFamiliarityLevelData;
+            }
+            return source.Last(); // if not found, return the highest level in current category
+        }
+        
+        public static FamiliarityLevel GetExpFromFamiliarityRank(int level)
+        {
+            using var charactersDb = new CharactersContext();
+            IEnumerable<FamiliarityLevel> source = charactersDb.FamiliarityLevels;
+            return source.First(i => i.Level == level);
         }
 
         #endregion
@@ -82,6 +169,12 @@ namespace Yuyuyui.PrivateServer
             float num = (targetLevel - minLevel) / (float) (maxLevel - minLevel);
             num = Math.Clamp(num, 0f, 1f);
             return minValue + (int) ((maxValue - minValue) * Math.Pow(num, growth));
+        }
+        
+        public static bool IsSanchoDay()
+        {
+            int day = DateTime.Now.Day;
+            return day is 3 or 13 or 23;
         }
 
         #endregion

@@ -3,7 +3,7 @@
     public class Item : BasePlayerData<Item, long>
     {
         public long id { get; set; }
-        public int master_id { get; set; } // from master_data
+        public long master_id { get; set; } // from master_data
         public int quantity { get; set; }
 
         public static long GetID()

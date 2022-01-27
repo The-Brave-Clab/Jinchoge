@@ -10,6 +10,6 @@ namespace Yuyuyui.PrivateServer.DataModel
         public long CharacterId { get; set; }
         public long NoodleId { get; set; }
         public long SpecialNoodleId { get; set; }
-        public int SpecialHitPercent { get; set; }
+        public float SpecialHitPercent { get; set; }
     }
 }

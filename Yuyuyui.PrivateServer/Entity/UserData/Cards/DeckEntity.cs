@@ -17,7 +17,7 @@ namespace Yuyuyui.PrivateServer
         protected override Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
-            
+
             if (player.decks.Count == 0)
             {
                 // when player's deck is empty, it has to be a new player
@@ -34,7 +34,7 @@ namespace Yuyuyui.PrivateServer
                 yuunaUnit.Save();
                 fuuUnit.Save();
                 itsukiUnit.Save();
-                
+
                 var firstDeck = new Deck
                 {
                     id = Deck.GetID(),
@@ -43,7 +43,7 @@ namespace Yuyuyui.PrivateServer
                     units = new List<long> {yuunaUnit.id, fuuUnit.id, itsukiUnit.id}
                 };
                 firstDeck.Save();
-                
+
                 player.decks.Add(firstDeck.id);
 
                 for (int i = 1; i < 14; ++i)
@@ -54,7 +54,7 @@ namespace Yuyuyui.PrivateServer
                     unit1.Save();
                     unit2.Save();
                     unit3.Save();
-                    
+
                     var deck = new Deck
                     {
                         id = Deck.GetID(),
@@ -63,21 +63,21 @@ namespace Yuyuyui.PrivateServer
                         units = new List<long> {unit1.id, unit2.id, unit3.id}
                     };
                     deck.Save();
-                    
+
                     player.decks.Add(deck.id);
                 }
-                
+
                 player.Save();
                 Utils.Log("Assigned default decks to player.");
             }
-            
-            Utils.LogWarning("Unit calculation is not done yet!");
+
+            Utils.LogWarning("Unit calculation is not finished yet!");
 
             Response responseObj = new()
             {
                 decks = player.decks
                     .Select(Deck.Load)
-                    .Select(Response.Deck.FromPlayerDeck)
+                    .Select(d => Response.Deck.FromPlayerDeck(d, player))
                     .ToList()
             };
 
@@ -98,14 +98,14 @@ namespace Yuyuyui.PrivateServer
                 public string? name { get; set; } = null;
                 public IList<Unit.CardWithSupport> cards { get; set; } = new List<Unit.CardWithSupport>();
 
-                public static Deck FromPlayerDeck(Yuyuyui.PrivateServer.Deck d)
+                public static Deck FromPlayerDeck(Yuyuyui.PrivateServer.Deck d, PlayerProfile player)
                 {
                     return new Response.Deck
                     {
                         id = d.id,
                         leader_deck_card_id = d.leaderUnitID,
                         name = d.name,
-                        cards = d.units.Select(id => (Unit.CardWithSupport) Unit.Load(id)!).ToList()
+                        cards = d.units.Select(id => Unit.CardWithSupport.FromUnit(Unit.Load(id), player)).ToList()!
                     };
                 }
             }

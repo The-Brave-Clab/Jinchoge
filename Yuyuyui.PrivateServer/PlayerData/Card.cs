@@ -7,7 +7,7 @@ namespace Yuyuyui.PrivateServer
         public long id { get; set; } // 8 digits
         public long master_id { get; set; } // from master_data
         public int level { get; set; }
-        public int exp { get; set; }
+        public long exp { get; set; }
         public int potential { get; set; }
         public int active_skill_level { get; set; }
         public int support_skill_level { get; set; }
