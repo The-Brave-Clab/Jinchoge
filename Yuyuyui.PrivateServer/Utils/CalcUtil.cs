@@ -33,9 +33,8 @@ namespace Yuyuyui.PrivateServer
             return (int) (Math.Ceiling(num2) + 0.5f);
         }
         
-        public static CardLevel GetLevelFromExp(int levelCategory, long exp)
+        public static CardLevel GetLevelFromExp(CardsContext cardsDb, int levelCategory, long exp)
         {
-            using var cardsDb = new CardsContext();
             IEnumerable<CardLevel> source = cardsDb.CardLevels
                 .Where(i => i.LevelCategory == levelCategory); // all level data in current category
             CardLevel? masterCardLevelData = source.FirstOrDefault(i => i.MaxExp >= exp); // find one
@@ -46,9 +45,8 @@ namespace Yuyuyui.PrivateServer
             return source.Last(); // if not found, return the highest level in current category
         }
         
-        public static CardLevel GetExpFromLevel(int levelCategory, int level)
+        public static CardLevel GetExpFromLevel(CardsContext cardsDb, int levelCategory, int level)
         {
-            using var cardsDb = new CardsContext();
             IEnumerable<CardLevel> source = cardsDb.CardLevels
                 .Where(i => i.LevelCategory == levelCategory);
             return source.First(i => i.Level == level);
@@ -58,9 +56,8 @@ namespace Yuyuyui.PrivateServer
 
         #region Enhancement
         
-        public static float CalcActiveEnhancementChance(EnhancementItem item, long skillId, int level, int count)
+        public static float CalcActiveEnhancementChance(SkillsContext skillsDb, EnhancementItem item, long skillId, int level, int count)
         {
-            using var skillsDb = new SkillsContext();
             ActiveSkillComplete? activeSkillData = skillsDb.ActiveSkills
                 .FirstOrDefault(i => i.Id == skillId);
             if (activeSkillData == null)
@@ -77,10 +74,9 @@ namespace Yuyuyui.PrivateServer
             return item.ActiveSkillLevelPotential * count / (float)masterActiveSkillLevelData.LevelUpParam;
         }
         
-        public static float CalcSupportEnhancementChance(
+        public static float CalcSupportEnhancementChance(SkillsContext skillsDb,
             EnhancementItem item, long skillId, int levelCategory, int level, int count)
         {
-            using var skillsDb = new SkillsContext();
             PassiveSkill? passiveSkillData = skillsDb.PassiveSkills
                 .FirstOrDefault(i => i.Id == skillId);
             if (passiveSkillData == null)
@@ -130,9 +126,8 @@ namespace Yuyuyui.PrivateServer
             return (int) Math.Floor(num * Math.Pow((float)assistLevel, p));
         }
         
-        public static FamiliarityLevel GetFamiliarityRankFromExp(long exp)
+        public static FamiliarityLevel GetFamiliarityRankFromExp(CharactersContext charactersDb, long exp)
         {
-            using var charactersDb = new CharactersContext();
             IEnumerable<FamiliarityLevel> source = charactersDb.FamiliarityLevels;
             FamiliarityLevel? masterFamiliarityLevelData = source.FirstOrDefault(i => i.MaxExp >= exp);
             if (masterFamiliarityLevelData != null) // if found
@@ -142,9 +137,8 @@ namespace Yuyuyui.PrivateServer
             return source.Last(); // if not found, return the highest level in current category
         }
         
-        public static FamiliarityLevel GetExpFromFamiliarityRank(int level)
+        public static FamiliarityLevel GetExpFromFamiliarityRank(CharactersContext charactersDb, int level)
         {
-            using var charactersDb = new CharactersContext();
             IEnumerable<FamiliarityLevel> source = charactersDb.FamiliarityLevels;
             return source.First(i => i.Level == level);
         }

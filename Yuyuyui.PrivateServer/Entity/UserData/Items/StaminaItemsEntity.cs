@@ -20,7 +20,9 @@
             {
                 stamina_items = player.items.stamina
                     .Select(p => p.Value)
-                    .ToDictionary(c => c, Item.Load)
+                    .Select(Item.Load)
+                    .Where(si => si.quantity > 0)
+                    .ToDictionary(si => si.id, si => si)
             };
 
             responseBody = Serialize(responseObj);

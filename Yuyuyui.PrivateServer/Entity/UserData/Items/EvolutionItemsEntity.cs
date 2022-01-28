@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using Yuyuyui.PrivateServer.DataModel;
+
+namespace Yuyuyui.PrivateServer
 {
     public class EvolutionItemsEntity : BaseEntity<EvolutionItemsEntity>
     {
@@ -20,7 +22,9 @@
             {
                 evolution_items = player.items.evolution
                     .Select(p => p.Value)
-                    .ToDictionary(c => c, Item.Load)
+                    .Select(Item.Load)
+                    .Where(ei => ei.quantity > 0) // don't show consumed items
+                    .ToDictionary(ei => ei.id, ei => ei)
             };
 
             responseBody = Serialize(responseObj);

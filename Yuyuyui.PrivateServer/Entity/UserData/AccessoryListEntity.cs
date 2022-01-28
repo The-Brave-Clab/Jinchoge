@@ -39,7 +39,7 @@ namespace Yuyuyui.PrivateServer
                     {
                         DataModel.Accessory masterAccessory = 
                             accessoryDb.Accessories.First(ua => ua.Id == a.master_id);
-                        float growthKindValue = GrowthKind.GetValue(3);
+                        float growthKindValue = GrowthKind.GetValue(3); // growth kind for accessories is fixed 3
                         DataModel.AccessoryLevel accessoryNextLevel =
                             accessoryDb.AccessoryLevels
                                 .Where(al => al.Rarity == masterAccessory.Rarity)
@@ -81,7 +81,7 @@ namespace Yuyuyui.PrivateServer
             public class Accessory
             {
                 public long id { get; set; }
-                public int master_id { get; set; }
+                public long master_id { get; set; }
                 public int level { get; set; }
                 public int cost { get; set; }
                 public int hit_point { get; set; }

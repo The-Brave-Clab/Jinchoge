@@ -342,10 +342,10 @@ namespace Yuyuyui.PrivateServer
             	typeof(EnhancementResultTransactionUpdateEntity),
             	new Config("/my/cards/{card_id}/enhancement/transactions/{transaction_id}", "PUT")
             },
-            //{
-            //	typeof(EvolutionCardResultEntitiy),
-            //	new Config("/my/cards/{0}/evolution", "Json/Room/evolution_card_result", 0)
-            //},
+            {
+            	typeof(EvolutionCardResultEntity),
+            	new Config("/my/cards/{card_id}/evolution", "PUT")
+            },
             {
                 typeof(ShopEntity),
                 new Config("/shops", "GET")

@@ -123,15 +123,14 @@ namespace Yuyuyui.PrivateServer
             return unit;
         }
 
-        public DataModel.Card MasterData()
+        public DataModel.Card MasterData(CardsContext cardDb)
         {
-            using var cardDb = new CardsContext();
             return cardDb.Cards.First(c => c.Id == master_id);
         }
 
-        public int GetHitPoint()
+        public int GetHitPoint(CardsContext cardsDb)
         {
-            DataModel.Card masterCard = MasterData();
+            DataModel.Card masterCard = MasterData(cardsDb);
             float growthValue = GrowthKind.GetValue(masterCard.GrowthKind);
             return CalcUtil.CalcHitPointByLevel(
                 level, masterCard.MinLevel, masterCard.MaxLevel,
@@ -139,9 +138,9 @@ namespace Yuyuyui.PrivateServer
                 potential, masterCard.LevelMaxHitPointBonus, masterCard.PotentialHitPointArgument);
         }
 
-        public int GetAttack()
+        public int GetAttack(CardsContext cardsDb)
         {
-            DataModel.Card masterCard = MasterData();
+            DataModel.Card masterCard = MasterData(cardsDb);
             float growthValue = GrowthKind.GetValue(masterCard.GrowthKind);
             return CalcUtil.CalcAttackByLevel(
                 level, masterCard.MinLevel, masterCard.MaxLevel,
@@ -166,12 +165,10 @@ namespace Yuyuyui.PrivateServer
             return Card.Load(user_card_id);
         }
 
-        public static implicit operator Dictionary<string, long>(SupportCard? sc)
+        public Dictionary<string, long> ToDict(CardsContext cardsDb)
         {
-            if (sc == null) return new Dictionary<string, long>();
-            
-            Card userCard = sc.GetCard();
-            DataModel.Card masterCard = userCard.MasterData();
+            Card userCard = GetCard();
+            DataModel.Card masterCard = userCard.MasterData(cardsDb);
             float growthValue = GrowthKind.GetValue(masterCard.GrowthKind);
             
             return new Dictionary<string, long>

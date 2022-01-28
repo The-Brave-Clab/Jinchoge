@@ -20,7 +20,9 @@
             {
                 event_items = player.items.eventItems
                     .Select(p => p.Value)
-                    .ToDictionary(c => c, Item.Load)
+                    .Select(Item.Load)
+                    .Where(ei => ei.quantity > 0) // don't show consumed items
+                    .ToDictionary(ei => ei.id, ei => ei)
             };
 
             responseBody = Serialize(responseObj);

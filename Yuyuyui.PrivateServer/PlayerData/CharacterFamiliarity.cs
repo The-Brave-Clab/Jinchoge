@@ -37,10 +37,8 @@ public class CharacterFamiliarity
         return enhancementAmount[1000];
     }
 
-    public FamiliarityLevel GetLevelData()
+    public FamiliarityLevel GetLevelData(CharactersContext characterDb)
     {
-        using var characterDb = new CharactersContext();
-
         return characterDb.FamiliarityLevels.First(l => l.Level == rank);
     }
 }

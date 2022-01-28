@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using Yuyuyui.PrivateServer.DataModel;
+
+namespace Yuyuyui.PrivateServer
 {
     public class UserInfoEntity : BaseEntity<UserInfoEntity>
     {
@@ -19,12 +21,18 @@
             {
                 throw new APIErrorException("A0201", $"Player {userCode} not found!");
             }
+
             var player = PlayerProfile.Load(userCode);
-            
-            Response responseObj = new()
+
+            Response responseObj;
+            using (var cardsDb = new CardsContext())
+            using (var charactersDb = new CharactersContext())
             {
-                user = player
-            };
+                responseObj = new()
+                {
+                    user = Response.User.FromPlayerProfile(cardsDb, charactersDb, player)
+                };
+            }
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
@@ -35,7 +43,7 @@
         public class Response
         {
             public User user = new();
-            
+
             public class User
             {
                 public string id { get; set; } = "";
@@ -47,7 +55,8 @@
                 public long? title_item_id { get; set; } = null;
                 public Unit.CardWithSupport leader_card { get; set; } = new();
 
-                public static implicit operator User(PlayerProfile player)
+                public static User FromPlayerProfile(CardsContext cardsDb, CharactersContext charactersDb,
+                    PlayerProfile player)
                 {
                     return new()
                     {
@@ -58,7 +67,7 @@
                         accessed_at = player.data.lastActive,
                         fellowship_count = player.friends.Count,
                         title_item_id = player.data.titleItemID,
-                        leader_card = Unit.CardWithSupport.FromUnit(
+                        leader_card = Unit.CardWithSupport.FromUnit(cardsDb, charactersDb,
                             Unit.Load(
                                 Deck.Load(player.decks[0]).leaderUnitID), player)!
                     };

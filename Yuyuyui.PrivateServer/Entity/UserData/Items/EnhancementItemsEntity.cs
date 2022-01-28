@@ -47,6 +47,7 @@ namespace Yuyuyui.PrivateServer
                             support_skill_level_category = masterData.SupportSkillLevelCategory
                         };
                     })
+                    .Where(ei => ei.quantity > 0) // don't show consumed items
                     .ToList()
             };
 

@@ -36,6 +36,7 @@ namespace Yuyuyui.PrivateServer
 
             using var enhancementDb = new EnhancementContext();
             using var itemsDb = new ItemsContext();
+            using var cardsDb = new CardsContext();
 
             // the target card data
             Card userCard = Card.Load(cardId);
@@ -45,7 +46,7 @@ namespace Yuyuyui.PrivateServer
                 .First(i => i.Id == userItem.master_id);
 
             // first, we pick a cooking character
-            var masterCard = userCard.MasterData();
+            var masterCard = userCard.MasterData(cardsDb);
             long targetCharacterId = masterCard.CharacterId;
             var cookingCharacterDataSource = enhancementDb.NoodleCookingCharacters
                 .Where(c => c.TargetCharacterId == targetCharacterId); // this won't be empty at all
@@ -71,7 +72,8 @@ namespace Yuyuyui.PrivateServer
                 cookingCharacterId = cookingCharacterData.CookingCharacterId;
             }
 
-            Utils.Log($"{cookingCharacterData.CookingCharacterId}->{cookingCharacterData.TargetCharacterId}");
+            Utils.Log($"cooking character {cookingCharacterData.CookingCharacterId}" +
+                      $" -> target character {cookingCharacterData.TargetCharacterId}");
 
             // this is the result cooking data
             NoodleCooking cookingData =
@@ -98,15 +100,17 @@ namespace Yuyuyui.PrivateServer
             // exp & level
             long gotExp = usedItem.Exp * noodleData.ExpCoefficient * transaction.createdWith.enhancement_item.quantity;
             long newExpUncapped = userCard.exp + gotExp;
-            CardLevel newLevelUncapped = CalcUtil.GetLevelFromExp(masterCard.LevelCategory, newExpUncapped);
+            CardLevel newLevelUncapped = CalcUtil.GetLevelFromExp(cardsDb, masterCard.LevelCategory, newExpUncapped);
             bool expOverflow = newLevelUncapped.Level >= masterCard.MaxLevel;
             int newLevel = expOverflow ? masterCard.MaxLevel : newLevelUncapped.Level;
             long newExp = expOverflow
                 // default value only for casting from nullable, won't be used at all by theory
-                ? CalcUtil.GetExpFromLevel(masterCard.LevelCategory, newLevel - 1).MaxExp + 1 ?? 0
+                ? CalcUtil.GetExpFromLevel(cardsDb, masterCard.LevelCategory, newLevel - 1).MaxExp + 1 ?? 0
                 : newExpUncapped;
             // active skill
+            using var skillsDb = new SkillsContext();
             float activeSkillLevelUpProbability = CalcUtil.CalcActiveEnhancementChance(
+                skillsDb,
                 usedItem,
                 masterCard.ActiveSkillId ?? 0,
                 userCard.active_skill_level,
@@ -116,6 +120,7 @@ namespace Yuyuyui.PrivateServer
             Utils.Log($"active skill level up {activeSkillLevelUp}");
             // support skill
             float supportSkillLevelUpProbability = CalcUtil.CalcSupportEnhancementChance(
+                skillsDb,
                 usedItem,
                 masterCard.SupportSkillId ?? 0,
                 usedItem.SupportSkillLevelCategory,
@@ -140,11 +145,12 @@ namespace Yuyuyui.PrivateServer
 
             var newFamiliarityUncapped = beforeFamiliarity + gotFamiliarity;
 
-            FamiliarityLevel newRankUncapped = CalcUtil.GetFamiliarityRankFromExp(newFamiliarityUncapped);
+            using var charactersDb = new CharactersContext();
+            FamiliarityLevel newRankUncapped = CalcUtil.GetFamiliarityRankFromExp(charactersDb, newFamiliarityUncapped);
             bool familiarityOverflow = newRankUncapped.Level >= 25;
             int newRank = familiarityOverflow ? 25 : newRankUncapped.Level;
             int newFamiliarity = familiarityOverflow
-                ? CalcUtil.GetExpFromFamiliarityRank(newRank - 1).MaxExp + 1 ?? 0
+                ? CalcUtil.GetExpFromFamiliarityRank(charactersDb, newRank - 1).MaxExp + 1 ?? 0
                 : newFamiliarityUncapped;
 
             int newAssistLevel = beforeAssistLevel + gotAssistLevel; // will this overflow?
@@ -162,8 +168,10 @@ namespace Yuyuyui.PrivateServer
             familiarity.rank = newRank;
             familiarity.familiarity = newFamiliarity;
             familiarity.assist_level = newAssistLevel;
+            Utils.Log($"familiarity {familiarity.character_group} value +{newFamiliarity - beforeFamiliarity}");
+            Utils.Log($"familiarity {familiarity.character_group} assist level +{gotAssistLevel}");
             player.Save();
-            
+
             long costMoney =
                 CalcUtil.CalcRequiredEnhancementMoney(transaction.createdWith.enhancement_item.quantity,
                     usedItem.CostCoefficient);
@@ -177,7 +185,7 @@ namespace Yuyuyui.PrivateServer
             {
                 card_enhancement = new()
                 {
-                    card = CardsEntity.Card.FromPlayerCardData(userCard),
+                    card = CardsEntity.Card.FromPlayerCardData(cardsDb, userCard),
                     big_hit = bigHit,
                     noodle_master_id = noodleId,
                     cooking_character_master_id = cookingCharacterData.CookingCharacterId,

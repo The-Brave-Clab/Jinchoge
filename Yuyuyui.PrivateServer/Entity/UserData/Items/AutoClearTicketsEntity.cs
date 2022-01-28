@@ -20,7 +20,9 @@
             {
                 tickets = player.items.autoClearTickets
                     .Select(p => p.Value)
-                    .Select(Item.Load).ToList()
+                    .Select(Item.Load)
+                    .Where(t => t.quantity > 0)
+                    .ToList()
             };
 
             responseBody = Serialize(responseObj);

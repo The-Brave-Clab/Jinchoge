@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -22,7 +23,7 @@ namespace Yuyuyui.PrivateServer
 
             Deck targetDeck = Deck.Load(requestObj.deck.id);
             targetDeck.name = requestObj.deck.name;
-            
+
             foreach (var unitUpdateRequest in requestObj.deck.cards)
             {
                 Unit targetUnit = Unit.Load(unitUpdateRequest.deck_card_id);
@@ -33,14 +34,18 @@ namespace Yuyuyui.PrivateServer
                 targetUnit.accessories = unitUpdateRequest.accessory_ids ??= new List<long>();
                 targetUnit.Save();
             }
-            
+
             targetDeck.Save();
             
-
-            Response responseObj = new()
+            Response responseObj;
+            using (var cardsDb = new CardsContext())
+            using (var charactersDb = new CharactersContext())
             {
-                deck = DeckEntity.Response.Deck.FromPlayerDeck(targetDeck, player)
-            };
+                responseObj = new()
+                {
+                    deck = DeckEntity.Response.Deck.FromPlayerDeck(cardsDb, charactersDb, targetDeck, player)
+                };
+            }
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
@@ -70,7 +75,7 @@ namespace Yuyuyui.PrivateServer
                     public IList<long>? accessory_ids { get; set; } = null;
                 }
             }
-    }
+        }
 
         public class Response
         {
