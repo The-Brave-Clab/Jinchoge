@@ -266,10 +266,10 @@ namespace Yuyuyui.PrivateServer
                 typeof(AccessoryListEntity),
                 new Config("/my/accessories", "GET")
             },
-            //{
-            //	typeof(AccessoryEnhancementResultEntity),
-            //	new Config("/my/accessories/{0}", "Json/Accessory/accessory_effect", 0)
-            //},
+            {
+            	typeof(AccessoryEnhancementResultEntity),
+            	new Config("/my/accessories/{accessory_id}", "PUT")
+            },
             //{
             //	typeof(MenuUserTransferEntity),
             //	new Config("/my/inherited_password", "Json/Menu/transfer", 0)
