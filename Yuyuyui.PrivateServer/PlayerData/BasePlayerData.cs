@@ -48,7 +48,7 @@ namespace Yuyuyui.PrivateServer
                 // Update cache
                 if (!Cache.ContainsKey(Identifier))
                 {
-                    Cache.Add(Identifier, (TSelf)this);
+                    Cache.Add(Identifier, (TSelf) this);
                 }
             }
         }
@@ -62,21 +62,20 @@ namespace Yuyuyui.PrivateServer
                 {
                     return Cache[identifier];
                 }
-            }
 
-            lock (GetLockObj(identifier))
-            {
-                string file = GetFileName(identifier);
-                string content = File.ReadAllText(file, Encoding.UTF8);
-                //return JsonConvert.DeserializeObject<T>(content)!;
-                var deserializer = new Deserializer();
-                TSelf result = deserializer.Deserialize<TSelf>(content);
+                lock (GetLockObj(identifier))
+                {
+                    string file = GetFileName(identifier);
+                    string content = File.ReadAllText(file, Encoding.UTF8);
+                    //return JsonConvert.DeserializeObject<T>(content)!;
+                    var deserializer = new Deserializer();
+                    TSelf result = deserializer.Deserialize<TSelf>(content);
 
-                // Add to cache
-                lock (Cache)
+                    // Add to cache
                     Cache.Add(identifier, result);
 
-                return result;
+                    return result;
+                }
             }
         }
 

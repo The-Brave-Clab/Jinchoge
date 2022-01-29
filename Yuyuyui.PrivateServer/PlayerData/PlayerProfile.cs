@@ -13,7 +13,7 @@
         public IList<long> clubOrders { get; set; } = new List<long>();
         public IList<long> clubWorkingSlots { get; set; } = new List<long>();
 
-        public IDictionary<long, long> cards { get; set; } = new Dictionary<long, long>(); // master_id, id
+        public IDictionary<long, long> cards { get; set; } = new Dictionary<long, long>(); // base_card_master_id, id
 
         public IList<long> decks { get; set; } = new List<long>();
 

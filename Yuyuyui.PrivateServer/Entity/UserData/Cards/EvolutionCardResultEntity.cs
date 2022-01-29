@@ -39,10 +39,9 @@ namespace Yuyuyui.PrivateServer
             userCard.evolution_level = targetEvolutionLevel;
             userCard.Save();
             
-            // master_id of the card changed, changing the key value pair in player as well
+            // since the player cards key is base_card_id which won't change,
+            // we don't do anything even if the master_id of the card changed
             DataModel.Card newMasterCard = userCard.MasterData(cardsDb);
-            player.cards.Remove(masterCard.Id);
-            player.cards.Add(newMasterCard.Id, userCard.id);
             
             // consume player's items
             Dictionary<long, int> costResources = new Dictionary<long, int>(3)

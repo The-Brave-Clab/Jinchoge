@@ -24,7 +24,7 @@ namespace Yuyuyui.PrivateServer
                 var tougou = Yuyuyui.PrivateServer.Card.DefaultTougou();
                 var fuu = Yuyuyui.PrivateServer.Card.DefaultFuu();
                 var itsuki = Yuyuyui.PrivateServer.Card.DefaultItsuki();
-                player.cards.Add(yuuna.master_id, yuuna.id);
+                player.cards.Add(100010, yuuna.id); // since the key is base_card_id, we manually specify this
                 player.cards.Add(tougou.master_id, tougou.id);
                 player.cards.Add(fuu.master_id, fuu.id);
                 player.cards.Add(itsuki.master_id, itsuki.id);

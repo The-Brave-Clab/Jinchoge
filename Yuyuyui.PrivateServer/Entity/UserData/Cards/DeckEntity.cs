@@ -23,7 +23,7 @@ namespace Yuyuyui.PrivateServer
             {
                 // when player's deck is empty, it has to be a new player
                 // which means there has to be these four cards.
-                var yuuna = Card.Load(player.cards[100011]);
+                var yuuna = Card.Load(player.cards[100010]);
                 var tougou = Card.Load(player.cards[100020]);
                 var fuu = Card.Load(player.cards[100040]);
                 var itsuki = Card.Load(player.cards[100050]);
