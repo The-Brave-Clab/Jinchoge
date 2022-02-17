@@ -1,30 +1,21 @@
-﻿using Org.BouncyCastle.Crypto.Digests;
+﻿using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {
     public class Card : BasePlayerData<Card, long>
     {
         public long id { get; set; } // 8 digits
-        public int master_id { get; set; } // from master_data
+        public long master_id { get; set; } // from master_data
         public int level { get; set; }
-        public int exp { get; set; }
+        public long exp { get; set; }
         public int potential { get; set; }
-        public int hit_point { get; set; }
-        public int attack { get; set; }
-        public int critical { get; set; }
-        public int agility { get; set; }
-        public int footing_point { get; set; } // weight in database
-        public long? active_skill_id { get; set; }
-        public long? support_skill_id { get; set; }
-        public long? leader_skill_id { get; set; }
         public int active_skill_level { get; set; }
         public int support_skill_level { get; set; }
         public int evolution_level { get; set; }
-        public int cost { get; set; }
-        public int support_point { get; set; }
-        public float exchange_point_rate { get; set; } // 0.0, 1.0, 2.0, 3.0, 5.0
-                                                       // for different level of Taisha Point bonus
-                                                       // Maybe consider changing getter/setter?
+
+        // for different level of Taisha Point bonus
+        // Maybe consider changing getter/setter?
+        //public float exchange_point_rate { get; set; } // 0.0, 1.0, 2.0, 3.0, 5.0
 
         private static long GetID()
         {
@@ -42,24 +33,13 @@ namespace Yuyuyui.PrivateServer
             return new Card
             {
                 id = GetID(),
-                master_id = 100011,
+                master_id = 100011, // Consider getting this from the database
                 level = 15,
                 exp = 10000,
                 potential = 0,
-                hit_point = 2070,
-                attack = 2490,
-                critical = 90,
-                agility = 110,
-                footing_point = 1320,
-                active_skill_id = 111110000,
-                support_skill_id = 132011000,
-                leader_skill_id = null,
                 active_skill_level = 1,
                 support_skill_level = 1,
-                evolution_level = 2,
-                cost = 16,
-                support_point = 29,
-                exchange_point_rate = 0.0f
+                evolution_level = 2
             };
         }
 
@@ -72,20 +52,9 @@ namespace Yuyuyui.PrivateServer
                 level = 1,
                 exp = 0,
                 potential = 0,
-                hit_point = 480,
-                attack = 2400,
-                critical = 150,
-                agility = 40,
-                footing_point = 200,
-                active_skill_id = 111111000,
-                support_skill_id = 132012000,
-                leader_skill_id = null,
                 active_skill_level = 1,
                 support_skill_level = 1,
-                evolution_level = 1,
-                cost = 23,
-                support_point = 20,
-                exchange_point_rate = 0.0f
+                evolution_level = 1
             };
         }
 
@@ -98,20 +67,9 @@ namespace Yuyuyui.PrivateServer
                 level = 1,
                 exp = 0,
                 potential = 0,
-                hit_point = 1680,
-                attack = 3600,
-                critical = 400,
-                agility = 80,
-                footing_point = 2400,
-                active_skill_id = 111112000,
-                support_skill_id = 132013000,
-                leader_skill_id = null,
                 active_skill_level = 1,
                 support_skill_level = 1,
-                evolution_level = 1,
-                cost = 21,
-                support_point = 18,
-                exchange_point_rate = 0.0f
+                evolution_level = 1
             };
         }
 
@@ -124,20 +82,9 @@ namespace Yuyuyui.PrivateServer
                 level = 1,
                 exp = 0,
                 potential = 0,
-                hit_point = 600,
-                attack = 960,
-                critical = 25,
-                agility = 120,
-                footing_point = 300,
-                active_skill_id = 111113000,
-                support_skill_id = 132014000,
-                leader_skill_id = null,
                 active_skill_level = 1,
                 support_skill_level = 1,
-                evolution_level = 1,
-                cost = 15,
-                support_point = 23,
-                exchange_point_rate = 0.0f
+                evolution_level = 1
             };
         }
 
@@ -147,19 +94,13 @@ namespace Yuyuyui.PrivateServer
         {
             return new SupportCard
             {
-                hit_point = hit_point,
-                attack = attack,
                 user_card_id = id,
-                master_id = master_id,
-                potential = potential,
-                evolution_level = evolution_level,
-                level = level
             };
         }
 
         public Unit CreateUnit(
-            SupportCard? support = null, 
-            SupportCard? support2 = null, 
+            SupportCard? support = null,
+            SupportCard? support2 = null,
             SupportCard? assist = null,
             Accessory? accessory0 = null,
             Accessory? accessory1 = null)
@@ -167,19 +108,13 @@ namespace Yuyuyui.PrivateServer
             Unit unit = new Unit
             {
                 id = Unit.GetID(),
-                hitPoint = hit_point,
-                attack = attack,
                 baseCardID = id,
                 supportCardID = support?.user_card_id,
                 supportCard2ID = support2?.user_card_id,
                 assistCardID = assist?.user_card_id,
                 accessories = new List<long>(),
-                master_id = master_id,
-                potential = potential,
-                evolutionLevel = evolution_level,
-                level = level
             };
-            
+
             if (accessory0 != null)
                 unit.accessories.Add(accessory0.id);
             if (accessory1 != null)
@@ -187,35 +122,70 @@ namespace Yuyuyui.PrivateServer
 
             return unit;
         }
+
+        public DataModel.Card MasterData(CardsContext cardDb)
+        {
+            return cardDb.Cards.First(c => c.Id == master_id);
+        }
+
+        public int GetHitPoint(CardsContext cardsDb)
+        {
+            DataModel.Card masterCard = MasterData(cardsDb);
+            float growthValue = GrowthKind.GetValue(masterCard.GrowthKind);
+            return CalcUtil.CalcHitPointByLevel(
+                level, masterCard.MinLevel, masterCard.MaxLevel,
+                masterCard.MinHitPoint, masterCard.MaxHitPoint, growthValue,
+                potential, masterCard.LevelMaxHitPointBonus, masterCard.PotentialHitPointArgument);
+        }
+
+        public int GetAttack(CardsContext cardsDb)
+        {
+            DataModel.Card masterCard = MasterData(cardsDb);
+            float growthValue = GrowthKind.GetValue(masterCard.GrowthKind);
+            return CalcUtil.CalcAttackByLevel(
+                level, masterCard.MinLevel, masterCard.MaxLevel,
+                masterCard.MinAttack, masterCard.MaxAttack, growthValue,
+                potential, masterCard.LevelMaxAttackBonus, masterCard.PotentialAttackArgument);
+        }
+
+        // TODO: Fill this
+        public float GetExchangePointRate()
+        {
+            //DataModel.Card masterCard = MasterData();
+            return 0.0f;
+        }
     }
 
     public class SupportCard
     {
-        public int hit_point { get; set; } // TODO: can be removed?
-        public int attack { get; set; } // TODO: can be removed?
         public long user_card_id { get; set; } // card id
-        public int master_id { get; set; } // TODO: can be removed?
-        public int potential { get; set; } // TODO: can be removed?
-        public int evolution_level { get; set; } // TODO: can be removed?
-        public int level { get; set; } // TODO: can be removed?
 
         public Card GetCard()
         {
             return Card.Load(user_card_id);
         }
 
-        public static implicit operator Dictionary<string, long>(SupportCard? sc)
+        public Dictionary<string, long> ToDict(CardsContext cardsDb)
         {
-            if (sc == null) return new Dictionary<string, long>();
+            Card userCard = GetCard();
+            DataModel.Card masterCard = userCard.MasterData(cardsDb);
+            float growthValue = GrowthKind.GetValue(masterCard.GrowthKind);
+            
             return new Dictionary<string, long>
             {
-                {"hit_point", sc.hit_point},
-                {"attack", sc.attack},
-                {"user_card_id", sc.user_card_id},
-                {"master_id", sc.master_id},
-                {"potential", sc.potential},
-                {"evolution_level", sc.evolution_level},
-                {"level", sc.level}
+                {"hit_point", CalcUtil.CalcHitPointByLevel(
+                    userCard.level, masterCard.MinLevel, masterCard.MaxLevel, 
+                    masterCard.MinHitPoint, masterCard.MaxHitPoint, growthValue, 
+                    userCard.potential, masterCard.LevelMaxHitPointBonus, masterCard.PotentialHitPointArgument)},
+                {"attack", CalcUtil.CalcAttackByLevel(
+                    userCard.level, masterCard.MinLevel, masterCard.MaxLevel,
+                    masterCard.MinAttack, masterCard.MaxAttack, growthValue, 
+                    userCard.potential, masterCard.LevelMaxAttackBonus, masterCard.PotentialAttackArgument)},
+                {"user_card_id", userCard.id},
+                {"master_id", userCard.master_id},
+                {"potential", userCard.potential},
+                {"evolution_level", userCard.evolution_level},
+                {"level", userCard.level}
             };
         }
 
@@ -227,13 +197,7 @@ namespace Yuyuyui.PrivateServer
             {
                 return new()
                 {
-                    hit_point = (int) dic["hit_point"],
-                    attack = (int) dic["attack"],
                     user_card_id = dic["user_card_id"],
-                    master_id = (int) dic["master_id"],
-                    potential = (int) dic["potential"],
-                    evolution_level = (int) dic["evolution_level"],
-                    level = (int) dic["level"],
                 };
             }
             catch (KeyNotFoundException)

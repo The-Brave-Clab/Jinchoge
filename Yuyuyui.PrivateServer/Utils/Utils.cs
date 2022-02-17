@@ -34,6 +34,50 @@
             return
                 $"{RandomStrFromChar("123456789", 1)}{RandomStrFromChar("0123456789", length - 1)}";
         }
+        
+        public static T? Random<T>(this IEnumerable<T> enumerable)
+        {
+            if (enumerable == null)
+            {
+                throw new ArgumentNullException(nameof(enumerable));
+            }
+
+            var list = enumerable as IList<T> ?? enumerable.ToList(); 
+            return list.Count == 0 ? default : list[random.Next(0, list.Count)];
+        }
+        
+        public static T? Random<T>(this IEnumerable<T> enumerable, Func<T, float> weightExpression)
+        {
+            if (enumerable == null)
+            {
+                throw new ArgumentNullException(nameof(enumerable));
+            }
+
+            var list = enumerable as IList<T> ?? enumerable.ToList();
+
+            if (list.Count == 0) return default;
+            
+            float weightTotal = list.Sum(weightExpression);
+            float randomNumber = random.NextSingle() * weightTotal;
+            float cumulatedWeight = 0;
+
+            int i;
+            for (i = 0; i < list.Count; ++i)
+            {
+                float weight = weightExpression(list[i]);
+                if (randomNumber < cumulatedWeight + weight)
+                    return list[i];
+
+                cumulatedWeight += weight;
+            }
+
+            return list.Last();
+        }
+
+        public static bool ProbabilityCheck(float percentageNormalized)
+        {
+            return random.NextDouble() < percentageNormalized;
+        }
 
         #endregion
 

@@ -62,5 +62,25 @@ namespace Yuyuyui.PrivateServer.DataModel
         public long? LimitBreakRewardGiftId { get; set; } = null;
         public string? LimitBreakRewardText { get; set; } = null;
         public int? Scaling { get; set; } = null; // Work like a boolean? 1 for true, null for false
+        
+        public long? GetEvolutionRewardAccessoryId()
+        {
+            int index = EvolutionLevel - 2;
+            switch (index)
+            {
+                case 0:
+                    return EvolutionRewardAccessory1Id;
+                case 1:
+                    return EvolutionRewardAccessory2Id;
+                case 2:
+                    return EvolutionRewardAccessory3Id;
+                case 3:
+                    return EvolutionRewardAccessory4Id;
+                case 4:
+                    return LimitBreakRewardAccessoryId;
+                default:
+                    return -1L;
+            }
+        }
     }
 }

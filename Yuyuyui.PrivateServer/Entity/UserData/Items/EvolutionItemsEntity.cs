@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using Yuyuyui.PrivateServer.DataModel;
+
+namespace Yuyuyui.PrivateServer
 {
     public class EvolutionItemsEntity : BaseEntity<EvolutionItemsEntity>
     {
@@ -16,14 +18,13 @@
         {
             var player = GetPlayerFromCookies();
 
-            if (!player.items.ContainsKey("evolution"))
-            {
-                player.items.Add("evolution", new List<long>());
-            }
-
             Response responseObj = new()
             {
-                evolution_items = player.items["evolution"].ToDictionary(c => c, Item.Load)
+                evolution_items = player.items.evolution
+                    .Select(p => p.Value)
+                    .Select(Item.Load)
+                    .Where(ei => ei.quantity > 0) // don't show consumed items
+                    .ToDictionary(ei => ei.id, ei => ei)
             };
 
             responseBody = Serialize(responseObj);

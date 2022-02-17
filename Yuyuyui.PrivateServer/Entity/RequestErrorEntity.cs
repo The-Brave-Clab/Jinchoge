@@ -1,12 +1,24 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System.Text;
+
+namespace Yuyuyui.PrivateServer
 {
     public class RequestErrorEntity : BaseEntity<RequestErrorEntity>
     {
         private Response responseObj;
 
         private string? logMessage = null;
-        public RequestErrorEntity(string code, string message, Uri requestedUri, string httpMethod, Config requestConfig, string? logMessage = null)
-            : base(requestedUri, httpMethod, new Dictionary<string, string>(), Array.Empty<byte>(), requestConfig)
+
+        public RequestErrorEntity(
+            string code,
+            string message,
+            Uri requestedUri,
+            string httpMethod,
+            Config requestConfig,
+            Dictionary<string, string> requestHeaders,
+            byte[] requestBody,
+            string? logMessage = null
+        )
+            : base(requestedUri, httpMethod, requestHeaders, requestBody, requestConfig)
         {
             responseObj = new Response
             {
@@ -28,7 +40,20 @@
             // A1321: Network error, small window with message, with prefix
             // A0120: Input Error
             string messageBody = string.IsNullOrEmpty(logMessage) ? responseObj.error.message : logMessage;
+            
             Utils.LogError($"<APIError> {responseObj.error.code}: {messageBody}");
+            
+            if (HasRequestBody())
+            {
+                string requestBodyStr = Encoding.UTF8.GetString(requestBody);
+                Utils.LogError($"Request Body:\n{requestBodyStr}");
+            }
+
+            Utils.LogError("Request Headers:");
+            foreach (var header in requestHeaders)
+            {
+                Utils.LogError($"\t{header.Key}: {header.Value}");
+            }
 
             responseBody = Serialize(responseObj);
 
@@ -47,7 +72,7 @@
             public int status { get; set; }
         }
     }
-    
+
     public class APIErrorException : Exception
     {
         public string errorCode;

@@ -8,23 +8,24 @@
 
         public IDictionary<int, IList<int>> newAlbum { get; set; } = new Dictionary<int, IList<int>>();
 
-        public IList<long> accessories { get; set; } = new List<long>();
+        public IDictionary<long, long> accessories { get; set; } = new Dictionary<long, long>(); // master_id, id
 
         public IList<long> clubOrders { get; set; } = new List<long>();
         public IList<long> clubWorkingSlots { get; set; } = new List<long>();
 
-        public IList<long> cards { get; set; } = new List<long>();
+        public IDictionary<long, long> cards { get; set; } = new Dictionary<long, long>(); // base_card_master_id, id
 
         public IList<long> decks { get; set; } = new List<long>();
 
-        public IDictionary<string, IList<long>> items { get; set; } = new Dictionary<string, IList<long>>();
+        public Items items { get; set; } = new();
 
         // public IList<long> enhancementItems = new List<long>();
         // public IList<long> evolutionItems = new List<long>();
         // public IList<long> eventItems = new List<long>();
         // public IList<long> staminaItems = new List<long>();
 
-        public IList<CharacterFamiliarity> characterFamiliarities { get; set; } = new List<CharacterFamiliarity>();
+        public IDictionary<string, CharacterFamiliarity> characterFamiliarities { get; set; } 
+            = new Dictionary<string, CharacterFamiliarity>();
 
         public IList<string> friends { get; set; } = new List<string>(); // friend user id
         public IList<long> friendRequests { get; set; } = new List<long>(); // request id
@@ -35,6 +36,25 @@
         public Progress progress { get; set; } = new();
 
         protected override string Identifier => id.code;
+
+
+        public CharacterFamiliarity GetCharacterFamiliarity(long characterId1, long characterId2)
+        {
+            string groupName = CharacterFamiliarity.GetGroupName(characterId1, characterId2);
+            if (!characterFamiliarities.ContainsKey(groupName))
+                characterFamiliarities.Add(groupName, new()
+                {
+                    character_group = groupName,
+                    familiarity = 0,
+                    rank = 1,
+                    assist_level = 1
+                });
+            
+            Save();
+
+            return characterFamiliarities[groupName];
+        }
+        
 
         public class ID
         {
@@ -57,7 +77,7 @@
 
             public int paidBlessing { get; set; } = 999900; // we only do fixed paid in private server
             public int freeBlessing { get; set; } = 0;
-            public int money { get; set; } = 0;
+            public long money { get; set; } = 0;
             public int friendPoint { get; set; } = 0;
             public int braveCoin { get; set; } = 0;
             public int taishaPoint { get; set; } = 0;
@@ -75,6 +95,15 @@
             public IDictionary<long, long> episodes { get; set; } = new Dictionary<long, long>(); // master_id, id
             public IDictionary<long, long> stages { get; set; } = new Dictionary<long, long>(); // master_id, id
             public IList<long> adventureBooksRead { get; set; } = new List<long>(); // adventure_book_id
+        }
+
+        public class Items
+        {
+            public IDictionary<long, long> autoClearTickets { get; set; } = new Dictionary<long, long>(); // master_id, id
+            public IDictionary<long, long> enhancement { get; set; } = new Dictionary<long, long>(); // master_id, id
+            public IDictionary<long, long> eventItems { get; set; } = new Dictionary<long, long>(); // master_id, id
+            public IDictionary<long, long> evolution { get; set; } = new Dictionary<long, long>(); // master_id, id
+            public IDictionary<long, long> stamina { get; set; } = new Dictionary<long, long>(); // master_id, id
         }
     }
 }

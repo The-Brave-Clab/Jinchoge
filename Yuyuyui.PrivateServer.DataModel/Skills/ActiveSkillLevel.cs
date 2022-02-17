@@ -8,6 +8,6 @@ namespace Yuyuyui.PrivateServer.DataModel
         public long Id { get; set; }
         public int LevelCategoy { get; set; }
         public int Level { get; set; }
-        public int? LevelUpParam { get; set; } = null;
+        public float? LevelUpParam { get; set; } = null;
     }
 }

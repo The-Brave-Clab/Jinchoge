@@ -17,7 +17,7 @@ namespace Yuyuyui.PrivateServer.DataModel
         public long ImageId { get; set; }
         public int Rarity { get; set; }
         public int AssistLevelPotential { get; set; }
-        public int Priority { get; set; }
+        public long Priority { get; set; }
         public long? AvailableCharacterId1 { get; set; } = null;
         public long? AvailableCharacterId2 { get; set; } = null;
     }

@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -19,12 +20,18 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            Response responseObj = new()
+            Response responseObj;
+            using (var cardsDb = new CardsContext())
+            using (var charactersDb = new CharactersContext())
             {
-                fellowships = player.friends
-                    .Select(PlayerProfile.Load)
-                    .ToDictionary(p => p.id.code, p => (UserInfoEntity.Response.User) p)
-            };
+                responseObj = new()
+                {
+                    fellowships = player.friends
+                        .Select(PlayerProfile.Load)
+                        .ToDictionary(p => p.id.code,
+                            p => UserInfoEntity.Response.User.FromPlayerProfile(cardsDb, charactersDb, p))
+                };
+            }
             
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();

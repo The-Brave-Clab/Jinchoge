@@ -1,19 +1,15 @@
-﻿namespace Yuyuyui.PrivateServer;
+﻿using Yuyuyui.PrivateServer.DataModel;
+
+namespace Yuyuyui.PrivateServer;
 
 public class Unit : BasePlayerData<Unit, long>
 {
     public long id { get; set; } // This is NOT the card ID!
-    public int hitPoint { get; set; } // TODO: Can be removed?
-    public int attack { get; set; } // TODO: Can be removed?
     public long? baseCardID { get; set; } = null; // This IS the card ID!
     public long? supportCardID { get; set; } = null; // id of support card, same for the following 2
-    public long? supportCard2ID { get; set; } = null; // UR support?
-    public long? assistCardID { get; set; } = null; // Miko?
+    public long? supportCard2ID { get; set; } = null; // UR support
+    public long? assistCardID { get; set; } = null; // Miko
     public IList<long> accessories { get; set; } = new List<long>(); // Seirei ID
-    public int? master_id { get; set; } = null; // TODO: Can be removed?
-    public int? potential { get; set; } = null; // TODO: Can be removed?
-    public int? evolutionLevel { get; set; } = null; // TODO: Can be removed?
-    public int? level { get; set; } = null; // TODO: Can be removed?
     protected override long Identifier => id;
 
     public static long GetID()
@@ -37,18 +33,102 @@ public class Unit : BasePlayerData<Unit, long>
         return new()
         {
             id = GetID(),
-            hitPoint = 0,
-            attack = 0,
             baseCardID = null,
             supportCardID = null,
             supportCard2ID = null,
             assistCardID = null,
             accessories = new List<long>(),
-            master_id = null,
-            potential = null,
-            evolutionLevel = null,
-            level = null
         };
+    }
+
+    public int GetHP(CardsContext cardsDb, CharactersContext charactersContext, PlayerProfile belongTo)
+    {
+        // TODO: not finished yet!
+        if (baseCardID == null) return 0;
+        int hp = 0;
+        var card = GetCard()!;
+        var masterCard = card.MasterData(cardsDb);
+        hp += card.GetHitPoint(cardsDb);
+
+        if (supportCardID != null)
+        {
+            var supportCard = Support()!;
+            var masterSupport = supportCard.MasterData(cardsDb);
+            hp += supportCard.GetHitPoint(cardsDb);
+            
+            // get bonus
+            CharacterFamiliarity familiarity =
+                belongTo.GetCharacterFamiliarity(masterCard.CharacterId, masterSupport.CharacterId);
+            int bonus = CalcUtil.AssistLevelHitPointBonus(familiarity.assist_level);
+            float coefficient = familiarity.GetLevelData(charactersContext).HitPointCoefficient;
+
+            hp = CalcUtil.CalcAddedFamiliarityAndAssist(hp, bonus, coefficient);
+        }
+
+        if (supportCard2ID != null)
+            hp += Support2()!.GetHitPoint(cardsDb);
+
+        if (assistCardID != null)
+            hp += Assist()!.GetHitPoint(cardsDb);
+
+        return hp;
+    }
+
+    public int GetAtk(CardsContext cardsDb, CharactersContext charactersContext, PlayerProfile belongTo)
+    {
+        // TODO: not finished yet!
+        if (baseCardID == null) return 0;
+        int atk = 0;
+        var card = GetCard()!;
+        var masterCard = card.MasterData(cardsDb);
+        atk += card.GetAttack(cardsDb);
+
+        if (supportCardID != null)
+        {
+            var supportCard = Support()!;
+            var masterSupport = supportCard.MasterData(cardsDb);
+            atk += supportCard.GetAttack(cardsDb);
+            
+            // get bonus
+            CharacterFamiliarity familiarity =
+                belongTo.GetCharacterFamiliarity(masterCard.CharacterId, masterSupport.CharacterId);
+            int bonus = CalcUtil.AssistLevelAttackBonus(familiarity.assist_level);
+            float coefficient = familiarity.GetLevelData(charactersContext).AttackCoefficient;
+
+            atk = CalcUtil.CalcAddedFamiliarityAndAssist(atk, bonus, coefficient);
+        }
+
+        if (supportCard2ID != null)
+            atk += Support2()!.GetAttack(cardsDb);
+
+        if (assistCardID != null)
+            atk += Assist()!.GetAttack(cardsDb);
+
+        return atk;
+    }
+
+    public long? GetMasterId()
+    {
+        if (baseCardID == null) return null;
+        return Card.Load((long) baseCardID).master_id;
+    }
+
+    public int? GetPotential()
+    {
+        if (baseCardID == null) return null;
+        return Card.Load((long) baseCardID).potential;
+    }
+
+    public int? GetEvolutionLevel()
+    {
+        if (baseCardID == null) return null;
+        return Card.Load((long) baseCardID).evolution_level;
+    }
+
+    public int? GetLevel()
+    {
+        if (baseCardID == null) return null;
+        return Card.Load((long) baseCardID).level;
     }
 
     public Card? Support()
@@ -77,28 +157,29 @@ public class Unit : BasePlayerData<Unit, long>
         public Dictionary<string, long> support_2 { get; set; } = new();
         public Dictionary<string, long> assist { get; set; } = new();
         public IList<Accessory> accessories { get; set; } = new List<Accessory>();
-        public int? master_id { get; set; }
+        public long? master_id { get; set; }
         public int? potential { get; set; }
         public int? evolution_level { get; set; }
         public int? level { get; set; }
 
-        public static implicit operator CardWithSupport?(Unit? unit)
+        public static CardWithSupport? FromUnit(CardsContext cardsDb, CharactersContext charactersDb, 
+            Unit? unit, PlayerProfile? belongTo)
         {
             if (unit == null) return null;
             return new CardWithSupport
             {
                 id = unit.id,
-                hit_point = unit.hitPoint,
-                attack = unit.attack,
+                hit_point = unit.GetHP(cardsDb, charactersDb, belongTo!),
+                attack = unit.GetAtk(cardsDb, charactersDb, belongTo!),
                 user_card_id = unit.baseCardID,
-                support = unit.Support()?.AsSupport(),
-                support_2 = unit.Support2()?.AsSupport(),
-                assist = unit.Assist()?.AsSupport(),
+                support = unit.Support()?.AsSupport().ToDict(cardsDb) ?? new Dictionary<string, long>(),
+                support_2 = unit.Support2()?.AsSupport().ToDict(cardsDb) ?? new Dictionary<string, long>(),
+                assist = unit.Assist()?.AsSupport().ToDict(cardsDb) ?? new Dictionary<string, long>(),
                 accessories = unit.accessories.Select(Accessory.Load).ToList(),
-                master_id = unit.master_id,
-                potential = unit.potential,
-                evolution_level = unit.evolutionLevel,
-                level = unit.level
+                master_id = unit.GetMasterId(),
+                potential = unit.GetPotential(),
+                evolution_level = unit.GetEvolutionLevel(),
+                level = unit.GetLevel()
             };
         }
 
@@ -108,17 +189,11 @@ public class Unit : BasePlayerData<Unit, long>
             return new Unit
             {
                 id = sc.id,
-                hitPoint = sc.hit_point,
-                attack = sc.attack,
                 baseCardID = sc.user_card_id,
                 supportCardID = ((SupportCard?) sc.support)!.user_card_id,
                 supportCard2ID = ((SupportCard?) sc.support_2)!.user_card_id,
                 assistCardID = ((SupportCard?) sc.assist)!.user_card_id,
                 accessories = sc.accessories.Select(a => a.id).ToList(),
-                master_id = sc.master_id,
-                potential = sc.potential,
-                evolutionLevel = sc.evolution_level,
-                level = sc.level
             };
         }
     }

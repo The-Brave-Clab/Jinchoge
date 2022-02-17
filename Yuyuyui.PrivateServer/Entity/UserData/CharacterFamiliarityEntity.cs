@@ -18,8 +18,7 @@
 
             Response responseObj = new()
             {
-                character_familiarities = player.characterFamiliarities.ToDictionary(
-                    c => c.character_group, c => c)
+                character_familiarities = player.characterFamiliarities
             };
 
             responseBody = Serialize(responseObj);

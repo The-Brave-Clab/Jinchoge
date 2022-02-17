@@ -3,33 +3,29 @@ namespace Yuyuyui.PrivateServer
     public class Accessory : BasePlayerData<Accessory, long>
     {
         public long id { get; set; }
-        public int master_id { get; set; } // from master_data
+        public long master_id { get; set; } // from master_data
         public int level { get; set; }
-        public int cost { get; set; }
-        public int hit_point { get; set; }
-        public int attack { get; set; }
-        public int money { get; set; }
         public int quantity { get; set; }
-        public int next_quantity { get; set; }
 
-        public static Accessory DefaultAccessory()
+        public static long GetID()
         {
             long new_id = long.Parse(Utils.GenerateRandomDigit(9));
             while (Exists(new_id))
             {
                 new_id = long.Parse(Utils.GenerateRandomDigit(9));
             }
+
+            return new_id;
+        }
+        
+        public static Accessory DefaultAccessory()
+        {
             return new Accessory
             {
-                id = new_id,
-                master_id = 500001, // Gyuuki
+                id = GetID(),
+                master_id = 500001, // Gyuuki, consider reading the data from database
                 level = 1,
-                cost = 11,
-                hit_point = 2230,
-                attack = 0,
-                money = 1000,
                 quantity = 0,
-                next_quantity = 1,
             };
         }
 

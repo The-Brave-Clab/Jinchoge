@@ -91,6 +91,8 @@ namespace Yuyuyui.PrivateServer
 
             Utils.LogTrace($"{e.HttpClient.Request.Method} {apiPath}");
 
+            var headersAndBody = await Proxy.GetRequestHeadersAndBody(e);
+
             foreach (var config in configs)
             {
                 if (ApiPathMatch(config.Value.apiPath, apiPath) &&
@@ -98,31 +100,6 @@ namespace Yuyuyui.PrivateServer
                 {
                     try
                     {
-                        Dictionary<string, string> headers =
-                            new Dictionary<string, string>(e.HttpClient.Request.Headers.Count());
-                        foreach (var header in e.HttpClient.Request.Headers)
-                        {
-                            if (!headers.Any(alreadyAddedHeader =>
-                                    string.Equals(alreadyAddedHeader.Key, header.Name,
-                                        StringComparison.CurrentCultureIgnoreCase)))
-                            {
-                                headers.Add(header.Name, header.Value);
-                            }
-                        }
-
-                        byte[] requestBodyBytes = Array.Empty<byte>();
-
-                        if (e.HttpClient.Request.ContentType != null)
-                        {
-                            try
-                            {
-                                requestBodyBytes = await e.GetRequestBody();
-                            }
-                            catch (BodyNotFoundException)
-                            {
-                            }
-                        }
-
                         return (EntityBase) TypeDescriptor.CreateInstance(
                             provider: null,
                             objectType: config.Key,
@@ -138,8 +115,8 @@ namespace Yuyuyui.PrivateServer
                             {
                                 e.HttpClient.Request.RequestUri,
                                 e.HttpClient.Request.Method,
-                                headers,
-                                requestBodyBytes,
+                                headersAndBody.Item1,
+                                headersAndBody.Item2,
                                 config.Value
                             })!;
                     }
@@ -157,6 +134,8 @@ namespace Yuyuyui.PrivateServer
                 e.HttpClient.Request.RequestUri,
                 e.HttpClient.Request.Method,
                 new Config(apiPath, e.HttpClient.Request.Method),
+                headersAndBody.Item1,
+                headersAndBody.Item2,
                 $"API Not Implemented: {e.HttpClient.Request.Method} {apiPath}"
             ); // error type
         }
@@ -287,10 +266,10 @@ namespace Yuyuyui.PrivateServer
                 typeof(AccessoryListEntity),
                 new Config("/my/accessories", "GET")
             },
-            //{
-            //	typeof(AccessoryEnhancementResultEntity),
-            //	new Config("/my/accessories/{0}", "Json/Accessory/accessory_effect", 0)
-            //},
+            {
+            	typeof(AccessoryEnhancementResultEntity),
+            	new Config("/my/accessories/{accessory_id}", "PUT")
+            },
             //{
             //	typeof(MenuUserTransferEntity),
             //	new Config("/my/inherited_password", "Json/Menu/transfer", 0)
@@ -355,18 +334,18 @@ namespace Yuyuyui.PrivateServer
                 typeof(CardsEntity),
                 new Config("/my/cards", "GET")
             },
-            //{
-            //	typeof(EnhancementResultTransactionCreateEntity),
-            //	new Config("/my/cards/{0}/enhancement/transactions", "Json/Card/Enhancement/transaction_create", 0)
-            //},
-            //{
-            //	typeof(EnhancementResultTransactionUpdateEntity),
-            //	new Config("/my/cards/{0}/enhancement/transactions/{1}", "Json/Card/Enhancement/transaction_update", 0)
-            //},
-            //{
-            //	typeof(EvolutionCardResultEntitiy),
-            //	new Config("/my/cards/{0}/evolution", "Json/Room/evolution_card_result", 0)
-            //},
+            {
+            	typeof(EnhancementResultTransactionCreateEntity),
+            	new Config("/my/cards/{card_id}/enhancement/transactions", "POST")
+            },
+            {
+            	typeof(EnhancementResultTransactionUpdateEntity),
+            	new Config("/my/cards/{card_id}/enhancement/transactions/{transaction_id}", "PUT")
+            },
+            {
+            	typeof(EvolutionCardResultEntity),
+            	new Config("/my/cards/{card_id}/evolution", "PUT")
+            },
             {
                 typeof(ShopEntity),
                 new Config("/shops", "GET")
@@ -599,10 +578,10 @@ namespace Yuyuyui.PrivateServer
                 typeof(DeckEntity),
                 new Config("/my/decks", "GET")
             },
-            //{
-            //	typeof(DeckUpdateEntity),
-            //	new Config("/my/decks", string.Empty, 0)
-            //},
+            {
+            	typeof(DeckUpdateEntity),
+            	new Config("/my/decks/{deck_id}", "PUT")
+            },
             {
             	typeof(QuestTransactionCreateEntity),
             	new Config("/stages/{stage_id}/transactions", "POST")
@@ -725,6 +704,10 @@ namespace Yuyuyui.PrivateServer
                 typeof(AutoClearTicketsEntity),
                 new Config("/my/auto_clear_tickets", "GET")
             },
+            {
+                typeof(CharacterTitleItemsEntity),
+                new Config("/my/character_title_items", "POST")
+            }
         };
     }
 
