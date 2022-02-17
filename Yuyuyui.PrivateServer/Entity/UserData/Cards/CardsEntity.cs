@@ -70,10 +70,12 @@ namespace Yuyuyui.PrivateServer
             public int agility { get; set; }
             public int footing_point { get; set; } // weight in database
             public long? active_skill_id { get; set; }
-            public long? support_skill_id { get; set; }
+            public long? support_skill_1_id { get; set; }
+            public long? support_skill_2_id { get; set; }
             public long? leader_skill_id { get; set; }
             public int active_skill_level { get; set; }
-            public int support_skill_level { get; set; }
+            public int support_skill_1_level { get; set; }
+            public int support_skill_2_level { get; set; }
             public int evolution_level { get; set; }
             public int cost { get; set; }
             public int support_point { get; set; }
@@ -115,10 +117,12 @@ namespace Yuyuyui.PrivateServer
                         userCard.level, masterCard.MinLevel, masterCard.MaxLevel,
                         masterCard.MinWeight, masterCard.MaxWeight, growthValue),
                     active_skill_id = masterCard.ActiveSkillId,
-                    support_skill_id = masterCard.SupportSkillId,
+                    support_skill_1_id = masterCard.SupportSkill1Id,
+                    support_skill_2_id = masterCard.SupportSkill2Id,
                     leader_skill_id = masterCard.LeaderSkillId,
                     active_skill_level = userCard.active_skill_level,
-                    support_skill_level = userCard.support_skill_level,
+                    support_skill_1_level = userCard.support_skill_1_level,
+                    support_skill_2_level = userCard.support_skill_2_level,
                     evolution_level = userCard.evolution_level,
                     cost = masterCard.Cost,
                     support_point = masterCard.SupportPoint,

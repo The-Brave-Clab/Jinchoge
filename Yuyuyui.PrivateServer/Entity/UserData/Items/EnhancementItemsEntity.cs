@@ -18,8 +18,6 @@ namespace Yuyuyui.PrivateServer
         protected override Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
-            
-            Utils.LogWarning("Items are stubbed for testing!");
 
             using var itemsDb = new ItemsContext();
 

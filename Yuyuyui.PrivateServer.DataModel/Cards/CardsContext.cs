@@ -143,7 +143,9 @@ namespace Yuyuyui.PrivateServer.DataModel
 
                 entity.Property(e => e.SupportPoint).HasColumnName("support_point");
 
-                entity.Property(e => e.SupportSkillId).HasColumnName("support_skill_id");
+                entity.Property(e => e.SupportSkill1Id).HasColumnName("support_skill_1_id");
+                
+                entity.Property(e => e.SupportSkill2Id).HasColumnName("support_skill_2_id");
             });
 
             modelBuilder.Entity<CardLevel>(entity =>

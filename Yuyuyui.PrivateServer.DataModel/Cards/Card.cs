@@ -17,7 +17,8 @@ namespace Yuyuyui.PrivateServer.DataModel
         public int? PotentialGiftBorder { get; set; } = null;
         public long? LeaderSkillId { get; set; } = null;
         public long? ActiveSkillId { get; set; } = null;
-        public long? SupportSkillId { get; set; } = null;
+        public long? SupportSkill1Id { get; set; } = null;
+        public long? SupportSkill2Id { get; set; } = null;
         public int AttackType { get; set; }
         public int LevelCategory { get; set; }
         public int GrowthKind { get; set; }

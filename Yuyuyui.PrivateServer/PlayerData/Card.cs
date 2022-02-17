@@ -10,7 +10,8 @@ namespace Yuyuyui.PrivateServer
         public long exp { get; set; }
         public int potential { get; set; }
         public int active_skill_level { get; set; }
-        public int support_skill_level { get; set; }
+        public int support_skill_1_level { get; set; }
+        public int support_skill_2_level { get; set; }
         public int evolution_level { get; set; }
 
         // for different level of Taisha Point bonus
@@ -38,7 +39,8 @@ namespace Yuyuyui.PrivateServer
                 exp = 10000,
                 potential = 0,
                 active_skill_level = 1,
-                support_skill_level = 1,
+                support_skill_1_level = 1,
+                support_skill_2_level = 1,
                 evolution_level = 2
             };
         }
@@ -53,7 +55,8 @@ namespace Yuyuyui.PrivateServer
                 exp = 0,
                 potential = 0,
                 active_skill_level = 1,
-                support_skill_level = 1,
+                support_skill_1_level = 1,
+                support_skill_2_level = 1,
                 evolution_level = 1
             };
         }
@@ -68,7 +71,8 @@ namespace Yuyuyui.PrivateServer
                 exp = 0,
                 potential = 0,
                 active_skill_level = 1,
-                support_skill_level = 1,
+                support_skill_1_level = 1,
+                support_skill_2_level = 1,
                 evolution_level = 1
             };
         }
@@ -83,7 +87,8 @@ namespace Yuyuyui.PrivateServer
                 exp = 0,
                 potential = 0,
                 active_skill_level = 1,
-                support_skill_level = 1,
+                support_skill_1_level = 1,
+                support_skill_2_level = 1,
                 evolution_level = 1
             };
         }
