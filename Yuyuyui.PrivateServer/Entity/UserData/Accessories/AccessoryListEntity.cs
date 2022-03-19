@@ -27,8 +27,6 @@ namespace Yuyuyui.PrivateServer
                 Utils.Log("Assigned default accessory to player.");
             }
 
-            Utils.LogWarning("Stub API!");
-
             using var accessoriesDb = new AccessoriesContext();
             
             Response responseObj = new()
