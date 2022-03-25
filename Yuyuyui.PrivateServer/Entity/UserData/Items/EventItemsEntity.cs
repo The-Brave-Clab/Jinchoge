@@ -16,14 +16,13 @@
         {
             var player = GetPlayerFromCookies();
 
-            if (!player.items.ContainsKey("event"))
-            {
-                player.items.Add("event", new List<long>());
-            }
-
             Response responseObj = new()
             {
-                event_items = player.items["event"].ToDictionary(c => c, Item.Load)
+                event_items = player.items.eventItems
+                    .Select(p => p.Value)
+                    .Select(Item.Load)
+                    .Where(ei => ei.quantity > 0) // don't show consumed items
+                    .ToDictionary(ei => ei.id, ei => ei)
             };
 
             responseBody = Serialize(responseObj);

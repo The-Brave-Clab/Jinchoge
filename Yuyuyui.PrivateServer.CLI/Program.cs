@@ -6,7 +6,7 @@ namespace Yuyuyui.PrivateServer.CLI
 {
     public static class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
@@ -33,6 +33,8 @@ namespace Yuyuyui.PrivateServer.CLI
                         ColoredOutput.WriteLine(o, ConsoleColor.Red);
                 }
             );
+
+            await LocalData.Update();
 
             var endpoint = Proxy.StartProxy();
 

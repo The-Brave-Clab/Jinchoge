@@ -18,10 +18,10 @@
             {
                 requirement_version = new()
                 {
-                    version = "3.15.0",
+                    version = PrivateServer.YUYUYUI_APP_VERSION,
                     need_update = false,
                     review = false,
-                    api_server = $"http://{PrivateServer.PRIVATE_LOCAL_API_SERVER}",
+                    api_server = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}",
                     enable_cooperation = false
                 }
             };

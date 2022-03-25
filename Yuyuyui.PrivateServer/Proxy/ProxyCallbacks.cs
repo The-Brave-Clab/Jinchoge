@@ -55,12 +55,16 @@ namespace Yuyuyui.PrivateServer
             }
             catch (APIErrorException apiError)
             {
+                var headersAndBody = await Proxy.GetRequestHeadersAndBody(e);
+                
                 entity = new RequestErrorEntity(
                     apiError.errorCode,
                     $"{apiError.body}",
                     e.HttpClient.Request.RequestUri,
                     e.HttpClient.Request.Method,
                     new Config(entity.RequestUri.AbsolutePath, e.HttpClient.Request.Method),
+                    headersAndBody.Item1,
+                    headersAndBody.Item2,
                     $"{apiError.body}");
                 await entity.Process();
             }

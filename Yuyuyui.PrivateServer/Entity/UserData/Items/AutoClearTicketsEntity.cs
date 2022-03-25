@@ -16,14 +16,13 @@
         {
             var player = GetPlayerFromCookies();
 
-            if (!player.items.ContainsKey("autoClearTickets"))
-            {
-                player.items.Add("autoClearTickets", new List<long>());
-            }
-
             Response responseObj = new()
             {
-                tickets = player.items["autoClearTickets"].Select(Item.Load).ToList()
+                tickets = player.items.autoClearTickets
+                    .Select(p => p.Value)
+                    .Select(Item.Load)
+                    .Where(t => t.quantity > 0)
+                    .ToList()
             };
 
             responseBody = Serialize(responseObj);

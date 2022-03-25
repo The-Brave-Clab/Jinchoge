@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -16,7 +17,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
+            //var player = GetPlayerFromCookies();
             
             long requestID = long.Parse(GetPathParameter("request_id"));
             FriendRequest friendRequest = FriendRequest.Load(requestID);
@@ -27,10 +28,16 @@ namespace Yuyuyui.PrivateServer
             friendRequest.status = requestObj.fellow_request.status;
             friendRequest.ProcessStatus(); // should ultimately delete the request file
 
-            Response responseObj = new()
+            Response responseObj;
+            using (var cardsDb = new CardsContext())
+            using (var charactersDb = new CharactersContext())
             {
-                fellow_request = friendRequest
-            };
+                responseObj = new()
+                {
+                    fellow_request =
+                        FellowRequestEntity.Response.Data.FromFriendRequest(cardsDb, charactersDb, friendRequest)
+                };
+            }
             
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();

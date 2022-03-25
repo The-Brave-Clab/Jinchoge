@@ -27,7 +27,7 @@ namespace Yuyuyui.PrivateServer
                 Utils.Log($"\t{pathParameter.Key} = {pathParameter.Value}");
             }
 
-            Utils.Log("Redirected to the unofficial public API Server!");
+            Utils.Log("Redirected to the unofficial public API Server.");
 
             HttpRequestMessage requestMessage = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, 
                 new Uri($"https://{PrivateServer.PRIVATE_PUBLIC_API_SERVER}/test{RequestUri.AbsolutePath}"));

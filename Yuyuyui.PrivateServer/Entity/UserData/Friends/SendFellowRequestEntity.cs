@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -58,10 +59,16 @@ namespace Yuyuyui.PrivateServer
                 }
             }
 
-            Response responseObj = new()
+            Response responseObj;
+            using (var cardsDb = new CardsContext())
+            using (var charactersDb = new CharactersContext())
             {
-                fellow_request = friendRequest
-            };
+                {responseObj = new()
+                {
+                    fellow_request =
+                        FellowRequestEntity.Response.Data.FromFriendRequest(cardsDb, charactersDb, friendRequest)
+                };}
+            }
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
