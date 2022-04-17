@@ -43,6 +43,13 @@ namespace Yuyuyui.PrivateServer
         {
             if (EchoService(e)) return;
 
+            if (e.HttpClient.Request.RequestUri.Host.Contains("perf-events.cloud.unity3d.com"))
+            {
+                byte[] body = await e.GetRequestBody();
+                string bodyStr = System.Text.Encoding.UTF8.GetString(body);
+                Utils.LogWarning(bodyStr);
+            }
+
             if (!e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.OFFICIAL_API_SERVER) &&
                 !e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.PRIVATE_LOCAL_API_SERVER))
                 return;
@@ -171,7 +178,8 @@ namespace Yuyuyui.PrivateServer
             }
 
             e.DecryptSsl = e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.OFFICIAL_API_SERVER)
-                || e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.PRIVATE_LOCAL_API_SERVER);
+                || e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.PRIVATE_LOCAL_API_SERVER)
+                || e.HttpClient.Request.RequestUri.Host.Contains("perf-events.cloud.unity3d.com");
 
             return Task.CompletedTask;
         }

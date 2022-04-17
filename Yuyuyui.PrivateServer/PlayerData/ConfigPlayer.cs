@@ -5,8 +5,8 @@
         public static readonly Dictionary<string, Dictionary<string, PlayerProfile>> All = new();
 
         public const string Language = "LAN";
+        public const string Chinese = "ZH";
         public const string English = "EN";
-        public const string Chinese = "CN";
 
         public static void Initialize()
         {
@@ -25,8 +25,8 @@
                 dummyUnit.Save();
             }
             
-            RegisterConfigPlayer("101", Language, English, "Language: English");
-            RegisterConfigPlayer("102", Language, Chinese, "Language: Chinese");
+            RegisterConfigPlayer("101", Language, Chinese, "Language: Chinese");
+            RegisterConfigPlayer("102", Language, English, "Language: English");
         }
 
         private static PlayerProfile RegisterConfigPlayer(string code, string type, string name, string description)

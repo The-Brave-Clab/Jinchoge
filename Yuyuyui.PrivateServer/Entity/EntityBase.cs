@@ -314,10 +314,10 @@ namespace Yuyuyui.PrivateServer
             //	typeof(GuestEntity),
             //	new Config("/my/supporters", "Json/Story/guest", 0)
             //},
-            //{
-            //	typeof(CheckBattleTokensEntity),
-            //	new Config("/check_battle_tokens", string.Empty, 0)
-            //},
+            {
+            	typeof(CheckBattleTokensEntity),
+            	new Config("/check_battle_tokens", "GET")
+            },
             {
                 typeof(EventChapterEntity),
                 new Config("/special/chapters", "GET")

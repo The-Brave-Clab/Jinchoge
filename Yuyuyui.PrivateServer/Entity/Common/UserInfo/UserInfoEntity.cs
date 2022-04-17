@@ -71,9 +71,7 @@ namespace Yuyuyui.PrivateServer
                         accessed_at = player.data.lastActive,
                         fellowship_count = player.friends.Count,
                         title_item_id = player.data.titleItemID,
-                        leader_card = Unit.CardWithSupport.FromUnit(cardsDb, charactersDb,
-                            Unit.Load(
-                                Deck.Load(player.decks[0]).leaderUnitID), player)!
+                        leader_card = Unit.CardWithSupport.FromUnit(cardsDb, charactersDb, leaderUnit, player)!
                     };
                 }
             }

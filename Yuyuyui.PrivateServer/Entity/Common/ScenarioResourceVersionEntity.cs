@@ -30,6 +30,11 @@ public class ScenarioResourceVersionEntity : GameResourceVersionEntity
             Utils.Log("Player language is English");
             languageOption = "/en";
         }
+        else if (player.friends.Contains(ConfigPlayer.All[ConfigPlayer.Language][ConfigPlayer.Chinese].id.code))
+        {
+            Utils.Log("Player language is Chinese");
+            languageOption = "/zh";
+        }
 
         HttpRequestMessage requestMessage = new HttpRequestMessage(System.Net.Http.HttpMethod.Get,
             new Uri($"https://{PrivateServer.PRIVATE_PUBLIC_API_SERVER}/test{RequestUri.AbsolutePath}{languageOption}"));
