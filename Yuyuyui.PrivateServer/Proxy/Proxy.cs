@@ -1,8 +1,10 @@
 ﻿using System.Net;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using Titanium.Web.Proxy;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Exceptions;
+using Titanium.Web.Proxy.Helpers;
 using Titanium.Web.Proxy.Models;
 
 namespace Yuyuyui.PrivateServer
@@ -17,6 +19,13 @@ namespace Yuyuyui.PrivateServer
         public static ExplicitProxyEndPoint StartProxy(int port = DEFAULT_PORT)
         {
             proxyServer = new ProxyServer(false, false, false);
+            // Use this very hacky way to disable systemProxySettingsManager on windows
+            if (RunTime.IsWindows && !RunTime.IsUwpOnWindows)
+            {
+                var field = typeof(ProxyServer).GetField("<systemProxySettingsManager>k__BackingField",
+                    BindingFlags.Instance | BindingFlags.NonPublic);
+                field?.SetValue(proxyServer, null);
+            }
             proxyServer.EnableHttp2 = true;
 
             // locally trust root certificate used by this proxy 
