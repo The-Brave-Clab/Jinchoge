@@ -200,7 +200,7 @@ namespace Yuyuyui.PrivateServer
             bool isSession = this.GetSessionFromCookie(out var playerSession);
             if (!isSession)
             {
-                throw new Exception("Session not found!");
+                throw new APIErrorException("U0401", "Unauthorized Error");
             }
 
             return playerSession.player;
@@ -245,6 +245,10 @@ namespace Yuyuyui.PrivateServer
             {
                 typeof(SessionsEntity),
                 new Config("/sessions", "POST")
+            },
+            {
+                typeof(BanEntity),
+                new Config("/my/profile/ban", "POST")
             },
             {
                 typeof(RegulationEntity),

@@ -81,7 +81,8 @@ namespace Yuyuyui.PrivateServer
 
             if (entity.GetType() == typeof(RequestErrorEntity))
             {
-                e.Respond(new Response(entity.ResponseBody) {StatusCode = 404, HttpVersion = HttpVersion.Version11});
+                var errorEntity = (RequestErrorEntity)entity;
+                e.Respond(new Response(entity.ResponseBody) {StatusCode = errorEntity.StatusCode, HttpVersion = HttpVersion.Version11});
             }
             else
             {

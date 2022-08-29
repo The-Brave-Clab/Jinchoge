@@ -20,7 +20,7 @@
 
         public static string RandomStrFromChar(string chars, int length)
         {
-            return new string(Enumerable.Repeat((byte) 0, length)
+            return new string(Enumerable.Repeat((byte)0, length)
                 .Select(_ => chars[random.Next(chars.Length)]).ToArray());
         }
 
@@ -34,7 +34,7 @@
             return
                 $"{RandomStrFromChar("123456789", 1)}{RandomStrFromChar("0123456789", length - 1)}";
         }
-        
+
         public static T? Random<T>(this IEnumerable<T> enumerable)
         {
             if (enumerable == null)
@@ -42,10 +42,10 @@
                 throw new ArgumentNullException(nameof(enumerable));
             }
 
-            var list = enumerable as IList<T> ?? enumerable.ToList(); 
+            var list = enumerable as IList<T> ?? enumerable.ToList();
             return list.Count == 0 ? default : list[random.Next(0, list.Count)];
         }
-        
+
         public static T? Random<T>(this IEnumerable<T> enumerable, Func<T, float> weightExpression)
         {
             if (enumerable == null)
@@ -56,7 +56,7 @@
             var list = enumerable as IList<T> ?? enumerable.ToList();
 
             if (list.Count == 0) return default;
-            
+
             float weightTotal = list.Sum(weightExpression);
             float randomNumber = random.NextSingle() * weightTotal;
             float cumulatedWeight = 0;
@@ -87,7 +87,7 @@
         {
             return FromDateTime(DateTime.UtcNow);
         }
-        
+
         public static DateTime FromUnixTime(long unixTime)
         {
             return UNIX_EPOCH.AddSeconds(unixTime).ToLocalTime();
@@ -96,7 +96,7 @@
         private static long FromDateTime(DateTime dateTime)
         {
             double totalSeconds = (dateTime.ToUniversalTime() - UNIX_EPOCH).TotalSeconds;
-            return (long) totalSeconds;
+            return (long)totalSeconds;
         }
 
         private static readonly DateTime UNIX_EPOCH = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -116,25 +116,40 @@
         {
             LogTraceFunction?.Invoke(obj);
         }
+
         public static void Log(object obj)
         {
             LogFunction?.Invoke(obj);
         }
+
         public static void LogWarning(object obj)
         {
             LogWarningFunction?.Invoke(obj);
         }
+
         public static void LogError(object obj)
         {
             LogErrorFunction?.Invoke(obj);
         }
 
-        public static void SetLogCallbacks(LogCallback logTrace, LogCallback log, LogCallback logWarning, LogCallback logError)
+        public static void SetLogCallbacks(LogCallback logTrace, LogCallback log, LogCallback logWarning,
+            LogCallback logError)
         {
             LogTraceFunction = logTrace;
             LogFunction = log;
             LogWarningFunction = logWarning;
             LogErrorFunction = logError;
+        }
+
+        #endregion
+
+        #region Miscs
+
+        // ForEach for all IEnumerables
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            foreach (var item in source)
+                action(item);
         }
 
         #endregion

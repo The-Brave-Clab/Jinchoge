@@ -56,6 +56,46 @@
 
             return characterFamiliarities[groupName];
         }
+
+        public void BanAccount()
+        {
+            // Delete all BasePlayerData.Identifier related entries
+            
+            Utils.LogWarning($"Banning Account {id.code}");
+            
+            accessories.Values.ForEach(Accessory.Delete);
+            clubOrders.ForEach(ClubOrder.Delete);
+            clubWorkingSlots.ForEach(ClubWorkingSlot.Delete);
+            cards.Values.ForEach(Card.Delete);
+            friendRequests.ForEach(FriendRequest.Delete);
+            
+            // For decks, remove the units inside first
+            foreach (var deckId in decks)
+            {
+                Deck deck = Deck.Load(deckId);
+                deck.units.ForEach(Unit.Delete);
+                deck.Delete();
+            }
+            
+            receivedGifts.ForEach(Gift.Delete);
+            acceptedGifts.ForEach(Gift.Delete);
+
+            progress.chapters.Values.ForEach(ChapterProgress.Delete);
+            progress.episodes.Values.ForEach(EpisodeProgress.Delete);
+            progress.stages.Values.ForEach(StageProgress.Delete);
+            
+            items.autoClearTickets.Values.ForEach(Item.Delete);
+            items.enhancement.Values.ForEach(Item.Delete);
+            items.eventItems.Values.ForEach(Item.Delete);
+            items.evolution.Values.ForEach(Item.Delete);
+            items.stamina.Values.ForEach(Item.Delete);
+            
+            // Finally, delete ourselves
+            PrivateServer.RemovePlayerProfile(this);
+            Delete();
+            
+            Utils.LogWarning($"Account {id.code} Banned");
+        }
         
 
         public class ID

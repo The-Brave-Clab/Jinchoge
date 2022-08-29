@@ -174,5 +174,23 @@
             session = new PlayerSession();
             return false;
         }
+
+        public static void RemovePlayerProfile(PlayerProfile player)
+        {
+            var playerDataFile = Path.Combine(dataFolder, PLAYER_DATA_FILE);
+            lock (dataFileLock)
+            {
+                string[] lines;
+                using (StreamReader sr = new StreamReader(playerDataFile))
+                {
+                    lines = sr.ReadToEnd().Split("\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                }
+                var newLines = lines.Where(line => !line.StartsWith(player.id.uuid));
+                using (StreamWriter sw = new StreamWriter(playerDataFile, false))
+                {
+                    newLines.ForEach(sw.WriteLine);
+                }
+            }
+        }
     }
 }
