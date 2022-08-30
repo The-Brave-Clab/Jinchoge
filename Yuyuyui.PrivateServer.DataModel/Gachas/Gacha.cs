@@ -15,14 +15,14 @@ namespace Yuyuyui.PrivateServer.DataModel
         public int? SpecialGet { get; set; } = null; // boolean, 1 for true, null for false
         public int? SpecialGetCount { get; set; } = null;
         public int? SpecialSaveRarity { get; set; } = null;
-        public int? SelectGacha { get; set; } = null; // boolean, 1 for true, null for false
+        public string? SelectGacha { get; set; } = null; // boolean, 1 for true, null for false
         public int? SelectCount { get; set; } = null;
-        public int? SpecialSelect { get; set; } = null; // boolean, 1 for true, null for false
+        public string? SpecialSelect { get; set; } = null; // boolean, 1 for true, null for false
         public int? MinUserLevel { get; set; } = null;
         public int? MaxUserLevel { get; set; } = null;
         public int? CountDownGacha { get; set; } = null; // boolean, 1 for true, null for false
         public int? NoTicketDisplay { get; set; } = null; // boolean, 1 for true, null for false
-        public int? NoDisplayEndAt { get; set; } = null; // boolean, 1 for true, null for false
+        public string? NoDisplayEndAt { get; set; } = null; // boolean, 1 for true, null for false
         public string StartAt { get; set; } = "";
         public string EndAt { get; set; } = "";
         public string TestStartAt { get; set; } = "";

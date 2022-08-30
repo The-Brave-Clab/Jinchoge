@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System.Globalization;
+
+namespace Yuyuyui.PrivateServer
 {
     public static class Utils
     {
@@ -98,6 +100,18 @@
             double totalSeconds = (dateTime.ToUniversalTime() - UNIX_EPOCH).TotalSeconds;
             return (long)totalSeconds;
         }
+
+        public static DateTime ToDateTime(this string str)
+        {
+            return DateTime.ParseExact(str.Substring(0, 19), "yyyy/MM/dd HH:mm:ss",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+        }
+
+        public static long ToUnixTime(this string str)
+        {
+            return FromDateTime(str.ToDateTime());
+        }
+
 
         private static readonly DateTime UNIX_EPOCH = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 

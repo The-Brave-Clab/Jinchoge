@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using Yuyuyui.PrivateServer.DataModel;
+
+namespace Yuyuyui.PrivateServer
 {
     public class GachaEntity : BaseEntity<GachaEntity>
     {
@@ -15,168 +17,115 @@
         protected override Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
-            
-            Utils.LogWarning("Stub API! Only returns the 2 default gachas");
+
+            var currentTime = DateTime.UtcNow;
+
+            using var gachasDb = new GachasContext();
+            var gachaList = gachasDb.Gachas.ToList();
+            var currentGachas = gachaList
+                .Where(g => g.StartAt.ToDateTime() < currentTime && g.EndAt.ToDateTime() > currentTime)
+                .Where(g => g.StepupGroup == null || g.Id == g.StepupGroup); // TODO: process step up
 
             Response responseObj = new()
             {
-                gachas = new List<GachaProductData>
+                gachas = currentGachas.Select(g => new GachaProductData
                 {
-                    new()
-                    {
-                        id = 11020,
-                        name = "Private Server 勇者ガチャ",
-                        kind = 0,
-                        description = "勇者ガチャからはR、SR、SSRのいずれかの勇者が登場！10連ガチャからはSR以上の勇者が一人確定で出現！",
-                        banner_id = 10080,
-                        start_at = 1640977200,
-                        end_at = 1861901999,
-                        lineups = new List<GachaProductData.Lineup>
-                        {
-                            new()
-                            {
-                                id = 110201,
-                                lot_count = 1,
-                                consumption_resource_id = 1,
-                                consumption_amount = 250,
-                                consumable = player.data.paidBlessing + player.data.freeBlessing >= 250,
-                                has_right = true,
-                                button_extra = null,
-                                button_title = null,
-                                played_count = null,
-                                has_bonus = false,
-                                bonus_description = null
-                            },
-                            new()
-                            {
-                                id = 110202,
-                                lot_count = 10,
-                                consumption_resource_id = 1,
-                                consumption_amount = 2300,
-                                consumable = player.data.paidBlessing + player.data.freeBlessing >= 2300,
-                                has_right = true,
-                                button_extra = null,
-                                button_title = null,
-                                played_count = null,
-                                has_bonus = false,
-                                bonus_description = null
-                            },
-                            new()
-                            {
-                                id = 110203,
-                                lot_count = 1,
-                                consumption_resource_id = 2,
-                                consumption_amount = 60,
-                                consumable = player.data.paidBlessing >= 60,
-                                has_right = true,
-                                button_extra = null,
-                                button_title = null,
-                                played_count = null,
-                                has_bonus = false,
-                                bonus_description = null
-                            },
-                            new()
-                            {
-                                id = 110204,
-                                lot_count = 1,
-                                consumption_resource_id = 2001,
-                                consumption_amount = 1,
-                                consumable = false,
-                                has_right = false,
-                                button_extra = null,
-                                button_title = null,
-                                played_count = null,
-                                has_bonus = false,
-                                bonus_description = null
-                            }
-                        },
-                        detail_url = "https://article.yuyuyui.jp/article/gachas/11020",
-                        caution_url = "https://article.yuyuyui.jp/article/gachas/11020/caution",
-                        pickup_content = new()
-                        {
-                            item_category_id = 1,
-                            master_id = 300010
-                        },
-                        order = 100000,
-                        skip_type = 0,
-                        popup_se_name = "",
-                        special_get_count = null,
-                        user_get_count = null,
-                        get_down_gacha_count = 0,
-                        get_down_count = 2611,
-                        count_down_gacha = null,
-                        select_gacha = null,
-                        select_count = null,
-                        special_select = null,
-                        no_display_end_at = null
-                    },
-                    new()
-                    {
-                        id = 20080,
-                        name = "Private Server フレンドガチャ",
-                        kind = 1,
-                        description = "フレンドptを使って「結城友奈は勇者である」で登場した精霊や「結城友奈は勇者である 花結いのきらめき」オリジナル精霊をGET！！\n勇者が獲得できることも！？",
-                        banner_id = 1,
-                        start_at = 1614538800,
-                        end_at = 1861901999,
-                        lineups = new List<GachaProductData.Lineup>
-                        {
-                            new()
-                            {
-                                id = 20080,
-                                lot_count = 1,
-                                consumption_resource_id = 3,
-                                consumption_amount = 200,
-                                consumable = false,
-                                has_right = true,
-                                button_extra = null,
-                                button_title = null,
-                                played_count = null,
-                                has_bonus = false,
-                                bonus_description = null
-                            },
-                            new()
-                            {
-                                id = 20081,
-                                lot_count = 10,
-                                consumption_resource_id = 3,
-                                consumption_amount = 1500,
-                                consumable = false,
-                                has_right = true,
-                                button_extra = null,
-                                button_title = null,
-                                played_count = null,
-                                has_bonus = false,
-                                bonus_description = null
-                            }
-                        },
-                        detail_url = "https://article.yuyuyui.jp/article/gachas/20080",
-                        caution_url = "https://article.yuyuyui.jp/article/gachas/20080/caution",
-                        pickup_content = new()
-                        {
-                            item_category_id = 0,
-                            master_id = 300000
-                        },
-                        order = 200000,
-                        skip_type = 0,
-                        popup_se_name = "",
-                        special_get_count = null,
-                        user_get_count = null,
-                        get_down_gacha_count = 0,
-                        get_down_count = 1700,
-                        count_down_gacha = null,
-                        select_gacha = null,
-                        select_count = null,
-                        special_select = null,
-                        no_display_end_at = "1"
-                    }
-                }
+                    id = g.Id,
+                    name = g.Name,
+                    kind = g.Kind,
+                    description = g.Description,
+                    banner_id = g.Kind switch { 0 => 10080, 1 => 1, _ => g.Id },
+                    start_at = g.StartAt.ToUnixTime(),
+                    end_at = g.EndAt.ToUnixTime(),
+                    lineups = GetGachaLineups(gachasDb, g),
+                    detail_url = "", // TODO
+                    caution_url = "", // TODO
+                    pickup_content = GetFirstPickupContent(g),
+                    order = g.Kind switch { 0 => 100000, 1 => 200000, _ => (int)g.Id }, // TODO
+                    skip_type = g.SkipType,
+                    popup_se_name = g.PopupSeName ?? "",
+                    special_get_count = g.SpecialGetCount,
+                    user_get_count = null, // TODO
+                    get_down_gacha_count = 0, // TODO
+                    get_down_count = 2611, // TODO
+                    count_down_gacha = g.CountDownGacha,
+                    select_gacha = null, // TODO: g.SelectGacha,
+                    select_count = g.SelectCount,
+                    special_select = g.SpecialSelect,
+                    no_display_end_at = g.NoDisplayEndAt,
+                }).ToList()
             };
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
 
             return Task.CompletedTask;
+        }
+
+        private List<GachaProductData.Lineup> GetGachaLineups(GachasContext gachasDb, Gacha gacha)
+        {
+            var lineups = gachasDb.GachaLineups
+                .Where(l => l.GachaId == gacha.Id)
+                .Where(l => l.Sp == 1) // TODO: sp/pc
+                .Select(l =>
+                    new GachaProductData.Lineup
+                    {
+                        id = l.Id,
+                        lot_count = l.LotCount,
+                        consumption_resource_id = l.ConsumptionResourceId,
+                        consumption_amount = l.ConsumptionAmount,
+                        consumable = true, // TODO
+                        has_right = true, // TODO
+                        button_extra = l.ButtonExtra,
+                        button_title = l.ButtonTitle,
+                        played_count = null, // TODO
+                        has_bonus = false, // TODO
+                        bonus_description = null // TODO
+                    }).ToList();
+            return lineups;
+        }
+
+        private List<GachaProductData.PickupContent> GetGachaPickUps(Gacha gacha)
+        {
+            if (gacha.PickupType == null || gacha.PickupId == null) 
+                return new List<GachaProductData.PickupContent>();
+
+            var pickupTypes = gacha.PickupType.Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            var pickupIds = gacha.PickupId.Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+            if (pickupTypes.Length != pickupIds.Length) 
+                return new List<GachaProductData.PickupContent>();
+            
+            var result = new List<GachaProductData.PickupContent>(pickupTypes.Length);
+
+            for (int i = 0; i < pickupTypes.Length; ++i)
+            {
+                int itemCategoryId;
+                // only saw cards and accessories for now
+                if (pickupTypes[i] == "Accessory")
+                    itemCategoryId = 0;
+                else if (pickupTypes[i] == "Card")
+                    itemCategoryId = 1;
+                else
+                    itemCategoryId = -1;
+
+                long masterId = long.Parse(pickupIds[i]);
+                
+                result.Add(new()
+                {
+                    item_category_id = itemCategoryId,
+                    master_id = masterId
+                });
+            }
+
+            return result;
+        }
+
+        private GachaProductData.PickupContent? GetFirstPickupContent(Gacha gacha)
+        {
+            var contents = GetGachaPickUps(gacha);
+            if (contents.Count > 0) return contents[0];
+            return null;
         }
 
         public class Response

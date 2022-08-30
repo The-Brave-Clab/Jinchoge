@@ -8,13 +8,13 @@ public class GachaProductData
     public long start_at { get; set; } // unixtime
     public long end_at { get; set; } // unixtime
     public int order { get; set; }
-    public int skip_type { get; set; } // ?
+    public int? skip_type { get; set; } // ?
     public string popup_se_name { get; set; } = ""; // ?
     public int? special_get_count { get; set; } = null; // ?
     public int? user_get_count { get; set; } = null; // ?
     public int get_down_gacha_count { get; set; } // ?
     public int get_down_count { get; set; } // ?
-    public string? count_down_gacha { get; set; } = null; // ? Type not identified
+    public int? count_down_gacha { get; set; } = null; // Type not confirmed
     public string? select_gacha { get; set; } = null; // ? 
     public int? select_count { get; set; } // ?
     public string? special_select { get; set; } // ?
@@ -24,7 +24,7 @@ public class GachaProductData
     public string detail_url { get; set; } = "";
     public string caution_url { get; set; } = "";
     public IList<Lineup> lineups { get; set; } = new List<Lineup>();
-    public PickupContent pickup_content { get; set; } = new();
+    public PickupContent? pickup_content { get; set; } = new();
 
     public class Lineup
     {

@@ -9,7 +9,7 @@ namespace Yuyuyui.PrivateServer.DataModel
         public long GachaId { get; set; }
         public long GachaBoxId { get; set; }
         public int LotCount { get; set; }
-        public long ConsumptionResourceId { get; set; }
+        public int ConsumptionResourceId { get; set; }
         public int ConsumptionAmount { get; set; }
         public int? DailyLimit { get; set; } = null;
         public string? ButtonExtra { get; set; } = null;
