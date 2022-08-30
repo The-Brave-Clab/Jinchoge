@@ -11,7 +11,7 @@ namespace Yuyuyui.PrivateServer.DataModel
         public long ContentId { get; set; }
         public string ContentType { get; set; } = "";
         public int Weight { get; set; }
-        public long? SelectId { get; set; } = null;
+        public int? SelectId { get; set; } = null;
         public int? SpecialWeightGroup { get; set; } = null;
         public string? Remarks { get; set; } = null; // All null
     }

@@ -18,17 +18,11 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            var currentTime = DateTime.UtcNow;
-
             using var gachasDb = new GachasContext();
-            var gachaList = gachasDb.Gachas.ToList();
-            var currentGachas = gachaList
-                .Where(g => g.StartAt.ToDateTime() < currentTime && g.EndAt.ToDateTime() > currentTime)
-                .Where(g => g.StepupGroup == null || g.Id == g.StepupGroup); // TODO: process step up
 
             Response responseObj = new()
             {
-                gachas = currentGachas.Select(g => new GachaProductData
+                gachas = GetCurrentActiveGachas(gachasDb, player).Select(g => new GachaProductData
                 {
                     id = g.Id,
                     name = g.Name,
@@ -37,7 +31,7 @@ namespace Yuyuyui.PrivateServer
                     banner_id = g.Kind switch { 0 => 10080, 1 => 1, _ => g.Id },
                     start_at = g.StartAt.ToUnixTime(),
                     end_at = g.EndAt.ToUnixTime(),
-                    lineups = GetGachaLineups(gachasDb, g),
+                    lineups = GetGachaLineups(gachasDb, g), // It seems that the client doesn't respect this
                     detail_url = "", // TODO
                     caution_url = "", // TODO
                     pickup_content = GetFirstPickupContent(g),
@@ -49,7 +43,7 @@ namespace Yuyuyui.PrivateServer
                     get_down_gacha_count = 0, // TODO
                     get_down_count = 2611, // TODO
                     count_down_gacha = g.CountDownGacha,
-                    select_gacha = null, // TODO: g.SelectGacha,
+                    select_gacha = g.SelectGacha,
                     select_count = g.SelectCount,
                     special_select = g.SpecialSelect,
                     no_display_end_at = g.NoDisplayEndAt,
@@ -62,11 +56,24 @@ namespace Yuyuyui.PrivateServer
             return Task.CompletedTask;
         }
 
+        public static IEnumerable<Gacha> GetCurrentActiveGachas(GachasContext gachasDb, PlayerProfile player)
+        {
+            var currentTime = DateTime.UtcNow;
+
+            var gachaList = gachasDb.Gachas.ToList();
+            var currentGachas = gachaList
+                .Where(g => g.StartAt.ToDateTime() < currentTime && g.EndAt.ToDateTime() > currentTime)
+                .Where(g => g.MaxUserLevel == null || player.data.level <= g.MaxUserLevel)
+                .Where(g => g.StepupGroup == null || g.Id == g.StepupGroup); // TODO: process step up
+
+            return currentGachas;
+        }
+
         private List<GachaProductData.Lineup> GetGachaLineups(GachasContext gachasDb, Gacha gacha)
         {
             var lineups = gachasDb.GachaLineups
                 .Where(l => l.GachaId == gacha.Id)
-                .Where(l => l.Sp == 1) // TODO: sp/pc
+                .Where(l => l.Sp == 1) // We only need those on Smart Phone
                 .Select(l =>
                     new GachaProductData.Lineup
                     {
