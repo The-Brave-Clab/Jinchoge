@@ -19,11 +19,6 @@
 
         public Items items { get; set; } = new();
 
-        // public IList<long> enhancementItems = new List<long>();
-        // public IList<long> evolutionItems = new List<long>();
-        // public IList<long> eventItems = new List<long>();
-        // public IList<long> staminaItems = new List<long>();
-
         public IDictionary<string, CharacterFamiliarity> characterFamiliarities { get; set; } 
             = new Dictionary<string, CharacterFamiliarity>();
 
@@ -34,6 +29,9 @@
         public IList<long> acceptedGifts { get; set; } = new List<long>();
 
         public Progress progress { get; set; } = new();
+
+        public IDictionary<long, IList<int>> gachaSelections { get; set; } 
+            = new Dictionary<long, IList<int>>();
 
         protected override string Identifier => id.code;
         

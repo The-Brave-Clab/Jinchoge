@@ -28,7 +28,7 @@ namespace Yuyuyui.PrivateServer
                 {
                     gacha_id = g.Id, // TODO: This might be the step up group
                     cards = GetSelectGachaContents(gachasDb, g),
-                    selected_cards = new List<int>() // TODO
+                    selected_cards = GetPlayerSelectedCards(player, gachasDb, g)
                 }).ToList()
             };
 
@@ -53,6 +53,19 @@ namespace Yuyuyui.PrivateServer
                 .ToList();
         }
 
+        private List<Response.SelectedContent> GetPlayerSelectedCards(PlayerProfile player, GachasContext gachasDb, Gacha gacha)
+        {
+            var gachaBoxId = gacha.StepupGroup ?? gacha.Id;
+            bool hasSelected = player.gachaSelections.TryGetValue(gachaBoxId, out var selected);
+
+            if (!hasSelected) return new List<Response.SelectedContent>();
+
+            return selected!.Select(s => new Response.SelectedContent
+            {
+                content_id = gachasDb.GachaContents.First(g => g.GachaBoxId == gachaBoxId && g.SelectId == s).ContentId
+            }).ToList();
+        }
+
         public class Response
         {
             public IList<SelectGachaInfo> contents { get; set; } = new List<SelectGachaInfo>();
@@ -61,7 +74,7 @@ namespace Yuyuyui.PrivateServer
             {
                 public long gacha_id { get; set; }
                 public IList<SelectContent> cards { get; set; } = new List<SelectContent>();
-                public IList<int> selected_cards = new List<int>(); // TODO: Type to be determined
+                public IList<SelectedContent> selected_cards = new List<SelectedContent>();
             }
 
             public class SelectContent : IEquatable<SelectContent>
@@ -88,6 +101,11 @@ namespace Yuyuyui.PrivateServer
                 {
                     return HashCode.Combine(content_id, select_id);
                 }
+            }
+
+            public class SelectedContent
+            {
+                public long content_id { get; set; }
             }
         }
     }

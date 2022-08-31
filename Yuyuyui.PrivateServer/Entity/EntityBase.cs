@@ -430,6 +430,10 @@ namespace Yuyuyui.PrivateServer
                 typeof(SelectGachaEntity),
                 new Config("/select_gachas/select_gacha_cards", "GET")
             },
+            {
+                typeof(UpdateUserSelectEntity),
+                new Config("/select_gachas/update_user_select", "POST")
+            },
             //{
             //	typeof(GachaTicketEntity),
             //	new Config("/my/gacha_tickets", "Json/Gacha/ticket", 0)
