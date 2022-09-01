@@ -10,9 +10,9 @@ namespace Yuyuyui.PrivateServer
         public long exp { get; set; }
         public int potential { get; set; }
         public int active_skill_level { get; set; }
-        public int support_skill_1_level { get; set; }
-        public int support_skill_2_level { get; set; }
+        public int support_skill_level { get; set; }
         public int evolution_level { get; set; }
+        public int base_sp_increment { get; set; }
 
         // for different level of Taisha Point bonus
         // Maybe consider changing getter/setter?
@@ -39,9 +39,9 @@ namespace Yuyuyui.PrivateServer
                 exp = 10000,
                 potential = 0,
                 active_skill_level = 1,
-                support_skill_1_level = 1,
-                support_skill_2_level = 1,
-                evolution_level = 2
+                support_skill_level = 1,
+                evolution_level = 2,
+                base_sp_increment = 0
             };
         }
 
@@ -55,9 +55,9 @@ namespace Yuyuyui.PrivateServer
                 exp = 0,
                 potential = 0,
                 active_skill_level = 1,
-                support_skill_1_level = 1,
-                support_skill_2_level = 1,
-                evolution_level = 1
+                support_skill_level = 1,
+                evolution_level = 1,
+                base_sp_increment = 0
             };
         }
 
@@ -71,9 +71,9 @@ namespace Yuyuyui.PrivateServer
                 exp = 0,
                 potential = 0,
                 active_skill_level = 1,
-                support_skill_1_level = 1,
-                support_skill_2_level = 1,
-                evolution_level = 1
+                support_skill_level = 1,
+                evolution_level = 1,
+                base_sp_increment = 0
             };
         }
 
@@ -87,9 +87,9 @@ namespace Yuyuyui.PrivateServer
                 exp = 0,
                 potential = 0,
                 active_skill_level = 1,
-                support_skill_1_level = 1,
-                support_skill_2_level = 1,
-                evolution_level = 1
+                support_skill_level = 1,
+                evolution_level = 1,
+                base_sp_increment = 0
             };
         }
 

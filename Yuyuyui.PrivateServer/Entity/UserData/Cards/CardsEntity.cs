@@ -74,8 +74,7 @@ namespace Yuyuyui.PrivateServer
             public long? support_skill_2_id { get; set; }
             public long? leader_skill_id { get; set; }
             public int active_skill_level { get; set; }
-            public int support_skill_1_level { get; set; }
-            public int support_skill_2_level { get; set; }
+            public int support_skill_level { get; set; }
             public int evolution_level { get; set; }
             public int cost { get; set; }
             public int support_point { get; set; }
@@ -121,11 +120,11 @@ namespace Yuyuyui.PrivateServer
                     support_skill_2_id = masterCard.SupportSkill2Id,
                     leader_skill_id = masterCard.LeaderSkillId,
                     active_skill_level = userCard.active_skill_level,
-                    support_skill_1_level = userCard.support_skill_1_level,
-                    support_skill_2_level = userCard.support_skill_2_level,
+                    /* Actually, Both Miko and Hero trusts support_skill_level */
+                    support_skill_level = userCard.support_skill_level,
                     evolution_level = userCard.evolution_level,
                     cost = masterCard.Cost,
-                    support_point = masterCard.SupportPoint,
+                    support_point = masterCard.SupportPoint + userCard.base_sp_increment,
                     exchange_point_rate = userCard.GetExchangePointRate()
                 };
             }
