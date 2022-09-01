@@ -18,7 +18,6 @@
         public IList<long> decks { get; set; } = new List<long>();
 
         public Items items { get; set; } = new();
-        public IDictionary<long, long> titleItems { get; set; } = new Dictionary<long, long>(); // master_id, id
 
         public IDictionary<string, CharacterFamiliarity> characterFamiliarities { get; set; } 
             = new Dictionary<string, CharacterFamiliarity>();
@@ -145,6 +144,7 @@
             public IDictionary<long, long> eventItems { get; set; } = new Dictionary<long, long>(); // master_id, id
             public IDictionary<long, long> evolution { get; set; } = new Dictionary<long, long>(); // master_id, id
             public IDictionary<long, long> stamina { get; set; } = new Dictionary<long, long>(); // master_id, id
+            public IList<long> titleItems { get; set; } = new List<long>(); // master_id
         }
     }
 }

@@ -579,6 +579,18 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/my/enhancement_items/{0}/disposal/transactions/{1}", string.Empty, 0)
             //},
             {
+                typeof(TitleItemsEntity),
+                new Config("/my/title_items", "GET", "POST")
+            },
+            {
+                typeof(TitleItemsReadEntity),
+                new Config("/my/title_items/read", "POST")
+            },
+            {
+                typeof(TitleItemsCheckEntity),
+                new Config("/my/title_items/check", "POST")
+            },
+            {
             	typeof(AlbumListEntity),
             	new Config("/my/adventure_books", "GET", "POST")
             },
