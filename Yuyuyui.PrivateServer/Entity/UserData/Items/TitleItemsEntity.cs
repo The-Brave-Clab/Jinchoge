@@ -1,4 +1,5 @@
-﻿using Yuyuyui.PrivateServer.DataModel;
+﻿using System.Text;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -22,7 +23,15 @@ namespace Yuyuyui.PrivateServer
 
             if (HttpMethod == "POST")
             {
+                PostRequest requestObj = Deserialize<PostRequest>(requestBody)!;
+
+                player.data.titleItemID = requestObj.title_item_id;
+                player.Save();
+
+                // responseBody = Serialize(postResponseObj);
                 
+                // It seems that the client doesn't read the response
+                responseBody = Encoding.UTF8.GetBytes("{}");
             }
             else
             {
@@ -51,6 +60,36 @@ namespace Yuyuyui.PrivateServer
 
             return Task.CompletedTask;
         }
+
+        public class PostRequest
+        {
+            public long title_item_id { get; set; } // master id of the title
+        }
+
+        // public class PostResponse
+        // {
+        //     public UpdateUserTitle update_user_title { get; set; }
+        //
+        //     public class UpdateUserTitle
+        //     {
+        //         public long id { get; set; } // an internal user id
+        //         public long title_item_id { get; set; } // master id of the title
+        //         public int level { get; set; } // user level
+        //         public string nickname { get; set; } // user nickname
+        //         public string comment { get; set; } // user comment
+        //         public string uuid { get; set; } // user uuid
+        //         public string app_version { get; set; }
+        //         public string device { get; set; } // cookies X-APP-DEVICE
+        //         public string kind { get; set; } // Only saw "noraml", what is this?
+        //         public long leader_deck_card_id { get; set; }
+        //         public int user_fellowships_count { get; set; }
+        //         public int platform_number { get; set; } // An enum? 2 on iOS
+        //         public string accessed_at { get; set; } // UTC time
+        //         public string stamina_full_recover_at { get; set; }
+        //         public string created_at { get; set; } // account creation time
+        //         public string updated_at { get; set; }
+        //     }
+        // }
 
         public class GetResponse
         {

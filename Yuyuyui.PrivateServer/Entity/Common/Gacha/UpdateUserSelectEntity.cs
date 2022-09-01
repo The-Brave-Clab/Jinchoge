@@ -37,18 +37,18 @@ namespace Yuyuyui.PrivateServer
             public IList<int> select_ids { get; set; } = new List<int>();
         }
 
-        public class Response
-        {
-            public IList<UserSelect> update_user_select { get; set; } = new List<UserSelect>();
-            public class UserSelect
-            {
-                public long id { get; set; }
-                public string select_ids { get; set; }
-                public long user_id { get; set; }
-                public long cacha_id { get; set; }
-                public string created_at { get; set; }
-                public string updated_at { get; set; }
-            }
-        }
+        // public class Response
+        // {
+        //     public IList<UserSelect> update_user_select { get; set; } = new List<UserSelect>();
+        //     public class UserSelect
+        //     {
+        //         public long id { get; set; }
+        //         public string select_ids { get; set; }
+        //         public long user_id { get; set; }
+        //         public long cacha_id { get; set; }
+        //         public string created_at { get; set; }
+        //         public string updated_at { get; set; }
+        //     }
+        // }
     }
 }
