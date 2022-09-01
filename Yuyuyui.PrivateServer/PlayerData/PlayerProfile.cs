@@ -18,6 +18,7 @@
         public IList<long> decks { get; set; } = new List<long>();
 
         public Items items { get; set; } = new();
+        public IDictionary<long, long> titleItems { get; set; } = new Dictionary<long, long>(); // master_id, id
 
         public IDictionary<string, CharacterFamiliarity> characterFamiliarities { get; set; } 
             = new Dictionary<string, CharacterFamiliarity>();
