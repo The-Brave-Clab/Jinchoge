@@ -118,28 +118,19 @@ namespace Yuyuyui.PrivateServer
             Utils.Log($"active skill level up probability is {activeSkillLevelUpProbability * 100.0f}%");
             bool activeSkillLevelUp = Utils.ProbabilityCheck(activeSkillLevelUpProbability);
             Utils.Log($"active skill level up {activeSkillLevelUp}");
-            // support skill 1
-            float supportSkill1LevelUpProbability = CalcUtil.CalcSupportEnhancementChance(
+            
+            // Overall Support Skill
+            float supportSkillLevelUpProbability = CalcUtil.CalcSupportEnhancementChance(
                 skillsDb,
                 usedItem,
                 masterCard.SupportSkill1Id ?? 0,
                 usedItem.SupportSkillLevelCategory,
-                userCard.support_skill_1_level,
+                userCard.support_skill_level,
                 transaction.createdWith.enhancement_item.quantity);
-            Utils.Log($"support skill 1 level up probability is {supportSkill1LevelUpProbability * 100.0f}%");
-            bool supportSkill1LevelUp = Utils.ProbabilityCheck(supportSkill1LevelUpProbability);
-            Utils.Log($"support skill 1 level up {supportSkill1LevelUp}");
-            // support skill 2
-            float supportSkill2LevelUpProbability = CalcUtil.CalcSupportEnhancementChance(
-                skillsDb,
-                usedItem,
-                masterCard.SupportSkill1Id ?? 0,
-                usedItem.SupportSkillLevelCategory,
-                userCard.support_skill_2_level,
-                transaction.createdWith.enhancement_item.quantity);
-            Utils.Log($"support skill 2 level up probability is {supportSkill2LevelUpProbability * 100.0f}%");
-            bool supportSkill2LevelUp = Utils.ProbabilityCheck(supportSkill2LevelUpProbability);
-            Utils.Log($"support skill 2 level up {supportSkill2LevelUp}");
+            Utils.Log($"support skill level up probability is {supportSkillLevelUpProbability * 100.0f}%");
+            bool supportSkillLevelUp = Utils.ProbabilityCheck(supportSkillLevelUpProbability);
+            Utils.Log($"support skill level up {supportSkillLevelUp}");
+          
             // character familiarity
             CharacterFamiliarity familiarity = player.GetCharacterFamiliarity(cookingCharacterData.CookingCharacterId,
                 cookingCharacterData.TargetCharacterId);
@@ -172,10 +163,10 @@ namespace Yuyuyui.PrivateServer
             if (activeSkillLevelUp)
                 // We don't need to validate this since the client won't let us use a skill udon if level is maxed out
                 userCard.active_skill_level += 1;
-            if (supportSkill1LevelUp)
-                userCard.support_skill_1_level += 1;
-            if (supportSkill2LevelUp)
-                userCard.support_skill_2_level += 1;
+            
+            if (supportSkillLevelUp)
+                userCard.support_skill_level += 1;
+
             userCard.Save();
 
             familiarity.rank = newRank;
