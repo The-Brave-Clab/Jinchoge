@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Yuyuyui.PrivateServer.DataModel;
+using Yuyuyui.PrivateServer.Strategy;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -40,6 +41,8 @@ namespace Yuyuyui.PrivateServer
                     InitDefaultTitleItem(player);
                 }
                 
+                AddEligibleCardTitleToPlayerProfile(player);
+
                 GetResponse responseObj = new()
                 {
                     title_items = itemsDb.TitleItems.ToList()
@@ -64,6 +67,13 @@ namespace Yuyuyui.PrivateServer
             SetBasicResponseHeaders();
 
             return Task.CompletedTask;
+        }
+
+        private static void AddEligibleCardTitleToPlayerProfile(PlayerProfile player)
+        {
+            IQueryable<TitleItem> eligibleCardTitleItems = new ObtainableCardTitleDeterminationStrategy().Determine(player);
+            eligibleCardTitleItems.ForEach(titleItem => player.items.titleItems.Add(titleItem.Id));
+            player.Save();
         }
 
         private static void InitDefaultTitleItem(PlayerProfile player)
