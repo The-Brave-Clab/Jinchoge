@@ -2,7 +2,6 @@
 using System.Text;
 using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
-using Titanium.Web.Proxy.Exceptions;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -91,7 +90,7 @@ namespace Yuyuyui.PrivateServer
 
             Utils.LogTrace($"{e.HttpClient.Request.Method} {apiPath}");
 
-            var headersAndBody = await Proxy.GetRequestHeadersAndBody(e);
+            var headersAndBody = await ProxyUtils.GetRequestHeadersAndBody(e);
 
             foreach (var config in configs)
             {

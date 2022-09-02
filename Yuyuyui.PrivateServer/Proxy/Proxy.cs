@@ -9,19 +9,23 @@ using Titanium.Web.Proxy.Models;
 
 namespace Yuyuyui.PrivateServer
 {
-    public static class Proxy
+    public static class Proxy<TCallbacks> where TCallbacks : class, IProxyCallbacks, new()
     {
-        public const int DEFAULT_PORT = 44460;
+        private const int DEFAULT_PORT = 44460;
 
         private static ProxyServer? proxyServer = null;
         private static ExplicitProxyEndPoint? explicitEndPoint = null;
+        private static TCallbacks? callbacks = null;
 
         public static ExplicitProxyEndPoint StartProxy(int port = DEFAULT_PORT)
         {
+            callbacks = new TCallbacks();
+
             proxyServer = new ProxyServer(false, false, false);
             // Use this very hacky way to disable systemProxySettingsManager on windows
             if (RunTime.IsWindows && !RunTime.IsUwpOnWindows)
             {
+                // proxyServer.systemProxySettingsManager = null;
                 var field = typeof(ProxyServer).GetField("<systemProxySettingsManager>k__BackingField",
                     BindingFlags.Instance | BindingFlags.NonPublic);
                 field?.SetValue(proxyServer, null);
@@ -33,21 +37,23 @@ namespace Yuyuyui.PrivateServer
 
             // Important
             proxyServer.CertificateManager.CertificateValidDays = 300;
+            proxyServer.CertificateManager.RootCertificateIssuerName = "Yuyuyui Private Server";
+            proxyServer.CertificateManager.RootCertificateName = "Yuyuyui Private Server Root CA";
 
             proxyServer.CertificateManager.EnsureRootCertificate();
             File.WriteAllBytes("ca.cer", proxyServer.CertificateManager.RootCertificate!.Export(X509ContentType.Cert));
 
-            proxyServer.BeforeRequest += ProxyCallbacks.OnRequest;
-            //proxyServer.BeforeResponse += ProxyCallbacks.OnResponse;
-            proxyServer.ServerCertificateValidationCallback += ProxyCallbacks.OnCertificateValidation;
-            proxyServer.ClientCertificateSelectionCallback += ProxyCallbacks.OnCertificateSelection;
+            proxyServer.BeforeRequest += callbacks.OnRequest;
+            proxyServer.BeforeResponse += callbacks.OnResponse;
+            proxyServer.ServerCertificateValidationCallback += callbacks.OnCertificateValidation;
+            proxyServer.ClientCertificateSelectionCallback += callbacks.OnCertificateSelection;
 
 
             explicitEndPoint = new ExplicitProxyEndPoint(IPAddress.Any, port, true);
 
             // Fired when a CONNECT request is received
-            explicitEndPoint.BeforeTunnelConnectRequest += ProxyCallbacks.OnBeforeTunnelConnect;
-            explicitEndPoint.BeforeTunnelConnectResponse += ProxyCallbacks.OnBeforeTunnelConnect;
+            explicitEndPoint.BeforeTunnelConnectRequest += callbacks.OnBeforeTunnelConnect;
+            explicitEndPoint.BeforeTunnelConnectResponse += callbacks.OnBeforeTunnelConnect;
 
             // An explicit endpoint is where the client knows about the existence of a proxy
             // So client sends request in a proxy friendly manner
@@ -60,14 +66,18 @@ namespace Yuyuyui.PrivateServer
         public static void Stop()
         {
             // Unsubscribe & Quit
-            explicitEndPoint!.BeforeTunnelConnectRequest -= ProxyCallbacks.OnBeforeTunnelConnect;
-            explicitEndPoint!.BeforeTunnelConnectResponse -= ProxyCallbacks.OnBeforeTunnelConnect;
-            proxyServer!.BeforeRequest -= ProxyCallbacks.OnRequest;
-            //proxyServer!.BeforeResponse -= ProxyCallbacks.OnResponse;
-            proxyServer!.ServerCertificateValidationCallback -= ProxyCallbacks.OnCertificateValidation;
-            proxyServer!.ClientCertificateSelectionCallback -= ProxyCallbacks.OnCertificateSelection;
+            if (callbacks != null)
+            {
+                explicitEndPoint!.BeforeTunnelConnectRequest -= callbacks.OnBeforeTunnelConnect;
+                explicitEndPoint!.BeforeTunnelConnectResponse -= callbacks.OnBeforeTunnelConnect;
+                proxyServer!.BeforeRequest -= callbacks.OnRequest;
+                proxyServer!.BeforeResponse -= callbacks.OnResponse;
+                proxyServer!.ServerCertificateValidationCallback -= callbacks.OnCertificateValidation;
+                proxyServer!.ClientCertificateSelectionCallback -= callbacks.OnCertificateSelection;
+            }
 
             proxyServer!.Stop();
+            callbacks = null;
         }
 
         public static async Task<Tuple<Dictionary<string, string>, byte[]>> GetRequestHeadersAndBody(SessionEventArgs e)

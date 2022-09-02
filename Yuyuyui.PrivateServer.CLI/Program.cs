@@ -36,7 +36,7 @@ namespace Yuyuyui.PrivateServer.CLI
 
             await LocalData.Update();
 
-            var endpoint = Proxy.StartProxy();
+            var endpoint = Proxy<PrivateServerProxyCallbacks>.StartProxy();
 
             //foreach (var endPoint in proxyServer.ProxyEndPoints)
             Console.Write("Listening at ");
@@ -61,7 +61,7 @@ namespace Yuyuyui.PrivateServer.CLI
                     if (bytes[0] == 169 && bytes[1] == 254)
                         continue;
 
-                    ColoredOutput.Write($"{addr.Address}:{Proxy.DEFAULT_PORT}", ConsoleColor.Green);
+                    ColoredOutput.Write($"{addr.Address}:{endpoint.Port}", ConsoleColor.Green);
                     Console.Write("\t");
                     ColoredOutput.Write(netInterface.Name, ConsoleColor.DarkMagenta);
                     Console.Write(", ");
@@ -73,7 +73,7 @@ namespace Yuyuyui.PrivateServer.CLI
 
             Console.Read();
 
-            Proxy.Stop();
+            Proxy<PrivateServerProxyCallbacks>.Stop();
         }
     }
 }
