@@ -1,4 +1,5 @@
 ﻿using Yuyuyui.PrivateServer.DataModel;
+using Yuyuyui.PrivateServer.Strategy;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -182,6 +183,11 @@ namespace Yuyuyui.PrivateServer
             player.data.money -= costMoney;
             player.Save();
 
+            List<int> resultTitleItems = new List<int>();
+            DetermineCardTitleObtainedAfterLevelUp(player, resultTitleItems);
+            player.Save();
+            
+
             userItem.quantity -= transaction.createdWith.enhancement_item.quantity;
             userItem.Save();
 
@@ -217,7 +223,7 @@ namespace Yuyuyui.PrivateServer
                             ? cookingCharacterData.TargetSpecialMessageVoiceId
                             : cookingCharacterData.TargetMessageVoiceId,
                     room_item_number = 0, // TODO: what is this?
-                    title_items = new List<int>() // TODO
+                    title_items = resultTitleItems
                 }
             };
 
@@ -228,6 +234,16 @@ namespace Yuyuyui.PrivateServer
             SetBasicResponseHeaders();
 
             return Task.CompletedTask;
+        }
+
+        private static void DetermineCardTitleObtainedAfterLevelUp(PlayerProfile player, List<int> resultTitleItems)
+        {
+            IQueryable<TitleItem> eligibleCardTitleItems = new ObtainableCardTitleDeterminationStrategy().Determine(player);
+            eligibleCardTitleItems.ForEach(titleItem =>
+            {
+                player.items.titleItems.Add(titleItem.Id);
+                resultTitleItems.Add((int)titleItem.Id);
+            });
         }
 
         // public class Request

@@ -4,9 +4,10 @@ namespace Yuyuyui.PrivateServer.Strategy;
 
 public class ObtainableCardTitleDeterminationStrategy
 {
-    private const int MINIMAL_CARD_POTENTIAL = 2;
+    private const int MINIMAL_CARD_POTENTIAL = 1;
     private const int MINIMAL_CARD_LEVEL = 99;
     private const int MINIMAL_EVOLUTION_LEVEL = 5;
+    private const int CARD_TITLE_CONTENT_TYPE = 2;
     private List<int> ELIGIBLE_RARITY_LIST = new List<int> { 400, 450, 500 };
     private readonly ItemsContext _itemContext = new ();
     private readonly CardsContext _cardsContext = new ();
@@ -27,7 +28,7 @@ public class ObtainableCardTitleDeterminationStrategy
     {
         return _itemContext.TitleItems
             .Where(titleItem => !playerProfile.items.titleItems.Contains(titleItem.Id))
-            .Where(titleItem => titleItem.ContentType == 2 && titleItem.Priority != null)
+            .Where(titleItem => titleItem.ContentType == CARD_TITLE_CONTENT_TYPE && titleItem.Priority != null)
             .Where(titleItem => userEligibleCardIdList.Contains(titleItem.Priority.GetValueOrDefault(0)));
     }
 
