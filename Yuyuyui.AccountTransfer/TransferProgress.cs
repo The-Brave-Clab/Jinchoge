@@ -4,19 +4,22 @@ namespace Yuyuyui.AccountTransfer;
 
 public static class TransferProgress
 {
+
+    public enum TaskType
+    {
+        UUID,
+        Code,
+        Header,
+        Profile,
+        
+        Count
+    }
+
     private static readonly EventWaitHandle waitHandle = new AutoResetEvent(false);
 
     public static void WaitForCompletion()
     {
         waitHandle.WaitOne();
-    }
-    
-    public enum TaskType
-    {
-        UUID,
-        Code,
-        
-        Count
     }
 
     private static bool[] transferStatus = null;

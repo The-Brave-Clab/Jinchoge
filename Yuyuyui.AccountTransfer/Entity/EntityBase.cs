@@ -135,7 +135,15 @@ namespace Yuyuyui.AccountTransfer
             {
                 typeof(SessionsEntity),
                 new Config("/sessions", "POST")
-            }
+            },
+            {
+                typeof(HeaderEntity),
+                new Config("/my/header", "GET")
+            },
+            {
+                typeof(UserInfoEntity),
+                new Config("/users/{user_id}", "GET")
+            },
         };
     }
 

@@ -14,17 +14,17 @@ public class SessionsEntity : BaseEntity<SessionsEntity>
         HeaderCollection requestHeaders,
         ref AccountTransferProxyCallbacks.PlayerSession playerSession)
     {
-        Request session = Deserialize<Request>(requestBody)!;
+        PrivateServer.SessionsEntity.Request request = Deserialize<PrivateServer.SessionsEntity.Request>(requestBody)!;
 
         playerSession.player = new()
         {
             id = new()
             {
-                uuid = session.uuid
+                uuid = request.uuid
             }
         };
         
-        Utils.LogTrace($"Got user UUID: {session.uuid}");
+        Utils.LogTrace($"Got user UUID: {request.uuid}");
         
         TransferProgress.Completed(TransferProgress.TaskType.UUID);
     }
@@ -33,45 +33,29 @@ public class SessionsEntity : BaseEntity<SessionsEntity>
         HeaderCollection responseHeaders,
         ref AccountTransferProxyCallbacks.PlayerSession playerSession)
     {
-        Response session = Deserialize<Response>(responseBody)!;
+        PrivateServer.SessionsEntity.Response response = 
+            Deserialize<PrivateServer.SessionsEntity.Response>(responseBody)!;
 
-        if (PlayerProfile.Exists(session.code))
+        if (PlayerProfile.Exists(response.code))
         {
-            PlayerProfile loadedProfile = PlayerProfile.Load(session.code);
+            PlayerProfile loadedProfile = PlayerProfile.Load(response.code);
             loadedProfile.id.uuid = playerSession.player!.id.uuid;
             playerSession.player = loadedProfile;
         }
         else
         {
             PlayerProfile newProfile = 
-                PrivateServer.PrivateServer.RegisterNewPlayer(playerSession.player!.id.uuid, session.code);
-            newProfile.id.code = session.code;
+                PrivateServer.PrivateServer.RegisterNewPlayer(playerSession.player!.id.uuid, response.code);
+            newProfile.id.code = response.code;
             playerSession.player = newProfile;
         }
         playerSession.player.Save();
 
-        Utils.LogTrace($"Got user code: {session.code}");
+        Utils.LogTrace($"Got user code: {response.code}");
 
-        playerSession.sessionID = session.session_id;
-        playerSession.sessionKey = session.gk_key;
-
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"\nWelcome, {session.code}!\n");
-        Console.ResetColor();
+        playerSession.sessionID = response.session_id;
+        playerSession.sessionKey = response.gk_key;
 
         TransferProgress.Completed(TransferProgress.TaskType.Code);
-    }
-
-    private class Request
-    {
-        public string uuid { get; set; }
-    }
-
-    private class Response
-    {
-        public string code { get; set; }
-        public string session_id { get; set; }
-        public long unixtime { get; set; }
-        public string gk_key { get; set; }
     }
 }

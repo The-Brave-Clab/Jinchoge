@@ -74,7 +74,7 @@ namespace Yuyuyui.AccountTransfer.CLI
 
             TransferProgress.WaitForCompletion();
             
-            ColoredOutput.Write("All transfer tasks are completed. Program will exit in 10 seconds.", ConsoleColor.Green);
+            ColoredOutput.Write("All transfer tasks have completed. Program will exit in 10 seconds.", ConsoleColor.Green);
             Thread.Sleep(10000);
 
             Proxy<AccountTransferProxyCallbacks>.Stop();
