@@ -87,7 +87,7 @@
             ConfigPlayer.Initialize();
         }
 
-        private static PlayerProfile RegisterNewPlayer(string uuid)
+        public static PlayerProfile RegisterNewPlayer(string uuid, string? code = null)
         {
             string newCode = Utils.GenerateRandomDigit(10);
             while (PlayerProfile.Exists(newCode))
@@ -100,7 +100,7 @@
                 id = new()
                 {
                     uuid = uuid, 
-                    code = newCode
+                    code = code ?? newCode
                 }
             };
             playerUUID.Add(player.id.uuid, player);
