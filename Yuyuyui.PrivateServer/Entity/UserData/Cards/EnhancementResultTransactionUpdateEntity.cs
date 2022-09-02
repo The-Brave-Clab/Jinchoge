@@ -184,7 +184,7 @@ namespace Yuyuyui.PrivateServer
             player.Save();
 
             List<int> resultTitleItems = new List<int>();
-            DetermineCardTitleObtainedAfterLevelUp(player, resultTitleItems);
+            DetermineCardTitleObtainedAfterLevelUp(player, resultTitleItems, cardsDb, itemsDb);
             player.Save();
             
 
@@ -236,9 +236,9 @@ namespace Yuyuyui.PrivateServer
             return Task.CompletedTask;
         }
 
-        private static void DetermineCardTitleObtainedAfterLevelUp(PlayerProfile player, List<int> resultTitleItems)
+        private static void DetermineCardTitleObtainedAfterLevelUp(PlayerProfile player, List<int> resultTitleItems, CardsContext cardsContext, ItemsContext itemsContext)
         {
-            IQueryable<TitleItem> eligibleCardTitleItems = new ObtainableCardTitleDeterminationStrategy().Determine(player);
+            IQueryable<TitleItem> eligibleCardTitleItems = ObtainableCardTitleDeterminationStrategy.Determine(player, cardsContext, itemsContext);
             eligibleCardTitleItems.ForEach(titleItem =>
             {
                 player.items.titleItems.Add(titleItem.Id);
