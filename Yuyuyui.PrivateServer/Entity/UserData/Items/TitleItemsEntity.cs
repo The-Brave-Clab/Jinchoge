@@ -21,6 +21,7 @@ namespace Yuyuyui.PrivateServer
             var player = GetPlayerFromCookies();
 
             using var itemsDb = new ItemsContext();
+            using var cardsDb = new CardsContext();
 
             if (HttpMethod == "POST")
             {
@@ -41,7 +42,7 @@ namespace Yuyuyui.PrivateServer
                     InitDefaultTitleItem(player);
                 }
                 
-                AddEligibleCardTitleToPlayerProfile(player);
+                AddEligibleCardTitleToPlayerProfile(player, cardsDb, itemsDb);
 
                 GetResponse responseObj = new()
                 {
@@ -69,9 +70,9 @@ namespace Yuyuyui.PrivateServer
             return Task.CompletedTask;
         }
 
-        private static void AddEligibleCardTitleToPlayerProfile(PlayerProfile player)
+        private static void AddEligibleCardTitleToPlayerProfile(PlayerProfile player, CardsContext cardsContext, ItemsContext itemsContext)
         {
-            IQueryable<TitleItem> eligibleCardTitleItems = new ObtainableCardTitleDeterminationStrategy().Determine(player);
+            IQueryable<TitleItem> eligibleCardTitleItems = ObtainableCardTitleDeterminationStrategy.Determine(player, cardsContext, itemsContext);
             eligibleCardTitleItems.ForEach(titleItem => player.items.titleItems.Add(titleItem.Id));
             player.Save();
         }
