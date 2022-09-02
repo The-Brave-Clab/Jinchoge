@@ -35,6 +35,11 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
+                if (!player.items.titleItems.Any())
+                {
+                    InitDefaultTitleItem(player);
+                }
+                
                 GetResponse responseObj = new()
                 {
                     title_items = itemsDb.TitleItems.ToList()
@@ -59,6 +64,12 @@ namespace Yuyuyui.PrivateServer
             SetBasicResponseHeaders();
 
             return Task.CompletedTask;
+        }
+
+        private static void InitDefaultTitleItem(PlayerProfile player)
+        {
+            player.items.titleItems.Add(90001);
+            player.Save();
         }
 
         public class PostRequest
