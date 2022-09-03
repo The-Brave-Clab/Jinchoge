@@ -14,6 +14,13 @@ public static class TransferProgress
         Accessories,
         Cards,
         Decks,
+        
+        // Items
+        AutoClearTickets,
+        EnhancementItems,
+        EventItems,
+        EvolutionItems,
+        StaminaItems,
         TitleItems,
         
         Count
@@ -30,8 +37,9 @@ public static class TransferProgress
 
     static TransferProgress()
     {
-        transferStatus = new bool[(int) TaskType.Count];
-        for (int i = 0; i < (int) TaskType.Count; ++i)
+        int taskCount = (int) TaskType.Count;
+        transferStatus = new bool[taskCount];
+        for (int i = 0; i < taskCount; ++i)
             transferStatus[i] = false;
     }
 

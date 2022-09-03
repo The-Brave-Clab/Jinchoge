@@ -157,6 +157,26 @@ namespace Yuyuyui.AccountTransfer
                 new Config("/my/decks", "GET")
             },
             {
+                typeof(AutoClearTicketsEntity),
+                new Config("/my/auto_clear_tickets", "GET")
+            },
+            {
+                typeof(EnhancementItemsEntity),
+                new Config("/my/enhancement_items", "GET")
+            },
+            {
+                typeof(EventItemsEntity),
+                new Config("/my/event_items", "GET")
+            },
+            {
+                typeof(EvolutionItemsEntity),
+                new Config("/my/evolution_items", "GET")
+            },
+            {
+                typeof(StaminaItemsEntity),
+                new Config("/my/stamina_items", "GET")
+            },
+            {
                 typeof(TitleItemsEntity),
                 new Config("/my/title_items", "GET")
             },
