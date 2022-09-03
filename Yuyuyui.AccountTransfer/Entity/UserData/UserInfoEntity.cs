@@ -21,8 +21,7 @@ public class UserInfoEntity : BaseEntity<UserInfoEntity>
         HeaderCollection responseHeaders,
         ref AccountTransferProxyCallbacks.PlayerSession playerSession)
     {
-        PrivateServer.UserInfoEntity.Response response = 
-            Deserialize<PrivateServer.UserInfoEntity.Response>(responseBody)!;
+        var response = Deserialize<PrivateServer.UserInfoEntity.Response>(responseBody)!;
 
         if (response.user.id != playerSession.player!.id.code) return;
 

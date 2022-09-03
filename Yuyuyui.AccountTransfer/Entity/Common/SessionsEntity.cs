@@ -14,7 +14,7 @@ public class SessionsEntity : BaseEntity<SessionsEntity>
         HeaderCollection requestHeaders,
         ref AccountTransferProxyCallbacks.PlayerSession playerSession)
     {
-        PrivateServer.SessionsEntity.Request request = Deserialize<PrivateServer.SessionsEntity.Request>(requestBody)!;
+        var request = Deserialize<PrivateServer.SessionsEntity.Request>(requestBody)!;
 
         playerSession.player = new()
         {
@@ -33,8 +33,7 @@ public class SessionsEntity : BaseEntity<SessionsEntity>
         HeaderCollection responseHeaders,
         ref AccountTransferProxyCallbacks.PlayerSession playerSession)
     {
-        PrivateServer.SessionsEntity.Response response = 
-            Deserialize<PrivateServer.SessionsEntity.Response>(responseBody)!;
+        var response = Deserialize<PrivateServer.SessionsEntity.Response>(responseBody)!;
 
         if (PlayerProfile.Exists(response.code))
         {

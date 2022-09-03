@@ -11,6 +11,7 @@ public static class TransferProgress
         Code,
         Header,
         Profile,
+        Accessories,
         
         Count
     }

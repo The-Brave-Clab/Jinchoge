@@ -144,6 +144,10 @@ namespace Yuyuyui.AccountTransfer
                 typeof(UserInfoEntity),
                 new Config("/users/{user_id}", "GET")
             },
+            {
+                typeof(AccessoryListEntity),
+                new Config("/my/accessories", "GET")
+            },
         };
     }
 

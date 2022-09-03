@@ -21,8 +21,7 @@ public class HeaderEntity : BaseEntity<HeaderEntity>
         HeaderCollection responseHeaders,
         ref AccountTransferProxyCallbacks.PlayerSession playerSession)
     {
-        PrivateServer.HeaderEntity.Response response = 
-            Deserialize<PrivateServer.HeaderEntity.Response>(responseBody)!;
+        var response = Deserialize<PrivateServer.HeaderEntity.Response>(responseBody)!;
 
         playerSession.player!.data.level = response.header.level;
         playerSession.player!.data.exp = response.header.exp;
