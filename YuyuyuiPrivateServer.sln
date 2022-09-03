@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.PrivateServer", "Yu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.PrivateServer.DataModel", "Yuyuyui.PrivateServer.DataModel\Yuyuyui.PrivateServer.DataModel.csproj", "{D8715F87-DEF7-4C85-ACDA-58927D26A326}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.AccountTransfer", "Yuyuyui.AccountTransfer\Yuyuyui.AccountTransfer.csproj", "{CABD3E8C-3B32-43B5-ABD8-100C7D94F32F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.AccountTransfer.CLI", "Yuyuyui.AccountTransfer.CLI\Yuyuyui.AccountTransfer.CLI.csproj", "{69066B5E-FD53-44DE-95A4-0CF406480181}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{D8715F87-DEF7-4C85-ACDA-58927D26A326}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8715F87-DEF7-4C85-ACDA-58927D26A326}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8715F87-DEF7-4C85-ACDA-58927D26A326}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CABD3E8C-3B32-43B5-ABD8-100C7D94F32F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CABD3E8C-3B32-43B5-ABD8-100C7D94F32F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CABD3E8C-3B32-43B5-ABD8-100C7D94F32F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CABD3E8C-3B32-43B5-ABD8-100C7D94F32F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69066B5E-FD53-44DE-95A4-0CF406480181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69066B5E-FD53-44DE-95A4-0CF406480181}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69066B5E-FD53-44DE-95A4-0CF406480181}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69066B5E-FD53-44DE-95A4-0CF406480181}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

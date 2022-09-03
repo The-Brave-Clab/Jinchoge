@@ -1,8 +1,9 @@
 ﻿using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using Yuyuyui.PrivateServer;
 
-namespace Yuyuyui.PrivateServer.CLI
+namespace Yuyuyui.AccountTransfer.CLI
 {
     public static class Program
     {
@@ -36,7 +37,7 @@ namespace Yuyuyui.PrivateServer.CLI
 
             await LocalData.Update();
 
-            var endpoint = Proxy<PrivateServerProxyCallbacks>.StartProxy();
+            var endpoint = Proxy<AccountTransferProxyCallbacks>.StartProxy();
 
             //foreach (var endPoint in proxyServer.ProxyEndPoints)
             Console.Write("Listening at ");
@@ -71,9 +72,12 @@ namespace Yuyuyui.PrivateServer.CLI
 
             Console.WriteLine();
 
-            Console.Read();
+            TransferProgress.WaitForCompletion();
+            
+            ColoredOutput.Write("All transfer tasks have completed. Program will exit in 10 seconds.", ConsoleColor.Green);
+            Thread.Sleep(10000);
 
-            Proxy<PrivateServerProxyCallbacks>.Stop();
+            Proxy<AccountTransferProxyCallbacks>.Stop();
         }
     }
 }
