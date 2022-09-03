@@ -31,6 +31,7 @@ public class HeaderEntity : BaseEntity<HeaderEntity>
         playerSession.player!.data.titleItemID = response.header.title_item_id;
         playerSession.player!.data.stamina = response.header.stamina;
         playerSession.player!.data.weekdayStamina = response.header.weekday_stamina;
+        playerSession.player!.data.tutorialProgress = 1000; // the player must have completed the tutorial already
 
         playerSession.player.Save();
 

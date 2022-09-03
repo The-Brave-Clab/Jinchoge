@@ -180,6 +180,10 @@ namespace Yuyuyui.AccountTransfer
                 typeof(TitleItemsEntity),
                 new Config("/my/title_items", "GET")
             },
+            {
+                typeof(CharacterFamiliarityEntity),
+                new Config("/my/character_familiarities", "GET")
+            },
         };
     }
 

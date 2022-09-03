@@ -23,6 +23,8 @@ public static class TransferProgress
         StaminaItems,
         TitleItems,
         
+        CharacterFamiliarities,
+        
         Count
     }
 
