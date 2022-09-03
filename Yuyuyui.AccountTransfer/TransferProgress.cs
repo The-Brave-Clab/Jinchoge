@@ -14,6 +14,7 @@ public static class TransferProgress
         Accessories,
         Cards,
         Decks,
+        TitleItems,
         
         Count
     }
