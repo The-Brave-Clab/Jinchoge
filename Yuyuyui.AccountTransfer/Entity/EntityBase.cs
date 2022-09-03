@@ -152,6 +152,10 @@ namespace Yuyuyui.AccountTransfer
                 typeof(CardsEntity),
                 new Config("/my/cards", "GET")
             },
+            {
+                typeof(DeckEntity),
+                new Config("/my/decks", "GET")
+            },
         };
     }
 

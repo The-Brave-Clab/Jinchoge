@@ -13,6 +13,7 @@ public static class TransferProgress
         Profile,
         Accessories,
         Cards,
+        Decks,
         
         Count
     }
