@@ -25,7 +25,7 @@ namespace Yuyuyui.AccountTransfer
 
             foreach (var a in response.accessories)
             {
-                Accessory accessory = new Accessory()
+                Accessory accessory = new()
                 {
                     id = a.Value.id,
                     master_id = a.Value.master_id,

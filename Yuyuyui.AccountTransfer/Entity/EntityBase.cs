@@ -148,6 +148,10 @@ namespace Yuyuyui.AccountTransfer
                 typeof(AccessoryListEntity),
                 new Config("/my/accessories", "GET")
             },
+            {
+                typeof(CardsEntity),
+                new Config("/my/cards", "GET")
+            },
         };
     }
 

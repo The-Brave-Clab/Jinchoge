@@ -12,6 +12,7 @@ public static class TransferProgress
         Header,
         Profile,
         Accessories,
+        Cards,
         
         Count
     }
