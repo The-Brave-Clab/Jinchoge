@@ -28,6 +28,17 @@ namespace Yuyuyui.PrivateServer
                 quantity = 0,
             };
         }
+        
+        public static Accessory NewAccessoryByMasterId(long masterId)
+        {
+            return new Accessory
+            {
+                id = GetID(),
+                master_id = masterId,
+                level = 1,
+                quantity = 0,
+            };
+        }
 
         protected override long Identifier => id;
     }
