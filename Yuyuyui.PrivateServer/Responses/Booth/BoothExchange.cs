@@ -6,15 +6,15 @@ public class BoothExchange
     {
     }
 
-    public BoothExchange(long id, long startAt, long endAt, Dictionary<string, BoothExchangeProduct> products)
+    public BoothExchange(long exchangeId, long startAt, long endAt, Dictionary<string, BoothExchangeProduct> products)
     {
-        this.id = id;
+        this.exchange_id = exchangeId;
         start_at = startAt;
         end_at = endAt;
         this.products = products;
     }
 
-    public long id { get; set; }
+    public long exchange_id { get; set; }
     // start_at = Unix Time
     public long start_at { get; set; }
     // end_at = Unix Time
