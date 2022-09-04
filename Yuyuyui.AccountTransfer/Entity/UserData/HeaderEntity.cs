@@ -31,8 +31,6 @@ public class HeaderEntity : BaseEntity<HeaderEntity>
         playerSession.player!.data.titleItemID = response.header.title_item_id;
         /* Taisha Point */
         playerSession.player!.data.exchangePoint = response.header.exchange_point;
-        /* Taisha Point Max Capacity */
-        playerSession.player!.data.exchangePointCapacity = response.header.exchange_point_capacity;
         playerSession.player!.data.stamina = response.header.stamina;
         playerSession.player!.data.weekdayStamina = response.header.weekday_stamina;
         playerSession.player!.data.tutorialProgress = 1000; // the player must have completed the tutorial already
