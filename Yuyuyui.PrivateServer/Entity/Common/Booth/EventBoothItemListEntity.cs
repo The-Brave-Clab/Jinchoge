@@ -16,6 +16,8 @@ public class EventBoothItemListEntity : BaseEntity<EventBoothItemListEntity>
 
     protected override Task ProcessRequest()
     {
+        var player = GetPlayerFromCookies();
+        
         responseBody = Serialize(BoothConstants.EventItemResponse);
         SetBasicResponseHeaders();
 
