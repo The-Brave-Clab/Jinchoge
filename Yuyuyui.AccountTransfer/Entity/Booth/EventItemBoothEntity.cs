@@ -1,6 +1,6 @@
 ﻿using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
-using Yuyuyui.PrivateServer.Entity;
+using Yuyuyui.PrivateServer.Responses;
 
 namespace Yuyuyui.AccountTransfer.Entity.Booth;
 
@@ -24,7 +24,7 @@ public class EventItemBoothEntity : BaseEntity<EventItemBoothEntity>
         ref AccountTransferProxyCallbacks.PlayerSession playerSession)
     {
         // string responseStr = System.Text.Encoding.Default.GetString(responseBody);
-        // var response = Deserialize<BoothEventResponse>(responseBody)!;
+        var response = Deserialize<BoothEventResponse>(responseBody)!;
         Utils.LogTrace($"Got Event Item Booth Entity");
     }
 }

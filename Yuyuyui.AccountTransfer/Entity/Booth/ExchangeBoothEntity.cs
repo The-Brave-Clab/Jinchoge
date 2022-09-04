@@ -1,6 +1,6 @@
 ﻿using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
-using Yuyuyui.PrivateServer.Entity;
+using Yuyuyui.PrivateServer.Responses;
 
 namespace Yuyuyui.AccountTransfer.Entity.Booth;
 

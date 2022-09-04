@@ -1,4 +1,4 @@
-﻿namespace Yuyuyui.PrivateServer.Booth;
+﻿namespace Yuyuyui.PrivateServer.Responses.Booth;
 
 public class BoothExchangeProduct
 {

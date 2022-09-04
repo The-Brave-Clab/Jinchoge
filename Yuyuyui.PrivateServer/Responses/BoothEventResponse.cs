@@ -1,6 +1,6 @@
-﻿using Yuyuyui.PrivateServer.Booth;
+﻿using Yuyuyui.PrivateServer.Responses.Booth;
 
-namespace Yuyuyui.PrivateServer.Entity;
+namespace Yuyuyui.PrivateServer.Responses;
 
 public class BoothEventResponse
 {
