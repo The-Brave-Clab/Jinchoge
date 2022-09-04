@@ -3,6 +3,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
 using Yuyuyui.PrivateServer.Entity.Common.Booth;
+using Yuyuyui.PrivateServer.Entity.Common.BoothExchanges;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -417,14 +418,16 @@ namespace Yuyuyui.PrivateServer
                 typeof(EventBoothItemListEntity),
                 new Config("/event_item_booths", "GET")
             },
-            //{
-            //	typeof(ExchangeItemCreateEntity),
-            //	new Config("/exchange_booths/{0}/exchange_item/{1}/current", "Json/ExchangeBooth/exchange_item_transaction_create", 0)
-            //},
-            //{
-            //	typeof(ExchangeItemUpdateEntity),
-            //	new Config("/exchange_booths/{0}/exchange_item/{1}/exchange", "Json/ExchangeBooth/exchange_item_transaction_update", 0)
-            //},
+            /* Get Item Count Before Exchange */
+            {
+                typeof(CurrentBoothExchangeEntity),
+                new Config("/exchange_booths/{exchange_list_id}/exchange_item/{exchange_item}/current", "GET")
+            },
+            /* Perform Taisha Pt Item Exchange */
+            {
+                typeof(PurchaseBoothExchangeEntity),
+                new Config("/exchange_booths/{exchange_list_id}/exchange_item/{exchange_item}/exchange", "POST")
+            },
             {
                 typeof(EventBonusCardsEntity),
                 new Config("/cards/event_bonus_cards", "GET")

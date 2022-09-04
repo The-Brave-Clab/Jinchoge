@@ -1,4 +1,6 @@
 ﻿using Yuyuyui.PrivateServer.Constants;
+using Yuyuyui.PrivateServer.DataModel;
+using Yuyuyui.PrivateServer.Responses;
 
 namespace Yuyuyui.PrivateServer.Entity.Common.Booth;
 
@@ -16,7 +18,17 @@ public class ExchangeBoothItemListEntity : BaseEntity<ExchangeBoothItemListEntit
 
     protected override Task ProcessRequest()
     {
-        responseBody = Serialize(BoothConstants.ExchangeItemResponse);
+        var player = GetPlayerFromCookies();
+        
+        using var cardsDb = new CardsContext();
+        BoothResponse boothResponse = BoothConstants.InitExchangeItemResponse();
+        
+        // boothResponse.exchange.products.Values
+        //     .Where(product => product.item_category == 1)
+        //     .Where(product => player.cards.ContainsKey(product.master_id))
+        //     .ForEach(product => product.purchased_quantity = 88);
+        
+        responseBody = Serialize(boothResponse);
         SetBasicResponseHeaders();
 
         return Task.CompletedTask;
