@@ -120,7 +120,8 @@
             public long money { get; set; } = 0;
             public int friendPoint { get; set; } = 0;
             public int braveCoin { get; set; } = 0;
-            public int taishaPoint { get; set; } = 0;
+            public int exchangePoint { get; set; } = 0;
+            public int exchangePointCapacity { get; set; } = 99999999;
 
             public long? titleItemID { get; set; } = null;
             public int stamina { get; set; } = 140; // wip

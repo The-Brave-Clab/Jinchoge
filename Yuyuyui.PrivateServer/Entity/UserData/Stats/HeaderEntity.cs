@@ -45,7 +45,7 @@
                     exceeded_weekday_stamina = 0, // do the math!
                     weekday_stamina_full_recover_at = 0, // unixtime
                     weekday_stamina_recovery_second = 3600, // fixed?
-                    exchange_point = player.data.taishaPoint,
+                    exchange_point = player.data.exchangePoint,
                     exchange_point_capacity = 99999999 // fixed?
                 }
                 
