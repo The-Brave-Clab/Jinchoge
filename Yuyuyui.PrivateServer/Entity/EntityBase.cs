@@ -2,6 +2,7 @@
 using System.Text;
 using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
+using Yuyuyui.PrivateServer.Entity.Common.Booth;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -401,10 +402,21 @@ namespace Yuyuyui.PrivateServer
                 typeof(BillingPointShopEntity),
                 new Config("/billing_point_shop", "GET")
             },
-            //{
-            //	typeof(ExchangeItemListEntity),
-            //	new Config("/exchange_booths", "Json/ExchangeBooth/exchange_item_list", 0)
-            //},
+            /* Taisha Point Booth */
+            {
+            	typeof(ExchangeBoothItemListEntity),
+            	new Config("/exchange_booths", "GET")
+            },
+            /* Ranking Item Booth */
+            {
+                typeof(TradeBoothItemListEntity),
+                new Config("/trade_booths", "GET")
+            },
+            /* Monthly Event Item Booth */
+            {
+                typeof(EventBoothItemListEntity),
+                new Config("/event_item_booths", "GET")
+            },
             //{
             //	typeof(ExchangeItemCreateEntity),
             //	new Config("/exchange_booths/{0}/exchange_item/{1}/current", "Json/ExchangeBooth/exchange_item_transaction_create", 0)

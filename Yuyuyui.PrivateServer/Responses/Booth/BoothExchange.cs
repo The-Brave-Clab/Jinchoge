@@ -2,6 +2,18 @@
 
 public class BoothExchange
 {
+    public BoothExchange()
+    {
+    }
+
+    public BoothExchange(long id, long startAt, long endAt, Dictionary<string, BoothExchangeProduct> products)
+    {
+        this.id = id;
+        start_at = startAt;
+        end_at = endAt;
+        this.products = products;
+    }
+
     public long id { get; set; }
     // start_at = Unix Time
     public long start_at { get; set; }
