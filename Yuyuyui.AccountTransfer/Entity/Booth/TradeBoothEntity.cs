@@ -1,6 +1,6 @@
 ﻿using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
-using Yuyuyui.PrivateServer.Entity;
+using Yuyuyui.PrivateServer.Responses;
 
 namespace Yuyuyui.AccountTransfer.Entity.Booth;
 
@@ -24,7 +24,7 @@ public class TradeBoothEntity : BaseEntity<TradeBoothEntity>
         ref AccountTransferProxyCallbacks.PlayerSession playerSession)
     {
         // string responseStr = System.Text.Encoding.Default.GetString(responseBody);
-        // var response = Deserialize<BoothResponse>(responseBody)!;
+        var response = Deserialize<BoothResponse>(responseBody)!;
         Utils.LogTrace($"Got Trade Booth Entity");
     }
 }
