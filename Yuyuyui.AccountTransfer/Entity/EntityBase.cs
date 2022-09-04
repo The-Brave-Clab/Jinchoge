@@ -200,6 +200,16 @@ namespace Yuyuyui.AccountTransfer
                 typeof(EventItemBoothEntity),
                 new Config("/event_item_booths", "GET")
             },
+            /* Get Item Count Before Exchange */
+            {
+                typeof(ExchangeItemCurrentEntity),
+                new Config("/exchange_booths/{exchange_list_id}/exchange_item/{exchange_item}/current", "GET")
+            },
+            /* Perform Taisha Pt Item Exchange */
+            {
+                typeof(ExchangeItemExchangeEntity),
+                new Config("/exchange_booths/{exchange_list_id}/exchange_item/{exchange_item}/exchange", "POST")
+            },
         };
     }
 
