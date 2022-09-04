@@ -92,6 +92,22 @@ namespace Yuyuyui.PrivateServer
                 base_sp_increment = 0
             };
         }
+        
+        public static Card NewCardByMasterId(long masterId)
+        {
+            return new Card
+            {
+                id = GetID(),
+                master_id = masterId,
+                level = 1,
+                exp = 0,
+                potential = 0,
+                active_skill_level = 1,
+                support_skill_level = 1,
+                evolution_level = 1,
+                base_sp_increment = 0
+            };
+        }
 
         protected override long Identifier => id;
 
