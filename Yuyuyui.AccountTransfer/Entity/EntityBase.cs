@@ -3,6 +3,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Http;
+using Yuyuyui.AccountTransfer.Entity.Booth;
 using Utils = Yuyuyui.PrivateServer.Utils;
 using ProxyUtils = Yuyuyui.PrivateServer.ProxyUtils;
 using LibgkLambda = Yuyuyui.PrivateServer.LibgkLambda;
@@ -183,6 +184,21 @@ namespace Yuyuyui.AccountTransfer
             {
                 typeof(CharacterFamiliarityEntity),
                 new Config("/my/character_familiarities", "GET")
+            },
+            /* Taisha PT Booth */
+            {
+                typeof(ExchangeBoothEntity),
+                new Config("/exchange_booths", "GET")
+            },
+            /* Ranking Item Booth */
+            {
+                typeof(TradeBoothEntity),
+                new Config("/trade_booths", "GET")
+            },
+            /* Monthly Event Item Booth */
+            {
+                typeof(EventItemBoothEntity),
+                new Config("/event_item_booths", "GET")
             },
         };
     }
