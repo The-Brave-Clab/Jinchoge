@@ -16,7 +16,7 @@ public class EventBoothItemListEntity : BaseEntity<EventBoothItemListEntity>
     {
         //var player = GetPlayerFromCookies();
         
-        responseBody = Serialize(BoothConstants.EventItemResponse);
+        responseBody = Serialize(new BoothEventResponse());
         SetBasicResponseHeaders();
 
         return Task.CompletedTask;

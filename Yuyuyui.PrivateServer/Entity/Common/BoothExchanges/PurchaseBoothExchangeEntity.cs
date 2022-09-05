@@ -59,10 +59,7 @@ public class PurchaseBoothExchangeEntity : BaseEntity<PurchaseBoothExchangeEntit
     
     private static BoothExchangeProduct? FindCardProduct(long exchangeItemId)
     {
-        return BoothConstants.InitExchangeItemResponse()
-            .exchange
-            .products
-            .Values
+        return ExchangeBoothItemListEntity.InitExchangeItemResponse.exchange.products.Values
             .Where(product => product.item_category == CARD_CATEGORY)
             .FirstOrDefault(product => product.id == exchangeItemId);
     }
