@@ -1,5 +1,4 @@
 ﻿using Yuyuyui.PrivateServer.DataModel;
-using Yuyuyui.PrivateServer.Strategy;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -140,7 +139,7 @@ namespace Yuyuyui.PrivateServer
             accessory.quantity += quantity;
 
             accessory.Save();
-            Utils.Log("Accessory Qty increased");
+            Utils.Log("Accessory quantity increased");
         }
 
         public void GrantCard(long masterCardId, int potentialCount, CardsContext cardsDb, ItemsContext itemsDb)
@@ -171,22 +170,22 @@ namespace Yuyuyui.PrivateServer
             card = Card.Load(cards[masterCardId]);
             UpdateEvolutionAccessoriesForCard(card, potentialCount, cardsDb);
 
-            AddEligibleCardTitle(cardsDb, itemsDb);
+            EnsureEligibleCardTitle(cardsDb, itemsDb);
         }
 
-        private void AddEligibleCardTitle(CardsContext cardsContext, ItemsContext itemsContext)
+        public IList<int> EnsureEligibleCardTitle(CardsContext cardsContext, ItemsContext itemsContext)
         {
-            IQueryable<TitleItem> eligibleCardTitleItems = 
-                ObtainableCardTitleDeterminationStrategy.Determine(this, cardsContext, itemsContext);
-            if (!eligibleCardTitleItems.Any()) return;
+            var eligibleCardTitleItems = GetObtainableTitles(cardsContext, itemsContext);
+            if (!eligibleCardTitleItems.Any()) return new List<int>();
 
             eligibleCardTitleItems.ForEach(titleItem => items.titleItems.Add(titleItem.Id));
             items.titleItems = items.titleItems
                 .Concat(eligibleCardTitleItems.Select(ti => ti.Id))
-                .Distinct()
                 .ToList();
 
             Save();
+
+            return eligibleCardTitleItems.Select(ti => (int) ti.Id).ToList();
         }
 
         private void UpdateEvolutionAccessoriesForCard(
@@ -207,6 +206,38 @@ namespace Yuyuyui.PrivateServer
             GrantAccessory(card.EvolutionRewardAccessory3Id, potentialCount);
             GrantAccessory(card.EvolutionRewardAccessory4Id, potentialCount);
             GrantAccessory(card.EvolutionRewardAccessory5Id, potentialCount);
+        }
+        
+        
+        private const int MINIMAL_CARD_POTENTIAL = 1;
+        private const int MINIMAL_CARD_LEVEL = 99;
+        private const int MINIMAL_EVOLUTION_LEVEL = 5;
+        private const int CARD_TITLE_CONTENT_TYPE = 2;
+        private static readonly List<int> ELIGIBLE_RARITY_LIST = new() { 400, 450, 500 };
+    
+        private IQueryable<TitleItem> GetObtainableTitles(CardsContext cardsContext, ItemsContext itemsContext)
+        {
+            var userEligibleCardIdList = GetBaseCardIdsEligibleForObtainingTitle(cardsContext);
+            return GetObtainableTitleItems(itemsContext, userEligibleCardIdList);
+        }
+
+        private IQueryable<TitleItem> GetObtainableTitleItems(ItemsContext itemsContext, IEnumerable<long> userEligibleCardIdList)
+        {
+            return itemsContext.TitleItems
+                .Where(titleItem => !items.titleItems.Contains(titleItem.Id))
+                .Where(titleItem => titleItem.ContentType == CARD_TITLE_CONTENT_TYPE && titleItem.Priority != null)
+                .Where(titleItem => userEligibleCardIdList.Contains(titleItem.Priority.GetValueOrDefault(0)));
+        }
+
+        private IEnumerable<long> GetBaseCardIdsEligibleForObtainingTitle(CardsContext cardsContext)
+        {
+            return cards.Values
+                .Select(Card.Load)
+                .Where(card => ELIGIBLE_RARITY_LIST.Contains(card.MasterData(cardsContext).Rarity))
+                .Where(card => card.potential >= MINIMAL_CARD_POTENTIAL)
+                .Where(card => card.level >= MINIMAL_CARD_LEVEL)
+                .Where(card => card.evolution_level >= MINIMAL_EVOLUTION_LEVEL)
+                .Select(card => card.MasterData(cardsContext).BaseCardId);
         }
         
 

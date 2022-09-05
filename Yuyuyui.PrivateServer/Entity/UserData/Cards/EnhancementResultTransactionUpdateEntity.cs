@@ -1,5 +1,4 @@
 ﻿using Yuyuyui.PrivateServer.DataModel;
-using Yuyuyui.PrivateServer.Strategy;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -183,8 +182,7 @@ namespace Yuyuyui.PrivateServer
             player.data.money -= costMoney;
             player.Save();
 
-            List<int> resultTitleItems = new List<int>();
-            DetermineCardTitleObtainedAfterLevelUp(player, resultTitleItems, cardsDb, itemsDb);
+            IList<int> resultTitleItems = player.EnsureEligibleCardTitle(cardsDb, itemsDb);
             player.Save();
             
 
@@ -234,16 +232,6 @@ namespace Yuyuyui.PrivateServer
             SetBasicResponseHeaders();
 
             return Task.CompletedTask;
-        }
-
-        private static void DetermineCardTitleObtainedAfterLevelUp(PlayerProfile player, List<int> resultTitleItems, CardsContext cardsContext, ItemsContext itemsContext)
-        {
-            IQueryable<TitleItem> eligibleCardTitleItems = ObtainableCardTitleDeterminationStrategy.Determine(player, cardsContext, itemsContext);
-            eligibleCardTitleItems.ForEach(titleItem =>
-            {
-                player.items.titleItems.Add(titleItem.Id);
-                resultTitleItems.Add((int)titleItem.Id);
-            });
         }
 
         // public class Request
