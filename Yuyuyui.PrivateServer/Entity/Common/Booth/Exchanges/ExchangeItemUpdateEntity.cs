@@ -2,9 +2,9 @@
 
 namespace Yuyuyui.PrivateServer;
 
-public class PurchaseBoothExchangeEntity : BaseEntity<PurchaseBoothExchangeEntity>
+public class ExchangeItemUpdateEntity : BaseEntity<ExchangeItemUpdateEntity>
 {
-    public PurchaseBoothExchangeEntity(
+    public ExchangeItemUpdateEntity(
         Uri requestUri,
         string httpMethod,
         Dictionary<string, string> requestHeaders,
@@ -21,8 +21,8 @@ public class PurchaseBoothExchangeEntity : BaseEntity<PurchaseBoothExchangeEntit
         Request exchangeBoothRequest = Deserialize<Request>(requestBody)!;
         long exchangeItemId = exchangeBoothRequest.exchange_booth_item_id;
 
-        BoothExchangeProduct? cardProduct =
-            ExchangeBoothItemListEntity.InitExchangeItemResponse.exchange.products.Values
+        ExchangeProductData? cardProduct =
+            ExchangeItemListEntity.InitExchangeItemResponse.exchange.products.Values
                 .Where(product => product.item_category == 1) // cards
                 .FirstOrDefault(product => product.id == exchangeItemId);
 
@@ -67,13 +67,13 @@ public class PurchaseBoothExchangeEntity : BaseEntity<PurchaseBoothExchangeEntit
 
     public class Response
     {
-        public PurchaseExchange exchange { get; set; }
+        public Result exchange { get; set; }
 
-        public class PurchaseExchange
+        public class Result
         {
-            public ExchangeProduct product { get; set; }
+            public ProductData product { get; set; }
 
-            public class ExchangeProduct
+            public class ProductData
             {
                 public long id { get; set; }
                 public int purchased_quantity { get; set; }

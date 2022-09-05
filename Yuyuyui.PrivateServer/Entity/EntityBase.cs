@@ -401,29 +401,24 @@ namespace Yuyuyui.PrivateServer
                 typeof(BillingPointShopEntity),
                 new Config("/billing_point_shop", "GET")
             },
-            /* Taisha Point Booth */
             {
-            	typeof(ExchangeBoothItemListEntity),
+            	typeof(ExchangeItemListEntity),
             	new Config("/exchange_booths", "GET")
             },
-            /* Ranking Item Booth */
             {
-                typeof(TradeBoothItemListEntity),
+                typeof(TradeBoothsEntity),
                 new Config("/trade_booths", "GET")
             },
-            /* Monthly Event Item Booth */
             {
-                typeof(EventBoothItemListEntity),
+                typeof(EventItemBoothsEntity),
                 new Config("/event_item_booths", "GET")
             },
-            /* Get Item Count Before Exchange */
             {
-                typeof(CurrentBoothExchangeEntity),
+                typeof(ExchangeItemCreateEntity),
                 new Config("/exchange_booths/{exchange_list_id}/exchange_item/{exchange_item}/current", "GET")
             },
-            /* Perform Taisha Pt Item Exchange */
             {
-                typeof(PurchaseBoothExchangeEntity),
+                typeof(ExchangeItemUpdateEntity),
                 new Config("/exchange_booths/{exchange_list_id}/exchange_item/{exchange_item}/exchange", "POST")
             },
             {

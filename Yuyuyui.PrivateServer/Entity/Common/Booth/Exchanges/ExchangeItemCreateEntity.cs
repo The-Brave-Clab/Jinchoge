@@ -1,8 +1,8 @@
 ﻿namespace Yuyuyui.PrivateServer;
 
-public class CurrentBoothExchangeEntity : BaseEntity<CurrentBoothExchangeEntity>
+public class ExchangeItemCreateEntity : BaseEntity<ExchangeItemCreateEntity>
 {
-    public CurrentBoothExchangeEntity(
+    public ExchangeItemCreateEntity(
         Uri requestUri,
         string httpMethod,
         Dictionary<string, string> requestHeaders,
@@ -36,13 +36,13 @@ public class CurrentBoothExchangeEntity : BaseEntity<CurrentBoothExchangeEntity>
 
     public class Response
     {
-        public CurrentExchange exchange { get; set; }
+        public Result exchange { get; set; }
 
-        public class CurrentExchange
+        public class Result
         {
-            public CurrentProduct product { get; set; }
+            public CreateData product { get; set; }
 
-            public class CurrentProduct
+            public class CreateData
             {
                 public long id { get; set; }
                 public int before_count { get; set; } = 1;
