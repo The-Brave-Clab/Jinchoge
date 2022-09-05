@@ -3,10 +3,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Http;
-using Yuyuyui.AccountTransfer.Entity.Booth;
 using Utils = Yuyuyui.PrivateServer.Utils;
-using ProxyUtils = Yuyuyui.PrivateServer.ProxyUtils;
-using LibgkLambda = Yuyuyui.PrivateServer.LibgkLambda;
 
 namespace Yuyuyui.AccountTransfer
 {
@@ -184,31 +181,6 @@ namespace Yuyuyui.AccountTransfer
             {
                 typeof(CharacterFamiliarityEntity),
                 new Config("/my/character_familiarities", "GET")
-            },
-            /* Taisha PT Booth */
-            {
-                typeof(ExchangeBoothEntity),
-                new Config("/exchange_booths", "GET")
-            },
-            /* Ranking Item Booth */
-            {
-                typeof(TradeBoothEntity),
-                new Config("/trade_booths", "GET")
-            },
-            /* Monthly Event Item Booth */
-            {
-                typeof(EventItemBoothEntity),
-                new Config("/event_item_booths", "GET")
-            },
-            /* Get Item Count Before Exchange */
-            {
-                typeof(ExchangeItemCurrentEntity),
-                new Config("/exchange_booths/{exchange_list_id}/exchange_item/{exchange_item}/current", "GET")
-            },
-            /* Perform Taisha Pt Item Exchange */
-            {
-                typeof(ExchangeItemExchangeEntity),
-                new Config("/exchange_booths/{exchange_list_id}/exchange_item/{exchange_item}/exchange", "POST")
             },
         };
     }
