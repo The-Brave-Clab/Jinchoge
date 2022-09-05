@@ -19,7 +19,7 @@ public static class UpsertCardToProfileStrategy
             newCard.Save();
             player.Save();
             potentialCount -= 1;
-            Utils.Log("Assigned new card masterId=" + masterCardId + " to player.");
+            Utils.Log("Assigned new card master_id = " + masterCardId + " to player.");
         }
 
         var playerCard = Card.Load(player.cards[masterCardId]);
@@ -46,15 +46,8 @@ public static class UpsertCardToProfileStrategy
     private static void UpdateEvolutionAccessoriesForCard(int playerCardEvolutionLevel, int potentialCount, CardsContext cardsDb,
         Card playerCard, PlayerProfile player)
     {
-        if (playerCardEvolutionLevel < 1)
-        {
+        if (playerCardEvolutionLevel < 1 || potentialCount < 1)
             return;
-        }
-
-        if (potentialCount < 1)
-        {
-            return;
-        }
         
         cardsDb.Cards
             .Where(card => card.Id == playerCard.master_id)
@@ -65,35 +58,18 @@ public static class UpsertCardToProfileStrategy
 
     private static void UpdateEvolutionAccessories(int potentialCount, PlayerProfile player, DataModel.Card card)
     {
-        if (card.EvolutionRewardAccessory1Id != null)
-        {
-            UpdateEvolutionAccessory(player, card.EvolutionRewardAccessory1Id.Value, potentialCount);
-        }
-
-        if (card.EvolutionRewardAccessory2Id != null)
-        {
-            UpdateEvolutionAccessory(player, card.EvolutionRewardAccessory2Id.Value, potentialCount);
-        }
-
-        if (card.EvolutionRewardAccessory3Id != null)
-        {
-            UpdateEvolutionAccessory(player, card.EvolutionRewardAccessory3Id.Value, potentialCount);
-        }
-
-        if (card.EvolutionRewardAccessory4Id != null)
-        {
-            UpdateEvolutionAccessory(player, card.EvolutionRewardAccessory4Id.Value, potentialCount);
-        }
-
-        if (card.EvolutionRewardAccessory5Id != null)
-        {
-            UpdateEvolutionAccessory(player, card.EvolutionRewardAccessory5Id.Value, potentialCount);
-        }
+        UpdateEvolutionAccessory(player, card.EvolutionRewardAccessory1Id, potentialCount);
+        UpdateEvolutionAccessory(player, card.EvolutionRewardAccessory2Id, potentialCount);
+        UpdateEvolutionAccessory(player, card.EvolutionRewardAccessory3Id, potentialCount);
+        UpdateEvolutionAccessory(player, card.EvolutionRewardAccessory4Id, potentialCount);
+        UpdateEvolutionAccessory(player, card.EvolutionRewardAccessory5Id, potentialCount);
     }
 
-    private static void UpdateEvolutionAccessory(PlayerProfile player, long accessoryId, int potentialCount)
+    private static void UpdateEvolutionAccessory(PlayerProfile player, long? accessoryId, int potentialCount)
     {
-        var evolutionAccessory = Accessory.Load(player.accessories[accessoryId]);
+        if (accessoryId == null) return;
+
+        var evolutionAccessory = Accessory.Load(player.accessories[(long)accessoryId]);
         evolutionAccessory.quantity += potentialCount;
         evolutionAccessory.Save();
     }
@@ -101,15 +77,9 @@ public static class UpsertCardToProfileStrategy
     private static void UpsertPotentialGift(int previousPotentialCount, DataModel.Card masterCard, Card playerCard,
         GiftsContext giftsDb, PlayerProfile player)
     {
-        if (previousPotentialCount >= masterCard.PotentialGiftBorder)
-        {
+        var border = masterCard.PotentialGiftBorder;
+        if (previousPotentialCount >= border || playerCard.potential < border)
             return;
-        }
-
-        if (playerCard.potential < masterCard.PotentialGiftBorder)
-        {
-            return;
-        }
         
         long? potentialGiftId = masterCard.PotentialGiftId;
         DataModel.Gift masterGift = giftsDb.Gifts
@@ -124,7 +94,7 @@ public static class UpsertCardToProfileStrategy
             player.accessories.Add(masterGift.ContentId, newAccessory.id);
             newAccessory.Save();
             player.Save();
-            Utils.Log("Assigned new Accessory masterId=" + masterGift.Id + " to player.");
+            Utils.Log("Assigned new Accessory master_id = " + masterGift.Id + " to player.");
             return;
         }
         
@@ -137,23 +107,20 @@ public static class UpsertCardToProfileStrategy
 
     private static void HandlePlayerCardPotential(Card playerCard, int potentialCount, PlayerProfile player)
     {
+        Random rand = new Random();
+
         playerCard.potential += potentialCount;
+
         for (var i = 0; i < potentialCount; i++)
         {
             if (playerCard.support_skill_level < 20)
-            {
                 playerCard.support_skill_level += SUPPORT_SKILL_LEVEL_INCREMENT;
-            }
-            
-            Random rand = new Random();
+
             if (rand.NextDouble() >= 0.5)
-            {
                 playerCard.base_sp_increment += SP_INCREMENT;
-            }
         }
 
         playerCard.Save();
-        player.Save();
         Utils.Log("Potential Increment Done.");
     }
 }

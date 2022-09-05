@@ -22,7 +22,10 @@ public class PurchaseBoothExchangeEntity : BaseEntity<PurchaseBoothExchangeEntit
         Request exchangeBoothRequest = Deserialize<Request>(requestBody)!;
         long exchangeItemId = exchangeBoothRequest.exchange_booth_item_id;
 
-        BoothExchangeProduct? cardProduct = FindCardProduct(exchangeItemId);
+        BoothExchangeProduct? cardProduct =
+            ExchangeBoothItemListEntity.InitExchangeItemResponse.exchange.products.Values
+                .Where(product => product.item_category == 1) // cards
+                .FirstOrDefault(product => product.id == exchangeItemId);
 
         if (cardProduct == null)
         {
@@ -54,13 +57,6 @@ public class PurchaseBoothExchangeEntity : BaseEntity<PurchaseBoothExchangeEntit
         
         SetBasicResponseHeaders();
         return Task.CompletedTask;
-    }
-    
-    private static BoothExchangeProduct? FindCardProduct(long exchangeItemId)
-    {
-        return ExchangeBoothItemListEntity.InitExchangeItemResponse.exchange.products.Values
-            .Where(product => product.item_category == 1) // cards
-            .FirstOrDefault(product => product.id == exchangeItemId);
     }
 
     public class Request
