@@ -1,16 +1,10 @@
 ﻿using Yuyuyui.PrivateServer.DataModel;
-using Yuyuyui.PrivateServer.Requests;
-using Yuyuyui.PrivateServer.Responses.BoothExchanges;
-using Yuyuyui.PrivateServer.Responses.BoothExchanges.Exchange;
-using Yuyuyui.PrivateServer.Responses.BoothExchanges.Product;
 using Yuyuyui.PrivateServer.Strategy;
 
 namespace Yuyuyui.PrivateServer;
 
 public class PurchaseBoothExchangeEntity : BaseEntity<PurchaseBoothExchangeEntity>
 {
-    private static int CARD_CATEGORY = 1;
-
     public PurchaseBoothExchangeEntity(
         Uri requestUri,
         string httpMethod,
@@ -25,7 +19,7 @@ public class PurchaseBoothExchangeEntity : BaseEntity<PurchaseBoothExchangeEntit
     {
         var player = GetPlayerFromCookies();
         
-        ExchangeBoothRequest exchangeBoothRequest = Deserialize<ExchangeBoothRequest>(requestBody)!;
+        Request exchangeBoothRequest = Deserialize<Request>(requestBody)!;
         long exchangeItemId = exchangeBoothRequest.exchange_booth_item_id;
 
         BoothExchangeProduct? cardProduct = FindCardProduct(exchangeItemId);
@@ -44,12 +38,17 @@ public class PurchaseBoothExchangeEntity : BaseEntity<PurchaseBoothExchangeEntit
         using (var giftsDb = new GiftsContext())
             UpsertCardToProfileStrategy.Handle(player, masterCardId, potentialCount, cardsDb, giftsDb, itemsDb);
 
-        ExchangeResponse currentResponse = new ExchangeResponse(
-            exchange: new PurchaseExchange(product: new ExchangeProduct(
-                id: exchangeItemId,
-                purchasedQuantity: exchangeBoothRequest.count
-            ))
-        );
+        Response currentResponse = new Response
+        {
+            exchange = new()
+            {
+                product = new()
+                {
+                    id = exchangeItemId,
+                    purchased_quantity = exchangeBoothRequest.count
+                }
+            }
+        };
 
         responseBody = Serialize(currentResponse);
         
@@ -60,7 +59,31 @@ public class PurchaseBoothExchangeEntity : BaseEntity<PurchaseBoothExchangeEntit
     private static BoothExchangeProduct? FindCardProduct(long exchangeItemId)
     {
         return ExchangeBoothItemListEntity.InitExchangeItemResponse.exchange.products.Values
-            .Where(product => product.item_category == CARD_CATEGORY)
+            .Where(product => product.item_category == 1) // cards
             .FirstOrDefault(product => product.id == exchangeItemId);
+    }
+
+    public class Request
+    {
+        public long exchange_booth_id { get; set; }
+        public long exchange_booth_item_id { get; set; }
+        public int count { get; set; }
+        public int before_count { get; set; }
+    }
+
+    public class Response
+    {
+        public PurchaseExchange exchange { get; set; }
+
+        public class PurchaseExchange
+        {
+            public ExchangeProduct product { get; set; }
+
+            public class ExchangeProduct
+            {
+                public long id { get; set; }
+                public int purchased_quantity { get; set; }
+            }
+        }
     }
 }
