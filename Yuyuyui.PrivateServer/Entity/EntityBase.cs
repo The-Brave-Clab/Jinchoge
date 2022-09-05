@@ -2,7 +2,6 @@
 using System.Text;
 using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
-using Yuyuyui.PrivateServer.Entity.Common.BoothExchanges;
 
 namespace Yuyuyui.PrivateServer
 {

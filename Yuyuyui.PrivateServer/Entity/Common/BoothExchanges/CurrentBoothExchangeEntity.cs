@@ -1,8 +1,4 @@
-﻿using Yuyuyui.PrivateServer.Responses.BoothExchanges;
-using Yuyuyui.PrivateServer.Responses.BoothExchanges.Exchange;
-using Yuyuyui.PrivateServer.Responses.BoothExchanges.Product;
-
-namespace Yuyuyui.PrivateServer.Entity.Common.BoothExchanges;
+﻿namespace Yuyuyui.PrivateServer;
 
 public class CurrentBoothExchangeEntity : BaseEntity<CurrentBoothExchangeEntity>
 {
@@ -18,19 +14,39 @@ public class CurrentBoothExchangeEntity : BaseEntity<CurrentBoothExchangeEntity>
 
     protected override Task ProcessRequest()
     {
-        var player = GetPlayerFromCookies();
-        
-        CurrentResponse currentResponse = new CurrentResponse(
-            exchange: new CurrentExchange(product: new CurrentProduct(
-                id: long.Parse(pathParameters.FirstOrDefault(
-                    parameter => parameter.Key == "exchange_item").Value
-                )
-            ))
-        );
+        // var player = GetPlayerFromCookies();
 
-        responseBody = Serialize(currentResponse);
+        Response response = new()
+        {
+            exchange = new()
+            {
+                product = new()
+                {
+                    id = long.Parse(pathParameters["exchange_item"]),
+                    before_count = 1
+                }
+            }
+        };
+
+        responseBody = Serialize(response);
         
         SetBasicResponseHeaders();
         return Task.CompletedTask;
+    }
+
+    public class Response
+    {
+        public CurrentExchange exchange { get; set; }
+
+        public class CurrentExchange
+        {
+            public CurrentProduct product { get; set; }
+
+            public class CurrentProduct
+            {
+                public long id { get; set; }
+                public int before_count { get; set; } = 1;
+            }
+        }
     }
 }

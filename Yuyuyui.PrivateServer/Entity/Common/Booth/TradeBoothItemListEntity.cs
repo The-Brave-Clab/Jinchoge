@@ -14,7 +14,7 @@ public class TradeBoothItemListEntity : BaseEntity<TradeBoothItemListEntity>
 
     protected override Task ProcessRequest()
     {
-        var player = GetPlayerFromCookies();
+        // var player = GetPlayerFromCookies();
 
         responseBody = Serialize(new BoothResponse { exchange = new() });
         SetBasicResponseHeaders();
