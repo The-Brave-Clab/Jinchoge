@@ -175,6 +175,28 @@ namespace Yuyuyui.PrivateServer
             //DataModel.Card masterCard = MasterData();
             return 0.0f;
         }
+
+        public void AddPotential(int count)
+        {
+            const int SP_INCREMENT = 2;
+            const int SUPPORT_SKILL_LEVEL_INCREMENT = 1;
+
+            Random rand = new Random();
+
+            potential += count;
+
+            for (var i = 0; i < count; i++)
+            {
+                if (support_skill_level < 20)
+                    support_skill_level += SUPPORT_SKILL_LEVEL_INCREMENT;
+
+                if (rand.NextDouble() >= 0.5)
+                    base_sp_increment += SP_INCREMENT;
+            }
+
+            Save();
+            Utils.Log("Potential Increment Done.");
+        }
     }
 
     public class SupportCard

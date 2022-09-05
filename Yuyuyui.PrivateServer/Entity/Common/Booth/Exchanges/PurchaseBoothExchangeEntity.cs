@@ -38,8 +38,7 @@ public class PurchaseBoothExchangeEntity : BaseEntity<PurchaseBoothExchangeEntit
         
         using (var cardsDb = new CardsContext())
         using (var itemsDb = new ItemsContext())
-        using (var giftsDb = new GiftsContext())
-            UpsertCardToProfileStrategy.Handle(player, masterCardId, potentialCount, cardsDb, giftsDb, itemsDb);
+            player.GrantCard(masterCardId, potentialCount, cardsDb, itemsDb);
 
         Response currentResponse = new Response
         {

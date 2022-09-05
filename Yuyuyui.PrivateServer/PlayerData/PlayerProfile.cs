@@ -1,4 +1,7 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using Yuyuyui.PrivateServer.DataModel;
+using Yuyuyui.PrivateServer.Strategy;
+
+namespace Yuyuyui.PrivateServer
 {
     public class PlayerProfile : BasePlayerData<PlayerProfile, string>
     {
@@ -94,6 +97,117 @@
             
             Utils.LogWarning($"Account {id.code} Banned");
         }
+
+        // Accessory only, skip the gift acceptance progress
+        public void UpsertPotentialGift(int previousPotential, int currentPotential, DataModel.Card masterCard)
+        {
+            var border = masterCard.PotentialGiftBorder;
+            if (previousPotential >= border || currentPotential < border)
+                return;
+        
+            long? potentialGiftId = masterCard.PotentialGiftId;
+
+            DataModel.Gift masterGift;
+            using (var giftsDb = new GiftsContext())
+                masterGift = giftsDb.Gifts
+                    .Where(gift => gift.ContentType == "Accessory")
+                    .First(gift => gift.Id == potentialGiftId);
+
+            GrantAccessory(masterGift.ContentId, masterGift.Quantity);
+        }
+
+        public void GrantAccessory(long? accessoryId, int quantity)
+        {
+            if (accessoryId == null) return;
+
+            bool isNew = !accessories.Keys.Contains((long) accessoryId);
+
+            Accessory accessory;
+            if (isNew)
+            {
+                accessory = Accessory.NewAccessoryByMasterId((long) accessoryId);
+                accessory.quantity = quantity - 1;
+
+                accessories.Add((long) accessoryId, accessory.id);
+                accessory.Save();
+                Save();
+
+                Utils.Log($"Assigned new Accessory master_id = {(long) accessoryId} to player.");
+                return;
+            }
+
+            accessory = Accessory.Load(accessories[(long)accessoryId]);
+            accessory.quantity += quantity;
+
+            accessory.Save();
+            Utils.Log("Accessory Qty increased");
+        }
+
+        public void GrantCard(long masterCardId, int potentialCount, CardsContext cardsDb, ItemsContext itemsDb)
+        {
+            bool isNewCard = !cards.Keys.Contains(masterCardId);
+
+            Card card;
+            if (isNewCard)
+            {
+                card = Card.NewCardByMasterId(masterCardId);
+                cards.Add(masterCardId, card.id);
+                card.Save();
+                Save();
+                potentialCount -= 1;
+                Utils.Log("Assigned new card master_id = " + masterCardId + " to player.");
+            }
+            else
+            {
+                card = Card.Load(cards[masterCardId]);
+            }
+
+            int previousPotentialCount = card.potential;
+            card.AddPotential(potentialCount);
+
+            DataModel.Card masterCard = cardsDb.Cards.First(c => c.Id == masterCardId);
+            UpsertPotentialGift(previousPotentialCount, card.potential, masterCard);
+
+            card = Card.Load(cards[masterCardId]);
+            UpdateEvolutionAccessoriesForCard(card, potentialCount, cardsDb);
+
+            AddEligibleCardTitle(cardsDb, itemsDb);
+        }
+
+        private void AddEligibleCardTitle(CardsContext cardsContext, ItemsContext itemsContext)
+        {
+            IQueryable<TitleItem> eligibleCardTitleItems = 
+                ObtainableCardTitleDeterminationStrategy.Determine(this, cardsContext, itemsContext);
+            if (!eligibleCardTitleItems.Any()) return;
+
+            eligibleCardTitleItems.ForEach(titleItem => items.titleItems.Add(titleItem.Id));
+            items.titleItems = items.titleItems
+                .Concat(eligibleCardTitleItems.Select(ti => ti.Id))
+                .Distinct()
+                .ToList();
+
+            Save();
+        }
+
+        private void UpdateEvolutionAccessoriesForCard(
+            Card playerCard, int potentialCount, CardsContext cardsDb)
+        {
+            if (playerCard.evolution_level < 1 || potentialCount < 1)
+                return;
+        
+            cardsDb.Cards
+                .Where(card => card.Id == playerCard.master_id)
+                .ForEach(card => UpdateEvolutionAccessories(potentialCount, card));
+        }
+
+        private void UpdateEvolutionAccessories(int potentialCount, DataModel.Card card)
+        {
+            GrantAccessory(card.EvolutionRewardAccessory1Id, potentialCount);
+            GrantAccessory(card.EvolutionRewardAccessory2Id, potentialCount);
+            GrantAccessory(card.EvolutionRewardAccessory3Id, potentialCount);
+            GrantAccessory(card.EvolutionRewardAccessory4Id, potentialCount);
+            GrantAccessory(card.EvolutionRewardAccessory5Id, potentialCount);
+        }
         
 
         public class ID
@@ -120,7 +234,7 @@
             public long money { get; set; } = 0;
             public int friendPoint { get; set; } = 0;
             public int braveCoin { get; set; } = 0;
-            public int exchangePoint { get; set; } = 0;
+            public int exchangePoint { get; set; } = 999999;
 
             public long? titleItemID { get; set; } = null;
             public int stamina { get; set; } = 140; // wip
