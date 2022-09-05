@@ -1,6 +1,4 @@
-﻿using Yuyuyui.PrivateServer.Constants;
-
-namespace Yuyuyui.PrivateServer.Entity.Common.Booth;
+﻿namespace Yuyuyui.PrivateServer;
 
 public class TradeBoothItemListEntity : BaseEntity<TradeBoothItemListEntity>
 {

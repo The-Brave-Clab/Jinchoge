@@ -1,6 +1,4 @@
-﻿using Yuyuyui.PrivateServer.Constants;
-
-namespace Yuyuyui.PrivateServer.Entity.Common.Booth;
+﻿namespace Yuyuyui.PrivateServer;
 
 public class EventBoothItemListEntity : BaseEntity<EventBoothItemListEntity>
 {
@@ -16,7 +14,7 @@ public class EventBoothItemListEntity : BaseEntity<EventBoothItemListEntity>
 
     protected override Task ProcessRequest()
     {
-        var player = GetPlayerFromCookies();
+        //var player = GetPlayerFromCookies();
         
         responseBody = Serialize(BoothConstants.EventItemResponse);
         SetBasicResponseHeaders();

@@ -1,22 +1,7 @@
-﻿namespace Yuyuyui.PrivateServer.Responses.Booth;
+﻿namespace Yuyuyui.PrivateServer;
 
 public class BoothExchangeProduct
 {
-    public BoothExchangeProduct()
-    {
-        
-    }
-    public BoothExchangeProduct(long id, long masterId, long fromContentId, int itemCategory, int point, string name, int quantity)
-    {
-        this.id = id;
-        master_id = masterId;
-        from_content_id = fromContentId;
-        item_category = itemCategory;
-        this.point = point;
-        this.name = name;
-        this.quantity = quantity;
-    }
-
     public long id { get; set; }
     public long master_id { get; set; }
     public long from_content_id { get; set; }

@@ -1,18 +1,18 @@
-﻿using Yuyuyui.PrivateServer.Responses;
-using Yuyuyui.PrivateServer.Responses.Booth;
-
-namespace Yuyuyui.PrivateServer.Constants;
+﻿namespace Yuyuyui.PrivateServer;
 
 public static class BoothConstants
 {
     public static BoothResponse InitExchangeItemResponse()
     {
-        return new BoothResponse(
-            exchange: new BoothExchange(
-                exchangeId: 100000000,
-                startAt: 1483228800,
-                endAt: 1893456000,
-                products: new Dictionary<string, BoothExchangeProduct>()
+        return new BoothResponse
+        {
+            exchange = new BoothExchange
+            {
+                exchange_id = 100000000,
+                start_at = 1483228800,
+                end_at = 1893456000,
+                special_chapter_id = null,
+                products = new Dictionary<string, BoothExchangeProduct>
                 {
                     {
                         "1", NewCardExchangeProduct(id: 100000001, masterId: 500140, name: "結城友奈")
@@ -81,26 +81,32 @@ public static class BoothConstants
                         "22", NewCardExchangeProduct(id: 100000022, masterId: 500130, name: "白井黒子")
                     }
                 }
-            )
-        );
+            }
+        };
     }
+
+    public static readonly BoothResponse TradeItemResponse = new()
+    {
+        exchange = new BoothExchange()
+    };
     
-    public static BoothResponse TradeItemResponse = new BoothResponse(
-        exchange: new BoothExchange()
-    );
-    
-    public static BoothEventResponse EventItemResponse = new BoothEventResponse();
+    public static readonly BoothEventResponse EventItemResponse = new();
 
     private static BoothExchangeProduct NewCardExchangeProduct(long id, long masterId, string name)
     {
-        return new BoothExchangeProduct(
-            id: id,
-            masterId: masterId,
-            fromContentId: 21,
-            itemCategory: 1,
-            point: 10000,
-            name: name,
-            quantity: 1
-        );
+        return new()
+        {
+            id = id,
+            master_id = masterId,
+            from_content_id = 21,
+            special_chapter_id = null,
+            item_category = 1,
+            purchased_quantity = 0,
+            purchase_limit_quantity = 99,
+            point = 10000,
+            name = name,
+            quantity = 1,
+            have_story = false
+        };
     }
 }

@@ -1,8 +1,4 @@
-﻿using Yuyuyui.PrivateServer.Constants;
-using Yuyuyui.PrivateServer.DataModel;
-using Yuyuyui.PrivateServer.Responses;
-
-namespace Yuyuyui.PrivateServer.Entity.Common.Booth;
+﻿namespace Yuyuyui.PrivateServer;
 
 public class ExchangeBoothItemListEntity : BaseEntity<ExchangeBoothItemListEntity>
 {
@@ -18,9 +14,9 @@ public class ExchangeBoothItemListEntity : BaseEntity<ExchangeBoothItemListEntit
 
     protected override Task ProcessRequest()
     {
-        var player = GetPlayerFromCookies();
+        //var player = GetPlayerFromCookies();
         
-        using var cardsDb = new CardsContext();
+        //using var cardsDb = new CardsContext();
         BoothResponse boothResponse = BoothConstants.InitExchangeItemResponse();
         
         // boothResponse.exchange.products.Values
