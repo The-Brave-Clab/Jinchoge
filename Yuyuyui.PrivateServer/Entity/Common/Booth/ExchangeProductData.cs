@@ -10,7 +10,7 @@ public class ExchangeProductData
     public int purchased_quantity { get; set; } = 0;
     public int purchase_limit_quantity { get; set; } = 99;
     public int point { get; set; }
-    public string name { get; set; }
+    public string name { get; set; } = "";
     public int quantity { get; set; } = 1;
     public bool have_story { get; set; } = false;
 }

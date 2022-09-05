@@ -67,11 +67,11 @@ public class ExchangeItemUpdateEntity : BaseEntity<ExchangeItemUpdateEntity>
 
     public class Response
     {
-        public Result exchange { get; set; }
+        public Result exchange { get; set; } = new();
 
         public class Result
         {
-            public ProductData product { get; set; }
+            public ProductData product { get; set; } = new();
 
             public class ProductData
             {

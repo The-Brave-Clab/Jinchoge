@@ -36,11 +36,11 @@ public class ExchangeItemCreateEntity : BaseEntity<ExchangeItemCreateEntity>
 
     public class Response
     {
-        public Result exchange { get; set; }
+        public Result exchange { get; set; } = new();
 
         public class Result
         {
-            public CreateData product { get; set; }
+            public CreateData product { get; set; } = new();
 
             public class CreateData
             {

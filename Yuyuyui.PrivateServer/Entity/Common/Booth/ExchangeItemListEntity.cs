@@ -32,7 +32,7 @@ public class ExchangeItemListEntity : BaseEntity<ExchangeItemListEntity>
     
     public class Response
     {
-        public Result exchange { get; set; }
+        public Result exchange { get; set; } = new();
 
         public class Result
         {
