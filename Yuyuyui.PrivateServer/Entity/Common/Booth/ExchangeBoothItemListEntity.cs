@@ -30,7 +30,7 @@ public class ExchangeBoothItemListEntity : BaseEntity<ExchangeBoothItemListEntit
         return Task.CompletedTask;
     }
 
-    public static BoothResponse InitExchangeItemResponse => new()
+    public static readonly BoothResponse InitExchangeItemResponse = new()
     {
         exchange = new()
         {
@@ -40,15 +40,15 @@ public class ExchangeBoothItemListEntity : BaseEntity<ExchangeBoothItemListEntit
             special_chapter_id = null,
             products = new Dictionary<string, BoothExchangeProduct>
             {
-                { "1", NewCardExchangeProduct(id: 100000001, masterId: 500140, name: "結城友奈") },
-                { "2", NewCardExchangeProduct(id: 100000002, masterId: 500150, name: "東郷美森") },
-                { "3", NewCardExchangeProduct(id: 100000003, masterId: 500160, name: "犬吠埼風") },
-                { "4", NewCardExchangeProduct(id: 100000004, masterId: 500170, name: "犬吠埼樹") },
-                { "5", NewCardExchangeProduct(id: 100000005, masterId: 500180, name: "犬吠埼樹") },
-                { "6", NewCardExchangeProduct(id: 100000006, masterId: 500190, name: "乃木園子") },
-                { "7", NewCardExchangeProduct(id: 100000007, masterId: 500010, name: "源モモ") },
-                { "8", NewCardExchangeProduct(id: 100000008, masterId: 500020, name: "半蔵門雪") },
-                { "9", NewCardExchangeProduct(id: 100000009, masterId: 500030, name: "八千代命") },
+                {  "1", NewCardExchangeProduct(id: 100000001, masterId: 500140, name: "結城友奈") },
+                {  "2", NewCardExchangeProduct(id: 100000002, masterId: 500150, name: "東郷美森") },
+                {  "3", NewCardExchangeProduct(id: 100000003, masterId: 500160, name: "犬吠埼風") },
+                {  "4", NewCardExchangeProduct(id: 100000004, masterId: 500170, name: "犬吠埼樹") },
+                {  "5", NewCardExchangeProduct(id: 100000005, masterId: 500180, name: "犬吠埼樹") },
+                {  "6", NewCardExchangeProduct(id: 100000006, masterId: 500190, name: "乃木園子") },
+                {  "7", NewCardExchangeProduct(id: 100000007, masterId: 500010, name: "源モモ") },
+                {  "8", NewCardExchangeProduct(id: 100000008, masterId: 500020, name: "半蔵門雪") },
+                {  "9", NewCardExchangeProduct(id: 100000009, masterId: 500030, name: "八千代命") },
                 { "10", NewCardExchangeProduct(id: 100000010, masterId: 500040, name: "相模楓") },
                 { "11", NewCardExchangeProduct(id: 100000011, masterId: 500050, name: "青葉初芽") },
                 { "12", NewCardExchangeProduct(id: 100000012, masterId: 500060, name: "石川五恵") },
