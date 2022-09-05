@@ -20,13 +20,7 @@ namespace Yuyuyui.PrivateServer
         
         public static Accessory DefaultAccessory()
         {
-            return new Accessory
-            {
-                id = GetID(),
-                master_id = 500001, // Gyuuki, consider reading the data from database
-                level = 1,
-                quantity = 0,
-            };
+            return NewAccessoryByMasterId(500001); // Gyuuki, consider reading the data from database
         }
         
         public static Accessory NewAccessoryByMasterId(long masterId)

@@ -31,66 +31,22 @@ namespace Yuyuyui.PrivateServer
 
         public static Card DefaultYuuna()
         {
-            return new Card
-            {
-                id = GetID(),
-                master_id = 100011, // Consider getting this from the database
-                level = 15,
-                exp = 10000,
-                potential = 0,
-                active_skill_level = 1,
-                support_skill_level = 1,
-                evolution_level = 2,
-                base_sp_increment = 0
-            };
+            return NewCardByMasterId(100011); // Consider getting this from the database
         }
 
         public static Card DefaultTougou()
         {
-            return new Card
-            {
-                id = GetID(),
-                master_id = 100020,
-                level = 1,
-                exp = 0,
-                potential = 0,
-                active_skill_level = 1,
-                support_skill_level = 1,
-                evolution_level = 1,
-                base_sp_increment = 0
-            };
+            return NewCardByMasterId(100050);
         }
 
         public static Card DefaultFuu()
         {
-            return new Card
-            {
-                id = GetID(),
-                master_id = 100040,
-                level = 1,
-                exp = 0,
-                potential = 0,
-                active_skill_level = 1,
-                support_skill_level = 1,
-                evolution_level = 1,
-                base_sp_increment = 0
-            };
+            return NewCardByMasterId(100050);
         }
 
         public static Card DefaultItsuki()
         {
-            return new Card
-            {
-                id = GetID(),
-                master_id = 100050,
-                level = 1,
-                exp = 0,
-                potential = 0,
-                active_skill_level = 1,
-                support_skill_level = 1,
-                evolution_level = 1,
-                base_sp_increment = 0
-            };
+            return NewCardByMasterId(100050);
         }
         
         public static Card NewCardByMasterId(long masterId)
