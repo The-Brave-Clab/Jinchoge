@@ -2,6 +2,7 @@
 using System.Text;
 using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
+using Yuyuyui.GK;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -150,16 +151,16 @@ namespace Yuyuyui.PrivateServer
                     bool hasSessionCookie = this.GetSessionFromCookie(out var session);
                     if (!hasSessionCookie)
                     {
-                        requestBody = await LibgkLambda.InvokeLambda(
-                            LibgkLambda.CryptType.API,
-                            LibgkLambda.CryptDirection.Decrypt,
+                        requestBody = LibGK<GoalKeeper>.Execute(
+                            CryptType.API,
+                            CryptDirection.Decrypt,
                             requestBody); //, currentKey, currentIV, currentSessionKey);
                     }
                     else
                     {
-                        requestBody = await LibgkLambda.InvokeLambda(
-                            LibgkLambda.CryptType.API,
-                            LibgkLambda.CryptDirection.Decrypt,
+                        requestBody = LibGK<GoalKeeper>.Execute(
+                            CryptType.API,
+                            CryptDirection.Decrypt,
                             requestBody,
                             session.sessionKey, sessionKey: true);
                     }
