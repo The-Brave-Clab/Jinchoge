@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Yuyuyui.GK;
 
@@ -465,20 +466,12 @@ internal static class Igarashi
         DecryptBuffer(ctx, encryptedDataHeader, out var dataHeader);
         Header header = FromBytes<Header>(dataHeader);
         
-        // Hash Test
-        // if (odfHeader.headerHash != GkHash(4, dataHeader))
-        // {
-        //     Console.WriteLine("Header hash mismatch!");
-        // }
+        Debug.Assert(odfHeader.headerHash == GkHash(4, dataHeader), "ODF Header hash mismatch");
 
         DecryptBuffer(ctx, encryptedData, out var outputBuffer);
         output = outputBuffer.SubArray(0, (int) header.inputLength);
 
-        // Hash Test
-        // if (header.inputHash != GkHash(0, output))
-        // {
-        //     Console.WriteLine("Buffer hash mismatch!");
-        // }
+        Debug.Assert(header.inputHash == GkHash(0, output), "Buffer hash mismatch");
         
         return header.inputLength;
     }
