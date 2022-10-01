@@ -31,17 +31,21 @@ namespace Yuyuyui.PrivateServer
 
         public static Card DefaultYuuna()
         {
-            return NewCardByMasterId(100011); // Consider getting this from the database
+            Card newCard = NewCardByMasterId(100011); // Consider getting this from the database
+            newCard.level = 15;
+            newCard.exp = 10000;
+            newCard.evolution_level = 2;
+            return newCard;
         }
 
         public static Card DefaultTougou()
         {
-            return NewCardByMasterId(100050);
+            return NewCardByMasterId(100020);
         }
 
         public static Card DefaultFuu()
         {
-            return NewCardByMasterId(100050);
+            return NewCardByMasterId(100040);
         }
 
         public static Card DefaultItsuki()
