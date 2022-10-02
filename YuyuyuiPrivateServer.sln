@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.AccountTransfer", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.AccountTransfer.CLI", "Yuyuyui.AccountTransfer.CLI\Yuyuyui.AccountTransfer.CLI.csproj", "{69066B5E-FD53-44DE-95A4-0CF406480181}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.GoalKeeper", "Yuyuyui.GoalKeeper\Yuyuyui.GoalKeeper.csproj", "{77688096-1514-4714-A0D8-DCDA41C37D0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{69066B5E-FD53-44DE-95A4-0CF406480181}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69066B5E-FD53-44DE-95A4-0CF406480181}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69066B5E-FD53-44DE-95A4-0CF406480181}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77688096-1514-4714-A0D8-DCDA41C37D0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77688096-1514-4714-A0D8-DCDA41C37D0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77688096-1514-4714-A0D8-DCDA41C37D0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77688096-1514-4714-A0D8-DCDA41C37D0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

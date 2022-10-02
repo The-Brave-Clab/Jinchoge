@@ -3,6 +3,7 @@ using System.Text;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Exceptions;
 using Titanium.Web.Proxy.Http;
+using Yuyuyui.GK;
 using Yuyuyui.PrivateServer;
 
 namespace Yuyuyui.AccountTransfer
@@ -52,8 +53,8 @@ namespace Yuyuyui.AccountTransfer
                     byte[] requestBodyBytes = await e.GetRequestBody();
                     if (e.HttpClient.Request.ContentType == "application/x-gk-json")
                     {
-                        decodedBytes = await LibgkLambda.InvokeLambda(
-                            LibgkLambda.CryptType.API, LibgkLambda.CryptDirection.Decrypt,
+                        decodedBytes = LibGK<GoalKeeper>.Execute(
+                            CryptType.API, CryptDirection.Decrypt,
                             requestBodyBytes, 
                             currentPlayerSession.sessionKey, 
                             null, 
@@ -93,8 +94,8 @@ namespace Yuyuyui.AccountTransfer
                     byte[] responseBodyBytes = await e.GetResponseBody();
                     if (e.HttpClient.Response.ContentType == "application/x-gk-json")
                     {
-                        decodedBytes = await LibgkLambda.InvokeLambda(
-                            LibgkLambda.CryptType.API, LibgkLambda.CryptDirection.Decrypt,
+                        decodedBytes = LibGK<GoalKeeper>.Execute(
+                            CryptType.API, CryptDirection.Decrypt,
                             responseBodyBytes, 
                             currentPlayerSession.sessionKey, 
                             null, 
