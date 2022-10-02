@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
 using Yuyuyui.GK;
 
+//using TLibGKImpl = Yuyuyui.GK.GoalKeeper;
+using TLibGKImpl = Yuyuyui.PrivateServer.LibGKLambda;
+
 namespace Yuyuyui.PrivateServer
 {
     public abstract class EntityBase
@@ -151,14 +154,14 @@ namespace Yuyuyui.PrivateServer
                     bool hasSessionCookie = this.GetSessionFromCookie(out var session);
                     if (!hasSessionCookie)
                     {
-                        requestBody = LibGK<GoalKeeper>.Execute(
+                        requestBody = LibGK<TLibGKImpl>.Execute(
                             CryptType.API,
                             CryptDirection.Decrypt,
                             requestBody); //, currentKey, currentIV, currentSessionKey);
                     }
                     else
                     {
-                        requestBody = LibGK<GoalKeeper>.Execute(
+                        requestBody = LibGK<TLibGKImpl>.Execute(
                             CryptType.API,
                             CryptDirection.Decrypt,
                             requestBody,
