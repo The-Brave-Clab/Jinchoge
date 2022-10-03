@@ -1,4 +1,5 @@
-﻿using Yuyuyui.PrivateServer.DataModel;
+﻿using Newtonsoft.Json;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -18,13 +19,15 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
+            using var itemsDb = new ItemsContext();
+
             Response responseObj = new()
             {
                 enhancement_items = player.items.enhancement
                     .Select(p =>
                     {
                         EnhancementItem masterData = 
-                            DatabaseContexts.Items.EnhancementItems.First(m => m.Id == p.Key);
+                            itemsDb.EnhancementItems.First(m => m.Id == p.Key);
                         Item userItem = Item.Load(p.Value);
                         return new Response.EnhancementItem
                         {

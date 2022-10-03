@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System.Text;
+
+namespace Yuyuyui.PrivateServer
 {
     public class EventBonusCharacterCardsEntity : BaseEntity<EventBonusCharacterCardsEntity>
     {

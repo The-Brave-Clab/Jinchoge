@@ -1,4 +1,7 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System.Text;
+using Yuyuyui.PrivateServer.DataModel;
+
+namespace Yuyuyui.PrivateServer
 {
     public class TitleItemsCheckEntity : BaseEntity<TitleItemsCheckEntity>
     {

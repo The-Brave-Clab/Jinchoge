@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {

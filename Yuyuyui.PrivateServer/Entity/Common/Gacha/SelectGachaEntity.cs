@@ -18,7 +18,8 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            var selectGachas = GachaEntity.GetCurrentActiveGachas(player)
+            using var gachasDb = new GachasContext();
+            var selectGachas = GachaEntity.GetCurrentActiveGachas(gachasDb, player)
                 .Where(g => g.SelectGacha == "1");
 
             Response responseObj = new()
@@ -26,8 +27,8 @@ namespace Yuyuyui.PrivateServer
                 contents = selectGachas.Select(g => new Response.SelectGachaInfo
                 {
                     gacha_id = g.Id, // TODO: This might be the step up group
-                    cards = GetSelectGachaContents(g),
-                    selected_cards = GetPlayerSelectedCards(player, g)
+                    cards = GetSelectGachaContents(gachasDb, g),
+                    selected_cards = GetPlayerSelectedCards(player, gachasDb, g)
                 }).ToList()
             };
 
@@ -37,10 +38,10 @@ namespace Yuyuyui.PrivateServer
             return Task.CompletedTask;
         }
 
-        private List<Response.SelectContent> GetSelectGachaContents(Gacha gacha)
+        private List<Response.SelectContent> GetSelectGachaContents(GachasContext gachasDb, Gacha gacha)
         {
             var gachaBoxId = gacha.StepupGroup ?? gacha.Id;
-            return DatabaseContexts.Gachas.GachaContents
+            return gachasDb.GachaContents
                 .Where(c => c.GachaBoxId == gachaBoxId)
                 .Where(c => c.SelectId != null)
                 .Select(c => new Response.SelectContent
@@ -52,7 +53,7 @@ namespace Yuyuyui.PrivateServer
                 .ToList();
         }
 
-        private List<Response.SelectedContent> GetPlayerSelectedCards(PlayerProfile player, Gacha gacha)
+        private List<Response.SelectedContent> GetPlayerSelectedCards(PlayerProfile player, GachasContext gachasDb, Gacha gacha)
         {
             var gachaBoxId = gacha.StepupGroup ?? gacha.Id;
             bool hasSelected = player.gachaSelections.TryGetValue(gachaBoxId, out var selected);
@@ -61,8 +62,7 @@ namespace Yuyuyui.PrivateServer
 
             return selected!.Select(s => new Response.SelectedContent
             {
-                content_id = DatabaseContexts.Gachas.GachaContents
-                    .First(g => g.GachaBoxId == gachaBoxId && g.SelectId == s).ContentId
+                content_id = gachasDb.GachaContents.First(g => g.GachaBoxId == gachaBoxId && g.SelectId == s).ContentId
             }).ToList();
         }
 

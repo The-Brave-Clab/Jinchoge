@@ -1,4 +1,8 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System.Runtime.CompilerServices;
+using System.Text;
+using Yuyuyui.PrivateServer.DataModel;
+
+namespace Yuyuyui.PrivateServer
 {
     public class FellowRequestEntity : BaseEntity<FellowRequestEntity>
     {
@@ -16,12 +20,18 @@
         {
             var player = GetPlayerFromCookies();
 
-            Response responseObj = new()
+            Response responseObj;
+            using (var cardsDb = new CardsContext())
+            using (var charactersDb = new CharactersContext())
             {
-                fellow_requests = player.friendRequests
-                    .Select(FriendRequest.Load)
-                    .ToDictionary(fr => fr.id, Response.Data.FromFriendRequest)
-            };
+                responseObj = new()
+                {
+                    fellow_requests = player.friendRequests
+                        .Select(FriendRequest.Load)
+                        .ToDictionary(fr => fr.id, 
+                            fr => Response.Data.FromFriendRequest(cardsDb, charactersDb, fr))
+                };
+            }
             
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
@@ -40,14 +50,15 @@
                 public long created_at { get; set; }
                 public UserInfoEntity.Response.User from_user { get; set; } = new();
 
-                public static Data FromFriendRequest(FriendRequest friendRequest)
+                public static Data FromFriendRequest(CardsContext cardsDb, CharactersContext charactersDb, 
+                    FriendRequest friendRequest)
                 {
                     return new()
                     {
                         id = friendRequest.id,
                         status = friendRequest.status,
                         created_at = friendRequest.createdAt,
-                        from_user = UserInfoEntity.Response.User.FromPlayerProfile(
+                        from_user = UserInfoEntity.Response.User.FromPlayerProfile(cardsDb, charactersDb,
                             PlayerProfile.Load(friendRequest.fromUser))
                     };
                 }

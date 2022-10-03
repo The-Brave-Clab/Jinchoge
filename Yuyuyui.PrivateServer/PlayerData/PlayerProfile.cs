@@ -106,9 +106,11 @@ namespace Yuyuyui.PrivateServer
         
             long? potentialGiftId = masterCard.PotentialGiftId;
 
-            DataModel.Gift masterGift = DatabaseContexts.Gifts.Gifts
-                .Where(gift => gift.ContentType == "Accessory")
-                .First(gift => gift.Id == potentialGiftId);
+            DataModel.Gift masterGift;
+            using (var giftsDb = new GiftsContext())
+                masterGift = giftsDb.Gifts
+                    .Where(gift => gift.ContentType == "Accessory")
+                    .First(gift => gift.Id == potentialGiftId);
 
             GrantAccessory(masterGift.ContentId, masterGift.Quantity);
         }
@@ -140,7 +142,7 @@ namespace Yuyuyui.PrivateServer
             Utils.Log("Accessory quantity increased");
         }
 
-        public void GrantCard(long masterCardId, int potentialCount)
+        public void GrantCard(long masterCardId, int potentialCount, CardsContext cardsDb, ItemsContext itemsDb)
         {
             bool isNewCard = !cards.Keys.Contains(masterCardId);
 
@@ -162,18 +164,18 @@ namespace Yuyuyui.PrivateServer
             int previousPotentialCount = card.potential;
             card.AddPotential(potentialCount);
 
-            DataModel.Card masterCard = DatabaseContexts.Cards.Cards.First(c => c.Id == masterCardId);
+            DataModel.Card masterCard = cardsDb.Cards.First(c => c.Id == masterCardId);
             UpsertPotentialGift(previousPotentialCount, card.potential, masterCard);
 
             card = Card.Load(cards[masterCardId]);
-            UpdateEvolutionAccessoriesForCard(card, potentialCount);
+            UpdateEvolutionAccessoriesForCard(card, potentialCount, cardsDb);
 
-            EnsureEligibleCardTitle();
+            EnsureEligibleCardTitle(cardsDb, itemsDb);
         }
 
-        public IList<int> EnsureEligibleCardTitle()
+        public IList<int> EnsureEligibleCardTitle(CardsContext cardsContext, ItemsContext itemsContext)
         {
-            var eligibleCardTitleItems = GetObtainableTitles();
+            var eligibleCardTitleItems = GetObtainableTitles(cardsContext, itemsContext);
             if (!eligibleCardTitleItems.Any()) return new List<int>();
 
             eligibleCardTitleItems.ForEach(titleItem => items.titleItems.Add(titleItem.Id));
@@ -187,12 +189,12 @@ namespace Yuyuyui.PrivateServer
         }
 
         private void UpdateEvolutionAccessoriesForCard(
-            Card playerCard, int potentialCount)
+            Card playerCard, int potentialCount, CardsContext cardsDb)
         {
             if (playerCard.evolution_level < 1 || potentialCount < 1)
                 return;
         
-            DatabaseContexts.Cards.Cards
+            cardsDb.Cards
                 .Where(card => card.Id == playerCard.master_id)
                 .ForEach(card => UpdateEvolutionAccessories(potentialCount, card));
         }
@@ -213,29 +215,29 @@ namespace Yuyuyui.PrivateServer
         private const int CARD_TITLE_CONTENT_TYPE = 2;
         private static readonly List<int> ELIGIBLE_RARITY_LIST = new() { 400, 450, 500 };
     
-        private IQueryable<TitleItem> GetObtainableTitles()
+        private IQueryable<TitleItem> GetObtainableTitles(CardsContext cardsContext, ItemsContext itemsContext)
         {
-            var userEligibleCardIdList = GetBaseCardIdsEligibleForObtainingTitle();
-            return GetObtainableTitleItems(userEligibleCardIdList);
+            var userEligibleCardIdList = GetBaseCardIdsEligibleForObtainingTitle(cardsContext);
+            return GetObtainableTitleItems(itemsContext, userEligibleCardIdList);
         }
 
-        private IQueryable<TitleItem> GetObtainableTitleItems(IEnumerable<long> userEligibleCardIdList)
+        private IQueryable<TitleItem> GetObtainableTitleItems(ItemsContext itemsContext, IEnumerable<long> userEligibleCardIdList)
         {
-            return DatabaseContexts.Items.TitleItems
+            return itemsContext.TitleItems
                 .Where(titleItem => !items.titleItems.Contains(titleItem.Id))
                 .Where(titleItem => titleItem.ContentType == CARD_TITLE_CONTENT_TYPE && titleItem.Priority != null)
                 .Where(titleItem => userEligibleCardIdList.Contains(titleItem.Priority.GetValueOrDefault(0)));
         }
 
-        private IEnumerable<long> GetBaseCardIdsEligibleForObtainingTitle()
+        private IEnumerable<long> GetBaseCardIdsEligibleForObtainingTitle(CardsContext cardsContext)
         {
             return cards.Values
                 .Select(Card.Load)
-                .Where(card => ELIGIBLE_RARITY_LIST.Contains(card.MasterData().Rarity))
+                .Where(card => ELIGIBLE_RARITY_LIST.Contains(card.MasterData(cardsContext).Rarity))
                 .Where(card => card.potential >= MINIMAL_CARD_POTENTIAL)
                 .Where(card => card.level >= MINIMAL_CARD_LEVEL)
                 .Where(card => card.evolution_level >= MINIMAL_EVOLUTION_LEVEL)
-                .Select(card => card.MasterData().BaseCardId);
+                .Select(card => card.MasterData(cardsContext).BaseCardId);
         }
         
 

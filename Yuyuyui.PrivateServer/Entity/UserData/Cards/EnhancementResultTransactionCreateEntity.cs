@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using Yuyuyui.PrivateServer.DataModel;
+
+namespace Yuyuyui.PrivateServer
 {
     public class EnhancementResultTransactionCreateEntity : BaseEntity<EnhancementResultTransactionCreateEntity>
     {

@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.AccountTransfer;
+﻿using YamlDotNet.Core.Tokens;
+
+namespace Yuyuyui.AccountTransfer;
 
 public static class TransferProgress
 {

@@ -25,29 +25,32 @@ namespace Yuyuyui.AccountTransfer
         {
             var response = Deserialize<PrivateServer.CardsEntity.Response>(responseBody)!;
 
-            foreach (var c in response.cards)
+            using (var cardsDb = new CardsContext())
             {
-                var spIncrement = DatabaseContexts.Cards.Cards
-                    .Where(card => card.Id == c.Value.master_id)
-                    .Select(card => c.Value.support_point - card.SupportPoint)
-                    .ToList() // Important, don't simplify
-                    .FirstOrDefault(0);
-
-                Card card = new()
+                foreach (var c in response.cards)
                 {
-                    id = c.Value.id,
-                    master_id = c.Value.master_id,
-                    level = c.Value.level,
-                    exp = c.Value.exp,
-                    potential = c.Value.potential,
-                    active_skill_level = c.Value.active_skill_level,
-                    support_skill_level = c.Value.support_skill_level,
-                    evolution_level = c.Value.evolution_level,
-                    base_sp_increment = spIncrement
-                };
-                card.Save();
+                    var spIncrement = cardsDb.Cards
+                        .Where(card => card.Id == c.Value.master_id)
+                        .Select(card => c.Value.support_point - card.SupportPoint)
+                        .ToList()
+                        .FirstOrDefault(0);
+                    
+                    Card card = new()
+                    {
+                        id = c.Value.id,
+                        master_id = c.Value.master_id,
+                        level = c.Value.level,
+                        exp = c.Value.exp,
+                        potential = c.Value.potential,
+                        active_skill_level = c.Value.active_skill_level,
+                        support_skill_level = c.Value.support_skill_level,
+                        evolution_level = c.Value.evolution_level,
+                        base_sp_increment = spIncrement
+                    };
+                    card.Save();
 
-                playerSession.player!.cards[card.master_id] = card.id;
+                    playerSession.player!.cards[card.master_id] = card.id;
+                }
             }
 
             playerSession.player!.Save();

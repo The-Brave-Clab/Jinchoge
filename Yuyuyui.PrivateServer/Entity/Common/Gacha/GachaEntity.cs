@@ -18,9 +18,11 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
+            using var gachasDb = new GachasContext();
+
             Response responseObj = new()
             {
-                gachas = GetCurrentActiveGachas(player).Select(g => new GachaProductData
+                gachas = GetCurrentActiveGachas(gachasDb, player).Select(g => new GachaProductData
                 {
                     id = g.Id,
                     name = g.Name,
@@ -29,7 +31,7 @@ namespace Yuyuyui.PrivateServer
                     banner_id = g.Kind switch { 0 => 10080, 1 => 1, _ => g.Id },
                     start_at = g.StartAt.ToUnixTime(),
                     end_at = g.EndAt.ToUnixTime(),
-                    lineups = GetGachaLineups(g), // It seems that the client doesn't respect this
+                    lineups = GetGachaLineups(gachasDb, g), // It seems that the client doesn't respect this
                     detail_url = "", // TODO
                     caution_url = "", // TODO
                     pickup_content = GetFirstPickupContent(g),
@@ -54,11 +56,11 @@ namespace Yuyuyui.PrivateServer
             return Task.CompletedTask;
         }
 
-        public static IEnumerable<Gacha> GetCurrentActiveGachas(PlayerProfile player)
+        public static IEnumerable<Gacha> GetCurrentActiveGachas(GachasContext gachasDb, PlayerProfile player)
         {
             var currentTime = DateTime.UtcNow;
 
-            var gachaList = DatabaseContexts.Gachas.Gachas.ToList();
+            var gachaList = gachasDb.Gachas.ToList();
             var currentGachas = gachaList
                 .Where(g => g.StartAt.ToDateTime() < currentTime && g.EndAt.ToDateTime() > currentTime)
                 .Where(g => g.MaxUserLevel == null || player.data.level <= g.MaxUserLevel)
@@ -67,9 +69,9 @@ namespace Yuyuyui.PrivateServer
             return currentGachas;
         }
 
-        private List<GachaProductData.Lineup> GetGachaLineups(Gacha gacha)
+        private List<GachaProductData.Lineup> GetGachaLineups(GachasContext gachasDb, Gacha gacha)
         {
-            var lineups = DatabaseContexts.Gachas.GachaLineups
+            var lineups = gachasDb.GachaLineups
                 .Where(l => l.GachaId == gacha.Id)
                 .Where(l => l.Sp == 1) // We only need those on Smart Phone
                 .Select(l =>

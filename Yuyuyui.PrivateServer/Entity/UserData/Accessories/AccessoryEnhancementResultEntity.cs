@@ -1,4 +1,5 @@
-﻿using Yuyuyui.PrivateServer.DataModel;
+﻿using System.Reflection;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -22,10 +23,12 @@ namespace Yuyuyui.PrivateServer
 
             Accessory playerAccessory = Accessory.Load(requestObj.id);
             
+            using var accessoriesDb = new AccessoriesContext();
+
             DataModel.Accessory masterAccessory = 
-                DatabaseContexts.Accessories.Accessories.First(ua => ua.Id == playerAccessory.master_id);
-            AccessoryLevel accessoryTargetLevel =
-                DatabaseContexts.Accessories.AccessoryLevels
+                accessoriesDb.Accessories.First(ua => ua.Id == playerAccessory.master_id);
+            DataModel.AccessoryLevel accessoryTargetLevel =
+                accessoriesDb.AccessoryLevels
                     .Where(al => al.Rarity == masterAccessory.Rarity)
                     .First(al => al.Level == requestObj.accessory.level);
             
@@ -49,7 +52,7 @@ namespace Yuyuyui.PrivateServer
 
             Response responseObj = new()
             {
-                accessory = AccessoryListEntity.Response.Accessory.FromPlayerAccessory(playerAccessory),
+                accessory = AccessoryListEntity.Response.Accessory.FromPlayerAccessory(accessoriesDb, playerAccessory),
                 brave_coin = accessoryTargetLevel.BraveCoin
             };
  

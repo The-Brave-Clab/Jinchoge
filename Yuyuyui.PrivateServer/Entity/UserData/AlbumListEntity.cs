@@ -40,10 +40,12 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
+                using var adventureBooksDb = new AdventureBooksContext();
+                
                 GetResponse responseObj = new()
                 {
                     watchable_adventure_books = 
-                        DatabaseContexts.AdventureBooks.AdventureBooks
+                        adventureBooksDb.AdventureBooks
                             .Where(b => true) // TODO
                             .Select(b => new AdventureBookStatus
                             {
@@ -53,7 +55,7 @@ namespace Yuyuyui.PrivateServer
                             })
                             .ToDictionary(s => s.id, s => s),
                     unwatchable_adventure_books = 
-                        DatabaseContexts.AdventureBooks.AdventureBooks
+                        adventureBooksDb.AdventureBooks
                             .Where(b => false) // TODO
                             .Select(b => b.Id)
                             .ToList(),

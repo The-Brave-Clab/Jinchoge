@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using Yuyuyui.PrivateServer.DataModel;
+
+namespace Yuyuyui.PrivateServer
 {
     public class UserInfoEntity : BaseEntity<UserInfoEntity>
     {
@@ -23,10 +25,15 @@
 
             var player = PlayerProfile.Load(userCode);
 
-            Response responseObj = new()
+            Response responseObj;
+            using (var cardsDb = new CardsContext())
+            using (var charactersDb = new CharactersContext())
             {
-                user = Response.User.FromPlayerProfile(player)
-            };
+                responseObj = new()
+                {
+                    user = Response.User.FromPlayerProfile(cardsDb, charactersDb, player)
+                };
+            }
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
@@ -49,7 +56,8 @@
                 public long? title_item_id { get; set; } = null;
                 public Unit.CardWithSupport leader_card { get; set; } = new();
 
-                public static User FromPlayerProfile(PlayerProfile player)
+                public static User FromPlayerProfile(CardsContext cardsDb, CharactersContext charactersDb,
+                    PlayerProfile player)
                 {
                     Unit leaderUnit = player.id.code.StartsWith("0") ? 
                         Unit.Load(1) : 
@@ -63,7 +71,7 @@
                         accessed_at = player.data.lastActive,
                         fellowship_count = player.friends.Count,
                         title_item_id = player.data.titleItemID,
-                        leader_card = Unit.CardWithSupport.FromUnit(leaderUnit, player)!
+                        leader_card = Unit.CardWithSupport.FromUnit(cardsDb, charactersDb, leaderUnit, player)!
                     };
                 }
             }
