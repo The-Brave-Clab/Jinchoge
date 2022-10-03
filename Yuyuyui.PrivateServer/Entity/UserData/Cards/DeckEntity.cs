@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -76,13 +77,18 @@ namespace Yuyuyui.PrivateServer
 
             Utils.LogWarning("Unit calculation is not finished yet!");
 
-            Response responseObj = new()
+            Response responseObj;
+            using (var cardsDb = new CardsContext())
+            using (var charactersDb = new CharactersContext())
             {
-                decks = player.decks
-                    .Select(Deck.Load)
-                    .Select(d => Response.Deck.FromPlayerDeck(d, player))
-                    .ToList()
-            };
+                responseObj = new()
+                {
+                    decks = player.decks
+                        .Select(Deck.Load)
+                        .Select(d => Response.Deck.FromPlayerDeck(cardsDb, charactersDb, d, player))
+                        .ToList()
+                };
+            }
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
@@ -101,14 +107,16 @@ namespace Yuyuyui.PrivateServer
                 public string? name { get; set; } = null;
                 public IList<Unit.CardWithSupport> cards { get; set; } = new List<Unit.CardWithSupport>();
 
-                public static Deck FromPlayerDeck(Yuyuyui.PrivateServer.Deck d, PlayerProfile player)
+                public static Deck FromPlayerDeck(CardsContext cardsDb, CharactersContext charactersDb,
+                    Yuyuyui.PrivateServer.Deck d, PlayerProfile player)
                 {
-                    return new Deck
+                    return new Response.Deck
                     {
                         id = d.id,
                         leader_deck_card_id = d.leaderUnitID,
                         name = d.name,
-                        cards = d.units.Select(id => Unit.CardWithSupport.FromUnit(Unit.Load(id), player))
+                        cards = d.units.Select(id =>
+                                Unit.CardWithSupport.FromUnit(cardsDb, charactersDb, Unit.Load(id), player))
                             .ToList()!
                     };
                 }

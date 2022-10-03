@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer;
 
@@ -42,68 +43,68 @@ public class Unit : BasePlayerData<Unit, long>
         };
     }
 
-    public int GetHP(PlayerProfile belongTo)
+    public int GetHP(CardsContext cardsDb, CharactersContext charactersContext, PlayerProfile belongTo)
     {
         // TODO: not finished yet!
         if (baseCardID == null) return 0;
         int hp = 0;
         var card = GetCard()!;
-        var masterCard = card.MasterData();
-        hp += card.GetHitPoint();
+        var masterCard = card.MasterData(cardsDb);
+        hp += card.GetHitPoint(cardsDb);
 
         if (supportCardID != null)
         {
             var supportCard = Support()!;
-            var masterSupport = supportCard.MasterData();
-            hp += supportCard.GetHitPoint();
+            var masterSupport = supportCard.MasterData(cardsDb);
+            hp += supportCard.GetHitPoint(cardsDb);
             
             // get bonus
             CharacterFamiliarity familiarity =
                 belongTo.GetCharacterFamiliarity(masterCard.CharacterId, masterSupport.CharacterId);
             int bonus = CalcUtil.AssistLevelHitPointBonus(familiarity.assist_level);
-            float coefficient = familiarity.GetLevelData().HitPointCoefficient;
+            float coefficient = familiarity.GetLevelData(charactersContext).HitPointCoefficient;
 
             hp = CalcUtil.CalcAddedFamiliarityAndAssist(hp, bonus, coefficient);
         }
 
         if (supportCard2ID != null)
-            hp += Support2()!.GetHitPoint();
+            hp += Support2()!.GetHitPoint(cardsDb);
 
         if (assistCardID != null)
-            hp += Assist()!.GetHitPoint();
+            hp += Assist()!.GetHitPoint(cardsDb);
 
         return hp;
     }
 
-    public int GetAtk(PlayerProfile belongTo)
+    public int GetAtk(CardsContext cardsDb, CharactersContext charactersContext, PlayerProfile belongTo)
     {
         // TODO: not finished yet!
         if (baseCardID == null) return 0;
         int atk = 0;
         var card = GetCard()!;
-        var masterCard = card.MasterData();
-        atk += card.GetAttack();
+        var masterCard = card.MasterData(cardsDb);
+        atk += card.GetAttack(cardsDb);
 
         if (supportCardID != null)
         {
             var supportCard = Support()!;
-            var masterSupport = supportCard.MasterData();
-            atk += supportCard.GetAttack();
+            var masterSupport = supportCard.MasterData(cardsDb);
+            atk += supportCard.GetAttack(cardsDb);
             
             // get bonus
             CharacterFamiliarity familiarity =
                 belongTo.GetCharacterFamiliarity(masterCard.CharacterId, masterSupport.CharacterId);
             int bonus = CalcUtil.AssistLevelAttackBonus(familiarity.assist_level);
-            float coefficient = familiarity.GetLevelData().AttackCoefficient;
+            float coefficient = familiarity.GetLevelData(charactersContext).AttackCoefficient;
 
             atk = CalcUtil.CalcAddedFamiliarityAndAssist(atk, bonus, coefficient);
         }
 
         if (supportCard2ID != null)
-            atk += Support2()!.GetAttack();
+            atk += Support2()!.GetAttack(cardsDb);
 
         if (assistCardID != null)
-            atk += Assist()!.GetAttack();
+            atk += Assist()!.GetAttack(cardsDb);
 
         return atk;
     }
@@ -163,18 +164,19 @@ public class Unit : BasePlayerData<Unit, long>
         public int? evolution_level { get; set; }
         public int? level { get; set; }
 
-        public static CardWithSupport? FromUnit(Unit? unit, PlayerProfile? belongTo)
+        public static CardWithSupport? FromUnit(CardsContext cardsDb, CharactersContext charactersDb, 
+            Unit? unit, PlayerProfile? belongTo)
         {
             if (unit == null) return null;
             return new CardWithSupport
             {
                 id = unit.id,
-                hit_point = unit.GetHP(belongTo!),
-                attack = unit.GetAtk(belongTo!),
+                hit_point = unit.GetHP(cardsDb, charactersDb, belongTo!),
+                attack = unit.GetAtk(cardsDb, charactersDb, belongTo!),
                 user_card_id = unit.baseCardID,
-                support = unit.Support()?.AsSupport().ToDict() ?? new Dictionary<string, long>(),
-                support_2 = unit.Support2()?.AsSupport().ToDict() ?? new Dictionary<string, long>(),
-                assist = unit.Assist()?.AsSupport().ToDict() ?? new Dictionary<string, long>(),
+                support = unit.Support()?.AsSupport().ToDict(cardsDb) ?? new Dictionary<string, long>(),
+                support_2 = unit.Support2()?.AsSupport().ToDict(cardsDb) ?? new Dictionary<string, long>(),
+                assist = unit.Assist()?.AsSupport().ToDict(cardsDb) ?? new Dictionary<string, long>(),
                 accessories = unit.accessories.Select(Accessory.Load).ToList(),
                 master_id = unit.GetMasterId(),
                 potential = unit.GetPotential(),

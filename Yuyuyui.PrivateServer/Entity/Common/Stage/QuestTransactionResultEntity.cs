@@ -37,9 +37,11 @@ namespace Yuyuyui.PrivateServer
             
             // Validate here?
             
-            var dbStage = DatabaseContexts.Quests.Stages.First(s => s.Id == transaction.stageId);
-            var dbEpisode = DatabaseContexts.Quests.Episodes.First(e => e.Id == dbStage.EpisodeId);
-            var dbChapter = DatabaseContexts.Quests.Chapters.First(c => c.Id == dbEpisode.ChapterId);
+            using var questsDb = new QuestsContext();
+
+            var dbStage = questsDb.Stages.First(s => s.Id == transaction.stageId);
+            var dbEpisode = questsDb.Episodes.First(e => e.Id == dbStage.EpisodeId);
+            var dbChapter = questsDb.Chapters.First(c => c.Id == dbEpisode.ChapterId);
 
             var stageProgress = StageProgress.GetOrCreate(player, dbStage.Id);
             var episodeProgress = EpisodeProgress.GetOrCreate(player, dbEpisode.Id);

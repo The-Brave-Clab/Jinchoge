@@ -24,12 +24,14 @@ namespace Yuyuyui.PrivateServer
 
             Request requestObj = Deserialize<Request>(requestBody)!;
             
+            using var cardsDb = new CardsContext();
+
             Card userCard = Card.Load(requestObj.id);
-            DataModel.Card masterCard = userCard.MasterData();
+            DataModel.Card masterCard = userCard.MasterData(cardsDb);
             int targetEvolutionLevel = requestObj.card.evolution_level;
             int gotBraveCoin = masterCard.EvolutionRewardBraveCoin ?? 0;
             
-            EvolutionRecipe recipe = DatabaseContexts.Cards.EvolutionRecipes.First(r => r.Id == masterCard.EvolutionRecipeId);
+            EvolutionRecipe recipe = cardsDb.EvolutionRecipes.First(r => r.Id == masterCard.EvolutionRecipeId);
 
             // change stats of the card
             // default value will be used if it's a limit break
@@ -42,7 +44,7 @@ namespace Yuyuyui.PrivateServer
             
             // since the player cards key is base_card_id which won't change,
             // we don't do anything even if the master_id of the card changed
-            DataModel.Card newMasterCard = userCard.MasterData();
+            DataModel.Card newMasterCard = userCard.MasterData(cardsDb);
             
             // consume player's items
             Dictionary<long, int> costResources = new Dictionary<long, int>(3)
@@ -104,7 +106,7 @@ namespace Yuyuyui.PrivateServer
 
             Response responseObj = new()
             {
-                card = CardsEntity.Card.FromPlayerCardData(userCard),
+                card = CardsEntity.Card.FromPlayerCardData(cardsDb, userCard),
                 brave_coin = gotBraveCoin
             };
  

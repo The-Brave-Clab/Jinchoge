@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -29,10 +30,16 @@ namespace Yuyuyui.PrivateServer
             friendRequest.status = requestObj.fellow_request.status;
             friendRequest.ProcessStatus(); // should ultimately delete the request file
 
-            Response responseObj = new()
+            Response responseObj;
+            using (var cardsDb = new CardsContext())
+            using (var charactersDb = new CharactersContext())
             {
-                fellow_request = FellowRequestEntity.Response.Data.FromFriendRequest(friendRequest)
-            };
+                responseObj = new()
+                {
+                    fellow_request =
+                        FellowRequestEntity.Response.Data.FromFriendRequest(cardsDb, charactersDb, friendRequest)
+                };
+            }
             
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();

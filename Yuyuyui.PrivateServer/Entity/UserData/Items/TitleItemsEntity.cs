@@ -23,6 +23,9 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
+            using var itemsDb = new ItemsContext();
+            using var cardsDb = new CardsContext();
+
             if (HttpMethod == "POST")
             {
                 PostRequest requestObj = Deserialize<PostRequest>(requestBody)!;
@@ -42,11 +45,11 @@ namespace Yuyuyui.PrivateServer
                     InitDefaultTitleItem(player);
                 }
                 
-                player.EnsureEligibleCardTitle();
+                player.EnsureEligibleCardTitle(cardsDb, itemsDb);
 
                 GetResponse responseObj = new()
                 {
-                    title_items = DatabaseContexts.Items.TitleItems.ToList()
+                    title_items = itemsDb.TitleItems.ToList()
                         // either player has it, or it's a character title
                         .Where(t => player.items.titleItems.Contains(t.Id) || t.ContentType == 2)
                         // cache the player ownership status

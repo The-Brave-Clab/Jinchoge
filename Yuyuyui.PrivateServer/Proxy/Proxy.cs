@@ -22,7 +22,7 @@ namespace Yuyuyui.PrivateServer
         private static ExplicitProxyEndPoint? explicitEndPoint = null;
         private static TCallbacks? callbacks = null;
 
-        public static ExplicitProxyEndPoint Start(int port = DEFAULT_PORT)
+        public static ExplicitProxyEndPoint StartProxy(int port = DEFAULT_PORT)
         {
             callbacks = new TCallbacks();
 
@@ -45,7 +45,7 @@ namespace Yuyuyui.PrivateServer
             proxyServer.CertificateManager.RootCertificateIssuerName = "Yuyuyui Private Server";
             proxyServer.CertificateManager.RootCertificateName = "Yuyuyui Private Server Root CA";
 
-            proxyServer.CertificateManager.EnsureRootCertificate(false, false, false);
+            proxyServer.CertificateManager.EnsureRootCertificate();
             File.WriteAllBytes("ca.cer", proxyServer.CertificateManager.RootCertificate!.Export(X509ContentType.Cert));
 
             proxyServer.BeforeRequest += callbacks.OnRequest;
