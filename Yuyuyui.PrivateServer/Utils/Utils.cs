@@ -1,4 +1,8 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -60,7 +64,7 @@ namespace Yuyuyui.PrivateServer
             if (list.Count == 0) return default;
 
             float weightTotal = list.Sum(weightExpression);
-            float randomNumber = random.NextSingle() * weightTotal;
+            float randomNumber = (random.Next(short.MaxValue) / (float) short.MaxValue) * weightTotal;
             float cumulatedWeight = 0;
 
             int i;

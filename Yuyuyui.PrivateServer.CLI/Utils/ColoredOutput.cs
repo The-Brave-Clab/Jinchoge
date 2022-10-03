@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer.CLI
+﻿using System;
+
+namespace Yuyuyui.PrivateServer.CLI
 {
     internal static class ColoredOutput
     {

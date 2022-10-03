@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.GK;
+﻿using System;
+
+namespace Yuyuyui.GK;
 
 public enum CryptType
 {

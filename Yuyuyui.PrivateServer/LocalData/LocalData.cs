@@ -1,4 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -32,7 +38,7 @@ namespace Yuyuyui.PrivateServer
                 // compare it with the remote result and 
                 // update the ones with different etag
 
-                string versionContent = await File.ReadAllTextAsync(localDataVersionFile);
+                string versionContent = File.ReadAllText(localDataVersionFile);
                 LocalDataVersionList versionList = JsonConvert.DeserializeObject<LocalDataVersionList>(versionContent)!;
 
                 needUpdate =
@@ -62,8 +68,8 @@ namespace Yuyuyui.PrivateServer
                 Utils.Log($"Downloading {Path.GetFileName(filename)}...");
 
                 using HttpResponseMessage downloadResponse = await PrivateServer.HttpClient.GetAsync(fileUrl);
-                await using Stream streamToReadFrom = await downloadResponse.Content.ReadAsStreamAsync();
-                await using FileStream fs = new FileStream(filename, FileMode.Create);
+                using Stream streamToReadFrom = await downloadResponse.Content.ReadAsStreamAsync();
+                using FileStream fs = new FileStream(filename, FileMode.Create);
                 await streamToReadFrom.CopyToAsync(fs);
                 ++count;
             }
@@ -87,7 +93,7 @@ namespace Yuyuyui.PrivateServer
                         }).ToList()
                 };
 
-                await File.WriteAllTextAsync(
+                File.WriteAllText(
                     Path.Combine(PrivateServer.LOCAL_DATA_FOLDER, PrivateServer.LOCAL_DATA_VERSION_FILE),
                     JsonConvert.SerializeObject(newVersionList));
             }

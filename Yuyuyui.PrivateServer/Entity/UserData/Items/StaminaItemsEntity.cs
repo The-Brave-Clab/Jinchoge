@@ -1,4 +1,9 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Yuyuyui.PrivateServer
 {
     public class StaminaItemsEntity : BaseEntity<StaminaItemsEntity>
     {

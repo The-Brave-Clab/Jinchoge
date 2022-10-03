@@ -1,5 +1,9 @@
-﻿using System.Net.Http.Headers;
-using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -32,7 +36,7 @@ namespace Yuyuyui.PrivateServer
             HttpRequestMessage requestMessage = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, 
                 new Uri($"https://{PrivateServer.PRIVATE_PUBLIC_API_SERVER}/test{RequestUri.AbsolutePath}"));
 
-            requestMessage.Content = new ByteArrayContent(Array.Empty<byte>());
+            //requestMessage.Content = new ByteArrayContent(Array.Empty<byte>());
             //requestMessage.Headers.Accept.Add(gk_json);
             //requestMessage.Content.Headers.ContentType = gk_json;  // The official server requires this.
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", BASIC_AUTH_TOKEN);

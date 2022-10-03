@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.AccountTransfer.CLI
+﻿using System;
+
+namespace Yuyuyui.AccountTransfer.CLI
 {
     internal static class ColoredOutput
     {

@@ -1,5 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
 using Yuyuyui.GK;
@@ -68,14 +73,14 @@ namespace Yuyuyui.PrivateServer
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
 
-            var orig = apiPathWithParameters.Split("/", StringSplitOptions.RemoveEmptyEntries);
-            var real = apiPathReal.Split("/", StringSplitOptions.RemoveEmptyEntries);
+            var orig = apiPathWithParameters.Split(new [] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+            var real = apiPathReal.Split(new [] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 
             if (orig.Length != real.Length) return null;
 
             for (int i = 0; i < orig.Length; i++)
             {
-                if (orig[i].StartsWith('{') && orig[i].EndsWith('}'))
+                if (orig[i].StartsWith("{") && orig[i].EndsWith("}"))
                     result.Add(orig[i].Trim('{', '}'), real[i]);
                 else if (orig[i] != real[i]) return null;
             }

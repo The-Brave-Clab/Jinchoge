@@ -1,4 +1,10 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+
+namespace Yuyuyui.PrivateServer
 {
     public static class PrivateServer
     {
@@ -26,13 +32,13 @@
             public string userAgent;
         }
 
-        private static string dataFolder;
+        private static string dataFolder = "";
 
-        private static Dictionary<string, PlayerProfile> playerUUID;
-        private static Dictionary<string, PlayerProfile> playerCode;
-        private static Dictionary<string, PlayerSession> playerSessions;
+        private static Dictionary<string, PlayerProfile> playerUUID = new();
+        private static Dictionary<string, PlayerProfile> playerCode = new();
+        private static Dictionary<string, PlayerSession> playerSessions = new();
 
-        public const string YUYUYUI_APP_VERSION = "3.27.0";
+        public const string YUYUYUI_APP_VERSION = "3.28.0";
 
         public const string PLAYER_DATA_FOLDER = "PlayerData";
         public const string PLAYER_DATA_FILE = "players.dat";
@@ -160,8 +166,7 @@
         public static bool GetSessionFromCookie(this EntityBase entity, out PlayerSession session)
         {
             string cookie = entity.GetRequestHeaderValue("Cookie");
-            var cookies = cookie.Split(';',
-                    StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+            var cookies = cookie.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(c => c.Split('='))
                 .ToDictionary(e => e[0], e => e.Length > 1 ? e[1] : "");
 
@@ -183,8 +188,9 @@
                 string[] lines;
                 using (StreamReader sr = new StreamReader(playerDataFile))
                 {
-                    lines = sr.ReadToEnd().Split("\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                    lines = sr.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 }
+
                 var newLines = lines.Where(line => !line.StartsWith(player.id.uuid));
                 using (StreamWriter sw = new StreamWriter(playerDataFile, false))
                 {
