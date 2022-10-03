@@ -4,6 +4,11 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <Company>YuyuyuiPrivateServer</Company>
+        <Product>PrivateServer</Product>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <FileVersion>1.0.0</FileVersion>
+        <DebugType>embedded</DebugType>
     </PropertyGroup>
 
     <ItemGroup>

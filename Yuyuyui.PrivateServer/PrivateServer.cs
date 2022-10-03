@@ -29,13 +29,13 @@ namespace Yuyuyui.PrivateServer
             public string userAgent;
         }
 
-        private static string dataFolder;
+        private static string dataFolder = "";
 
-        private static Dictionary<string, PlayerProfile> playerUUID;
-        private static Dictionary<string, PlayerProfile> playerCode;
-        private static Dictionary<string, PlayerSession> playerSessions;
+        private static Dictionary<string, PlayerProfile> playerUUID = new();
+        private static Dictionary<string, PlayerProfile> playerCode = new();
+        private static Dictionary<string, PlayerSession> playerSessions = new();
 
-        public const string YUYUYUI_APP_VERSION = "3.27.0";
+        public const string YUYUYUI_APP_VERSION = "3.28.0";
 
         public const string PLAYER_DATA_FOLDER = "PlayerData";
         public const string PLAYER_DATA_FILE = "players.dat";

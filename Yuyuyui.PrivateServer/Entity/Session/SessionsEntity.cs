@@ -15,6 +15,8 @@
         protected override Task ProcessRequest()
         {
             var requestObj = Deserialize<Request>(requestBody);
+            Utils.Log($"Got connection from UUID {requestObj!.uuid}");
+            
             PrivateServer.PlayerSession sessionDetail = PrivateServer.CreateSessionForPlayer(requestObj!.uuid, this);
 
             Response responseObj = new()
