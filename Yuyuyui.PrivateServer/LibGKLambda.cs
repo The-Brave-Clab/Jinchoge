@@ -10,42 +10,9 @@ namespace Yuyuyui.PrivateServer
         private static string baseUrl = "https://ntnip45uf1.execute-api.ap-northeast-1.amazonaws.com/test";
         private static readonly MediaTypeWithQualityHeaderValue octetStream = new("application/octet-stream");
 
-        private enum CryptType
-        {
-            Binary,
-            API
-        }
-
-        private enum CryptDirection
-        {
-            Decrypt,
-            Encrypt
-        };
-
-        private static string CryptToString(CryptType type, CryptDirection direction)
-        {
-            string typeStr = type switch
-            {
-                CryptType.Binary => "bin",
-                CryptType.API    => "api",
-                _ => throw new ArgumentException("Unsupported CryptType")
-            };
-
-            string directionStr = direction switch
-            {
-                CryptDirection.Decrypt => "decrypt",
-                CryptDirection.Encrypt => "encrypt",
-                _ => throw new ArgumentException("Unsupported CryptDirection")
-            };
-
-            return $"/{typeStr}/{directionStr}";
-        }
-
-        private static async Task<byte[]> InvokeLambda(CryptType type, CryptDirection direction, byte[] inputData,
+        private static async Task<byte[]> InvokeLambda(string type, string direction, byte[] inputData,
             string key = "", byte[]? iv = null, bool sessionKey = false)
         {
-            string apiPath = CryptToString(type, direction);
-
             List<string> queryParams = new List<string>(3);
             if (!string.IsNullOrEmpty(key))
                 queryParams.Add($"key={key}");
@@ -58,7 +25,7 @@ namespace Yuyuyui.PrivateServer
             if (queryParams.Count > 0)
                 queryStr = $"?{string.Join("&", queryParams)}";
 
-            string url = $"{baseUrl}{apiPath}{queryStr}";
+            string url = $"{baseUrl}/{type}/{direction}{queryStr}";
 
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
 
@@ -71,7 +38,7 @@ namespace Yuyuyui.PrivateServer
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                Utils.LogError($"Libgk Call Failed! {apiPath}{queryStr}");
+                Utils.LogError($"Libgk Call Failed! {type}/{direction}{queryStr}");
             }
 
             return decodedBytes;
@@ -79,28 +46,28 @@ namespace Yuyuyui.PrivateServer
 
         public byte[] EncryptApi(byte[] inputData, string key = "", byte[]? iv = null, bool sessionKey = false)
         {
-            var task = Task.Run(() => InvokeLambda(CryptType.API, CryptDirection.Encrypt, inputData, key, iv, sessionKey));
+            var task = Task.Run(() => InvokeLambda("api", "encrypt", inputData, key, iv, sessionKey));
             task.Wait();
             return task.Result;
         }
 
         public byte[] DecryptApi(byte[] inputData, string key = "", byte[]? iv = null, bool sessionKey = false)
         {
-            var task = Task.Run(() => InvokeLambda(CryptType.API, CryptDirection.Decrypt, inputData, key, iv, sessionKey));
+            var task = Task.Run(() => InvokeLambda("api", "decrypt", inputData, key, iv, sessionKey));
             task.Wait();
             return task.Result;
         }
 
         public byte[] EncryptBin(byte[] inputData, string key = "", byte[]? iv = null)
         {
-            var task = Task.Run(() => InvokeLambda(CryptType.Binary, CryptDirection.Encrypt, inputData, key, iv));
+            var task = Task.Run(() => InvokeLambda("bin", "encrypt", inputData, key, iv));
             task.Wait();
             return task.Result;
         }
 
         public byte[] DecryptBin(byte[] inputData, string key = "", byte[]? iv = null)
         {
-            var task = Task.Run(() => InvokeLambda(CryptType.Binary, CryptDirection.Decrypt, inputData, key, iv));
+            var task = Task.Run(() => InvokeLambda("bin", "decrypt", inputData, key, iv));
             task.Wait();
             return task.Result;
         }
