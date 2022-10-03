@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using Yuyuyui.PrivateServer.DataModel;
-
-namespace Yuyuyui.PrivateServer
+﻿namespace Yuyuyui.PrivateServer
 {
     public class DeckUpdateEntity : BaseEntity<DeckUpdateEntity>
     {
@@ -36,16 +33,11 @@ namespace Yuyuyui.PrivateServer
             }
 
             targetDeck.Save();
-            
-            Response responseObj;
-            using (var cardsDb = new CardsContext())
-            using (var charactersDb = new CharactersContext())
+
+            Response responseObj = new()
             {
-                responseObj = new()
-                {
-                    deck = DeckEntity.Response.Deck.FromPlayerDeck(cardsDb, charactersDb, targetDeck, player)
-                };
-            }
+                deck = DeckEntity.Response.Deck.FromPlayerDeck(targetDeck, player)
+            };
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();

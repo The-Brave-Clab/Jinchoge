@@ -1,6 +1,4 @@
-﻿using Yuyuyui.PrivateServer.DataModel;
-
-namespace Yuyuyui.PrivateServer
+﻿namespace Yuyuyui.PrivateServer
 {
     public class AlbumReadEntity : BaseEntity<AlbumReadEntity>
     {

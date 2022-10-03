@@ -1,8 +1,8 @@
 ﻿namespace Yuyuyui.PrivateServer.DataModel;
 
-public class Contexts : IDisposable
+public class DatabaseContexts : IDisposable
 {
-    private static Contexts? _instance = null;
+    private static DatabaseContexts? _instance = null;
 
     private AccessoriesContext           _accessoriesContext;
     private ActiveSkillsContext          _activeSkillsContext;
@@ -25,28 +25,28 @@ public class Contexts : IDisposable
     private StackPointEventContext       _stackPointEventContext;
     private UserLevelsContext            _userLevelsContext;
     
-    public AccessoriesContext           Accessories           => _instance!._accessoriesContext;
-    public ActiveSkillsContext          ActiveSkills          => _instance!._activeSkillsContext;
-    public ActivityRequestSheetsContext ActivityRequestSheets => _instance!._activityRequestSheetsContext;
-    public AdventureBooksContext        AdventureBooks        => _instance!._adventureBooksContext;
-    public BraveSystemContext           BraveSystem           => _instance!._braveSystemContext;
-    public CardsContext                 Cards                 => _instance!._cardsContext;
-    public CartoonsContext              Cartoons              => _instance!._cartoonsContext;
-    public CharactersContext            Characters            => _instance!._charactersContext;
-    public ClubWorkingsContext          ClubWorkings          => _instance!._clubWorkingsContext;
-    public EnemiesContext               Enemies               => _instance!._enemiesContext;
-    public EnhancementContext           Enhancement           => _instance!._enhancementContext;
-    public EventStoriesContext          EventStories          => _instance!._eventStoriesContext;
-    public GachasContext                Gachas                => _instance!._gachasContext;
-    public GiftsContext                 Gifts                 => _instance!._giftsContext;
-    public ItemsContext                 Items                 => _instance!._itemsContext;
-    public LoginBonusContext            LoginBonus            => _instance!._loginBonusContext;
-    public QuestsContext                Quests                => _instance!._questsContext;
-    public SkillsContext                Skills                => _instance!._skillsContext;
-    public StackPointEventContext       StackPointEvent       => _instance!._stackPointEventContext;
-    public UserLevelsContext            UserLevels            => _instance!._userLevelsContext;
+    public static AccessoriesContext           Accessories           => _instance!._accessoriesContext;
+    public static ActiveSkillsContext          ActiveSkills          => _instance!._activeSkillsContext;
+    public static ActivityRequestSheetsContext ActivityRequestSheets => _instance!._activityRequestSheetsContext;
+    public static AdventureBooksContext        AdventureBooks        => _instance!._adventureBooksContext;
+    public static BraveSystemContext           BraveSystem           => _instance!._braveSystemContext;
+    public static CardsContext                 Cards                 => _instance!._cardsContext;
+    public static CartoonsContext              Cartoons              => _instance!._cartoonsContext;
+    public static CharactersContext            Characters            => _instance!._charactersContext;
+    public static ClubWorkingsContext          ClubWorkings          => _instance!._clubWorkingsContext;
+    public static EnemiesContext               Enemies               => _instance!._enemiesContext;
+    public static EnhancementContext           Enhancement           => _instance!._enhancementContext;
+    public static EventStoriesContext          EventStories          => _instance!._eventStoriesContext;
+    public static GachasContext                Gachas                => _instance!._gachasContext;
+    public static GiftsContext                 Gifts                 => _instance!._giftsContext;
+    public static ItemsContext                 Items                 => _instance!._itemsContext;
+    public static LoginBonusContext            LoginBonus            => _instance!._loginBonusContext;
+    public static QuestsContext                Quests                => _instance!._questsContext;
+    public static SkillsContext                Skills                => _instance!._skillsContext;
+    public static StackPointEventContext       StackPointEvent       => _instance!._stackPointEventContext;
+    public static UserLevelsContext            UserLevels            => _instance!._userLevelsContext;
 
-    private Contexts()
+    private DatabaseContexts()
     {
         _accessoriesContext = new AccessoriesContext();
         _activeSkillsContext = new ActiveSkillsContext();
@@ -96,7 +96,7 @@ public class Contexts : IDisposable
 
     public static void Initialize()
     {
-        _instance = new Contexts();
+        _instance = new DatabaseContexts();
     }
 
     public static void Destroy()

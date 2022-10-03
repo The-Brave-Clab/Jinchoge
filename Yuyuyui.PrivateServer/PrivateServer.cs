@@ -90,7 +90,7 @@ namespace Yuyuyui.PrivateServer
 
             ConfigPlayer.Initialize();
 
-            Contexts.Initialize();
+            DatabaseContexts.Initialize();
 
             var endpoint = Proxy<TCallbacks>.Start();
             callback(endpoint);
@@ -100,7 +100,7 @@ namespace Yuyuyui.PrivateServer
             where TCallbacks : class, IProxyCallbacks, new()
         {
             Proxy<TCallbacks>.Stop();
-            Contexts.Destroy();
+            DatabaseContexts.Destroy();
         }
 
         public static PlayerProfile RegisterNewPlayer(string uuid, string? code = null)

@@ -1,6 +1,4 @@
-﻿using Yuyuyui.PrivateServer.DataModel;
-
-namespace Yuyuyui.PrivateServer;
+﻿namespace Yuyuyui.PrivateServer;
 
 public class ExchangeItemUpdateEntity : BaseEntity<ExchangeItemUpdateEntity>
 {
@@ -34,10 +32,8 @@ public class ExchangeItemUpdateEntity : BaseEntity<ExchangeItemUpdateEntity>
 
         long masterCardId = cardProduct.master_id;
         int potentialCount = exchangeBoothRequest.count;
-        
-        using (var cardsDb = new CardsContext())
-        using (var itemsDb = new ItemsContext())
-            player.GrantCard(masterCardId, potentialCount, cardsDb, itemsDb);
+
+        player.GrantCard(masterCardId, potentialCount);
 
         Response currentResponse = new Response
         {

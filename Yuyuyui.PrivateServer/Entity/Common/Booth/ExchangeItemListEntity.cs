@@ -16,7 +16,6 @@ public class ExchangeItemListEntity : BaseEntity<ExchangeItemListEntity>
     {
         //var player = GetPlayerFromCookies();
         
-        //using var cardsDb = new CardsContext();
         Response boothResponse = InitExchangeItemResponse;
         
         // boothResponse.exchange.products.Values

@@ -33,9 +33,9 @@ namespace Yuyuyui.PrivateServer
             return (int) (Math.Ceiling(num2) + 0.5f);
         }
         
-        public static CardLevel GetLevelFromExp(CardsContext cardsDb, int levelCategory, long exp)
+        public static CardLevel GetLevelFromExp(int levelCategory, long exp)
         {
-            IEnumerable<CardLevel> source = cardsDb.CardLevels
+            IEnumerable<CardLevel> source = DatabaseContexts.Cards.CardLevels
                 .Where(i => i.LevelCategory == levelCategory); // all level data in current category
             CardLevel? masterCardLevelData = source.FirstOrDefault(i => i.MaxExp >= exp); // find one
             if (masterCardLevelData != null) // if found
@@ -45,9 +45,9 @@ namespace Yuyuyui.PrivateServer
             return source.Last(); // if not found, return the highest level in current category
         }
         
-        public static CardLevel GetExpFromLevel(CardsContext cardsDb, int levelCategory, int level)
+        public static CardLevel GetExpFromLevel(int levelCategory, int level)
         {
-            IEnumerable<CardLevel> source = cardsDb.CardLevels
+            IEnumerable<CardLevel> source = DatabaseContexts.Cards.CardLevels
                 .Where(i => i.LevelCategory == levelCategory);
             return source.First(i => i.Level == level);
         }
@@ -56,16 +56,16 @@ namespace Yuyuyui.PrivateServer
 
         #region Enhancement
         
-        public static float CalcActiveEnhancementChance(SkillsContext skillsDb, EnhancementItem item, long skillId, int level, int count)
+        public static float CalcActiveEnhancementChance(EnhancementItem item, long skillId, int level, int count)
         {
-            ActiveSkillComplete? activeSkillData = skillsDb.ActiveSkills
+            ActiveSkillComplete? activeSkillData = DatabaseContexts.Skills.ActiveSkills
                 .FirstOrDefault(i => i.Id == skillId);
             if (activeSkillData == null)
             {
                 return 0f;
             }
             int levelCategory = activeSkillData.LevelCategory ?? 0; // those with null category are enemy skills
-            ActiveSkillLevel? masterActiveSkillLevelData = skillsDb.ActiveSkillLevels
+            ActiveSkillLevel? masterActiveSkillLevelData = DatabaseContexts.Skills.ActiveSkillLevels
                 .FirstOrDefault(arg => arg.LevelCategoy == levelCategory && arg.Level == level);
             if (masterActiveSkillLevelData == null || masterActiveSkillLevelData.LevelUpParam == null)
             {
@@ -74,16 +74,16 @@ namespace Yuyuyui.PrivateServer
             return item.ActiveSkillLevelPotential * count / (float)masterActiveSkillLevelData.LevelUpParam;
         }
         
-        public static float CalcSupportEnhancementChance(SkillsContext skillsDb,
-            EnhancementItem item, long skillId, int levelCategory, int level, int count)
+        public static float CalcSupportEnhancementChance(EnhancementItem item, 
+            long skillId, int levelCategory, int level, int count)
         {
-            PassiveSkill? passiveSkillData = skillsDb.PassiveSkills
+            PassiveSkill? passiveSkillData = DatabaseContexts.Skills.PassiveSkills
                 .FirstOrDefault(i => i.Id == skillId);
             if (passiveSkillData == null)
             {
                 return 0f;
             }
-            SupportSkillLevel? masterSupportSkillData = skillsDb.SupportSkillLevels
+            SupportSkillLevel? masterSupportSkillData = DatabaseContexts.Skills.SupportSkillLevels
                 .FirstOrDefault(arg => arg.SupportSkillLevelCategory == levelCategory && arg.Level == level);
             if (masterSupportSkillData == null || masterSupportSkillData.LevelUpParam == null)
             {
@@ -126,9 +126,9 @@ namespace Yuyuyui.PrivateServer
             return (int) Math.Floor(num * Math.Pow((float)assistLevel, p));
         }
         
-        public static FamiliarityLevel GetFamiliarityRankFromExp(CharactersContext charactersDb, long exp)
+        public static FamiliarityLevel GetFamiliarityRankFromExp(long exp)
         {
-            IEnumerable<FamiliarityLevel> source = charactersDb.FamiliarityLevels;
+            IEnumerable<FamiliarityLevel> source = DatabaseContexts.Characters.FamiliarityLevels;
             FamiliarityLevel? masterFamiliarityLevelData = source.FirstOrDefault(i => i.MaxExp >= exp);
             if (masterFamiliarityLevelData != null) // if found
             {
@@ -137,9 +137,9 @@ namespace Yuyuyui.PrivateServer
             return source.Last(); // if not found, return the highest level in current category
         }
         
-        public static FamiliarityLevel GetExpFromFamiliarityRank(CharactersContext charactersDb, int level)
+        public static FamiliarityLevel GetExpFromFamiliarityRank(int level)
         {
-            IEnumerable<FamiliarityLevel> source = charactersDb.FamiliarityLevels;
+            IEnumerable<FamiliarityLevel> source = DatabaseContexts.Characters.FamiliarityLevels;
             return source.First(i => i.Level == level);
         }
 
