@@ -14,7 +14,6 @@ public static class TransferProgress
         Decks,
         
         // Items
-        AutoClearTickets,
         EnhancementItems,
         EventItems,
         EvolutionItems,

@@ -155,10 +155,6 @@ namespace Yuyuyui.AccountTransfer
                 new Config("/my/decks", "GET")
             },
             {
-                typeof(AutoClearTicketsEntity),
-                new Config("/my/auto_clear_tickets", "GET")
-            },
-            {
                 typeof(EnhancementItemsEntity),
                 new Config("/my/enhancement_items", "GET")
             },
