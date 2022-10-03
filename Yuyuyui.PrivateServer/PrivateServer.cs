@@ -1,4 +1,7 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using Titanium.Web.Proxy.Models;
+using Yuyuyui.PrivateServer.DataModel;
+
+namespace Yuyuyui.PrivateServer
 {
     public static class PrivateServer
     {
@@ -48,7 +51,8 @@
         
         public static readonly HttpClient HttpClient = new();
 
-        static PrivateServer()
+        public static void Start<TCallbacks>(Func<ExplicitProxyEndPoint, ExplicitProxyEndPoint> callback)
+            where TCallbacks : class, IProxyCallbacks, new()
         {
             playerUUID = new Dictionary<string, PlayerProfile>();
             playerCode = new Dictionary<string, PlayerProfile>();
@@ -73,7 +77,7 @@
             IEnumerable<string> players;
             lock (dataFileLock)
                 players = File.ReadLines(playerDataFile);
-            
+
             foreach (var s in players)
             {
                 var split = s.Split(',');
@@ -83,8 +87,20 @@
                 playerUUID.Add(player.id.uuid, player);
                 playerCode.Add(player.id.code, player);
             }
-            
+
             ConfigPlayer.Initialize();
+
+            DatabaseContexts.Initialize();
+
+            var endpoint = Proxy<TCallbacks>.Start();
+            callback(endpoint);
+        }
+
+        public static void Stop<TCallbacks>()
+            where TCallbacks : class, IProxyCallbacks, new()
+        {
+            Proxy<TCallbacks>.Stop();
+            DatabaseContexts.Destroy();
         }
 
         public static PlayerProfile RegisterNewPlayer(string uuid, string? code = null)

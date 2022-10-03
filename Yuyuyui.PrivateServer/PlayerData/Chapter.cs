@@ -1,5 +1,4 @@
-﻿
-namespace Yuyuyui.PrivateServer;
+﻿namespace Yuyuyui.PrivateServer;
 
 public class Chapter
 {

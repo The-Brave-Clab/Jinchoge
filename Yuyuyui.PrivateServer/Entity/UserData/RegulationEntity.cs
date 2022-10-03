@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Yuyuyui.PrivateServer
+﻿namespace Yuyuyui.PrivateServer
 {
     public class RegulationEntity : BaseEntity<RegulationEntity>
     {

@@ -29,11 +29,10 @@ namespace Yuyuyui.PrivateServer
 
             Utils.LogWarning("Many status not filled.");
 
-            using var questsDb = new QuestsContext();
             Response responseObj = new()
             {
                 // Checking for chapter id might not be necessary
-                stages = questsDb.Stages.Where(s => s.ChapterId == chapterId && s.EpisodeId == episodeId)
+                stages = DatabaseContexts.Quests.Stages.Where(s => s.ChapterId == chapterId && s.EpisodeId == episodeId)
                     .Select(s => Response.Stage.GetFromDatabase(s, player))
                     .ToDictionary(s => s.id, s => s)
             };

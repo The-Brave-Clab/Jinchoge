@@ -16,10 +16,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
-
-            using var questsDb = new QuestsContext();
-            Response responseObj = GetChapters(questsDb);
+            Response responseObj = GetChapters();
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
@@ -27,7 +24,7 @@ namespace Yuyuyui.PrivateServer
             return Task.CompletedTask;
         }
 
-        protected virtual Response GetChapters(QuestsContext questsDb)
+        protected virtual Response GetChapters()
         {
             var player = GetPlayerFromCookies();
             
@@ -35,7 +32,7 @@ namespace Yuyuyui.PrivateServer
                 
             Response response = new()
             {
-                chapters = questsDb.Chapters
+                chapters = DatabaseContexts.Quests.Chapters
                     .Select(c => Chapter.GetFromDatabase(c, player))
                     .ToDictionary(c => c.id, c => c)
             };

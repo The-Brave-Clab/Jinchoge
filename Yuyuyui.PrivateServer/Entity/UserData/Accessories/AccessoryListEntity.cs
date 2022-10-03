@@ -27,13 +27,11 @@ namespace Yuyuyui.PrivateServer
                 Utils.Log("Assigned default accessory to player.");
             }
 
-            using var accessoriesDb = new AccessoriesContext();
-            
             Response responseObj = new()
             {
                 accessories = player.accessories
                     .Select(a => Accessory.Load(a.Value))
-                    .Select(a => Response.Accessory.FromPlayerAccessory(accessoriesDb, a))
+                    .Select(Response.Accessory.FromPlayerAccessory)
                     .ToDictionary(p => $"{p.id}", p => p)
             };
 
@@ -59,14 +57,13 @@ namespace Yuyuyui.PrivateServer
                 public int quantity { get; set; }
                 public int next_quantity { get; set; }
 
-                public static Accessory FromPlayerAccessory(AccessoriesContext accessoriesDb, 
-                    Yuyuyui.PrivateServer.Accessory playerAccessory)
+                public static Accessory FromPlayerAccessory(Yuyuyui.PrivateServer.Accessory playerAccessory)
                 {
                     DataModel.Accessory masterAccessory = 
-                        accessoriesDb.Accessories.First(ua => ua.Id == playerAccessory.master_id);
+                        DatabaseContexts.Accessories.Accessories.First(ua => ua.Id == playerAccessory.master_id);
                     float growthKindValue = GrowthKind.GetValue(3); // growth kind for accessories is fixed 3
-                    DataModel.AccessoryLevel accessoryNextLevel =
-                        accessoriesDb.AccessoryLevels
+                    AccessoryLevel accessoryNextLevel =
+                        DatabaseContexts.Accessories.AccessoryLevels
                             .Where(al => al.Rarity == masterAccessory.Rarity)
                             // it seems that the max level of accessories (seireis) is 20
                             // consider changing the hardcoded value

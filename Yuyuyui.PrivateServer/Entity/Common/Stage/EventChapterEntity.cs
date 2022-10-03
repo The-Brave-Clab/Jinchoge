@@ -1,6 +1,4 @@
-﻿using Yuyuyui.PrivateServer.DataModel;
-
-namespace Yuyuyui.PrivateServer;
+﻿namespace Yuyuyui.PrivateServer;
 
 public class EventChapterEntity : ChapterEntity
 {
@@ -14,7 +12,7 @@ public class EventChapterEntity : ChapterEntity
     {
     }
 
-    protected override Response GetChapters(QuestsContext questsDb)
+    protected override Response GetChapters()
     {
         Utils.LogWarning("Stub API! Returns nothing for now.");
         return new()
