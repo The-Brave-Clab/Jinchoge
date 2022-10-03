@@ -1,4 +1,8 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Yuyuyui.PrivateServer
 {
     public class TitleItemsCheckEntity : BaseEntity<TitleItemsCheckEntity>
     {

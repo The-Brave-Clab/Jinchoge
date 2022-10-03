@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer.DataModel;
+﻿using System;
+
+namespace Yuyuyui.PrivateServer.DataModel;
 
 public class DatabaseContexts : IDisposable
 {

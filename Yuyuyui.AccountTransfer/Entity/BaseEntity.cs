@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.AccountTransfer
+﻿using System;
+
+namespace Yuyuyui.AccountTransfer
 {
     public abstract class BaseEntity<T> : EntityBase 
         where T : BaseEntity<T>

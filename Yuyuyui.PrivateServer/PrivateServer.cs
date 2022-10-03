@@ -1,4 +1,9 @@
-﻿using Titanium.Web.Proxy.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using Titanium.Web.Proxy.Models;
 using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
@@ -176,8 +181,7 @@ namespace Yuyuyui.PrivateServer
         public static bool GetSessionFromCookie(this EntityBase entity, out PlayerSession session)
         {
             string cookie = entity.GetRequestHeaderValue("Cookie");
-            var cookies = cookie.Split(';',
-                    StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+            var cookies = cookie.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(c => c.Split('='))
                 .ToDictionary(e => e[0], e => e.Length > 1 ? e[1] : "");
 
@@ -199,8 +203,9 @@ namespace Yuyuyui.PrivateServer
                 string[] lines;
                 using (StreamReader sr = new StreamReader(playerDataFile))
                 {
-                    lines = sr.ReadToEnd().Split("\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                    lines = sr.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 }
+
                 var newLines = lines.Where(line => !line.StartsWith(player.id.uuid));
                 using (StreamWriter sw = new StreamWriter(playerDataFile, false))
                 {

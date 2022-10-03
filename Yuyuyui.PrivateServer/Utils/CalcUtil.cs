@@ -1,4 +1,7 @@
-﻿using Yuyuyui.PrivateServer.DataModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -161,7 +164,7 @@ namespace Yuyuyui.PrivateServer
             float growth)
         {
             float num = (targetLevel - minLevel) / (float) (maxLevel - minLevel);
-            num = Math.Clamp(num, 0f, 1f);
+            num = Math.Min(Math.Max(num, 0f), 1f);
             return minValue + (int) ((maxValue - minValue) * Math.Pow(num, growth));
         }
         

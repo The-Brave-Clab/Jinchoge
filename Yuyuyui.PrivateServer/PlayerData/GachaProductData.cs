@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer;
+﻿using System.Collections.Generic;
+
+namespace Yuyuyui.PrivateServer;
 
 public class GachaProductData
 {

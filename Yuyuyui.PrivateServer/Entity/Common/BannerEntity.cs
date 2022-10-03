@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace Yuyuyui.PrivateServer
 {
     public class BannerEntity : BaseEntity<BannerEntity>

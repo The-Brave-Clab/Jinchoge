@@ -1,17 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
+        <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Company>YuyuyuiPrivateServer</Company>
         <Product>PrivateServer</Product>
         <AssemblyVersion>1.0.0</AssemblyVersion>
         <FileVersion>1.0.0</FileVersion>
         <DebugType>embedded</DebugType>
+        <TargetFrameworks>net472;net6.0</TargetFrameworks>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
-    <ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net472' ">
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
     </ItemGroup>
 

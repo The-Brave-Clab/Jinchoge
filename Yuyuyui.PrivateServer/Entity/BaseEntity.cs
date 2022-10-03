@@ -1,4 +1,7 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System;
+using System.Collections.Generic;
+
+namespace Yuyuyui.PrivateServer
 {
     public abstract class BaseEntity<T> : EntityBase 
         where T : BaseEntity<T>

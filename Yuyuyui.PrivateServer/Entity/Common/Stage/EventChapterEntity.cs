@@ -1,4 +1,7 @@
-﻿namespace Yuyuyui.PrivateServer;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Yuyuyui.PrivateServer;
 
 public class EventChapterEntity : ChapterEntity
 {
