@@ -27,8 +27,6 @@ namespace Yuyuyui.AccountTransfer
             playerSession.player!.Save();
             
             Utils.LogTrace($"Got character familiarities.");
-            
-            TransferProgress.Completed(TransferProgress.TaskType.CharacterFamiliarities);
         }
     }
 }

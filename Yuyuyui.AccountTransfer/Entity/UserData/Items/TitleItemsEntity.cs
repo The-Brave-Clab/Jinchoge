@@ -31,8 +31,6 @@ namespace Yuyuyui.AccountTransfer
             playerSession.player!.Save();
             
             Utils.LogTrace($"Got titles, {playerSession.player!.items.titleItems.Count} in total.");
-            
-            TransferProgress.Completed(TransferProgress.TaskType.TitleItems);
         }
     }
 }

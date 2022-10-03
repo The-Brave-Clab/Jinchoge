@@ -33,7 +33,5 @@ public class UserInfoEntity : BaseEntity<UserInfoEntity>
         Utils.LogTrace("Got user profile:");
         Utils.LogTrace($"\tNickname: {playerSession.player!.profile.nickname}");
         Utils.LogTrace($"\tComment: {playerSession.player!.profile.comment}");
-
-        TransferProgress.Completed(TransferProgress.TaskType.Profile);
     }
 }

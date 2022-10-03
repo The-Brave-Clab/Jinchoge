@@ -35,8 +35,6 @@ namespace Yuyuyui.AccountTransfer
             playerSession.player!.Save();
             
             Utils.LogTrace("Got stamina items.");
-            
-            TransferProgress.Completed(TransferProgress.TaskType.StaminaItems);
         }
     }
 }

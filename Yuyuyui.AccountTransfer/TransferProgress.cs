@@ -5,8 +5,7 @@ public static class TransferProgress
 
     public enum TaskType
     {
-        UUID,
-        Code,
+        Id,
         Header,
         Profile,
         Accessories,
@@ -22,7 +21,7 @@ public static class TransferProgress
         
         CharacterFamiliarities,
         
-        Count
+        Count_DoNotUse
     }
 
     private static readonly EventWaitHandle waitHandle = new AutoResetEvent(false);
@@ -32,20 +31,25 @@ public static class TransferProgress
         waitHandle.WaitOne();
     }
 
-    private static bool[] transferStatus = null;
+    private static bool[] transferStatus;
 
     static TransferProgress()
     {
-        int taskCount = (int) TaskType.Count;
+        int taskCount = (int) TaskType.Count_DoNotUse;
         transferStatus = new bool[taskCount];
         for (int i = 0; i < taskCount; ++i)
             transferStatus[i] = false;
     }
 
-    public static void Completed(TaskType taskType)
+    public static void Complete(TaskType taskType)
     {
         transferStatus[(int) taskType] = true;
         if (transferStatus.All(b => b))
             waitHandle.Set();
+    }
+
+    public static bool IsCompleted(TaskType taskType)
+    {
+        return transferStatus[(int)taskType];
     }
 }

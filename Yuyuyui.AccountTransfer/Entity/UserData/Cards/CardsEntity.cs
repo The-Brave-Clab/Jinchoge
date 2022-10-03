@@ -53,8 +53,6 @@ namespace Yuyuyui.AccountTransfer
             playerSession.player!.Save();
             
             Utils.LogTrace($"Got cards, {response.cards.Count} in total.");
-            
-            TransferProgress.Completed(TransferProgress.TaskType.Cards);
         }
     }
 }

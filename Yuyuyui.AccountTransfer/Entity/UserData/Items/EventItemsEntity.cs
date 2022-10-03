@@ -35,8 +35,6 @@ namespace Yuyuyui.AccountTransfer
             playerSession.player!.Save();
             
             Utils.LogTrace("Got event items.");
-            
-            TransferProgress.Completed(TransferProgress.TaskType.EventItems);
         }
     }
 }

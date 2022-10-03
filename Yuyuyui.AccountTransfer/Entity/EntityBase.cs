@@ -17,6 +17,7 @@ namespace Yuyuyui.AccountTransfer
         public readonly string HttpMethod;
         public readonly Uri RequestUri;
         protected readonly Dictionary<string, string> pathParameters;
+        public readonly TransferProgress.TaskType TransferTask;
         
         public Dictionary<string, string> PathParameters => pathParameters;
 
@@ -125,6 +126,8 @@ namespace Yuyuyui.AccountTransfer
             HttpMethod = httpMethod;
             RequestUri = requestUri;
 
+            TransferTask = config.transferTask;
+
             pathParameters = ExtractPathParameters(config.apiPath, StripApiPrefix(requestUri.AbsolutePath))!;
         }
 
@@ -132,63 +135,65 @@ namespace Yuyuyui.AccountTransfer
         {
             {
                 typeof(SessionsEntity),
-                new Config("/sessions", "POST")
+                new Config(TransferProgress.TaskType.Id, "/sessions", "POST")
             },
             {
                 typeof(HeaderEntity),
-                new Config("/my/header", "GET")
+                new Config(TransferProgress.TaskType.Header, "/my/header", "GET")
             },
             {
                 typeof(UserInfoEntity),
-                new Config("/users/{user_id}", "GET")
+                new Config(TransferProgress.TaskType.Profile, "/users/{user_id}", "GET")
             },
             {
                 typeof(AccessoryListEntity),
-                new Config("/my/accessories", "GET")
+                new Config(TransferProgress.TaskType.Accessories, "/my/accessories", "GET")
             },
             {
                 typeof(CardsEntity),
-                new Config("/my/cards", "GET")
+                new Config(TransferProgress.TaskType.Cards, "/my/cards", "GET")
             },
             {
                 typeof(DeckEntity),
-                new Config("/my/decks", "GET")
+                new Config(TransferProgress.TaskType.Decks, "/my/decks", "GET")
             },
             {
                 typeof(EnhancementItemsEntity),
-                new Config("/my/enhancement_items", "GET")
+                new Config(TransferProgress.TaskType.EnhancementItems, "/my/enhancement_items", "GET")
             },
             {
                 typeof(EventItemsEntity),
-                new Config("/my/event_items", "GET")
+                new Config(TransferProgress.TaskType.EventItems, "/my/event_items", "GET")
             },
             {
                 typeof(EvolutionItemsEntity),
-                new Config("/my/evolution_items", "GET")
+                new Config(TransferProgress.TaskType.EvolutionItems, "/my/evolution_items", "GET")
             },
             {
                 typeof(StaminaItemsEntity),
-                new Config("/my/stamina_items", "GET")
+                new Config(TransferProgress.TaskType.StaminaItems, "/my/stamina_items", "GET")
             },
             {
                 typeof(TitleItemsEntity),
-                new Config("/my/title_items", "GET")
+                new Config(TransferProgress.TaskType.TitleItems, "/my/title_items", "GET")
             },
             {
                 typeof(CharacterFamiliarityEntity),
-                new Config("/my/character_familiarities", "GET")
+                new Config(TransferProgress.TaskType.CharacterFamiliarities, "/my/character_familiarities", "GET")
             },
         };
     }
 
     public struct Config
     {
-        public Config(string apiPath, params string[] httpMethods)
+        public Config(TransferProgress.TaskType transferTask, string apiPath, params string[] httpMethods)
         {
+            this.transferTask = transferTask;
             this.apiPath = apiPath;
             this.httpMethods = httpMethods;
         }
 
+        public readonly TransferProgress.TaskType transferTask;
         public readonly string apiPath;
         public readonly string[] httpMethods;
     }

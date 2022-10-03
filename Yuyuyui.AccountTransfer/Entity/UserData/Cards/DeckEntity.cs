@@ -54,8 +54,6 @@ namespace Yuyuyui.AccountTransfer
             playerSession.player!.Save();
             
             Utils.LogTrace($"Got decks.");
-            
-            TransferProgress.Completed(TransferProgress.TaskType.Decks);
         }
     }
 }

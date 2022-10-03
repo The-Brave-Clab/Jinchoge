@@ -35,8 +35,6 @@ namespace Yuyuyui.AccountTransfer
             playerSession.player!.Save();
             
             Utils.LogTrace("Got evolution items.");
-            
-            TransferProgress.Completed(TransferProgress.TaskType.EvolutionItems);
         }
     }
 }

@@ -39,8 +39,6 @@ namespace Yuyuyui.AccountTransfer
             playerSession.player!.Save();
             
             Utils.LogTrace($"Got accessories, {response.accessories.Count} in total.");
-            
-            TransferProgress.Completed(TransferProgress.TaskType.Accessories);
         }
     }
 }

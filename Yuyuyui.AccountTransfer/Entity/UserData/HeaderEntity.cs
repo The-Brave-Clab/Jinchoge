@@ -42,7 +42,5 @@ public class HeaderEntity : BaseEntity<HeaderEntity>
         Utils.LogTrace($"\tEXP: {playerSession.player!.data.exp}");
         Utils.LogTrace($"\tMoney: {playerSession.player!.data.money}");
         Utils.LogTrace($"\tStamina: {playerSession.player!.data.stamina}");
-
-        TransferProgress.Completed(TransferProgress.TaskType.Header);
     }
 }

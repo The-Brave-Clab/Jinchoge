@@ -114,7 +114,11 @@ namespace Yuyuyui.AccountTransfer
 
             lock (currentPlayerSession)
             {
+                if (entity.TransferTask == TransferProgress.TaskType.Count_DoNotUse ||
+                    TransferProgress.IsCompleted(entity.TransferTask))
+                    return;
                 entity.ProcessResponse(decodedBytes, e.HttpClient.Response.Headers, ref currentPlayerSession);
+                TransferProgress.Complete(entity.TransferTask);
             }
         }
 

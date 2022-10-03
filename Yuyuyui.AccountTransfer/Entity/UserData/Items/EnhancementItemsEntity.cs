@@ -35,8 +35,6 @@ namespace Yuyuyui.AccountTransfer
             playerSession.player!.Save();
             
             Utils.LogTrace("Got enhancement items.");
-            
-            TransferProgress.Completed(TransferProgress.TaskType.EnhancementItems);
         }
     }
 }
