@@ -4,27 +4,27 @@ public class DatabaseContexts : IDisposable
 {
     private static DatabaseContexts? _instance = null;
 
-    private AccessoriesContext           _accessoriesContext;
-    private ActiveSkillsContext          _activeSkillsContext;
-    private ActivityRequestSheetsContext _activityRequestSheetsContext;
-    private AdventureBooksContext        _adventureBooksContext;
-    private BraveSystemContext           _braveSystemContext;
-    private CardsContext                 _cardsContext;
-    private CartoonsContext              _cartoonsContext;
-    private CharactersContext            _charactersContext;
-    private ClubWorkingsContext          _clubWorkingsContext;
-    private EnemiesContext               _enemiesContext;
-    private EnhancementContext           _enhancementContext;
-    private EventStoriesContext          _eventStoriesContext;
-    private GachasContext                _gachasContext;
-    private GiftsContext                 _giftsContext;
-    private ItemsContext                 _itemsContext;
-    private LoginBonusContext            _loginBonusContext;
-    private QuestsContext                _questsContext;
-    private SkillsContext                _skillsContext;
-    private StackPointEventContext       _stackPointEventContext;
-    private UserLevelsContext            _userLevelsContext;
-    
+    private readonly AccessoriesContext           _accessoriesContext;
+    private readonly ActiveSkillsContext          _activeSkillsContext;
+    private readonly ActivityRequestSheetsContext _activityRequestSheetsContext;
+    private readonly AdventureBooksContext        _adventureBooksContext;
+    private readonly BraveSystemContext           _braveSystemContext;
+    private readonly CardsContext                 _cardsContext;
+    private readonly CartoonsContext              _cartoonsContext;
+    private readonly CharactersContext            _charactersContext;
+    private readonly ClubWorkingsContext          _clubWorkingsContext;
+    private readonly EnemiesContext               _enemiesContext;
+    private readonly EnhancementContext           _enhancementContext;
+    private readonly EventStoriesContext          _eventStoriesContext;
+    private readonly GachasContext                _gachasContext;
+    private readonly GiftsContext                 _giftsContext;
+    private readonly ItemsContext                 _itemsContext;
+    private readonly LoginBonusContext            _loginBonusContext;
+    private readonly QuestsContext                _questsContext;
+    private readonly SkillsContext                _skillsContext;
+    private readonly StackPointEventContext       _stackPointEventContext;
+    private readonly UserLevelsContext            _userLevelsContext;
+
     public static AccessoriesContext           Accessories           => _instance!._accessoriesContext;
     public static ActiveSkillsContext          ActiveSkills          => _instance!._activeSkillsContext;
     public static ActivityRequestSheetsContext ActivityRequestSheets => _instance!._activityRequestSheetsContext;
@@ -69,7 +69,7 @@ public class DatabaseContexts : IDisposable
         _stackPointEventContext = new StackPointEventContext();
         _userLevelsContext = new UserLevelsContext();
     }
-    
+
     public void Dispose()
     {
         _accessoriesContext.Dispose();
