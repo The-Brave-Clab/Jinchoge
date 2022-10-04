@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32002.185
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.PrivateServer.CLI", "Yuyuyui.PrivateServer.CLI\Yuyuyui.PrivateServer.CLI.csproj", "{9E8BAF32-0921-4E74-B288-8AD47DC6B7F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yuyuyui.PrivateServer.CLI", "Yuyuyui.PrivateServer.CLI\Yuyuyui.PrivateServer.CLI.csproj", "{9E8BAF32-0921-4E74-B288-8AD47DC6B7F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.PrivateServer", "Yuyuyui.PrivateServer\Yuyuyui.PrivateServer.csproj", "{C0F794B0-8F58-40A4-976A-E0AF3EDD470E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yuyuyui.PrivateServer", "Yuyuyui.PrivateServer\Yuyuyui.PrivateServer.csproj", "{C0F794B0-8F58-40A4-976A-E0AF3EDD470E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.PrivateServer.DataModel", "Yuyuyui.PrivateServer.DataModel\Yuyuyui.PrivateServer.DataModel.csproj", "{D8715F87-DEF7-4C85-ACDA-58927D26A326}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yuyuyui.PrivateServer.DataModel", "Yuyuyui.PrivateServer.DataModel\Yuyuyui.PrivateServer.DataModel.csproj", "{D8715F87-DEF7-4C85-ACDA-58927D26A326}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.AccountTransfer", "Yuyuyui.AccountTransfer\Yuyuyui.AccountTransfer.csproj", "{CABD3E8C-3B32-43B5-ABD8-100C7D94F32F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yuyuyui.AccountTransfer", "Yuyuyui.AccountTransfer\Yuyuyui.AccountTransfer.csproj", "{CABD3E8C-3B32-43B5-ABD8-100C7D94F32F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.AccountTransfer.CLI", "Yuyuyui.AccountTransfer.CLI\Yuyuyui.AccountTransfer.CLI.csproj", "{69066B5E-FD53-44DE-95A4-0CF406480181}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yuyuyui.AccountTransfer.CLI", "Yuyuyui.AccountTransfer.CLI\Yuyuyui.AccountTransfer.CLI.csproj", "{69066B5E-FD53-44DE-95A4-0CF406480181}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.GoalKeeper", "Yuyuyui.GoalKeeper\Yuyuyui.GoalKeeper.csproj", "{77688096-1514-4714-A0D8-DCDA41C37D0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yuyuyui.GoalKeeper", "Yuyuyui.GoalKeeper\Yuyuyui.GoalKeeper.csproj", "{77688096-1514-4714-A0D8-DCDA41C37D0E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yuyuyui.PrivateServer.GUI", "Yuyuyui.PrivateServer.GUI\Yuyuyui.PrivateServer.GUI.csproj", "{58966041-80EA-4308-91C5-339E7794DBFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{77688096-1514-4714-A0D8-DCDA41C37D0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77688096-1514-4714-A0D8-DCDA41C37D0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77688096-1514-4714-A0D8-DCDA41C37D0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58966041-80EA-4308-91C5-339E7794DBFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58966041-80EA-4308-91C5-339E7794DBFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58966041-80EA-4308-91C5-339E7794DBFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58966041-80EA-4308-91C5-339E7794DBFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
