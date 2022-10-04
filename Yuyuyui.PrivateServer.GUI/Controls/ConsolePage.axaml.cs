@@ -16,5 +16,15 @@ namespace Yuyuyui.PrivateServer.GUI.Controls
         {
             InitializeComponent();
         }
+
+        private void ScrollViewerOnScrollChanged(object? sender, ScrollChangedEventArgs e)
+        {
+            // Only scroll to bottom when the extent changed. Otherwise you can't scroll up
+            if (e.ExtentDelta.Y != 0)
+            {
+                var scrollViewer = sender as ScrollViewer;
+                scrollViewer?.ScrollToEnd();
+            }
+        }
     }
 }

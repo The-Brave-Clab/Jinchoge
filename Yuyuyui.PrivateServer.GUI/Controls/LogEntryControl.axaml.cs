@@ -127,7 +127,7 @@ namespace Yuyuyui.PrivateServer.GUI.Controls
         {
             if (value is LogEntryControl.LogType logType && targetType.IsAssignableTo(typeof(string)))
             {
-                return logType.ToString("G");
+                return logType.ToString("G").ToUpper();
             }
             // converter used for the wrong type
             return new BindingNotification(new InvalidCastException(), BindingErrorType.Error);
