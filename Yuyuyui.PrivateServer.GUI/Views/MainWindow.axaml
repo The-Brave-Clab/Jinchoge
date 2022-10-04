@@ -7,7 +7,8 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         Classes="base"
         x:Class="Yuyuyui.PrivateServer.GUI.Views.MainWindow"
-        Title="Yuyuyui Private Server">
+        Title="Yuyuyui Private Server"
+        Closing="WindowOnClosing">
 
     <Window.Styles>
         <StyleInclude Source="/Styles/WindowStyle.axaml" />
@@ -27,9 +28,9 @@
                 <TextBlock Height="20" Text="{Binding ProgressBarText}" HorizontalAlignment="Right" VerticalAlignment="Center" TextAlignment="Right"/>
                 <ProgressBar Height="20" Value="{Binding ToolbarProgress}" ShowProgressText="{Binding ShowProgressText}" IsIndeterminate="{Binding IsProgressIndeterminate}" />
               </StackPanel>
-            <TextBlock Height="20" Text="{Binding ToolbarText}" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left"/>
+            <TextBlock Name="LogText" Height="20" Text="{Binding ToolbarText}" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left"/>
           </Panel>
         </DockPanel>
-        <Button Content="Open Window" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding UpdateLocalData}"></Button>
+        <Button Content="Start" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding StartPrivateServer}"></Button>
     </Panel>
 </Window>

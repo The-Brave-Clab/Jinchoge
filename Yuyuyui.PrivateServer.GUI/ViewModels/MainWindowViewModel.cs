@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Reactive;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Avalonia.Controls;
-using ReactiveUI;
-using System.Runtime.InteropServices;
 using System.Threading;
-using Avalonia.Media;
 using Yuyuyui.PrivateServer.GUI.Views;
-using Avalonia.Threading;
-using static Yuyuyui.PrivateServer.PlayerProfile;
+using System.ComponentModel;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels
 {
@@ -20,7 +12,9 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         public void SetWindow(MainWindow window)
         { this.window = window; }
 
-        public void UpdateLocalData()
+        public bool ServerStarted { get; private set; } = false;
+
+        public void StartPrivateServer()
         {
             var toolbarVM = (MainWindowBottomToolbarViewModel) window!.BottomToolBar.DataContext!;
             toolbarVM.ClearProgressBar();
@@ -60,6 +54,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                             currentCount = current;
                             totalCount = total;
                         }
+
                         SetToolbarText();
                     }
                 )
@@ -70,7 +65,27 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                     canSet = false;
                     Thread.Sleep(2000);
                     toolbarVM.ClearProgressBar();
+
+                    Utils.LogTrace("Starting Private Server...");
+
+                    var endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
+
+                    ServerStarted = true;
+
+                    Utils.LogTrace("Private Server Started!");
                 });
+        }
+
+        private void WindowOnClosing(object? sender, CancelEventArgs e)
+        {
+            StopPrivateServer();
+        }
+
+        public void StopPrivateServer()
+        {
+            if (!ServerStarted) return;
+
+            Proxy<PrivateServerProxyCallbacks>.Stop();
         }
     }
 }
