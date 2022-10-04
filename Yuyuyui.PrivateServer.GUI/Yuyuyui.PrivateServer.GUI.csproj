@@ -15,8 +15,8 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
+    <Folder Include="Models\" />
     <Folder Include="Styles\" />
     <None Remove=".gitignore" />
   </ItemGroup>

@@ -1,4 +1,20 @@
-<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels" Icon="/Assets/avalonia-logo.ico" mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600" Width="1000" Height="600" CanResize="False" ExtendClientAreaToDecorationsHint="True" ExtendClientAreaChromeHints="PreferSystemChrome" TransparencyLevelHint="Mica" Background="#99000000" x:Class="Yuyuyui.PrivateServer.GUI.Views.MainWindow" Title="Yuyuyui Private Server" Closing="WindowOnClosing">
+<Window xmlns="https://github.com/avaloniaui" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels" 
+        xmlns:uc="clr-namespace:Yuyuyui.PrivateServer.GUI.Controls" 
+        Icon="/Assets/avalonia-logo.ico"
+        mc:Ignorable="d" 
+        d:DesignWidth="500" d:DesignHeight="300"
+        Width="1000" Height="600" CanResize="False"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="PreferSystemChrome"
+        TransparencyLevelHint="Mica"
+        Background="#99000000"
+        x:Class="Yuyuyui.PrivateServer.GUI.Views.MainWindow"
+        Title="Yuyuyui Private Server"
+        Closing="WindowOnClosing">
 
     <Design.DataContext>
         <vm:MainWindowViewModel />
@@ -22,12 +38,10 @@
                 <Button Content="Start" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Command="{Binding StartPrivateServer}"></Button>
             </Panel>
 
-            <Panel Name="NavigationPanel" DockPanel.Dock="Left" VerticalAlignment="Stretch" Width="150" Margin="10">
+            <Panel Name="NavigationPanel" DockPanel.Dock="Left" VerticalAlignment="Stretch" Width="150" Margin="0 10 10 0"></Panel>
 
-            </Panel>
-
-            <Panel Name="ContentPage" DockPanel.Dock="Left" VerticalAlignment="Stretch" Margin="10">
-                <TextBox></TextBox>
+            <Panel Name="ContentPage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0 10 0 0">
+                <uc:ConsolePage HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             </Panel>
         </DockPanel>
     </Panel>
