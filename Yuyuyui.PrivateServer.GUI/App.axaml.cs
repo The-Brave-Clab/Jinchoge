@@ -1,7 +1,6 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Avalonia.Themes.Fluent;
 using Yuyuyui.PrivateServer.GUI.ViewModels;
 using Yuyuyui.PrivateServer.GUI.Views;
 
@@ -18,10 +17,12 @@ namespace Yuyuyui.PrivateServer.GUI
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
+                var viewModel = new MainWindowViewModel();
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowViewModel(),
+                    DataContext = viewModel
                 };
+                viewModel.SetWindow((MainWindow)desktop.MainWindow);
             }
 
             base.OnFrameworkInitializationCompleted();

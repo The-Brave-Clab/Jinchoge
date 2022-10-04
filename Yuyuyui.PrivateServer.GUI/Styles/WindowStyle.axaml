@@ -1,0 +1,26 @@
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Window Classes="base">
+      <Border Padding="20">
+        <StackPanel Spacing="5">
+          <Button Content="This is a button"></Button>
+          <TextBlock Text="This is a text block"></TextBlock>
+          <TextBox Text="This is a text box"></TextBox>
+          <ProgressBar ShowProgressText="True" Value="24"></ProgressBar>
+          <ToggleSwitch IsChecked="True"></ToggleSwitch>
+          <RadioButton GroupName="test" Content="Radio Button 1" IsChecked="False"></RadioButton>
+          <RadioButton GroupName="test" Content="Radio Button 2" IsChecked="True"></RadioButton>
+          <CheckBox Content="Check Box 1" IsChecked="False"></CheckBox>
+          <CheckBox Content="Check Box 2" IsChecked="True"></CheckBox>
+        </StackPanel>
+      </Border>
+    </Window>
+  </Design.PreviewWith>
+
+  <Style Selector="Window.base">
+    <Setter Property="TransparencyLevelHint" Value="Mica" />
+    <Setter Property="Background" Value="#99000000" />
+  </Style>
+
+
+</Styles>

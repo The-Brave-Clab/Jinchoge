@@ -1,30 +1,23 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:Yuyuyui.PrivateServer.GUI.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Yuyuyui.PrivateServer.GUI.Views.MainWindow"
+        xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Yuyuyui.PrivateServer.GUI"
-        TransparencyLevelHint="{Binding WindowTransparency}"
-        Background="{Binding WindowBrush}"
-        ExtendClientAreaToDecorationsHint="False">
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Classes="base"
+        x:Class="Yuyuyui.PrivateServer.GUI.Views.MainWindow"
+        Title="Yuyuyui Private Server">
 
-  <Design.DataContext>
-    <vm:MainWindowViewModel/>
-  </Design.DataContext>
+    <Window.Styles>
+        <StyleInclude Source="/Styles/WindowStyle.axaml" />
+    </Window.Styles>
 
-  <Panel>
-    <StackPanel>
-      <TextBlock Text="{Binding DownloadingFileName}"></TextBlock>
-      <ProgressBar Value="{Binding DownloadingFileProgress}" ShowProgressText="True"></ProgressBar>
-      <TextBlock Text="{Binding CurrentDownloadedFiles}"></TextBlock>
-      <ProgressBar Value="{Binding CurrentDownloadedProgress}" ShowProgressText="True"></ProgressBar>
-      <Button Content="Get Local Data" Command="{Binding UpdateLocalData}"></Button>
-    </StackPanel>
-  </Panel>
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
 
-
-
+    <Panel>
+        <Button Content="Open Window" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding OpenWindow}"></Button>
+    </Panel>
 </Window>

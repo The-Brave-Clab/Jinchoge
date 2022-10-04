@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Reactive;
 using System.Collections.Generic;
 using System.Text;
@@ -7,72 +7,27 @@ using Avalonia.Controls;
 using ReactiveUI;
 using System.Runtime.InteropServices;
 using Avalonia.Media;
+using Yuyuyui.PrivateServer.GUI.Views;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        public WindowTransparencyLevel WindowTransparency
+        private MainWindow? window = null;
+        public void SetWindow(MainWindow window)
+        { this.window = window; }
+
+        public void OpenWindow()
         {
-            get
+            var viewModel = new UpdateLocalDataViewModel();
+            var newWindow = new UpdateLocalData
             {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                    if (Environment.OSVersion.Version.Build >= 22000)
-                        return WindowTransparencyLevel.Mica;
-                return WindowTransparencyLevel.AcrylicBlur;
-            }
-        }
-        public IBrush WindowBrush
-        {
-            get
-            {
-                return new SolidColorBrush(Colors.Black, 0.6);
-            }
-        }
+                DataContext = viewModel
+            };
+            newWindow.ShowDialog(window!);
 
-        private string downloadingFileName = "Downloading File";
-        public string DownloadingFileName
-        {
-            get => downloadingFileName;
-            set => this.RaiseAndSetIfChanged(ref downloadingFileName, value);
-        }
-
-        private float downloadingFileProgress = 0;
-        public float DownloadingFileProgress
-        {
-            get => downloadingFileProgress;
-            set => this.RaiseAndSetIfChanged(ref downloadingFileProgress, value);
-        }
-
-        private string currentDownloadedFilesText = "(0/0)";
-        public string CurrentDownloadedFiles
-        {
-            get => currentDownloadedFilesText;
-            set => this.RaiseAndSetIfChanged(ref currentDownloadedFilesText, value);
-        }
-
-        private float currentDownloadedProgress = 0;
-        public float CurrentDownloadedProgress
-        {
-            get => currentDownloadedProgress;
-            set => this.RaiseAndSetIfChanged(ref currentDownloadedProgress, value);
-        }
-
-        public void UpdateLocalData()
-        {
-            LocalData.Update(
-                    (fileName, progress) =>
-                    {
-                        DownloadingFileName = fileName;
-                        DownloadingFileProgress = progress * 100;
-                    },
-                    (current, total) =>
-                    {
-                        CurrentDownloadedFiles = $"({current} / {total})";
-                        CurrentDownloadedProgress = total == 0 ? 100.0f : current * 100.0f / total;
-                    }
-                )
-                .ContinueWith(t => Console.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
+            viewModel.SetWindow(newWindow);
+            viewModel.UpdateLocalData();
         }
     }
 }
