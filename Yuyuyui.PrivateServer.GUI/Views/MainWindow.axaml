@@ -1,0 +1,35 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels"
+        Icon="/Assets/avalonia-logo.ico"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Classes="base"
+        x:Class="Yuyuyui.PrivateServer.GUI.Views.MainWindow"
+        Title="Yuyuyui Private Server">
+
+    <Window.Styles>
+        <StyleInclude Source="/Styles/WindowStyle.axaml" />
+    </Window.Styles>
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Panel Name="MainPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
+        <DockPanel VerticalAlignment="Bottom">
+          <Panel Name="BottomToolBar" DockPanel.Dock="Bottom">
+              <Design.DataContext>
+                  <vm:MainWindowBottomToolbarViewModel />
+              </Design.DataContext>
+              <StackPanel IsVisible="{Binding IsProgressBarVisible}" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="20" Height="20">
+                <TextBlock Height="20" Text="{Binding ProgressBarText}" HorizontalAlignment="Right" VerticalAlignment="Center" TextAlignment="Right"/>
+                <ProgressBar Height="20" Value="{Binding ToolbarProgress}" ShowProgressText="{Binding ShowProgressText}" IsIndeterminate="{Binding IsProgressIndeterminate}" />
+              </StackPanel>
+            <TextBlock Height="20" Text="{Binding ToolbarText}" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left"/>
+          </Panel>
+        </DockPanel>
+        <Button Content="Open Window" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding UpdateLocalData}"></Button>
+    </Panel>
+</Window>
