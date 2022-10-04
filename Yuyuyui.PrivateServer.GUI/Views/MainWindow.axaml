@@ -17,7 +17,19 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <Panel>
-        <Button Content="Open Window" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding OpenWindow}"></Button>
+    <Panel Name="MainPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
+        <DockPanel VerticalAlignment="Bottom">
+          <Panel Name="BottomToolBar" DockPanel.Dock="Bottom">
+              <Design.DataContext>
+                  <vm:MainWindowBottomToolbarViewModel />
+              </Design.DataContext>
+              <StackPanel IsVisible="{Binding IsProgressBarVisible}" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="20" Height="20">
+                <TextBlock Height="20" Text="{Binding ProgressBarText}" HorizontalAlignment="Right" VerticalAlignment="Center" TextAlignment="Right"/>
+                <ProgressBar Height="20" Value="{Binding ToolbarProgress}" ShowProgressText="{Binding ShowProgressText}" IsIndeterminate="{Binding IsProgressIndeterminate}" />
+              </StackPanel>
+            <TextBlock Height="20" Text="{Binding ToolbarText}" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left"/>
+          </Panel>
+        </DockPanel>
+        <Button Content="Open Window" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding UpdateLocalData}"></Button>
     </Panel>
 </Window>
