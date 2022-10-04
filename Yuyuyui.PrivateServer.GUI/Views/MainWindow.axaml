@@ -1,36 +1,34 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels"
-        Icon="/Assets/avalonia-logo.ico"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        Classes="base"
-        x:Class="Yuyuyui.PrivateServer.GUI.Views.MainWindow"
-        Title="Yuyuyui Private Server"
-        Closing="WindowOnClosing">
-
-    <Window.Styles>
-        <StyleInclude Source="/Styles/WindowStyle.axaml" />
-    </Window.Styles>
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels" Icon="/Assets/avalonia-logo.ico" mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600" Width="1000" Height="600" CanResize="False" ExtendClientAreaToDecorationsHint="True" ExtendClientAreaChromeHints="PreferSystemChrome" TransparencyLevelHint="Mica" Background="#99000000" x:Class="Yuyuyui.PrivateServer.GUI.Views.MainWindow" Title="Yuyuyui Private Server" Closing="WindowOnClosing">
 
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <Panel Name="MainPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
-        <DockPanel VerticalAlignment="Bottom">
-          <Panel Name="BottomToolBar" DockPanel.Dock="Bottom">
-              <Design.DataContext>
-                  <vm:MainWindowBottomToolbarViewModel />
-              </Design.DataContext>
-              <StackPanel IsVisible="{Binding IsProgressBarVisible}" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="20" Height="20">
-                <TextBlock Height="20" Text="{Binding ProgressBarText}" HorizontalAlignment="Right" VerticalAlignment="Center" TextAlignment="Right"/>
-                <ProgressBar Height="20" Value="{Binding ToolbarProgress}" ShowProgressText="{Binding ShowProgressText}" IsIndeterminate="{Binding IsProgressIndeterminate}" />
-              </StackPanel>
-            <TextBlock Name="LogText" Height="20" Text="{Binding ToolbarText}" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left"/>
-          </Panel>
+    <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 40 10 10">
+        <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LastChildFill="True">
+
+            <Panel Height="20" Name="BottomToolBar" DockPanel.Dock="Bottom">
+                <Design.DataContext>
+                    <vm:MainWindowBottomToolbarViewModel />
+                </Design.DataContext>
+                <StackPanel IsVisible="{Binding IsProgressBarVisible}" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="20" Height="20">
+                    <TextBlock Height="20" Text="{Binding ProgressBarText}" HorizontalAlignment="Right" VerticalAlignment="Center" TextAlignment="Right" />
+                    <ProgressBar Height="20" Value="{Binding ToolbarProgress}" ShowProgressText="{Binding ShowProgressText}" IsIndeterminate="{Binding IsProgressIndeterminate}" />
+                </StackPanel>
+                <TextBlock Name="LogText" Height="20" Text="{Binding ToolbarText}" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" />
+            </Panel>
+
+            <Panel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Button Content="Start" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Command="{Binding StartPrivateServer}"></Button>
+            </Panel>
+
+            <Panel Name="NavigationPanel" DockPanel.Dock="Left" VerticalAlignment="Stretch" Width="150" Margin="10">
+
+            </Panel>
+
+            <Panel Name="ContentPage" DockPanel.Dock="Left" VerticalAlignment="Stretch" Margin="10">
+                <TextBox></TextBox>
+            </Panel>
         </DockPanel>
-        <Button Content="Start" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding StartPrivateServer}"></Button>
     </Panel>
 </Window>

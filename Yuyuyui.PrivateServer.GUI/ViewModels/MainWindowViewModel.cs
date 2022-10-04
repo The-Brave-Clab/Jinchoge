@@ -3,20 +3,25 @@ using System.Threading.Tasks;
 using System.Threading;
 using Yuyuyui.PrivateServer.GUI.Views;
 using System.ComponentModel;
+using Avalonia.Threading;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private MainWindow? window = null;
+        private WeakReference<MainWindow?> window = new (null);
+
         public void SetWindow(MainWindow window)
-        { this.window = window; }
+        {
+            this.window.SetTarget(window);
+        }
 
         public bool ServerStarted { get; private set; } = false;
 
         public void StartPrivateServer()
         {
-            var toolbarVM = (MainWindowBottomToolbarViewModel) window!.BottomToolBar.DataContext!;
+            window.TryGetTarget(out var mainWindow);
+            var toolbarVM = (MainWindowBottomToolbarViewModel) mainWindow!.BottomToolBar.DataContext!;
             toolbarVM.ClearProgressBar();
 
             toolbarVM.IsProgressIndeterminate = true;
@@ -61,12 +66,13 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                 .ContinueWith(t => Console.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted)
                 .ContinueWith(_ =>
                 {
-                    toolbarVM.ToolbarProgress = totalCount == 0 ? 0 : 100;
-                    canSet = false;
-                    Thread.Sleep(2000);
-                    toolbarVM.ClearProgressBar();
-
-                    Utils.LogTrace("Starting Private Server...");
+                    Task.Run(() =>
+                    {
+                        toolbarVM.ToolbarProgress = totalCount == 0 ? 0 : 100;
+                        canSet = false;
+                        Thread.Sleep(2000);
+                        toolbarVM.ClearProgressBar();
+                    });
 
                     var endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
 
@@ -74,11 +80,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
                     Utils.LogTrace("Private Server Started!");
                 });
-        }
-
-        private void WindowOnClosing(object? sender, CancelEventArgs e)
-        {
-            StopPrivateServer();
         }
 
         public void StopPrivateServer()

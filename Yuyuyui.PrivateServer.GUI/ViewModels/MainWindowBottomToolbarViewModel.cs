@@ -55,11 +55,11 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
         public void ClearProgressBar()
         {
+            IsProgressBarVisible = false;
             ProgressBarText = "";
             ToolbarProgress = 0;
             ShowProgressText = false;
             IsProgressIndeterminate = false;
-            IsProgressBarVisible = false;
         }
 
     }
