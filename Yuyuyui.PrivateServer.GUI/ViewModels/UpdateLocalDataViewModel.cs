@@ -82,7 +82,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                     }
                 )
                 .ContinueWith(t => Console.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted)
-                .ContinueWith(_ => Dispatcher.UIThread.Post(() => window.Close()));
+                .ContinueWith(_ => Dispatcher.UIThread.Post(() => window!.Close()));
         }
     }
 }
