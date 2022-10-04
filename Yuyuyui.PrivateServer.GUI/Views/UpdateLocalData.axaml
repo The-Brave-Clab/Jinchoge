@@ -19,9 +19,9 @@
   <Panel Margin="20 20">
     <StackPanel>
       <TextBlock Text="{Binding DownloadingFileName}"></TextBlock>
-      <ProgressBar ShowProgressText="True" Value="{Binding DownloadingFileProgress}"></ProgressBar>
+      <ProgressBar Value="{Binding DownloadingFileProgress}" ShowProgressText="True"></ProgressBar>
       <TextBlock Text="{Binding CurrentDownloadedFiles}"></TextBlock>
-      <ProgressBar ShowProgressText="True" Value="{Binding CurrentDownloadedProgress}"></ProgressBar>
+      <ProgressBar Value="{Binding CurrentDownloadedProgress}" ShowProgressText="True"></ProgressBar>
     </StackPanel>
   </Panel>
 
