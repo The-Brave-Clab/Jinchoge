@@ -27,12 +27,14 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         public MainWindowViewModel()
             : base()
         {
+            endpoint = null;
             buttonContent = "";
+            buttonDescription = "";
             Status = ServerStatus.Stopped;
         }
 
         private ServerStatus status = ServerStatus.Stopped;
-        private ExplicitProxyEndPoint endpoint;
+        private ExplicitProxyEndPoint? endpoint;
 
         private ServerStatus Status
         {
@@ -47,16 +49,16 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                 IsLoading = status == ServerStatus.Starting;
                 ButtonContent = status switch
                 {
-                    ServerStatus.Stopped => "Start",
-                    ServerStatus.Starting => "Starting",
-                    ServerStatus.Started => "Stop",
+                    ServerStatus.Stopped => "START",
+                    ServerStatus.Starting => "STARTING",
+                    ServerStatus.Started => "STOP",
                     _ => throw new ArgumentOutOfRangeException()
                 };
                 ButtonDescription = status switch
                 {
                     ServerStatus.Stopped => "Start the Private Server",
                     ServerStatus.Starting => "Starting, Please Wait...",
-                    ServerStatus.Started => $"Listening at Port {endpoint.Port}",
+                    ServerStatus.Started => $"Listening at Port {endpoint!.Port}",
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }
