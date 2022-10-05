@@ -8,32 +8,32 @@
              xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels"
              x:Class="Yuyuyui.PrivateServer.GUI.Controls.ConsolePage">
 
-  <Design.DataContext>
-    <vm:ConsolePageViewModel />
-  </Design.DataContext>
+    <Design.DataContext>
+        <vm:ConsolePageViewModel />
+    </Design.DataContext>
 
-  <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-    <ScrollViewer AllowAutoHide="True" ScrollChanged="ScrollViewerOnScrollChanged">
+        <ScrollViewer AllowAutoHide="True" ScrollChanged="ScrollViewerOnScrollChanged">
 
-      <ItemsControl Items="{Binding Logs}">
+            <ItemsControl Items="{Binding Logs}">
 
-        <ItemsControl.ItemTemplate>
-          <DataTemplate>
-            <c:LogEntryControl LogContent="{Binding LogContent}" LogLevel="{Binding LogType}"></c:LogEntryControl>
-          </DataTemplate>
-        </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <c:LogEntryControl LogContent="{Binding LogContent}" LogLevel="{Binding LogType}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
 
-        <ItemsControl.ItemsPanel>
-          <ItemsPanelTemplate>
-            <StackPanel Name="LogStackPanel" Orientation="Vertical" Spacing="0" Margin="0 0 10 50" />
-          </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Name="LogStackPanel" Orientation="Vertical" Spacing="0" Margin="0 0 10 50" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-      </ItemsControl>
+            </ItemsControl>
 
-    </ScrollViewer>
+        </ScrollViewer>
 
-  </Panel>
+    </Panel>
 
 </UserControl>

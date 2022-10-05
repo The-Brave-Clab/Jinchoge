@@ -104,7 +104,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             Task.Run(() =>
             {
                 float time = 0;
-                while (time < 1)
+                while (time < 0.5f)
                 {
                     Thread.Sleep(100);
                     time += 0.1f;
