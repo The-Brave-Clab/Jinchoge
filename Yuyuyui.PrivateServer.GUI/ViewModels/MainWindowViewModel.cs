@@ -43,7 +43,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             {
                 status = value;
 
-                IsButtonEnabled = status != ServerStatus.Starting;
                 IsStopped = status == ServerStatus.Stopped;
                 IsStarted = status == ServerStatus.Started;
                 IsLoading = status == ServerStatus.Starting;
@@ -93,14 +92,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        }
-
-        private bool isButtonEnabled;
-
-        public bool IsButtonEnabled
-        {
-            get => isButtonEnabled;
-            set => this.RaiseAndSetIfChanged(ref isButtonEnabled, value);
         }
 
         private bool isStopped;

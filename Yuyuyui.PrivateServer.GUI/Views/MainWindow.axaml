@@ -4,9 +4,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels"
         xmlns:uc="clr-namespace:Yuyuyui.PrivateServer.GUI.Controls"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/item_10001.ico"
         mc:Ignorable="d"
-        d:DesignWidth="500" d:DesignHeight="300"
+        d:DesignWidth="1000" d:DesignHeight="600"
         Width="1000" Height="600" CanResize="False"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="PreferSystemChrome"
@@ -53,7 +53,16 @@
             <Panel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="150">
                 <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" Opacity="0.7"></Panel>
                 <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 0 10 10">
-                    <Panel IsEnabled="{Binding IsButtonEnabled}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="300" Height="100" Margin="0 0 20 0">
+                    <Panel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20 0 0 0">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <Image Source="/Assets/Icons/Blessing.png" Width="80" Height="80"></Image>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                              <TextBlock Text="Y3PS" FontSize="40"></TextBlock>
+                              <TextBlock Text="Private Server for Mobile Game YUYUYUI"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Panel>
+                    <Panel IsEnabled="{Binding !IsLoading}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="300" Height="100" Margin="0 0 20 0">
                         <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Command="{Binding ButtonPress}" CommandParameter="" IsHitTestVisible="True">
                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Width="280" Height="80" Spacing="5" Margin="0 3 0 0">
                                 <Panel DockPanel.Dock="Left" Width="80" VerticalAlignment="Center" HorizontalAlignment="Stretch">
@@ -92,9 +101,9 @@
 
             <Panel Name="ContentPage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" Opacity="0.6"></Panel>
-                <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 10 10 10">
+                <TransitioningContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 10 10 10">
                     <uc:ConsolePage Name="ConsolePage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                </Panel>
+                </TransitioningContentControl>
             </Panel>
 
         </DockPanel>

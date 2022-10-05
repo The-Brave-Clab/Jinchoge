@@ -13,16 +13,16 @@
     <FileVersion>0.1.0</FileVersion>
     <DebugType>embedded</DebugType>
     <LangVersion>latest</LangVersion>
+    <ApplicationIcon>Assets\item_10001.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
-    <AvaloniaXaml Remove="Styles\**" />
-    <Compile Remove="Styles\**" />
-    <EmbeddedResource Remove="Styles\**" />
-    <None Remove="Styles\**" />
     <Folder Include="Assets\Icons\" />
     <Folder Include="Models\" />
     <None Remove=".gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\item_10001.ico" />
   </ItemGroup>
   <ItemGroup>
     <!--This helps with theme dll-s trimming.
