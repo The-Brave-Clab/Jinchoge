@@ -1,6 +1,9 @@
 using Avalonia.Controls;
 using System;
 using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
+using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Threading;
 using Yuyuyui.PrivateServer.GUI.ViewModels;
@@ -94,6 +97,27 @@ namespace Yuyuyui.PrivateServer.GUI.Views
         private void WindowOnClosing(object? sender, CancelEventArgs e)
         {
             ((MainWindowViewModel) DataContext!).StopPrivateServer();
+        }
+
+        private void OnPointerEnterNavigation(object? sender, PointerEventArgs e)
+        {
+            Task.Run(() =>
+            {
+                float time = 0;
+                while (time < 1)
+                {
+                    Thread.Sleep(100);
+                    time += 0.1f;
+                    if (!NavigationPanel.IsPointerOver) return;
+                }
+
+                Dispatcher.UIThread.Post(() => MainSplitView.IsPaneOpen = true);
+            });
+        }
+
+        private void OnPointerLeaveNavigation(object? sender, PointerEventArgs e)
+        {
+            MainSplitView.IsPaneOpen = false;
         }
     }
 }

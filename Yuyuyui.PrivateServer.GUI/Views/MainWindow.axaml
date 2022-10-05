@@ -48,7 +48,9 @@
 
         <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LastChildFill="True">
 
-            <Panel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="40" IsHitTestVisible="False" Background="Black" Opacity="0.7" />
+            <Panel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="40" IsHitTestVisible="False" Background="Black" Opacity="0.7">
+                <TextBlock Text="{Binding $parent[Window].Title}" Foreground="Gray" FontSize="12" TextAlignment="{Binding TitleAlignment}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="{Binding TitleMargin}"></TextBlock>
+            </Panel>
 
             <Panel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="150">
                 <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" Opacity="0.7"></Panel>
@@ -94,17 +96,26 @@
                 </Panel>
             </Panel>
 
-            <Panel Name="NavigationPanel" DockPanel.Dock="Left" VerticalAlignment="Stretch" Width="150">
-                <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" Opacity="0.5"></Panel>
-                <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 0 10 0"></Panel>
-            </Panel>
+            <SplitView Name="MainSplitView"
+                       IsPaneOpen="False"
+                       DisplayMode="CompactInline"
+                       OpenPaneLength="300"
+                       Background="Transparent"
+                       PaneBackground="Transparent">
+                <SplitView.Pane>
+                    <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="NavigationPanel"
+                           PointerEnter="OnPointerEnterNavigation" PointerLeave="OnPointerLeaveNavigation" Background="Black" Opacity="0.5">
+                        <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 0 10 0" Background="Transparent"></Panel>
+                    </Panel>
+                </SplitView.Pane>
 
-            <Panel Name="ContentPage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" Opacity="0.6"></Panel>
-                <TransitioningContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 10 10 10">
-                    <uc:ConsolePage Name="ConsolePage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                </TransitioningContentControl>
-            </Panel>
+                <Panel Name="ContentPage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" Opacity="0.6"></Panel>
+                    <TransitioningContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 10 10 10">
+                        <uc:ConsolePage Name="ConsolePage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    </TransitioningContentControl>
+                </Panel>
+            </SplitView>
 
         </DockPanel>
     </Panel>

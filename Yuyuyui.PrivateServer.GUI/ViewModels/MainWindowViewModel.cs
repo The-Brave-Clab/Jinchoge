@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using System.Threading;
 using Yuyuyui.PrivateServer.GUI.Views;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
+using Avalonia;
+using Avalonia.Media;
 using Avalonia.Threading;
 using ReactiveUI;
 using Titanium.Web.Proxy.Models;
@@ -115,6 +118,12 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             get => isLoading;
             set => this.RaiseAndSetIfChanged(ref isLoading, value);
         }
+
+        public TextAlignment TitleAlignment => RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? 
+            TextAlignment.Left : TextAlignment.Center;
+
+        public Thickness TitleMargin => RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+            new Thickness(10, 5, 0, 0) : new Thickness(0, 5, 0, 0);
 
         public void StartPrivateServer()
         {
