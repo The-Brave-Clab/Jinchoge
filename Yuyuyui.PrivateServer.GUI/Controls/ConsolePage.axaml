@@ -26,7 +26,7 @@
 
         <ItemsControl.ItemsPanel>
           <ItemsPanelTemplate>
-            <StackPanel Name="LogStackPanel" Orientation="Vertical" Spacing="5" Margin="0 0 10 50" />
+            <StackPanel Name="LogStackPanel" Orientation="Vertical" Spacing="0" Margin="0 0 10 50" />
           </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
 
