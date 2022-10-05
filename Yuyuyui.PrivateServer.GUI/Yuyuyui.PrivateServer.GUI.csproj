@@ -16,8 +16,12 @@
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
+    <AvaloniaXaml Remove="Styles\**" />
+    <Compile Remove="Styles\**" />
+    <EmbeddedResource Remove="Styles\**" />
+    <None Remove="Styles\**" />
+    <Folder Include="Assets\Icons\" />
     <Folder Include="Models\" />
-    <Folder Include="Styles\" />
     <None Remove=".gitignore" />
   </ItemGroup>
   <ItemGroup>
