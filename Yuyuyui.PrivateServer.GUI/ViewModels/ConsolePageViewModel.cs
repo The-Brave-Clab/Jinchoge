@@ -24,6 +24,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
     public class LogEntry
     {
         public LogEntryControl.LogType LogType { get; set; }
-        public string LogContent { get; set; }
+        public string LogContent { get; set; } = "";
     }
 }
