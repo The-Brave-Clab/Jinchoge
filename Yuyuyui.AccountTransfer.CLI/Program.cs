@@ -40,7 +40,7 @@ namespace Yuyuyui.AccountTransfer.CLI
 
             await LocalData.Update();
 
-            var endpoint = Proxy<AccountTransferProxyCallbacks>.StartProxy();
+            var endpoint = Proxy<AccountTransferProxyCallbacks>.Start();
 
             //foreach (var endPoint in proxyServer.ProxyEndPoints)
             Console.Write("Listening at ");

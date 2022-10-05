@@ -38,7 +38,7 @@ namespace Yuyuyui.PrivateServer.CLI
 
             await LocalData.Update();
 
-            var endpoint = Proxy<PrivateServerProxyCallbacks>.StartProxy();
+            var endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
 
             //foreach (var endPoint in proxyServer.ProxyEndPoints)
             Console.Write("Listening at ");

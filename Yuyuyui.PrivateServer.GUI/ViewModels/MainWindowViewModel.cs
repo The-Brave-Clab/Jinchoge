@@ -1,28 +1,27 @@
 ﻿using System;
-using System.Reactive;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Avalonia.Controls;
-using ReactiveUI;
-using System.Runtime.InteropServices;
 using System.Threading;
-using Avalonia.Media;
 using Yuyuyui.PrivateServer.GUI.Views;
+using System.ComponentModel;
 using Avalonia.Threading;
-using static Yuyuyui.PrivateServer.PlayerProfile;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private MainWindow? window = null;
-        public void SetWindow(MainWindow window)
-        { this.window = window; }
+        private WeakReference<MainWindow?> window = new (null);
 
-        public void UpdateLocalData()
+        public void SetWindow(MainWindow window)
         {
-            var toolbarVM = (MainWindowBottomToolbarViewModel) window!.BottomToolBar.DataContext!;
+            this.window.SetTarget(window);
+        }
+
+        public bool ServerStarted { get; private set; } = false;
+
+        public void StartPrivateServer()
+        {
+            window.TryGetTarget(out var mainWindow);
+            var toolbarVM = (MainWindowBottomToolbarViewModel) mainWindow!.BottomToolBar.DataContext!;
             toolbarVM.ClearProgressBar();
 
             toolbarVM.IsProgressIndeterminate = true;
@@ -60,17 +59,34 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                             currentCount = current;
                             totalCount = total;
                         }
+
                         SetToolbarText();
                     }
                 )
                 .ContinueWith(t => Console.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted)
                 .ContinueWith(_ =>
                 {
-                    toolbarVM.ToolbarProgress = totalCount == 0 ? 0 : 100;
-                    canSet = false;
-                    Thread.Sleep(2000);
-                    toolbarVM.ClearProgressBar();
+                    Task.Run(() =>
+                    {
+                        toolbarVM.ToolbarProgress = totalCount == 0 ? 0 : 100;
+                        canSet = false;
+                        Thread.Sleep(2000);
+                        toolbarVM.ClearProgressBar();
+                    });
+
+                    var endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
+
+                    ServerStarted = true;
+
+                    Utils.LogTrace("Private Server Started!");
                 });
+        }
+
+        public void StopPrivateServer()
+        {
+            if (!ServerStarted) return;
+
+            Proxy<PrivateServerProxyCallbacks>.Stop();
         }
     }
 }

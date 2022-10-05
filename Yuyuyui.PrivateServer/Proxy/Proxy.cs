@@ -22,7 +22,7 @@ namespace Yuyuyui.PrivateServer
         private static ExplicitProxyEndPoint? explicitEndPoint = null;
         private static TCallbacks? callbacks = null;
 
-        public static ExplicitProxyEndPoint StartProxy(int port = DEFAULT_PORT)
+        public static ExplicitProxyEndPoint Start(int port = DEFAULT_PORT)
         {
             callbacks = new TCallbacks();
 

@@ -1,0 +1,33 @@
+<ContentControl xmlns="https://github.com/avaloniaui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:c="clr-namespace:Yuyuyui.PrivateServer.GUI.Controls" 
+                x:Class="Yuyuyui.PrivateServer.GUI.Controls.LogEntryControl">
+
+    <Design.PreviewWith>
+        <c:LogEntryControl LogContent="Test Log" LogLevel="Warning"></c:LogEntryControl>
+    </Design.PreviewWith>
+
+    <ContentControl.Resources>
+        <c:LogTypeToBackgroundBrushConverter x:Key="BackgroundBrushConverter" />
+        <c:LogTypeToBorderBrushConverter x:Key="BorderBrushConverter" />
+        <c:LogTypeToStringConverter x:Key="StringConverter" />
+    </ContentControl.Resources>
+
+    <ContentControl.Styles>
+        <Style Selector="c|LogEntryControl">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Button CornerRadius="0" Background="Transparent" HorizontalAlignment="Stretch" VerticalContentAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                            <TextBlock Text="{TemplateBinding CreatedTime}" Width="65" TextAlignment="Right" VerticalAlignment="Center" Opacity="0.5" FontSize="12" />
+                            <Border Background="{TemplateBinding LogLevel, Converter={StaticResource BackgroundBrushConverter}}" BorderBrush="{TemplateBinding LogLevel, Converter={StaticResource BorderBrushConverter}}" BorderThickness="1" CornerRadius="3" VerticalAlignment="Center">
+                                <TextBlock Text="{TemplateBinding LogLevel, Converter={StaticResource StringConverter}}" Foreground="{TemplateBinding LogLevel, Converter={StaticResource BorderBrushConverter}}" Width="70" TextAlignment="Center" FontSize="12" VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock Text="{TemplateBinding LogContent}" VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left" />
+                        </StackPanel>
+                    </Button>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+    </ContentControl.Styles>
+</ContentControl>
