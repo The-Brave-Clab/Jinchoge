@@ -26,7 +26,7 @@ namespace Yuyuyui.PrivateServer.GUI.Controls
         {
             var scrollViewer = sender as ScrollViewer;
 
-            double currentOffsetY = scrollViewer.Offset.Y;
+            double currentOffsetY = scrollViewer!.Offset.Y;
 
             // Only scroll to bottom when the extent changed. Otherwise you can't scroll up
             if (e.ExtentDelta.Y != 0)

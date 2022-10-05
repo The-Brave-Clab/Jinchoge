@@ -4,6 +4,8 @@ using System.Threading;
 using Yuyuyui.PrivateServer.GUI.Views;
 using System.ComponentModel;
 using Avalonia.Threading;
+using ReactiveUI;
+using Titanium.Web.Proxy.Models;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels
 {
@@ -15,11 +17,109 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         {
             this.window.SetTarget(window);
         }
+        private enum ServerStatus
+        {
+            Stopped,
+            Starting,
+            Started
+        }
 
-        public bool ServerStarted { get; private set; } = false;
+        public MainWindowViewModel()
+            : base()
+        {
+            endpoint = null;
+            buttonContent = "";
+            buttonDescription = "";
+            Status = ServerStatus.Stopped;
+        }
+
+        private ServerStatus status = ServerStatus.Stopped;
+        private ExplicitProxyEndPoint? endpoint;
+
+        private ServerStatus Status
+        {
+            get => status;
+            set
+            {
+                status = value;
+
+                IsStopped = status == ServerStatus.Stopped;
+                IsStarted = status == ServerStatus.Started;
+                IsLoading = status == ServerStatus.Starting;
+                ButtonContent = status switch
+                {
+                    ServerStatus.Stopped => "START",
+                    ServerStatus.Starting => "STARTING",
+                    ServerStatus.Started => "STOP",
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+                ButtonDescription = status switch
+                {
+                    ServerStatus.Stopped => "Start the Private Server",
+                    ServerStatus.Starting => "Starting, Please Wait...",
+                    ServerStatus.Started => $"Listening at Port {endpoint!.Port}",
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            }
+        }
+
+        private string buttonContent;
+        public string ButtonContent
+        {
+            get => buttonContent;
+            set => this.RaiseAndSetIfChanged(ref buttonContent, value);
+        }
+
+        private string buttonDescription;
+        public string ButtonDescription
+        {
+            get => buttonDescription;
+            set => this.RaiseAndSetIfChanged(ref buttonDescription, value);
+        }
+
+        public void ButtonPress()
+        {
+            switch (Status)
+            {
+                case ServerStatus.Stopped:
+                    StartPrivateServer();
+                    return;
+                case ServerStatus.Starting:
+                    return;
+                case ServerStatus.Started:
+                    StopPrivateServer();
+                    return;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private bool isStopped;
+
+        public bool IsStopped
+        {
+            get => isStopped;
+            set => this.RaiseAndSetIfChanged(ref isStopped, value);
+        }
+
+        private bool isStarted;
+        public bool IsStarted
+        {
+            get => isStarted;
+            set => this.RaiseAndSetIfChanged(ref isStarted, value);
+        }
+
+        private bool isLoading;
+        public bool IsLoading
+        {
+            get => isLoading;
+            set => this.RaiseAndSetIfChanged(ref isLoading, value);
+        }
 
         public void StartPrivateServer()
         {
+            Status = ServerStatus.Starting;
+
             window.TryGetTarget(out var mainWindow);
             var toolbarVM = (MainWindowBottomToolbarViewModel) mainWindow!.BottomToolBar.DataContext!;
             toolbarVM.ClearProgressBar();
@@ -74,9 +174,9 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                         toolbarVM.ClearProgressBar();
                     });
 
-                    var endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
+                    endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
 
-                    ServerStarted = true;
+                    Status = ServerStatus.Started;
 
                     Utils.LogTrace("Private Server Started!");
                 });
@@ -84,9 +184,16 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
         public void StopPrivateServer()
         {
-            if (!ServerStarted) return;
+            if (Status == ServerStatus.Stopped) return;
 
-            Proxy<PrivateServerProxyCallbacks>.Stop();
+            if (Status == ServerStatus.Started)
+            {
+                Proxy<PrivateServerProxyCallbacks>.Stop();
+            }
+
+            Status = ServerStatus.Stopped;
+
+            Utils.LogTrace("Private Server Stopped!");
         }
     }
 }
