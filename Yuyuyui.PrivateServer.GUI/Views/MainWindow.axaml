@@ -61,7 +61,7 @@
                 <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 0 10 10">
                     <Panel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20 0 0 0">
                         <StackPanel Orientation="Horizontal" Spacing="10">
-                            <Image Source="/Assets/Icons/Blessing.png" Width="80" Height="80"></Image>
+                            <Image Source="/Assets/Icons/General/Blessing.png" Width="80" Height="80"></Image>
                             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                                 <TextBlock Text="Y3PS" FontSize="40"></TextBlock>
                                 <TextBlock Text="Private Server for Mobile Game YUYUYUI"></TextBlock>
@@ -79,13 +79,13 @@
                                        HorizontalAlignment="Stretch">
                                     <Image IsVisible="{Binding IsLoading}" Classes="MainButtonIcon" Width="50"
                                            Height="50" VerticalAlignment="Center" HorizontalAlignment="Right"
-                                           Source="/Assets/Icons/Loading.png" />
+                                           Source="/Assets/Icons/General/Loading.png" />
                                     <Image IsVisible="{Binding IsStopped}" Width="50" Height="50"
                                            VerticalAlignment="Center" HorizontalAlignment="Right"
-                                           Source="/Assets/Icons/Start.png" />
+                                           Source="/Assets/Icons/General/Start.png" />
                                     <Image IsVisible="{Binding IsStarted}" Width="50" Height="50"
                                            VerticalAlignment="Center" HorizontalAlignment="Right"
-                                           Source="/Assets/Icons/Stop.png" />
+                                           Source="/Assets/Icons/General/Stop.png" />
                                 </Panel>
                                 <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                                             Orientation="Vertical">
@@ -120,15 +120,76 @@
             <SplitView Name="MainSplitView"
                        IsPaneOpen="False"
                        DisplayMode="CompactInline"
-                       OpenPaneLength="300"
+                       CompactPaneLength="60"
+                       OpenPaneLength="225"
                        Background="Transparent"
                        PaneBackground="Transparent">
                 <SplitView.Pane>
                     <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="NavigationPanel"
-                           PointerEnter="OnPointerEnterNavigation" PointerLeave="OnPointerLeaveNavigation"
-                           Background="Black" Opacity="0.5">
-                        <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 0 10 0"
-                               Background="Transparent">
+                           PointerEnter="OnPointerEnterNavigation" PointerLeave="OnPointerLeaveNavigation">
+                        <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                               Background="Black" Opacity="0.5">
+                        </Panel>
+                        <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
+
+                            <StackPanel Orientation="Vertical" Spacing="0" Margin="0">
+                                <StackPanel.Styles>
+                                    <StyleInclude Source="/Assets/Styles/NavigationButton.axaml" />
+
+                                    <Style Selector="uc|NavigationButton">
+                                        <Setter Property="GroupName" Value="0"></Setter>
+                                        <Setter Property="Height" Value="50"></Setter>
+                                    </Style>
+
+                                    <Style Selector="uc|NavigationButton Image">
+                                        <Setter Property="Width" Value="30"></Setter>
+                                        <Setter Property="Height" Value="30"></Setter>
+                                        <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+                                    </Style>
+
+                                    <Style Selector="uc|NavigationButton TextBlock">
+                                        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                                        <Setter Property="FontSize" Value="20"></Setter>
+                                    </Style>
+                                </StackPanel.Styles>
+
+                                <uc:NavigationButton IsChecked="True">
+                                    <Grid ColumnDefinitions="40,*">
+                                        <Image Source="/Assets/Icons/Navigation/console.png" Grid.Column="0" />
+                                        <TextBlock Text="LOG" Grid.Column="1" />
+                                    </Grid>
+                                </uc:NavigationButton>
+
+                                <uc:NavigationButton>
+                                    <Grid ColumnDefinitions="40,*">
+                                        <Image Source="/Assets/Icons/Navigation/view-more.png" Grid.Column="0" />
+                                        <TextBlock Text="STATUS" Grid.Column="1" />
+                                    </Grid>
+                                </uc:NavigationButton>
+
+                                <uc:NavigationButton>
+                                    <Grid ColumnDefinitions="40,*">
+                                        <Image Source="/Assets/Icons/Navigation/settings.png" Grid.Column="0" />
+                                        <TextBlock Text="SETTINGS" Grid.Column="1" />
+                                    </Grid>
+                                </uc:NavigationButton>
+
+                                <uc:NavigationButton>
+                                    <Grid ColumnDefinitions="40,*">
+                                        <Image Source="/Assets/Icons/Navigation/help.png" Grid.Column="0" />
+                                        <TextBlock Text="TUTORIAL" Grid.Column="1" />
+                                    </Grid>
+                                </uc:NavigationButton>
+
+                                <uc:NavigationButton>
+                                    <Grid ColumnDefinitions="40,*">
+                                        <Image Source="/Assets/Icons/Navigation/info.png" Grid.Column="0" />
+                                        <TextBlock Text="ABOUT" Grid.Column="1" />
+                                    </Grid>
+                                </uc:NavigationButton>
+
+                            </StackPanel>
+
                         </Panel>
                     </Panel>
                 </SplitView.Pane>
