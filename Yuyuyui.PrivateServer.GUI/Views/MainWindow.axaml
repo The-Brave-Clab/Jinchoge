@@ -153,35 +153,35 @@
                                     </Style>
                                 </StackPanel.Styles>
 
-                                <uc:NavigationButton IsChecked="True">
+                                <uc:NavigationButton Name="LogButton" Checked="OnNavigationButtonChecked" IsChecked="True">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/console.png" Grid.Column="0" />
                                         <TextBlock Text="LOG" Grid.Column="1" />
                                     </Grid>
                                 </uc:NavigationButton>
 
-                                <uc:NavigationButton>
+                                <uc:NavigationButton Name="StatusButton" Checked="OnNavigationButtonChecked">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/view-more.png" Grid.Column="0" />
                                         <TextBlock Text="STATUS" Grid.Column="1" />
                                     </Grid>
                                 </uc:NavigationButton>
 
-                                <uc:NavigationButton>
+                                <uc:NavigationButton Name="SettingsButton" Checked="OnNavigationButtonChecked">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/settings.png" Grid.Column="0" />
                                         <TextBlock Text="SETTINGS" Grid.Column="1" />
                                     </Grid>
                                 </uc:NavigationButton>
 
-                                <uc:NavigationButton>
+                                <uc:NavigationButton Name="TutorialButton" Checked="OnNavigationButtonChecked">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/help.png" Grid.Column="0" />
                                         <TextBlock Text="TUTORIAL" Grid.Column="1" />
                                     </Grid>
                                 </uc:NavigationButton>
 
-                                <uc:NavigationButton>
+                                <uc:NavigationButton Name="AboutButton" Checked="OnNavigationButtonChecked">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/info.png" Grid.Column="0" />
                                         <TextBlock Text="ABOUT" Grid.Column="1" />
@@ -194,12 +194,12 @@
                     </Panel>
                 </SplitView.Pane>
 
-                <Panel Name="ContentPage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" Opacity="0.6"></Panel>
-                    <TransitioningContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                 Margin="10 10 10 10">
-                        <uc:ConsolePage Name="ConsolePage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                    </TransitioningContentControl>
+                    <ContentControl Name="MainPageContentControl"
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                    Margin="10 10 10 10">
+                    </ContentControl>
                 </Panel>
             </SplitView>
 

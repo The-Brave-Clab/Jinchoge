@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Threading;
 using Yuyuyui.PrivateServer.GUI.ViewModels;
@@ -14,6 +16,11 @@ namespace Yuyuyui.PrivateServer.GUI.Views
     public partial class MainWindow : Window
     {
         private ConsolePageViewModel consolePageVM;
+        private ConsolePage consolePage;
+        private StatusPage statusPage;
+        private SettingsPage settingsPage;
+        private TutorialPage tutorialPage;
+        private AboutPage aboutPage;
 
         public MainWindow()
         {
@@ -29,8 +36,40 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             };
             BottomToolBar.DataContext = bottomToolbarVM;
 
+            consolePage = new ConsolePage
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
             consolePageVM = new ConsolePageViewModel();
-            ConsolePage.DataContext = consolePageVM;
+            consolePage.DataContext = consolePageVM;
+
+            statusPage = new StatusPage()
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
+
+            settingsPage = new SettingsPage()
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
+
+            tutorialPage = new TutorialPage()
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
+
+            aboutPage = new AboutPage()
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
+
+
+            MainPageContentControl.Content = consolePage;
 
             var logTextDefaultBrush = LogText.Foreground;
 
@@ -92,6 +131,8 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                     });
                 }
             );
+            
+            Utils.LogTrace("Initialized GUI.");
         }
 
         private void WindowOnClosing(object? sender, CancelEventArgs e)
@@ -118,6 +159,24 @@ namespace Yuyuyui.PrivateServer.GUI.Views
         private void OnPointerLeaveNavigation(object? sender, PointerEventArgs e)
         {
             MainSplitView.IsPaneOpen = false;
+        }
+
+        private void OnNavigationButtonChecked(object? sender, RoutedEventArgs e)
+        {
+            NavigationButton button = (sender as NavigationButton)!;
+
+            if (MainPageContentControl != null)
+            {
+                MainPageContentControl.Content = button.Name switch
+                {
+                    "LogButton" => consolePage,
+                    "StatusButton" => statusPage,
+                    "SettingsButton" => settingsPage,
+                    "TutorialButton" => tutorialPage,
+                    "AboutButton" => aboutPage,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            }
         }
     }
 }
