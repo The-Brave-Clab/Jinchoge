@@ -1,11 +1,4 @@
-﻿using ReactiveUI;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Yuyuyui.PrivateServer.GUI.Controls;
+﻿using System.Collections.ObjectModel;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels
 {
@@ -23,7 +16,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
     }
     public class LogEntry
     {
-        public LogEntryControl.LogType LogType { get; set; }
+        public Utils.LogType LogType { get; set; }
         public string LogContent { get; set; } = "";
     }
 }

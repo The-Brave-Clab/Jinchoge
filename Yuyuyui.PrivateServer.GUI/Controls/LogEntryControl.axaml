@@ -3,10 +3,6 @@
                 xmlns:c="clr-namespace:Yuyuyui.PrivateServer.GUI.Controls"
                 x:Class="Yuyuyui.PrivateServer.GUI.Controls.LogEntryControl">
 
-    <Design.PreviewWith>
-        <c:LogEntryControl LogContent="Test Log" LogLevel="Warning" />
-    </Design.PreviewWith>
-
     <ContentControl.Resources>
         <c:LogTypeToBackgroundBrushConverter x:Key="BackgroundBrushConverter" />
         <c:LogTypeToBorderBrushConverter x:Key="BorderBrushConverter" />

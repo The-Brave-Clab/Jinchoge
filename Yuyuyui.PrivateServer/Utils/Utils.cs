@@ -176,41 +176,41 @@ namespace Yuyuyui.PrivateServer
         #endregion
 
         #region Logging
+        public enum LogType
+        {
+            Trace,
+            Info,
+            Warning,
+            Error
+        }
 
-        public delegate void LogCallback(object obj);
-
-        private static LogCallback? LogTraceFunction;
+        public delegate void LogCallback(object obj, LogType logType);
+        
         private static LogCallback? LogFunction;
-        private static LogCallback? LogWarningFunction;
-        private static LogCallback? LogErrorFunction;
 
         public static void LogTrace(object obj)
         {
-            LogTraceFunction?.Invoke(obj);
+            LogFunction?.Invoke(obj, LogType.Trace);
         }
 
         public static void Log(object obj)
         {
-            LogFunction?.Invoke(obj);
+            LogFunction?.Invoke(obj, LogType.Info);
         }
 
         public static void LogWarning(object obj)
         {
-            LogWarningFunction?.Invoke(obj);
+            LogFunction?.Invoke(obj, LogType.Warning);
         }
 
         public static void LogError(object obj)
         {
-            LogErrorFunction?.Invoke(obj);
+            LogFunction?.Invoke(obj, LogType.Error);
         }
 
-        public static void SetLogCallbacks(LogCallback logTrace, LogCallback log, LogCallback logWarning,
-            LogCallback logError)
+        public static void SetLogCallback(LogCallback logFunc)
         {
-            LogTraceFunction = logTrace;
-            LogFunction = log;
-            LogWarningFunction = logWarning;
-            LogErrorFunction = logError;
+            LogFunction = logFunc;
         }
 
         #endregion

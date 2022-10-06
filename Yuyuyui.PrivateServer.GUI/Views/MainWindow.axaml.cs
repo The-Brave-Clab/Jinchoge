@@ -77,60 +77,25 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             MainPageContentControl.Content = consolePage;
 
             var logTextDefaultBrush = LogText.Foreground;
-
-            Utils.SetLogCallbacks(
-                o =>
+            
+            Utils.SetLogCallback(
+                (o, t) =>
                 {
                     Dispatcher.UIThread.Post(() =>
                     {
-                        LogText.Foreground = Brushes.Green;
                         string content = o.ToString() ?? "";
-                        bottomToolbarVM.ToolbarText = content;
-                        mainWindowVM.consolePageVM.Logs.Add(new()
+                        LogText.Foreground = t switch
                         {
-                            LogType = LogEntryControl.LogType.Trace,
-                            LogContent = content
-                        });
-                    });
-                },
-                o =>
-                {
-                    Dispatcher.UIThread.Post(() =>
-                    {
-                        LogText.Foreground = logTextDefaultBrush;
-                        string content = o.ToString() ?? "";
+                            Utils.LogType.Trace => Brushes.Green,
+                            Utils.LogType.Info => logTextDefaultBrush,
+                            Utils.LogType.Warning => Brushes.Yellow,
+                            Utils.LogType.Error => Brushes.Red,
+                            _ => throw new ArgumentOutOfRangeException(nameof(t), t, null)
+                        };
                         bottomToolbarVM.ToolbarText = content;
-                        mainWindowVM.consolePageVM.Logs.Add(new()
+                        mainWindowVM.consolePageVM.Logs.Add(new LogEntry
                         {
-                            LogType = LogEntryControl.LogType.Log,
-                            LogContent = content
-                        });
-                    });
-                },
-                o =>
-                {
-                    Dispatcher.UIThread.Post(() =>
-                    {
-                        LogText.Foreground = Brushes.Yellow;
-                        string content = o.ToString() ?? "";
-                        bottomToolbarVM.ToolbarText = content;
-                        mainWindowVM.consolePageVM.Logs.Add(new()
-                        {
-                            LogType = LogEntryControl.LogType.Warning,
-                            LogContent = content
-                        });
-                    });
-                },
-                o =>
-                {
-                    Dispatcher.UIThread.Post(() =>
-                    {
-                        LogText.Foreground = Brushes.Red;
-                        string content = o.ToString() ?? "";
-                        bottomToolbarVM.ToolbarText = content;
-                        mainWindowVM.consolePageVM.Logs.Add(new()
-                        {
-                            LogType = LogEntryControl.LogType.Error,
+                            LogType = t,
                             LogContent = content
                         });
                     });

@@ -10,18 +10,10 @@ namespace Yuyuyui.PrivateServer.GUI.Controls
 {
     public partial class LogEntryControl : ContentControl
     {
-        public enum LogType
-        {
-            Trace,
-            Log,
-            Warning,
-            Error
-        }
+        public static readonly StyledProperty<Utils.LogType> LogLevelProperty =
+            AvaloniaProperty.Register<LogEntryControl, Utils.LogType>(nameof(LogLevel));
 
-        public static readonly StyledProperty<LogType> LogLevelProperty =
-            AvaloniaProperty.Register<LogEntryControl, LogType>(nameof(LogLevel));
-
-        public LogType LogLevel
+        public Utils.LogType LogLevel
         {
             get => GetValue(LogLevelProperty);
             set => SetValue(LogLevelProperty, value);
@@ -63,17 +55,17 @@ namespace Yuyuyui.PrivateServer.GUI.Controls
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is LogEntryControl.LogType logType && targetType.IsAssignableTo(typeof(IBrush)))
+            if (value is Utils.LogType logType && targetType.IsAssignableTo(typeof(IBrush)))
             {
                 switch (logType)
                 {
-                    case LogEntryControl.LogType.Trace:
+                    case Utils.LogType.Trace:
                         return new SolidColorBrush(Color.FromArgb(0x4f, 0x00, 0x00, 0x7f));
-                    case LogEntryControl.LogType.Log:
+                    case Utils.LogType.Info:
                         return new SolidColorBrush(Color.FromArgb(0x4f, 0x00, 0x7f, 0x00));
-                    case LogEntryControl.LogType.Warning:
+                    case Utils.LogType.Warning:
                         return new SolidColorBrush(Color.FromArgb(0x4f, 0x7f, 0x7f, 0x00));
-                    case LogEntryControl.LogType.Error:
+                    case Utils.LogType.Error:
                         return new SolidColorBrush(Color.FromArgb(0x4f, 0x7f, 0x00, 0x00));
                     default:
                         // invalid option, return the exception below
@@ -94,17 +86,17 @@ namespace Yuyuyui.PrivateServer.GUI.Controls
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is LogEntryControl.LogType logType && targetType.IsAssignableTo(typeof(IBrush)))
+            if (value is Utils.LogType logType && targetType.IsAssignableTo(typeof(IBrush)))
             {
                 switch (logType)
                 {
-                    case LogEntryControl.LogType.Trace:
+                    case Utils.LogType.Trace:
                         return new SolidColorBrush(Color.FromArgb(0xff, 0x99, 0x99, 0xff));
-                    case LogEntryControl.LogType.Log:
+                    case Utils.LogType.Info:
                         return new SolidColorBrush(Color.FromArgb(0xff, 0x99, 0xff, 0x99));
-                    case LogEntryControl.LogType.Warning:
+                    case Utils.LogType.Warning:
                         return new SolidColorBrush(Color.FromArgb(0xff, 0xff, 0xff, 0x99));
-                    case LogEntryControl.LogType.Error:
+                    case Utils.LogType.Error:
                         return new SolidColorBrush(Color.FromArgb(0xff, 0xff, 0x99, 0x99));
                     default:
                         // invalid option, return the exception below
@@ -125,7 +117,7 @@ namespace Yuyuyui.PrivateServer.GUI.Controls
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is LogEntryControl.LogType logType && targetType.IsAssignableTo(typeof(string)))
+            if (value is Utils.LogType logType && targetType.IsAssignableTo(typeof(string)))
             {
                 return logType.ToString("G").ToUpper();
             }
