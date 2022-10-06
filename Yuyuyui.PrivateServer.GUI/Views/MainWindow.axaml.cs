@@ -15,15 +15,20 @@ namespace Yuyuyui.PrivateServer.GUI.Views
 {
     public partial class MainWindow : Window
     {
-        private ConsolePageViewModel consolePageVM;
         private ConsolePage consolePage;
         private StatusPage statusPage;
         private SettingsPage settingsPage;
         private TutorialPage tutorialPage;
         private AboutPage aboutPage;
 
+        private MainWindowViewModel mainWindowVM;
+
         public MainWindow()
         {
+            mainWindowVM = new MainWindowViewModel();
+            mainWindowVM.SetWindow(this);
+            DataContext = mainWindowVM;
+            
             InitializeComponent();
 
             var bottomToolbarVM = new MainWindowBottomToolbarViewModel
@@ -39,30 +44,30 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             consolePage = new ConsolePage
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
+                VerticalAlignment = VerticalAlignment.Stretch,
+                DataContext = mainWindowVM.consolePageVM
             };
-            consolePageVM = new ConsolePageViewModel();
-            consolePage.DataContext = consolePageVM;
 
-            statusPage = new StatusPage()
+            statusPage = new StatusPage
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+                DataContext = mainWindowVM.statusPageVM
+            };
+
+            settingsPage = new SettingsPage
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
             };
 
-            settingsPage = new SettingsPage()
+            tutorialPage = new TutorialPage
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
             };
 
-            tutorialPage = new TutorialPage()
-            {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
-            };
-
-            aboutPage = new AboutPage()
+            aboutPage = new AboutPage
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
@@ -81,7 +86,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                         LogText.Foreground = Brushes.Green;
                         string content = o.ToString() ?? "";
                         bottomToolbarVM.ToolbarText = content;
-                        consolePageVM.Logs.Add(new()
+                        mainWindowVM.consolePageVM.Logs.Add(new()
                         {
                             LogType = LogEntryControl.LogType.Trace,
                             LogContent = content
@@ -95,7 +100,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                         LogText.Foreground = logTextDefaultBrush;
                         string content = o.ToString() ?? "";
                         bottomToolbarVM.ToolbarText = content;
-                        consolePageVM.Logs.Add(new()
+                        mainWindowVM.consolePageVM.Logs.Add(new()
                         {
                             LogType = LogEntryControl.LogType.Log,
                             LogContent = content
@@ -109,7 +114,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                         LogText.Foreground = Brushes.Yellow;
                         string content = o.ToString() ?? "";
                         bottomToolbarVM.ToolbarText = content;
-                        consolePageVM.Logs.Add(new()
+                        mainWindowVM.consolePageVM.Logs.Add(new()
                         {
                             LogType = LogEntryControl.LogType.Warning,
                             LogContent = content
@@ -123,7 +128,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                         LogText.Foreground = Brushes.Red;
                         string content = o.ToString() ?? "";
                         bottomToolbarVM.ToolbarText = content;
-                        consolePageVM.Logs.Add(new()
+                        mainWindowVM.consolePageVM.Logs.Add(new()
                         {
                             LogType = LogEntryControl.LogType.Error,
                             LogContent = content

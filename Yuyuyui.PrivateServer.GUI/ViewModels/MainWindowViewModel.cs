@@ -9,18 +9,23 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using ReactiveUI;
 using Titanium.Web.Proxy.Models;
+using Yuyuyui.PrivateServer.GUI.Controls;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private WeakReference<MainWindow?> window = new (null);
+        private WeakReference<MainWindow?> window = new(null);
 
         public void SetWindow(MainWindow window)
         {
             this.window.SetTarget(window);
         }
-        private enum ServerStatus
+
+        internal ConsolePageViewModel consolePageVM;
+        internal StatusPageViewModel statusPageVM;
+
+        public enum ServerStatus
         {
             Stopped,
             Starting,
@@ -28,12 +33,14 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         }
 
         public MainWindowViewModel()
-            : base()
         {
             endpoint = null;
             buttonContent = "";
             buttonDescription = "";
             Status = ServerStatus.Stopped;
+
+            consolePageVM = new ConsolePageViewModel();
+            statusPageVM = new StatusPageViewModel();
         }
 
         private ServerStatus status = ServerStatus.Stopped;
@@ -63,10 +70,13 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                     ServerStatus.Started => $"Listening at Port {endpoint!.Port}",
                     _ => throw new ArgumentOutOfRangeException()
                 };
+
+                statusPageVM?.SetServerStatus(value);
             }
         }
 
         private string buttonContent;
+
         public string ButtonContent
         {
             get => buttonContent;
@@ -74,6 +84,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         }
 
         private string buttonDescription;
+
         public string ButtonDescription
         {
             get => buttonDescription;
@@ -119,18 +130,20 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref isLoading, value);
         }
 
-        public TextAlignment TitleAlignment => RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? 
-            TextAlignment.Left : TextAlignment.Center;
+        public TextAlignment TitleAlignment => RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+            ? TextAlignment.Left
+            : TextAlignment.Center;
 
-        public Thickness TitleMargin => RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
-            new Thickness(10, 5, 0, 0) : new Thickness(0, 5, 0, 0);
+        public Thickness TitleMargin => RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+            ? new Thickness(10, 5, 0, 0)
+            : new Thickness(0, 5, 0, 0);
 
         public void StartPrivateServer()
         {
             Status = ServerStatus.Starting;
 
             window.TryGetTarget(out var mainWindow);
-            var toolbarVM = (MainWindowBottomToolbarViewModel) mainWindow!.BottomToolBar.DataContext!;
+            var toolbarVM = (MainWindowBottomToolbarViewModel)mainWindow!.BottomToolBar.DataContext!;
             toolbarVM.ClearProgressBar();
 
             toolbarVM.IsProgressIndeterminate = true;
@@ -141,11 +154,12 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             int currentCount = 0;
             int totalCount = 0;
             bool canSet = true;
+
             void SetToolbarText()
             {
-                toolbarVM.ProgressBarText = string.IsNullOrEmpty(currentFileName) && totalCount == 0 ? 
-                    "" : 
-                    $"{currentFileName} ({currentCount}/{totalCount})";
+                toolbarVM.ProgressBarText = string.IsNullOrEmpty(currentFileName) && totalCount == 0
+                    ? ""
+                    : $"{currentFileName} ({currentCount}/{totalCount})";
             }
 
             LocalData.Update(
