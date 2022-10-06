@@ -17,12 +17,7 @@ namespace Yuyuyui.PrivateServer.GUI
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                var viewModel = new MainWindowViewModel();
-                desktop.MainWindow = new MainWindow
-                {
-                    DataContext = viewModel
-                };
-                viewModel.SetWindow((MainWindow)desktop.MainWindow);
+                desktop.MainWindow = new MainWindow();
             }
 
             base.OnFrameworkInitializationCompleted();
