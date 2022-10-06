@@ -17,8 +17,6 @@
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
-    <Folder Include="Assets\Icons\" />
-    <Folder Include="Models\" />
     <None Remove=".gitignore" />
   </ItemGroup>
   <ItemGroup>
@@ -46,5 +44,10 @@
     <ProjectReference Include="..\Yuyuyui.PrivateServer.CLI\Yuyuyui.PrivateServer.CLI.csproj" />
     <ProjectReference Include="..\Yuyuyui.PrivateServer.DataModel\Yuyuyui.PrivateServer.DataModel.csproj" />
     <ProjectReference Include="..\Yuyuyui.PrivateServer\Yuyuyui.PrivateServer.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaXaml Update="Assets\Styles\NavigationButton.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaXaml>
   </ItemGroup>
 </Project>
