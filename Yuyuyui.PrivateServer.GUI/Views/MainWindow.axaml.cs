@@ -169,11 +169,11 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             {
                 MainPageContentControl.Content = button.Name switch
                 {
-                    "LogButton" => consolePage,
-                    "StatusButton" => statusPage,
-                    "SettingsButton" => settingsPage,
-                    "TutorialButton" => tutorialPage,
-                    "AboutButton" => aboutPage,
+                    nameof(LogButton) => consolePage,
+                    nameof(StatusButton) => statusPage,
+                    nameof(SettingsButton) => settingsPage,
+                    nameof(TutorialButton) => tutorialPage,
+                    nameof(AboutButton) => aboutPage,
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }
