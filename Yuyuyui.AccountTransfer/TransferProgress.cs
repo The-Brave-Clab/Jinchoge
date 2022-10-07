@@ -46,7 +46,7 @@ public static class TransferProgress
         { TaskType.EvolutionItems, "Evolution Items" },
         { TaskType.StaminaItems, "Stamina Items" },
         { TaskType.TitleItems, "Titles" },
-        { TaskType.CharacterFamiliarities, "Character Familiarities" }
+        { TaskType.CharacterFamiliarities, "Affinities" }
     };
 
     static TransferProgress()

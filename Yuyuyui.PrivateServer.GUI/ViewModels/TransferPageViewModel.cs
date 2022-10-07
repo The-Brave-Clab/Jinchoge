@@ -41,8 +41,8 @@ public class TransferPageViewModel : ViewModelBase
     {
         ButtonContent = status switch
         {
-            MainWindowViewModel.ServerStatus.Stopped => "Start Account Transfer",
-            MainWindowViewModel.ServerStatus.Transfer => "Stop Account Transfer",
+            MainWindowViewModel.ServerStatus.Stopped => "Start\nAccount\nTransfer",
+            MainWindowViewModel.ServerStatus.Transfer => "Stop\nAccount\nTransfer",
             _ => ""
         };
         
