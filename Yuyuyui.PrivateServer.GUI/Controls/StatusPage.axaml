@@ -14,12 +14,12 @@
 
         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Private Server is not running."
                    IsVisible="{Binding NotStartedMessageVisible}" />
-        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Private Server is starting..."
-                   IsVisible="{Binding StartingMessageVisible}" />
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Private Server is updating required files..."
+                   IsVisible="{Binding UpdatingMessageVisible}" />
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding StartedPanelVisible}">
 
-            <TextBlock HorizontalAlignment="Left" Text="Private Server is currently running."></TextBlock>
+            <TextBlock HorizontalAlignment="Left" Text="{Binding CurrentProcess}"></TextBlock>
             <StackPanel Orientation="Horizontal">
                 <TextBlock HorizontalAlignment="Left" Text="Proxy is listening at port "></TextBlock>
                 <TextBlock HorizontalAlignment="Left" Text="{Binding ListeningPort}" Foreground="Yellow"></TextBlock>

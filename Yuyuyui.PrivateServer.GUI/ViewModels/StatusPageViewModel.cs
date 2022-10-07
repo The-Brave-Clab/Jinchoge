@@ -25,9 +25,10 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
             UpdateNetworkInfo();
 
+            updatingMessageVisible = false;
             notStartedMessageVisible = true;
-            startingMessageVisible = false;
             startedPanelVisible = false;
+            currentProcess = "";
         }
 
 
@@ -79,20 +80,18 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             }
         }
 
-
+        private bool updatingMessageVisible;
+        public bool UpdatingMessageVisible
+        {
+            get => updatingMessageVisible;
+            set => this.RaiseAndSetIfChanged(ref updatingMessageVisible, value);
+        }
 
         private bool notStartedMessageVisible;
         public bool NotStartedMessageVisible
         {
             get => notStartedMessageVisible;
             set => this.RaiseAndSetIfChanged(ref notStartedMessageVisible, value);
-        }
-
-        private bool startingMessageVisible;
-        public bool StartingMessageVisible
-        {
-            get => startingMessageVisible;
-            set => this.RaiseAndSetIfChanged(ref startingMessageVisible, value);
         }
 
         private bool startedPanelVisible;
@@ -102,11 +101,28 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref startedPanelVisible, value);
         }
 
+        private string currentProcess;
+        public string CurrentProcess
+        {
+            get => currentProcess;
+            set => this.RaiseAndSetIfChanged(ref currentProcess, value);
+        }
+
         public void SetServerStatus(MainWindowViewModel.ServerStatus status)
         {
+            UpdatingMessageVisible = status == MainWindowViewModel.ServerStatus.Updating;
             NotStartedMessageVisible = status == MainWindowViewModel.ServerStatus.Stopped;
-            StartingMessageVisible = status == MainWindowViewModel.ServerStatus.Starting;
-            StartedPanelVisible = status == MainWindowViewModel.ServerStatus.Started;
+            StartedPanelVisible = status is
+                MainWindowViewModel.ServerStatus.Started or
+                MainWindowViewModel.ServerStatus.Transfer;
+            CurrentProcess = status switch
+            {
+                MainWindowViewModel.ServerStatus.Updating => "",
+                MainWindowViewModel.ServerStatus.Stopped => "",
+                MainWindowViewModel.ServerStatus.Started => "Private Server is currently running.",
+                MainWindowViewModel.ServerStatus.Transfer => "Account Transfer is in progress.",
+                _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
+            };
         }
     }
 

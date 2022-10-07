@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -43,6 +44,14 @@ namespace Yuyuyui.AccountTransfer.CLI
 
             await LocalData.Update();
 
+            EventWaitHandle waitHandle = new AutoResetEvent(false);
+
+            TransferProgress.RegisterTaskCompleteCallback((type, progress) =>
+                Utils.LogTrace($"Successfully transferred {TransferProgress.TaskName[type]} ({progress.Count(b => b)}/{progress.Length})")
+            );
+            
+            TransferProgress.RegisterAllTaskCompleteCallback(() => waitHandle.Set());
+
             var endpoint = Proxy<AccountTransferProxyCallbacks>.Start();
 
             //foreach (var endPoint in proxyServer.ProxyEndPoints)
@@ -78,12 +87,12 @@ namespace Yuyuyui.AccountTransfer.CLI
 
             Console.WriteLine();
 
-            TransferProgress.WaitForCompletion();
+            waitHandle.WaitOne();
+
+            Proxy<AccountTransferProxyCallbacks>.Stop();
             
             ColoredOutput.Write("All transfer tasks have completed. Program will exit in 10 seconds.", ConsoleColor.Green);
             Thread.Sleep(10000);
-
-            Proxy<AccountTransferProxyCallbacks>.Stop();
         }
     }
 }

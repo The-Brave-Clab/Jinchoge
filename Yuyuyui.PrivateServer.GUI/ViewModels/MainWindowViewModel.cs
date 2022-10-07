@@ -5,6 +5,7 @@ using Yuyuyui.PrivateServer.GUI.Views;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Threading;
 using ReactiveUI;
@@ -17,36 +18,51 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
     {
         private WeakReference<MainWindow?> window = new(null);
 
-        public void SetWindow(MainWindow window)
-        {
-            this.window.SetTarget(window);
-        }
-
         internal ConsolePageViewModel consolePageVM;
+        internal TransferPageViewModel transferPageVM;
         internal StatusPageViewModel statusPageVM;
 
         public enum ServerStatus
         {
+            Updating,
             Stopped,
-            Starting,
-            Started
+            Started,
+            Transfer
         }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(MainWindow window)
         {
+            this.window.SetTarget(window);
+            
             endpoint = null;
             buttonContent = "";
             buttonDescription = "";
             Status = ServerStatus.Stopped;
 
             consolePageVM = new ConsolePageViewModel();
+            transferPageVM = new TransferPageViewModel(this);
+            statusPageVM = new StatusPageViewModel();
+        }
+
+        public MainWindowViewModel()
+        {
+            if (!Design.IsDesignMode)
+                throw new NotImplementedException();
+            
+            endpoint = null;
+            buttonContent = "";
+            buttonDescription = "";
+            Status = ServerStatus.Stopped;
+
+            consolePageVM = new ConsolePageViewModel();
+            transferPageVM = new TransferPageViewModel(this);
             statusPageVM = new StatusPageViewModel();
         }
 
         private ServerStatus status = ServerStatus.Stopped;
         private ExplicitProxyEndPoint? endpoint;
 
-        private ServerStatus Status
+        public ServerStatus Status
         {
             get => status;
             set
@@ -55,23 +71,34 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
                 IsStopped = status == ServerStatus.Stopped;
                 IsStarted = status == ServerStatus.Started;
-                IsLoading = status == ServerStatus.Starting;
+                CanStart = (status != ServerStatus.Transfer && status != ServerStatus.Updating);
+                IsTransferPageEnabled = (status != ServerStatus.Started && status != ServerStatus.Updating);
                 ButtonContent = status switch
                 {
+                    ServerStatus.Updating => "UPDATING",
                     ServerStatus.Stopped => "START",
-                    ServerStatus.Starting => "STARTING",
                     ServerStatus.Started => "STOP",
+                    ServerStatus.Transfer => "TRANSFER",
                     _ => throw new ArgumentOutOfRangeException()
                 };
                 ButtonDescription = status switch
                 {
+                    ServerStatus.Updating => "Updating Required Files...",
                     ServerStatus.Stopped => "Start the Private Server",
-                    ServerStatus.Starting => "Starting, Please Wait...",
                     ServerStatus.Started => $"Listening at Port {endpoint!.Port}",
+                    ServerStatus.Transfer => "Transferring Account...",
                     _ => throw new ArgumentOutOfRangeException()
                 };
 
                 statusPageVM?.SetServerStatus(value);
+                transferPageVM?.SetServerStatus(value);
+                
+                window.TryGetTarget(out var mainWindow);
+                if (!IsTransferPageEnabled && (bool)mainWindow!.TransferButton.IsChecked!)
+                {
+                    // we are on transfer page when transfer is disabled, fall back to log
+                    mainWindow.LogButton.IsChecked = true;
+                }
             }
         }
 
@@ -98,13 +125,11 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                 case ServerStatus.Stopped:
                     StartPrivateServer();
                     return;
-                case ServerStatus.Starting:
-                    return;
                 case ServerStatus.Started:
                     StopPrivateServer();
                     return;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    return;
             }
         }
 
@@ -123,11 +148,18 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref isStarted, value);
         }
 
-        private bool isLoading;
-        public bool IsLoading
+        private bool canStart;
+        public bool CanStart
         {
-            get => isLoading;
-            set => this.RaiseAndSetIfChanged(ref isLoading, value);
+            get => canStart;
+            set => this.RaiseAndSetIfChanged(ref canStart, value);
+        }
+
+        private bool isTransferPageEnabled;
+        public bool IsTransferPageEnabled
+        {
+            get => isTransferPageEnabled;
+            set => this.RaiseAndSetIfChanged(ref isTransferPageEnabled, value);
         }
 
         public TextAlignment TitleAlignment => RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
@@ -138,9 +170,9 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             ? new Thickness(10, 5, 0, 0)
             : new Thickness(0, 5, 0, 0);
 
-        public void StartPrivateServer()
+        public void UpdateLocalData()
         {
-            Status = ServerStatus.Starting;
+            Status = ServerStatus.Updating;
 
             window.TryGetTarget(out var mainWindow);
             var toolbarVM = (MainWindowBottomToolbarViewModel)mainWindow!.BottomToolBar.DataContext!;
@@ -197,22 +229,24 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                         toolbarVM.ClearProgressBar();
                     });
 
-                    endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
-
-                    Status = ServerStatus.Started;
-
-                    Utils.LogTrace("Private Server Started!");
+                    Status = ServerStatus.Stopped;
                 });
+        }
+
+        private void StartPrivateServer()
+        {
+            endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
+
+            Status = ServerStatus.Started;
+
+            Utils.LogTrace("Private Server Started!");
         }
 
         public void StopPrivateServer()
         {
-            if (Status == ServerStatus.Stopped) return;
+            if (Status != ServerStatus.Started) return;
 
-            if (Status == ServerStatus.Started)
-            {
-                Proxy<PrivateServerProxyCallbacks>.Stop();
-            }
+            Proxy<PrivateServerProxyCallbacks>.Stop();
 
             Status = ServerStatus.Stopped;
 
