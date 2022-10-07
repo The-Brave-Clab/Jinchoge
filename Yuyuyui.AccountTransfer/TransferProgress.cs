@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 
 namespace Yuyuyui.AccountTransfer;
@@ -27,12 +28,8 @@ public static class TransferProgress
         Count_DoNotUse
     }
 
-    private static readonly EventWaitHandle waitHandle = new AutoResetEvent(false);
-
-    public static void WaitForCompletion()
-    {
-        waitHandle.WaitOne();
-    }
+    private static Action<TaskType, bool[]>? singleCompleteCallback = null;
+    private static Action? allCompleteCallback = null;
 
     private static bool[] transferStatus;
 
@@ -44,11 +41,22 @@ public static class TransferProgress
             transferStatus[i] = false;
     }
 
+    public static void RegisterTaskCompleteCallback(Action<TaskType, bool[]>? callback)
+    {
+        singleCompleteCallback = callback;
+    }
+
+    public static void RegisterAllTaskCompleteCallback(Action callback)
+    {
+        allCompleteCallback = callback;
+    }
+
     public static void Complete(TaskType taskType)
     {
         transferStatus[(int) taskType] = true;
+        singleCompleteCallback?.Invoke(taskType, transferStatus);
         if (transferStatus.All(b => b))
-            waitHandle.Set();
+            allCompleteCallback?.Invoke();
     }
 
     public static bool IsCompleted(TaskType taskType)
