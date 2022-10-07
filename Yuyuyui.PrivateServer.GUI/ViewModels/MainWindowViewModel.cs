@@ -5,6 +5,7 @@ using Yuyuyui.PrivateServer.GUI.Views;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Threading;
 using ReactiveUI;
@@ -17,12 +18,8 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
     {
         private WeakReference<MainWindow?> window = new(null);
 
-        public void SetWindow(MainWindow window)
-        {
-            this.window.SetTarget(window);
-        }
-
         internal ConsolePageViewModel consolePageVM;
+        internal TransferPageViewModel transferPageVM;
         internal StatusPageViewModel statusPageVM;
 
         public enum ServerStatus
@@ -33,21 +30,39 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             Transfer
         }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(MainWindow window)
         {
+            this.window.SetTarget(window);
+            
             endpoint = null;
             buttonContent = "";
             buttonDescription = "";
             Status = ServerStatus.Stopped;
 
             consolePageVM = new ConsolePageViewModel();
+            transferPageVM = new TransferPageViewModel(this);
+            statusPageVM = new StatusPageViewModel();
+        }
+
+        public MainWindowViewModel()
+        {
+            if (!Design.IsDesignMode)
+                throw new NotImplementedException();
+            
+            endpoint = null;
+            buttonContent = "";
+            buttonDescription = "";
+            Status = ServerStatus.Stopped;
+
+            consolePageVM = new ConsolePageViewModel();
+            transferPageVM = new TransferPageViewModel(this);
             statusPageVM = new StatusPageViewModel();
         }
 
         private ServerStatus status = ServerStatus.Stopped;
         private ExplicitProxyEndPoint? endpoint;
 
-        private ServerStatus Status
+        public ServerStatus Status
         {
             get => status;
             set
@@ -57,6 +72,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                 IsStopped = status == ServerStatus.Stopped;
                 IsStarted = status == ServerStatus.Started;
                 CanStart = (status != ServerStatus.Transfer && status != ServerStatus.Updating);
+                IsTransferPageEnabled = (status != ServerStatus.Started && status != ServerStatus.Updating);
                 ButtonContent = status switch
                 {
                     ServerStatus.Updating => "UPDATING",
@@ -70,11 +86,19 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                     ServerStatus.Updating => "Updating Required Files...",
                     ServerStatus.Stopped => "Start the Private Server",
                     ServerStatus.Started => $"Listening at Port {endpoint!.Port}",
-                    ServerStatus.Transfer => "Account Transfer is in progress...",
+                    ServerStatus.Transfer => "Transferring Account...",
                     _ => throw new ArgumentOutOfRangeException()
                 };
 
                 statusPageVM?.SetServerStatus(value);
+                transferPageVM?.SetServerStatus(value);
+                
+                window.TryGetTarget(out var mainWindow);
+                if (!IsTransferPageEnabled && (bool)mainWindow!.TransferButton.IsChecked!)
+                {
+                    // we are on transfer page when transfer is disabled, fall back to log
+                    mainWindow.LogButton.IsChecked = true;
+                }
             }
         }
 
@@ -129,6 +153,13 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         {
             get => canStart;
             set => this.RaiseAndSetIfChanged(ref canStart, value);
+        }
+
+        private bool isTransferPageEnabled;
+        public bool IsTransferPageEnabled
+        {
+            get => isTransferPageEnabled;
+            set => this.RaiseAndSetIfChanged(ref isTransferPageEnabled, value);
         }
 
         public TextAlignment TitleAlignment => RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
@@ -202,7 +233,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                 });
         }
 
-        public void StartPrivateServer()
+        private void StartPrivateServer()
         {
             endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
 
@@ -213,12 +244,9 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
         public void StopPrivateServer()
         {
-            if (Status == ServerStatus.Stopped) return;
+            if (Status != ServerStatus.Started) return;
 
-            if (Status == ServerStatus.Started)
-            {
-                Proxy<PrivateServerProxyCallbacks>.Stop();
-            }
+            Proxy<PrivateServerProxyCallbacks>.Stop();
 
             Status = ServerStatus.Stopped;
 

@@ -164,7 +164,7 @@
                                     </Grid>
                                 </uc:NavigationButton>
 
-                                <uc:NavigationButton Name="TransferButton" Checked="OnNavigationButtonChecked">
+                                <uc:NavigationButton Name="TransferButton" Checked="OnNavigationButtonChecked" IsEnabled="{Binding IsTransferPageEnabled}">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/data-transfer.png" Grid.Column="0" />
                                         <TextBlock Text="TRANSFER" Grid.Column="1" />

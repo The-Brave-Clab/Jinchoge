@@ -26,8 +26,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
 
         public MainWindow()
         {
-            mainWindowVM = new MainWindowViewModel();
-            mainWindowVM.SetWindow(this);
+            mainWindowVM = new MainWindowViewModel(this);
             DataContext = mainWindowVM;
             
             InitializeComponent();
@@ -53,6 +52,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
+                DataContext = mainWindowVM.transferPageVM
             };
 
             statusPage = new StatusPage
@@ -119,7 +119,8 @@ namespace Yuyuyui.PrivateServer.GUI.Views
 
         private void WindowOnClosing(object? sender, CancelEventArgs e)
         {
-            ((MainWindowViewModel) DataContext!).StopPrivateServer();
+            mainWindowVM.StopPrivateServer();
+            mainWindowVM.transferPageVM.StopTransfer();
         }
 
         private void OnPointerEnterNavigation(object? sender, PointerEventArgs e)
