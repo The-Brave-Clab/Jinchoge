@@ -147,7 +147,7 @@
                                         <Setter Property="HorizontalAlignment" Value="Left"></Setter>
                                     </Style>
 
-                                    <Style Selector="uc|NavigationButton Image[IsEnabled=False]">
+                                    <Style Selector="uc|NavigationButton[IsEnabled=False] Image">
                                         <Setter Property="Opacity" Value="0.4"></Setter>
                                     </Style>
 
@@ -173,14 +173,14 @@
 
                                 <uc:NavigationButton Name="SettingsButton" Checked="OnNavigationButtonChecked" IsEnabled="False">
                                     <Grid ColumnDefinitions="40,*">
-                                        <Image Source="/Assets/Icons/Navigation/settings.png" Grid.Column="0" Opacity="0.4"/>
+                                        <Image Source="/Assets/Icons/Navigation/settings.png" Grid.Column="0"/>
                                         <TextBlock Text="SETTINGS" Grid.Column="1" />
                                     </Grid>
                                 </uc:NavigationButton>
 
                                 <uc:NavigationButton Name="HelpButton" Checked="OnNavigationButtonChecked" IsEnabled="False">
                                     <Grid ColumnDefinitions="40,*">
-                                        <Image Source="/Assets/Icons/Navigation/help.png" Grid.Column="0" Opacity="0.4"/>
+                                        <Image Source="/Assets/Icons/Navigation/help.png" Grid.Column="0"/>
                                         <TextBlock Text="HELP" Grid.Column="1" />
                                     </Grid>
                                 </uc:NavigationButton>
