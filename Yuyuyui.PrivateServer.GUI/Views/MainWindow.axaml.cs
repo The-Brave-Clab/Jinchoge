@@ -16,6 +16,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
     public partial class MainWindow : Window
     {
         private ConsolePage consolePage;
+        private TransferPage transferPage;
         private StatusPage statusPage;
         private SettingsPage settingsPage;
         private HelpPage helpPage;
@@ -46,6 +47,12 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
                 DataContext = mainWindowVM.consolePageVM
+            };
+
+            transferPage = new TransferPage
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
             };
 
             statusPage = new StatusPage
@@ -140,6 +147,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                 MainPageContentControl.Content = button.Name switch
                 {
                     nameof(LogButton) => consolePage,
+                    nameof(TransferButton) => transferPage,
                     nameof(StatusButton) => statusPage,
                     nameof(SettingsButton) => settingsPage,
                     nameof(HelpButton) => helpPage,

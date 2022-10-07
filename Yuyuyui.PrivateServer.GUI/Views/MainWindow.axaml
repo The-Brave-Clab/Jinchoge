@@ -164,6 +164,13 @@
                                     </Grid>
                                 </uc:NavigationButton>
 
+                                <uc:NavigationButton Name="TransferButton" Checked="OnNavigationButtonChecked">
+                                    <Grid ColumnDefinitions="40,*">
+                                        <Image Source="/Assets/Icons/Navigation/data-transfer.png" Grid.Column="0" />
+                                        <TextBlock Text="TRANSFER" Grid.Column="1" />
+                                    </Grid>
+                                </uc:NavigationButton>
+
                                 <uc:NavigationButton Name="StatusButton" Checked="OnNavigationButtonChecked">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/view-more.png" Grid.Column="0" />
