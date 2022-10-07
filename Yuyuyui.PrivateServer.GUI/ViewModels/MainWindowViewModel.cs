@@ -27,9 +27,10 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
         public enum ServerStatus
         {
+            Updating,
             Stopped,
-            Starting,
-            Started
+            Started,
+            Transfer
         }
 
         public MainWindowViewModel()
@@ -55,19 +56,21 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
                 IsStopped = status == ServerStatus.Stopped;
                 IsStarted = status == ServerStatus.Started;
-                IsLoading = status == ServerStatus.Starting;
+                CanStart = (status != ServerStatus.Transfer && status != ServerStatus.Updating);
                 ButtonContent = status switch
                 {
+                    ServerStatus.Updating => "UPDATING",
                     ServerStatus.Stopped => "START",
-                    ServerStatus.Starting => "STARTING",
                     ServerStatus.Started => "STOP",
+                    ServerStatus.Transfer => "TRANSFER",
                     _ => throw new ArgumentOutOfRangeException()
                 };
                 ButtonDescription = status switch
                 {
+                    ServerStatus.Updating => "Updating Required Files...",
                     ServerStatus.Stopped => "Start the Private Server",
-                    ServerStatus.Starting => "Starting, Please Wait...",
                     ServerStatus.Started => $"Listening at Port {endpoint!.Port}",
+                    ServerStatus.Transfer => "Account Transfer is in progress...",
                     _ => throw new ArgumentOutOfRangeException()
                 };
 
@@ -98,13 +101,11 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                 case ServerStatus.Stopped:
                     StartPrivateServer();
                     return;
-                case ServerStatus.Starting:
-                    return;
                 case ServerStatus.Started:
                     StopPrivateServer();
                     return;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    return;
             }
         }
 
@@ -123,11 +124,11 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref isStarted, value);
         }
 
-        private bool isLoading;
-        public bool IsLoading
+        private bool canStart;
+        public bool CanStart
         {
-            get => isLoading;
-            set => this.RaiseAndSetIfChanged(ref isLoading, value);
+            get => canStart;
+            set => this.RaiseAndSetIfChanged(ref canStart, value);
         }
 
         public TextAlignment TitleAlignment => RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
@@ -138,9 +139,9 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             ? new Thickness(10, 5, 0, 0)
             : new Thickness(0, 5, 0, 0);
 
-        public void StartPrivateServer()
+        public void UpdateLocalData()
         {
-            Status = ServerStatus.Starting;
+            Status = ServerStatus.Updating;
 
             window.TryGetTarget(out var mainWindow);
             var toolbarVM = (MainWindowBottomToolbarViewModel)mainWindow!.BottomToolBar.DataContext!;
@@ -197,12 +198,17 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                         toolbarVM.ClearProgressBar();
                     });
 
-                    endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
-
-                    Status = ServerStatus.Started;
-
-                    Utils.LogTrace("Private Server Started!");
+                    Status = ServerStatus.Stopped;
                 });
+        }
+
+        public void StartPrivateServer()
+        {
+            endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
+
+            Status = ServerStatus.Started;
+
+            Utils.LogTrace("Private Server Started!");
         }
 
         public void StopPrivateServer()

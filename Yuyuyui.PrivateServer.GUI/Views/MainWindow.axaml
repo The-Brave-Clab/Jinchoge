@@ -68,7 +68,7 @@
                             </StackPanel>
                         </StackPanel>
                     </Panel>
-                    <Panel IsEnabled="{Binding !IsLoading}" HorizontalAlignment="Right" VerticalAlignment="Center"
+                    <Panel IsEnabled="{Binding CanStart}" HorizontalAlignment="Right" VerticalAlignment="Center"
                            Width="300" Height="100" Margin="0 0 20 0">
                         <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
@@ -77,7 +77,7 @@
                                         Orientation="Horizontal" Width="280" Height="80" Spacing="5" Margin="0 3 0 0">
                                 <Panel DockPanel.Dock="Left" Width="80" VerticalAlignment="Center"
                                        HorizontalAlignment="Stretch">
-                                    <Image IsVisible="{Binding IsLoading}" Classes="MainButtonIcon" Width="50"
+                                    <Image IsVisible="{Binding !CanStart}" Classes="MainButtonIcon" Width="50"
                                            Height="50" VerticalAlignment="Center" HorizontalAlignment="Right"
                                            Source="/Assets/Icons/General/Loading.png" />
                                     <Image IsVisible="{Binding IsStopped}" Width="50" Height="50"

@@ -110,6 +110,11 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             );
             
             Utils.LogTrace("Initialized GUI.");
+
+            if (!Design.IsDesignMode)
+            {
+                mainWindowVM.UpdateLocalData();
+            }
         }
 
         private void WindowOnClosing(object? sender, CancelEventArgs e)
