@@ -18,7 +18,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
         private ConsolePage consolePage;
         private StatusPage statusPage;
         private SettingsPage settingsPage;
-        private TutorialPage tutorialPage;
+        private HelpPage helpPage;
         private AboutPage aboutPage;
 
         private MainWindowViewModel mainWindowVM;
@@ -61,7 +61,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                 VerticalAlignment = VerticalAlignment.Stretch
             };
 
-            tutorialPage = new TutorialPage
+            helpPage = new HelpPage
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
@@ -142,7 +142,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                     nameof(LogButton) => consolePage,
                     nameof(StatusButton) => statusPage,
                     nameof(SettingsButton) => settingsPage,
-                    nameof(TutorialButton) => tutorialPage,
+                    nameof(HelpButton) => helpPage,
                     nameof(AboutButton) => aboutPage,
                     _ => throw new ArgumentOutOfRangeException()
                 };

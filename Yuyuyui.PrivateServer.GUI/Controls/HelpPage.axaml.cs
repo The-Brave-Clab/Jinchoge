@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace Yuyuyui.PrivateServer.GUI.Controls
 {
-    public partial class TutorialPage : UserControl
+    public partial class HelpPage : UserControl
     {
-        public TutorialPage()
+        public HelpPage()
         {
             InitializeComponent();
         }
