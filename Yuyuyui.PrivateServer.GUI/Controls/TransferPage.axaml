@@ -13,6 +13,23 @@
     <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <StackPanel>
             <Button Content="{Binding ButtonContent}" Command="{Binding ButtonPress}" />
+            
+            <ItemsControl Items="{Binding TaskCompleteStatusList}">
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding TaskName}" IsChecked="{Binding IsCompleted}" IsEnabled="False" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+            </ItemsControl>
+            
         </StackPanel>
     </Panel>
 

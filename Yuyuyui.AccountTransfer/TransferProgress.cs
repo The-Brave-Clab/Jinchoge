@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 namespace Yuyuyui.AccountTransfer;
 
@@ -32,6 +32,22 @@ public static class TransferProgress
     private static Action? allCompleteCallback = null;
 
     private static bool[] transferStatus;
+
+    public static Dictionary<TaskType, string> TaskName => new()
+    {
+        { TaskType.Id, "ID" },
+        { TaskType.Header, "Common Data" },
+        { TaskType.Profile, "Profile" },
+        { TaskType.Accessories, "Spirits" },
+        { TaskType.Cards, "Cards" },
+        { TaskType.Decks, "Teams" },
+        { TaskType.EnhancementItems, "Enhancement Items" },
+        { TaskType.EventItems, "Event Items" },
+        { TaskType.EvolutionItems, "Evolution Items" },
+        { TaskType.StaminaItems, "Stamina Items" },
+        { TaskType.TitleItems, "Titles" },
+        { TaskType.CharacterFamiliarities, "Character Familiarities" }
+    };
 
     static TransferProgress()
     {

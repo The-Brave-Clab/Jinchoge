@@ -47,7 +47,7 @@ namespace Yuyuyui.AccountTransfer.CLI
             EventWaitHandle waitHandle = new AutoResetEvent(false);
 
             TransferProgress.RegisterTaskCompleteCallback((type, progress) =>
-                Utils.LogTrace($"Successfully transferred {type:G} ({progress.Count(b => b)}/{progress.Length})")
+                Utils.LogTrace($"Successfully transferred {TransferProgress.TaskName[type]} ({progress.Count(b => b)}/{progress.Length})")
             );
             
             TransferProgress.RegisterAllTaskCompleteCallback(() => waitHandle.Set());
