@@ -36,56 +36,21 @@
                     </Grid.Styles>
 
 
-                    <ToggleButton Grid.Row="0" Grid.Column="0"
-                                  Content="{Binding TaskCompleteStatusList[0].TaskName}"
-                                  IsChecked="{Binding TaskCompleteStatusList[0].IsCompleted}" />
+                    <ItemsControl Items="{Binding TaskCompleteStatusList}">
 
-                    <ToggleButton Grid.Row="0" Grid.Column="1"
-                                  Content="{Binding TaskCompleteStatusList[1].TaskName}"
-                                  IsChecked="{Binding TaskCompleteStatusList[1].IsCompleted}" />
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ToggleButton Content="{Binding TaskName}" IsChecked="{Binding IsCompleted}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
 
-                    <ToggleButton Grid.Row="0" Grid.Column="2"
-                                  Content="{Binding TaskCompleteStatusList[2].TaskName}"
-                                  IsChecked="{Binding TaskCompleteStatusList[2].IsCompleted}" />
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Width="450" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
 
-
-                    <ToggleButton Grid.Row="1" Grid.Column="0"
-                                  Content="{Binding TaskCompleteStatusList[3].TaskName}"
-                                  IsChecked="{Binding TaskCompleteStatusList[3].IsCompleted}" />
-
-                    <ToggleButton Grid.Row="1" Grid.Column="1"
-                                  Content="{Binding TaskCompleteStatusList[4].TaskName}"
-                                  IsChecked="{Binding TaskCompleteStatusList[4].IsCompleted}" />
-
-                    <ToggleButton Grid.Row="1" Grid.Column="2"
-                                  Content="{Binding TaskCompleteStatusList[5].TaskName}"
-                                  IsChecked="{Binding TaskCompleteStatusList[5].IsCompleted}" />
-
-
-                    <ToggleButton Grid.Row="2" Grid.Column="0"
-                                  Content="{Binding TaskCompleteStatusList[6].TaskName}"
-                                  IsChecked="{Binding TaskCompleteStatusList[6].IsCompleted}" />
-
-                    <ToggleButton Grid.Row="2" Grid.Column="1"
-                                  Content="{Binding TaskCompleteStatusList[7].TaskName}"
-                                  IsChecked="{Binding TaskCompleteStatusList[7].IsCompleted}" />
-
-                    <ToggleButton Grid.Row="2" Grid.Column="2"
-                                  Content="{Binding TaskCompleteStatusList[8].TaskName}"
-                                  IsChecked="{Binding TaskCompleteStatusList[8].IsCompleted}" />
-
-
-                    <ToggleButton Grid.Row="3" Grid.Column="0"
-                                  Content="{Binding TaskCompleteStatusList[9].TaskName}"
-                                  IsChecked="{Binding TaskCompleteStatusList[9].IsCompleted}" />
-
-                    <ToggleButton Grid.Row="3" Grid.Column="1"
-                                  Content="{Binding TaskCompleteStatusList[10].TaskName}"
-                                  IsChecked="{Binding TaskCompleteStatusList[10].IsCompleted}" />
-
-                    <ToggleButton Grid.Row="3" Grid.Column="2"
-                                  Content="{Binding TaskCompleteStatusList[11].TaskName}"
-                                  IsChecked="{Binding TaskCompleteStatusList[11].IsCompleted}" />
+                    </ItemsControl>
 
                 </Grid>
 
