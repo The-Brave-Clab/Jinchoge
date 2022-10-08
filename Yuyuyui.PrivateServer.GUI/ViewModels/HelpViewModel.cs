@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive.Linq;
-using Avalonia.Controls;
 using ReactiveUI;
 using Yuyuyui.PrivateServer.GUI.Views;
 
