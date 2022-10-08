@@ -1,23 +1,19 @@
 ﻿using ReactiveUI;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels
 {
-    internal class StatusPageViewModel : ViewModelBase
+    internal class StatusViewModel : ViewModelBase
     {
         public ObservableCollection<InterfaceDescription> NetworkInterfaces { get; }
 
         public int ListeningPort { get; }
 
-        public StatusPageViewModel()
+        public StatusViewModel()
         {
             ipMessage = "";
             NetworkInterfaces = new ObservableCollection<InterfaceDescription>();

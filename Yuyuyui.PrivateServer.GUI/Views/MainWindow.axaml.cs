@@ -15,12 +15,12 @@ namespace Yuyuyui.PrivateServer.GUI.Views
 {
     public partial class MainWindow : Window
     {
-        private ConsolePage consolePage;
-        private TransferPage transferPage;
-        private StatusPage statusPage;
-        private SettingsPage settingsPage;
-        private HelpPage helpPage;
-        private AboutPage aboutPage;
+        private LogView logView;
+        private TransferView transferView;
+        private StatusView statusView;
+        private SettingsView settingsView;
+        private HelpView helpView;
+        private AboutView aboutView;
 
         private MainWindowViewModel mainWindowVM;
 
@@ -41,47 +41,47 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             };
             BottomToolBar.DataContext = bottomToolbarVM;
 
-            consolePage = new ConsolePage
+            logView = new LogView
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
-                DataContext = mainWindowVM.consolePageVM
+                DataContext = mainWindowVM.logVM
             };
 
-            transferPage = new TransferPage
+            transferView = new TransferView
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
-                DataContext = mainWindowVM.transferPageVM
+                DataContext = mainWindowVM.transferVM
             };
 
-            statusPage = new StatusPage
+            statusView = new StatusView
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
-                DataContext = mainWindowVM.statusPageVM
+                DataContext = mainWindowVM.statusVM
             };
 
-            settingsPage = new SettingsPage
+            settingsView = new SettingsView
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
             };
 
-            helpPage = new HelpPage
+            helpView = new HelpView
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
             };
 
-            aboutPage = new AboutPage
+            aboutView = new AboutView
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
             };
 
 
-            MainPageContentControl.Content = consolePage;
+            MainPageContentControl.Content = logView;
 
             var logTextDefaultBrush = LogText.Foreground;
             
@@ -100,7 +100,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                             _ => throw new ArgumentOutOfRangeException(nameof(t), t, null)
                         };
                         bottomToolbarVM.ToolbarText = content;
-                        mainWindowVM.consolePageVM.Logs.Add(new LogEntry
+                        mainWindowVM.logVM.Logs.Add(new LogEntry
                         {
                             LogType = t,
                             LogContent = content
@@ -120,7 +120,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
         private void WindowOnClosing(object? sender, CancelEventArgs e)
         {
             mainWindowVM.StopPrivateServer();
-            mainWindowVM.transferPageVM.StopTransfer();
+            mainWindowVM.transferVM.StopTransfer();
         }
 
         private void OnPointerEnterNavigation(object? sender, PointerEventArgs e)
@@ -152,12 +152,12 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             {
                 MainPageContentControl.Content = button.Name switch
                 {
-                    nameof(LogButton) => consolePage,
-                    nameof(TransferButton) => transferPage,
-                    nameof(StatusButton) => statusPage,
-                    nameof(SettingsButton) => settingsPage,
-                    nameof(HelpButton) => helpPage,
-                    nameof(AboutButton) => aboutPage,
+                    nameof(LogButton) => logView,
+                    nameof(TransferButton) => transferView,
+                    nameof(StatusButton) => statusView,
+                    nameof(SettingsButton) => settingsView,
+                    nameof(HelpButton) => helpView,
+                    nameof(AboutButton) => aboutView,
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }

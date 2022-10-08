@@ -1,20 +1,14 @@
 using System;
-using System.Globalization;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Data;
-using Avalonia.Data.Converters;
-using Avalonia.Media;
-using static Yuyuyui.PrivateServer.GUI.Controls.ConsolePage;
 
-namespace Yuyuyui.PrivateServer.GUI.Controls
+namespace Yuyuyui.PrivateServer.GUI.Views
 {
-    public partial class ConsolePage : UserControl
+    public partial class LogView : UserControl
     {
         private bool shouldScrollToBottom;
         private double lastOffsetY;
 
-        public ConsolePage()
+        public LogView()
         {
             InitializeComponent();
 

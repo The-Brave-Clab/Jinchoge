@@ -11,12 +11,12 @@ using Yuyuyui.AccountTransfer;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels;
 
-public class TransferPageViewModel : ViewModelBase
+public class TransferViewModel : ViewModelBase
 {
     private ExplicitProxyEndPoint? endpoint;
     private WeakReference<MainWindowViewModel?> mainWindowVM = new(null);
 
-    public TransferPageViewModel(MainWindowViewModel mainWindowViewModel)
+    public TransferViewModel(MainWindowViewModel mainWindowViewModel)
     {
         mainWindowVM.SetTarget(mainWindowViewModel);
 
@@ -26,7 +26,7 @@ public class TransferPageViewModel : ViewModelBase
         ResetTaskCompleteStatus();
     }
 
-    public TransferPageViewModel()
+    public TransferViewModel()
     {
         if (!Design.IsDesignMode)
             throw new NotImplementedException();

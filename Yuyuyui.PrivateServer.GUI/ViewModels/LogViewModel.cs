@@ -2,11 +2,11 @@
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels
 {
-    internal class ConsolePageViewModel : ViewModelBase
+    internal class LogViewModel : ViewModelBase
     {
         public ObservableCollection<LogEntry> Logs { get; }
 
-        public ConsolePageViewModel()
+        public LogViewModel()
         {
             Logs = new ObservableCollection<LogEntry>();
         }

@@ -6,10 +6,10 @@
              d:DesignWidth="800" d:DesignHeight="450"
              xmlns:c="clr-namespace:Yuyuyui.PrivateServer.GUI.Controls"
              xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels"
-             x:Class="Yuyuyui.PrivateServer.GUI.Controls.ConsolePage">
+             x:Class="Yuyuyui.PrivateServer.GUI.Views.LogView">
 
     <Design.DataContext>
-        <vm:ConsolePageViewModel />
+        <vm:LogViewModel />
     </Design.DataContext>
 
     <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

@@ -2,15 +2,12 @@
 using System.Threading.Tasks;
 using System.Threading;
 using Yuyuyui.PrivateServer.GUI.Views;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
-using Avalonia.Threading;
 using ReactiveUI;
 using Titanium.Web.Proxy.Models;
-using Yuyuyui.PrivateServer.GUI.Controls;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels
 {
@@ -18,9 +15,9 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
     {
         private WeakReference<MainWindow?> window = new(null);
 
-        internal ConsolePageViewModel consolePageVM;
-        internal TransferPageViewModel transferPageVM;
-        internal StatusPageViewModel statusPageVM;
+        internal LogViewModel logVM;
+        internal TransferViewModel transferVM;
+        internal StatusViewModel statusVM;
 
         public enum ServerStatus
         {
@@ -39,9 +36,9 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             buttonDescription = "";
             Status = ServerStatus.Stopped;
 
-            consolePageVM = new ConsolePageViewModel();
-            transferPageVM = new TransferPageViewModel(this);
-            statusPageVM = new StatusPageViewModel();
+            logVM = new LogViewModel();
+            transferVM = new TransferViewModel(this);
+            statusVM = new StatusViewModel();
         }
 
         public MainWindowViewModel()
@@ -54,9 +51,9 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             buttonDescription = "";
             Status = ServerStatus.Stopped;
 
-            consolePageVM = new ConsolePageViewModel();
-            transferPageVM = new TransferPageViewModel(this);
-            statusPageVM = new StatusPageViewModel();
+            logVM = new LogViewModel();
+            transferVM = new TransferViewModel(this);
+            statusVM = new StatusViewModel();
         }
 
         private ServerStatus status = ServerStatus.Stopped;
@@ -90,8 +87,8 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                     _ => throw new ArgumentOutOfRangeException()
                 };
 
-                statusPageVM?.SetServerStatus(value);
-                transferPageVM?.SetServerStatus(value);
+                statusVM?.SetServerStatus(value);
+                transferVM?.SetServerStatus(value);
                 
                 window.TryGetTarget(out var mainWindow);
                 if (!IsTransferPageEnabled && (bool)mainWindow!.TransferButton.IsChecked!)
