@@ -15,11 +15,7 @@
     <ScrollViewer VerticalAlignment="Stretch">
         <StackPanel Orientation="Vertical">
 
-            <md:MarkdownScrollViewer>
-                # How to Use Private Server
-
-                This page describes how to use the private server.
-            </md:MarkdownScrollViewer>
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p1.md" />
             <c:HelpTopicButton ButtonText="{Binding IntroductionButtonText}" Command="{Binding IntroductionButtonCommand}" />
 
         </StackPanel>

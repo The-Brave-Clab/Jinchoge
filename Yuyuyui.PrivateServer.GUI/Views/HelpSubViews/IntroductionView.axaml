@@ -3,13 +3,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
+             xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels"
+             xmlns:c="clr-namespace:Yuyuyui.PrivateServer.GUI.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Yuyuyui.PrivateServer.GUI.Views.IntroductionView">
 
+    <Design.DataContext>
+        <vm:IntroductionViewModel />
+    </Design.DataContext>
+    
     <ScrollViewer VerticalAlignment="Stretch">
         <StackPanel Orientation="Vertical">
 
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/introduction.md" />
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/introduction/p1.md" />
+            <c:HelpTopicButton ButtonText="{Binding PrivateServerButtonText}" Command="{Binding PrivateServerButtonCommand}" />
+            
+            
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/introduction/p2.md" />
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/introduction/p3.md" />
 
         </StackPanel>
     </ScrollViewer>
