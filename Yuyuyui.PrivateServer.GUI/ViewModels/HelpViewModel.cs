@@ -19,11 +19,11 @@ public class HelpViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref isRootPage, value);
     }
 
-    private object? currentPage = true;
+    private HelpSubViewBase? currentPage = null;
 
-    public object? CurrentPage
+    public HelpSubViewBase CurrentPage
     {
-        get => currentPage;
+        get => currentPage!;
         set => this.RaiseAndSetIfChanged(ref currentPage, value);
     }
 

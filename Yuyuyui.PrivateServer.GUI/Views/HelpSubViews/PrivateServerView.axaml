@@ -2,10 +2,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c="clr-namespace:Yuyuyui.PrivateServer.GUI.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
              x:Class="Yuyuyui.PrivateServer.GUI.Views.HelpSubViews.PrivateServerView">
-    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <TextBlock Text="How to Use Private Server" />
-        <Button Content="About Private Server" Click="Button_OnClick"></Button>
-    </StackPanel>
+
+
+    <Grid RowDefinitions="1*" VerticalAlignment="Stretch">
+        <ScrollViewer Grid.Row="0" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Vertical" Margin="0 0 10 0">
+                
+                <md:MarkdownScrollViewer>
+                    # How to Use Private Server
+
+                    This page describes how to use the private server.
+                </md:MarkdownScrollViewer>
+                <Button Content="About Private Server" Click="Button_OnClick"></Button>
+                
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+
 </UserControl>

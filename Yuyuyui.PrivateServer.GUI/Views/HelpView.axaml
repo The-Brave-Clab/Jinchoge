@@ -55,13 +55,13 @@
 
         </ScrollViewer>
         
-        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsVisible="{Binding !IsRootPage}">
+        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsVisible="{Binding !IsRootPage}" LastChildFill="True">
             
-            <Button Content="Back" Command="{Binding PopPage}" />
+            <Button Content="Back" Command="{Binding PopPage}" DockPanel.Dock="Top"/>
             
-            <ContentPresenter Content="{Binding CurrentPage}"></ContentPresenter>
+            <ContentPresenter Content="{Binding CurrentPage}" />
             
-        </StackPanel>
+        </DockPanel>
         
     </Panel>
     

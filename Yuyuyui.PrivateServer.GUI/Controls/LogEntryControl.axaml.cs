@@ -1,10 +1,10 @@
-using Avalonia.Controls;
-using Avalonia.Data.Converters;
-using Avalonia.Data;
-using Avalonia.Media;
-using System.Globalization;
 using System;
+using System.Globalization;
 using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Data;
+using Avalonia.Data.Converters;
+using Avalonia.Media;
 
 namespace Yuyuyui.PrivateServer.GUI.Controls
 {
@@ -67,9 +67,6 @@ namespace Yuyuyui.PrivateServer.GUI.Controls
                         return new SolidColorBrush(Color.FromArgb(0x4f, 0x7f, 0x7f, 0x00));
                     case Utils.LogType.Error:
                         return new SolidColorBrush(Color.FromArgb(0x4f, 0x7f, 0x00, 0x00));
-                    default:
-                        // invalid option, return the exception below
-                        break;
                 }
             }
             // converter used for the wrong type
@@ -98,9 +95,6 @@ namespace Yuyuyui.PrivateServer.GUI.Controls
                         return new SolidColorBrush(Color.FromArgb(0xff, 0xff, 0xff, 0x99));
                     case Utils.LogType.Error:
                         return new SolidColorBrush(Color.FromArgb(0xff, 0xff, 0x99, 0x99));
-                    default:
-                        // invalid option, return the exception below
-                        break;
                 }
             }
             // converter used for the wrong type
