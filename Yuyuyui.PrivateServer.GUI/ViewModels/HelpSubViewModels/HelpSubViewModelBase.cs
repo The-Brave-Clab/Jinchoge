@@ -3,11 +3,11 @@ using Yuyuyui.PrivateServer.GUI.Views;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels;
 
-public abstract class HelpSubViewModelBase : ViewModelBase
+public class HelpSubViewModelBase : ViewModelBase
 {
     public HelpViewModel? HelpViewModel = null;
 
-    protected HelpSubViewModelBase()
+    public HelpSubViewModelBase()
     {
         IntroductionButtonText = HelpViewModel.ButtonInfo[typeof(IntroductionView)];
         PrivateServerButtonText = HelpViewModel.ButtonInfo[typeof(PrivateServerView)];

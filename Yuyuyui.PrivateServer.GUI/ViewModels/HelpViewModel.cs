@@ -62,15 +62,14 @@ public class HelpViewModel : ViewModelBase
         var newPage = (HelpSubViewBase?)Activator.CreateInstance(page)!;
         newPage.HelpViewModel = this;
 
-        var viewModelType = Type.GetType(page.FullName?.Replace("View", "ViewModel") ?? "");
-        if (viewModelType != null)
+        var viewModelType = Type.GetType(page.FullName?.Replace("View", "ViewModel") ?? "") ?? 
+                            typeof(HelpSubViewModelBase);
+
+        var vm = (HelpSubViewModelBase?)Activator.CreateInstance(viewModelType);
+        if (vm != null)
         {
-            var vm = (HelpSubViewModelBase?)Activator.CreateInstance(viewModelType);
-            if (vm != null)
-            {
-                vm.HelpViewModel = this;
-                newPage.DataContext = vm;
-            }
+            vm.HelpViewModel = this;
+            newPage.DataContext = vm;
         }
 
         pageStack.Push(newPage);

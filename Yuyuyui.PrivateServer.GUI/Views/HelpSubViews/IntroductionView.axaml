@@ -9,7 +9,7 @@
              x:Class="Yuyuyui.PrivateServer.GUI.Views.IntroductionView">
 
     <Design.DataContext>
-        <vm:IntroductionViewModel />
+        <vm:HelpSubViewModelBase />
     </Design.DataContext>
     
     <ScrollViewer VerticalAlignment="Stretch">
