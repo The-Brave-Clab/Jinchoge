@@ -18,6 +18,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         internal LogViewModel logVM;
         internal TransferViewModel transferVM;
         internal StatusViewModel statusVM;
+        internal HelpViewModel helpVM;
 
         public enum ServerStatus
         {
@@ -39,6 +40,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             logVM = new LogViewModel();
             transferVM = new TransferViewModel(this);
             statusVM = new StatusViewModel();
+            helpVM = new HelpViewModel();
         }
 
         public MainWindowViewModel()
@@ -54,6 +56,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             logVM = new LogViewModel();
             transferVM = new TransferViewModel(this);
             statusVM = new StatusViewModel();
+            helpVM = new HelpViewModel();
         }
 
         private ServerStatus status = ServerStatus.Stopped;
@@ -172,7 +175,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             Status = ServerStatus.Updating;
 
             window.TryGetTarget(out var mainWindow);
-            var toolbarVM = (MainWindowBottomToolbarViewModel)mainWindow!.BottomToolBar.DataContext!;
+            var toolbarVM = (ToolbarViewModel)mainWindow!.BottomToolBar.DataContext!;
             toolbarVM.ClearProgressBar();
 
             toolbarVM.IsProgressIndeterminate = true;

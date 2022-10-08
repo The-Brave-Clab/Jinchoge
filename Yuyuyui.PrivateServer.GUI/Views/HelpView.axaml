@@ -2,7 +2,55 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels"
+             xmlns:c="clr-namespace:Yuyuyui.PrivateServer.GUI.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Yuyuyui.PrivateServer.GUI.Views.HelpView">
-  Help Page
+    
+    <Design.DataContext>
+        <vm:HelpViewModel />
+    </Design.DataContext>
+    
+    <ScrollViewer AllowAutoHide="True">
+
+        <ItemsControl Items="{Binding Buttons}">
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                    VerticalContentAlignment="Center" Height="40">
+                        
+                        <ContentControl.Template>
+                            
+                            <ControlTemplate>
+                                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                        Command="{Binding HelpNavigationButtonClick}">
+                                
+                                    <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                                        <Image Width="20" Height="20" DockPanel.Dock="Right"
+                                               Source="/Assets/Icons/Navigation/forward.png" />
+                                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                                   Text="{Binding ButtonText}" />
+
+                                    </DockPanel>
+                                </Button>
+                            </ControlTemplate>
+                            
+                        </ContentControl.Template>
+                        
+                    </ContentControl>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Spacing="5" Margin="10 0 15 0"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+        </ItemsControl>
+
+    </ScrollViewer>
+    
 </UserControl>

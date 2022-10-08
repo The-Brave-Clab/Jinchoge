@@ -2,7 +2,7 @@
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels
 {
-    internal class MainWindowBottomToolbarViewModel : ViewModelBase
+    internal class ToolbarViewModel : ViewModelBase
     {
         private string progressBarText = "";
         public string ProgressBarText
