@@ -25,7 +25,7 @@
 
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Spacing="5" Margin="10 0 15 0"/>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Spacing="5" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 

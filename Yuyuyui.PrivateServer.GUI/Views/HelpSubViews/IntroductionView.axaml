@@ -17,9 +17,10 @@
 
             <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/introduction/p1.md" />
             <c:HelpTopicButton ButtonText="{Binding PrivateServerButtonText}" Command="{Binding PrivateServerButtonCommand}" />
-            
-            
+            <c:HelpTopicButton ButtonText="{Binding AccountTransferButtonText}" Command="{Binding AccountTransferButtonCommand}" />
             <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/introduction/p2.md" />
+            <c:HelpTopicButton ButtonText="{Binding InstallCertIosButtonText}" Command="{Binding InstallCertIosButtonCommand}" />
+            <c:HelpTopicButton ButtonText="{Binding InstallCertAndroidButtonText}" Command="{Binding InstallCertAndroidButtonCommand}" />
             <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/introduction/p3.md" />
 
         </StackPanel>
