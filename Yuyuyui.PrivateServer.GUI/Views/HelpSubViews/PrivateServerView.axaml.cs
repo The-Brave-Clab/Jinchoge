@@ -12,7 +12,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views.HelpSubViews
 
         private void Button_OnClick(object? sender, RoutedEventArgs e)
         {
-            HelpViewModel!.PushPage(typeof(GeneralInfoView));
+            HelpViewModel!.PushPage(typeof(IntroductionView));
         }
     }
 }

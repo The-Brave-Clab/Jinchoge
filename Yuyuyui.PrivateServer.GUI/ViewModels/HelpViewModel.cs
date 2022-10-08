@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reactive.Linq;
 using Avalonia.Controls;
 using ReactiveUI;
 using Yuyuyui.PrivateServer.GUI.Views.HelpSubViews;
@@ -29,16 +31,24 @@ public class HelpViewModel : ViewModelBase
 
     private Stack<HelpSubViewBase> pageStack;
 
+    private static Dictionary<Type, string> ButtonInfo => new()
+    {
+        { typeof(IntroductionView), "What is This Project?" },
+        { typeof(PrivateServerView), "How to Use Private Server" },
+    };
+
     public HelpViewModel()
     {
         pageStack = new Stack<HelpSubViewBase>();
 
         IsRootPage = true;
-        HelpTopics = new ObservableCollection<HelpButtonDataTemplate>
-        {
-            new() { page = typeof(GeneralInfoView), ButtonText = "What is this project?", helpVM = new(this) },
-            new() { page = typeof(PrivateServerView), ButtonText = "How to Use Private Server", helpVM = new(this) },
-        };
+        HelpTopics = new ObservableCollection<HelpButtonDataTemplate>(ButtonInfo
+            .Select(i => new HelpButtonDataTemplate()
+            {
+                helpVM = new(this),
+                page = i.Key,
+                ButtonText = i.Value
+            }));
     }
 
     public void PushPage(Type page)

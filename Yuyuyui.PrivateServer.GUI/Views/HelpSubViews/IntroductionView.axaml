@@ -4,9 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Yuyuyui.PrivateServer.GUI.Views.AboutView">
+             x:Class="Yuyuyui.PrivateServer.GUI.Views.HelpSubViews.IntroductionView">
 
-    <md:MarkdownScrollViewer
-        Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/about.md" />
+    <ScrollViewer VerticalAlignment="Stretch">
+        <StackPanel Orientation="Vertical">
+
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/introduction.md" />
+
+        </StackPanel>
+    </ScrollViewer>
 
 </UserControl>

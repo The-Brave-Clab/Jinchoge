@@ -8,19 +8,17 @@
              x:Class="Yuyuyui.PrivateServer.GUI.Views.HelpSubViews.PrivateServerView">
 
 
-    <Grid RowDefinitions="1*" VerticalAlignment="Stretch">
-        <ScrollViewer Grid.Row="0" VerticalAlignment="Stretch">
-            <StackPanel Orientation="Vertical" Margin="0 0 10 0">
-                
-                <md:MarkdownScrollViewer>
-                    # How to Use Private Server
+    <ScrollViewer VerticalAlignment="Stretch">
+        <StackPanel Orientation="Vertical">
 
-                    This page describes how to use the private server.
-                </md:MarkdownScrollViewer>
-                <Button Content="About Private Server" Click="Button_OnClick"></Button>
-                
-            </StackPanel>
-        </ScrollViewer>
-    </Grid>
+            <md:MarkdownScrollViewer>
+                # How to Use Private Server
+
+                This page describes how to use the private server.
+            </md:MarkdownScrollViewer>
+            <Button Content="About Private Server" Click="Button_OnClick"></Button>
+
+        </StackPanel>
+    </ScrollViewer>
 
 </UserControl>

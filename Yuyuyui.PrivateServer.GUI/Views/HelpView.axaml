@@ -55,11 +55,21 @@
 
         </ScrollViewer>
         
-        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsVisible="{Binding !IsRootPage}" LastChildFill="True">
+        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                   IsVisible="{Binding !IsRootPage}" LastChildFill="True">
             
-            <Button Content="Back" Command="{Binding PopPage}" DockPanel.Dock="Top"/>
+            <Button Command="{Binding PopPage}" DockPanel.Dock="Top" Margin="0 0 0 5">
+                
+                <DockPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" LastChildFill="True">
+                    
+                    <Image Source="/Assets/Icons/Navigation/back.png" Width="20" Height="20" DockPanel.Dock="Left"></Image>
+                    <TextBlock Text="Back" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    
+                </DockPanel>
+                
+            </Button>
             
-            <ContentPresenter Content="{Binding CurrentPage}" />
+            <ContentPresenter Content="{Binding CurrentPage}" Margin="0 0 10 0" />
             
         </DockPanel>
         

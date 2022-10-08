@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace Yuyuyui.PrivateServer.GUI.Views.HelpSubViews
 {
-    public partial class GeneralInfoView : HelpSubViewBase
+    public partial class IntroductionView : HelpSubViewBase
     {
-        public GeneralInfoView()
+        public IntroductionView()
         {
             InitializeComponent();
         }
