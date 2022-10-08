@@ -1,31 +1,84 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Avalonia.Collections;
+using Avalonia.Controls;
+using ReactiveUI;
+using Yuyuyui.PrivateServer.GUI.Views.HelpSubViews;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels;
 
 public class HelpViewModel : ViewModelBase
 {
-    public ObservableCollection<HelpButtonDataTemplate> Buttons { get; }
+    public ObservableCollection<HelpButtonDataTemplate> HelpTopics { get; }
+
+    private bool isRootPage = true;
+
+    public bool IsRootPage
+    {
+        get => isRootPage;
+        set => this.RaiseAndSetIfChanged(ref isRootPage, value);
+    }
+
+    private object? currentPage = true;
+
+    public object? CurrentPage
+    {
+        get => currentPage;
+        set => this.RaiseAndSetIfChanged(ref currentPage, value);
+    }
+
+    private Stack<HelpSubViewBase> pageStack;
 
     public HelpViewModel()
     {
-        Buttons = new ObservableCollection<HelpButtonDataTemplate>
+        pageStack = new Stack<HelpSubViewBase>();
+
+        IsRootPage = true;
+        HelpTopics = new ObservableCollection<HelpButtonDataTemplate>
         {
-            new() { ButtonName = "GeneralInfo",     ButtonText = "What is this project?" },
-            new() { ButtonName = "PrivateServer",   ButtonText = "How to Use the Private Server?" },
-            new() { ButtonName = "AccountTransfer", ButtonText = "How to Use the Account Transfer Tool?" },
+            new() { page = typeof(GeneralInfoView), ButtonText = "What is this project?", helpVM = new(this) },
+            new() { page = typeof(PrivateServerView), ButtonText = "How to Use Private Server", helpVM = new(this) },
         };
+    }
+
+    public void PushPage(Type page)
+    {
+        if (!page.IsSubclassOf(typeof(HelpSubViewBase))) return;
+
+        var newPage = (HelpSubViewBase?)Activator.CreateInstance(page)!;
+        newPage.HelpViewModel = this;
+
+        pageStack.Push(newPage);
+
+        CurrentPage = newPage;
+        IsRootPage = pageStack.Count == 0;
+    }
+
+    public void PopPage()
+    {
+        if (pageStack.Count == 0) return;
+
+        pageStack.Pop();
+
+        if (pageStack.Count != 0)
+            CurrentPage = pageStack.Peek();
+        
+        IsRootPage = pageStack.Count == 0;
     }
 
     public class HelpButtonDataTemplate
     {
-        public string ButtonName { get; set; } = "";
+        public WeakReference<HelpViewModel?> helpVM = new (null);
+        public Type page = typeof(object);
+
         public string ButtonText { get; set; } = "";
 
         public void HelpNavigationButtonClick()
         {
-            Utils.LogWarning(ButtonName);
+            if (helpVM.TryGetTarget(out var helpViewModel))
+            {
+                helpViewModel.PushPage(page);
+            }
         }
     }
 }

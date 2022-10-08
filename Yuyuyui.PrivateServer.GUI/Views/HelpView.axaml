@@ -11,46 +11,58 @@
         <vm:HelpViewModel />
     </Design.DataContext>
     
-    <ScrollViewer AllowAutoHide="True">
+    <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    
+        <ScrollViewer AllowAutoHide="True" IsVisible="{Binding IsRootPage}">
 
-        <ItemsControl Items="{Binding Buttons}">
+            <ItemsControl Items="{Binding HelpTopics}">
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                    VerticalContentAlignment="Center" Height="40">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                        VerticalContentAlignment="Center" Height="40">
                         
-                        <ContentControl.Template>
+                            <ContentControl.Template>
                             
-                            <ControlTemplate>
-                                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                        Command="{Binding HelpNavigationButtonClick}">
+                                <ControlTemplate>
+                                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                            Command="{Binding HelpNavigationButtonClick}">
                                 
-                                    <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-                                        <Image Width="20" Height="20" DockPanel.Dock="Right"
-                                               Source="/Assets/Icons/Navigation/forward.png" />
-                                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                                                   Text="{Binding ButtonText}" />
+                                            <Image Width="20" Height="20" DockPanel.Dock="Right"
+                                                   Source="/Assets/Icons/Navigation/forward.png" />
+                                            <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                                       Text="{Binding ButtonText}" />
 
-                                    </DockPanel>
-                                </Button>
-                            </ControlTemplate>
+                                        </DockPanel>
+                                    </Button>
+                                </ControlTemplate>
                             
-                        </ContentControl.Template>
+                            </ContentControl.Template>
                         
-                    </ContentControl>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+                        </ContentControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
 
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Spacing="5" Margin="10 0 15 0"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Spacing="5" Margin="10 0 15 0"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-        </ItemsControl>
+            </ItemsControl>
 
-    </ScrollViewer>
+        </ScrollViewer>
+        
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsVisible="{Binding !IsRootPage}">
+            
+            <Button Content="Back" Command="{Binding PopPage}" />
+            
+            <ContentPresenter Content="{Binding CurrentPage}"></ContentPresenter>
+            
+        </StackPanel>
+        
+    </Panel>
     
 </UserControl>
