@@ -59,22 +59,27 @@ public class HelpViewModel : ViewModelBase
     {
         if (!page.IsSubclassOf(typeof(HelpSubViewBase))) return;
 
-        var newPage = (HelpSubViewBase?)Activator.CreateInstance(page)!;
-        newPage.HelpViewModel = this;
+        var newPage = pageStack.FirstOrDefault(p => p.GetType() == page);
 
-        var viewModelType = Type.GetType(page.FullName?.Replace("View", "ViewModel") ?? "") ?? 
-                            typeof(HelpSubViewModelBase);
-
-        var vm = (HelpSubViewModelBase?)Activator.CreateInstance(viewModelType);
-        if (vm != null)
+        if (newPage == null)
         {
-            vm.HelpViewModel = this;
-            newPage.DataContext = vm;
+            newPage = (HelpSubViewBase?)Activator.CreateInstance(page)!;
+            newPage.HelpViewModel = this;
+
+            var viewModelType = Type.GetType(page.FullName?.Replace("View", "ViewModel") ?? "") ??
+                                typeof(HelpSubViewModelBase);
+
+            var vm = (HelpSubViewModelBase?)Activator.CreateInstance(viewModelType);
+            if (vm != null)
+            {
+                vm.HelpViewModel = this;
+                newPage.DataContext = vm;
+            }
         }
 
         pageStack.Push(newPage);
-
         CurrentPage = newPage;
+        
         IsRootPage = pageStack.Count == 0;
     }
 
