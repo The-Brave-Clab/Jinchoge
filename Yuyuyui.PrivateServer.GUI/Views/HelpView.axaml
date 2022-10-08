@@ -19,29 +19,7 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                        VerticalContentAlignment="Center" Height="40">
-                        
-                            <ContentControl.Template>
-                            
-                                <ControlTemplate>
-                                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                            Command="{Binding HelpNavigationButtonClick}">
-                                
-                                        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
-                                            <Image Width="20" Height="20" DockPanel.Dock="Right"
-                                                   Source="/Assets/Icons/Navigation/forward.png" />
-                                            <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                                                       Text="{Binding ButtonText}" />
-
-                                        </DockPanel>
-                                    </Button>
-                                </ControlTemplate>
-                            
-                            </ContentControl.Template>
-                        
-                        </ContentControl>
+                        <c:HelpTopicButton Command="{Binding HelpNavigationButtonClick}" ButtonText="{Binding ButtonText}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
 

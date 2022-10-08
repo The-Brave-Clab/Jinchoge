@@ -1,0 +1,33 @@
+﻿<ContentControl xmlns="https://github.com/avaloniaui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:c="clr-namespace:Yuyuyui.PrivateServer.GUI.Controls"
+                x:Class="Yuyuyui.PrivateServer.GUI.Controls.HelpTopicButton">
+    
+    <ContentControl.Styles>
+        <Style Selector="c|HelpTopicButton">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Template">
+                            
+                <ControlTemplate>
+                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            Command="{TemplateBinding Command}">
+                                
+                        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                            <Image Width="20" Height="20" DockPanel.Dock="Right"
+                                   Source="/Assets/Icons/Navigation/forward.png" />
+                            <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                       Text="{TemplateBinding ButtonText}" />
+
+                        </DockPanel>
+                    </Button>
+                </ControlTemplate>
+                
+            </Setter>
+        </Style>
+    </ContentControl.Styles>
+    
+</ContentControl>

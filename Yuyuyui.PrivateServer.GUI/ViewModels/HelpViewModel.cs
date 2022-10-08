@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using Avalonia.Controls;
 using ReactiveUI;
-using Yuyuyui.PrivateServer.GUI.Views.HelpSubViews;
+using Yuyuyui.PrivateServer.GUI.Views;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels;
 
@@ -31,7 +31,7 @@ public class HelpViewModel : ViewModelBase
 
     private Stack<HelpSubViewBase> pageStack;
 
-    private static Dictionary<Type, string> ButtonInfo => new()
+    public static Dictionary<Type, string> ButtonInfo => new()
     {
         { typeof(IntroductionView), "What is This Project?" },
         { typeof(PrivateServerView), "How to Use Private Server" },
@@ -57,6 +57,17 @@ public class HelpViewModel : ViewModelBase
 
         var newPage = (HelpSubViewBase?)Activator.CreateInstance(page)!;
         newPage.HelpViewModel = this;
+
+        var viewModelType = Type.GetType(page.FullName?.Replace("View", "ViewModel") ?? "");
+        if (viewModelType != null)
+        {
+            var vm = (HelpSubViewModelBase?)Activator.CreateInstance(viewModelType);
+            if (vm != null)
+            {
+                vm.HelpViewModel = this;
+                newPage.DataContext = vm;
+            }
+        }
 
         pageStack.Push(newPage);
 

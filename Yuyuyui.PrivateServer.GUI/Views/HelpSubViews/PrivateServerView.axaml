@@ -3,10 +3,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:c="clr-namespace:Yuyuyui.PrivateServer.GUI.Controls"
+             xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
-             x:Class="Yuyuyui.PrivateServer.GUI.Views.HelpSubViews.PrivateServerView">
+             x:Class="Yuyuyui.PrivateServer.GUI.Views.PrivateServerView">
 
+    <Design.DataContext>
+        <vm:PrivateServerViewModel />
+    </Design.DataContext>
 
     <ScrollViewer VerticalAlignment="Stretch">
         <StackPanel Orientation="Vertical">
@@ -16,7 +20,7 @@
 
                 This page describes how to use the private server.
             </md:MarkdownScrollViewer>
-            <Button Content="About Private Server" Click="Button_OnClick"></Button>
+            <c:HelpTopicButton ButtonText="{Binding IntroductionButtonText}" Command="{Binding IntroductionButtonCommand}" />
 
         </StackPanel>
     </ScrollViewer>
