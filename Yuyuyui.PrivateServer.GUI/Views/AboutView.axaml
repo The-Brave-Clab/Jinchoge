@@ -7,6 +7,6 @@
              x:Class="Yuyuyui.PrivateServer.GUI.Views.AboutView">
 
     <md:MarkdownScrollViewer
-        Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/AboutPage.md"/>
+        Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/AboutText.md"/>
 
 </UserControl>

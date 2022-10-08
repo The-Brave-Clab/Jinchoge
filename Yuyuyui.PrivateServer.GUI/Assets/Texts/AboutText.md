@@ -4,8 +4,8 @@ This project initially started as a personal hobby project,
 but with the community's help, it is currently serving as a preservation 
 of the original game.
 
-**None of the author(s) of the project is directly or indirectly affiliated with the game. 
-Furthermore, the project is not authorized by the developers or the license holder of the original game.**
+**None of the author(s) of this project is directly or indirectly affiliated with the game. 
+Furthermore, this project is not authorized by the developers or the license holder of the original game.**
 
 This software is licensed under **The Unlicense**. See the license full text below.
 
@@ -104,4 +104,4 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-For more information, please refer to [https://unlicense.org](https://unlicense.org)
+For more information, please refer to <[https://unlicense.org](https://unlicense.org)>
