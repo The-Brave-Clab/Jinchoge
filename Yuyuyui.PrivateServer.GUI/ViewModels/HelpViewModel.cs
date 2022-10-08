@@ -33,8 +33,12 @@ public class HelpViewModel : ViewModelBase
 
     public static Dictionary<Type, string> ButtonInfo => new()
     {
-        { typeof(IntroductionView), "What is This Project?" },
-        { typeof(PrivateServerView), "How to Use Private Server" },
+        { typeof(IntroductionView),              "What is This Project" },
+        { typeof(PrivateServerView),             "How to Use Private Server" },
+        { typeof(AccountTransferView),           "How to Use the Account Transfer Tool" },
+        { typeof(ChooseProperProxyIpView),       "How to Choose the Correct Proxy IP" },
+        { typeof(InstallCertificateIosView),     "How to Install an SSL Certificate (iOS)" },
+        { typeof(InstallCertificateAndroidView), "How to Install an SSL Certificate (Android)" },
     };
 
     public HelpViewModel()
