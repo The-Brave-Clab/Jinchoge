@@ -5,8 +5,7 @@ but with the community's help, it is currently serving as a preservation
 of the original game.
 
 **None of the author(s) of the project is directly or indirectly affiliated with the game. 
-Furthermore, the project is not authorized by the developers or the license holder of the original game. 
-The license of Yuyuyui is held by ©Project 2H and ©KADOKAWA CORPORATION.**
+Furthermore, the project is not authorized by the developers or the license holder of the original game.**
 
 This software is licensed under **The Unlicense**. See the license full text below.
 
