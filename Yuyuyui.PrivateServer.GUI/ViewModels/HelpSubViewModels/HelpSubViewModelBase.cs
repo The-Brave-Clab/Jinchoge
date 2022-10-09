@@ -12,7 +12,7 @@ public class HelpSubViewModelBase : ViewModelBase
         IntroductionButtonText = HelpViewModel.ButtonInfo[typeof(IntroductionView)];
         PrivateServerButtonText = HelpViewModel.ButtonInfo[typeof(PrivateServerView)];
         AccountTransferButtonText = HelpViewModel.ButtonInfo[typeof(AccountTransferView)];
-        ChooseIpButtonText = HelpViewModel.ButtonInfo[typeof(ConnectToProxyView)];
+        ConnectProxyButtonText = HelpViewModel.ButtonInfo[typeof(ConnectToProxyView)];
         InstallCertIosButtonText = HelpViewModel.ButtonInfo[typeof(InstallCertificateIosView)];
         InstallCertAndroidButtonText = HelpViewModel.ButtonInfo[typeof(InstallCertificateAndroidView)];
     }
@@ -56,15 +56,15 @@ public class HelpSubViewModelBase : ViewModelBase
         HelpViewModel!.PushPage(typeof(AccountTransferView));
     }
     
-    private string chooseIpButtonText = "";
+    private string connectProxyButtonText = "";
 
-    public string ChooseIpButtonText
+    public string ConnectProxyButtonText
     {
-        get => chooseIpButtonText;
-        set => this.RaiseAndSetIfChanged(ref chooseIpButtonText, value);
+        get => connectProxyButtonText;
+        set => this.RaiseAndSetIfChanged(ref connectProxyButtonText, value);
     }
 
-    public void ChooseIpButtonCommand()
+    public void ConnectProxyButtonCommand()
     {
         HelpViewModel!.PushPage(typeof(ConnectToProxyView));
     }

@@ -109,8 +109,8 @@
             </Button>
             
             <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p6.md" />
-            <c:HelpTopicButton ButtonText="{Binding ChooseIpButtonText}"
-                               Command="{Binding ChooseIpButtonCommand}" />
+            <c:HelpTopicButton ButtonText="{Binding ConnectProxyButtonText}"
+                               Command="{Binding ConnectProxyButtonCommand}" />
             <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p7.md" />
             <c:HelpTopicButton ButtonText="{Binding InstallCertIosButtonText}"
                                Command="{Binding InstallCertIosButtonCommand}" />

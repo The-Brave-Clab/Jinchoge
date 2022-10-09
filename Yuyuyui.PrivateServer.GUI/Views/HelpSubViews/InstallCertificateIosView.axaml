@@ -16,6 +16,9 @@
         <StackPanel Orientation="Vertical">
 
             <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/install-cert/ios/p1.md" />
+            <c:HelpTopicButton ButtonText="{Binding ConnectProxyButtonText}"
+                               Command="{Binding ConnectProxyButtonCommand}" />
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/install-cert/ios/p2.md" />
 
         </StackPanel>
     </ScrollViewer>
