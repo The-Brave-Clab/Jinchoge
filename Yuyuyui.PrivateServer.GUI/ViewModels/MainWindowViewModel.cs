@@ -18,6 +18,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         internal LogViewModel logVM;
         internal TransferViewModel transferVM;
         internal StatusViewModel statusVM;
+        internal HelpViewModel helpVM;
 
         public enum ServerStatus
         {
@@ -39,6 +40,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             logVM = new LogViewModel();
             transferVM = new TransferViewModel(this);
             statusVM = new StatusViewModel();
+            helpVM = new HelpViewModel();
         }
 
         public MainWindowViewModel()
@@ -54,6 +56,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             logVM = new LogViewModel();
             transferVM = new TransferViewModel(this);
             statusVM = new StatusViewModel();
+            helpVM = new HelpViewModel();
         }
 
         private ServerStatus status = ServerStatus.Stopped;
@@ -70,22 +73,8 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                 IsStarted = status == ServerStatus.Started;
                 CanStart = (status != ServerStatus.Transfer && status != ServerStatus.Updating);
                 IsTransferPageEnabled = (status != ServerStatus.Started && status != ServerStatus.Updating);
-                ButtonContent = status switch
-                {
-                    ServerStatus.Updating => "UPDATING",
-                    ServerStatus.Stopped => "START",
-                    ServerStatus.Started => "STOP",
-                    ServerStatus.Transfer => "TRANSFER",
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-                ButtonDescription = status switch
-                {
-                    ServerStatus.Updating => "Updating Required Files...",
-                    ServerStatus.Stopped => "Start the Private Server",
-                    ServerStatus.Started => $"Listening at Port {endpoint!.Port}",
-                    ServerStatus.Transfer => "Transferring Account...",
-                    _ => throw new ArgumentOutOfRangeException()
-                };
+                ButtonContent = GetButtonContent(status);
+                ButtonDescription = GetButtonDescription(status);
 
                 statusVM?.SetServerStatus(value);
                 transferVM?.SetServerStatus(value);
@@ -97,6 +86,30 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                     mainWindow.LogButton.IsChecked = true;
                 }
             }
+        }
+
+        public static string GetButtonContent(ServerStatus status)
+        {
+            return status switch
+            {
+                ServerStatus.Updating => "UPDATING",
+                ServerStatus.Stopped => "START",
+                ServerStatus.Started => "STOP",
+                ServerStatus.Transfer => "TRANSFER",
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
+        public static string GetButtonDescription(ServerStatus status)
+        {
+            return status switch
+            {
+                ServerStatus.Updating => "Updating Required Files...",
+                ServerStatus.Stopped => "Start the Private Server",
+                ServerStatus.Started => "Private Server is running",
+                ServerStatus.Transfer => "Transferring Account...",
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         private string buttonContent;
@@ -172,7 +185,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             Status = ServerStatus.Updating;
 
             window.TryGetTarget(out var mainWindow);
-            var toolbarVM = (MainWindowBottomToolbarViewModel)mainWindow!.BottomToolBar.DataContext!;
+            var toolbarVM = (ToolbarViewModel)mainWindow!.BottomToolBar.DataContext!;
             toolbarVM.ClearProgressBar();
 
             toolbarVM.IsProgressIndeterminate = true;

@@ -2,7 +2,55 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels"
+             xmlns:c="clr-namespace:Yuyuyui.PrivateServer.GUI.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Yuyuyui.PrivateServer.GUI.Views.HelpView">
-  Help Page
+    
+    <Design.DataContext>
+        <vm:HelpViewModel />
+    </Design.DataContext>
+    
+    <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    
+        <ScrollViewer AllowAutoHide="True" IsVisible="{Binding IsRootPage}">
+
+            <ItemsControl Items="{Binding HelpTopics}">
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <c:HelpTopicButton Command="{Binding HelpNavigationButtonClick}" ButtonText="{Binding ButtonText}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Spacing="5" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+            </ItemsControl>
+
+        </ScrollViewer>
+        
+        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                   IsVisible="{Binding !IsRootPage}" LastChildFill="True">
+            
+            <Button Command="{Binding PopPage}" DockPanel.Dock="Top" Margin="0 0 0 5">
+                
+                <DockPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" LastChildFill="True">
+                    
+                    <Image Source="/Assets/Icons/Navigation/back.png" Width="20" Height="20" DockPanel.Dock="Left"></Image>
+                    <TextBlock Text="Back" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    
+                </DockPanel>
+                
+            </Button>
+            
+            <ContentPresenter Content="{Binding CurrentPage}" Margin="0 0 10 0" />
+            
+        </DockPanel>
+        
+    </Panel>
+    
 </UserControl>

@@ -102,7 +102,7 @@
                 <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" Opacity="0.7"></Panel>
                 <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 10 10 10">
                     <Design.DataContext>
-                        <vm:MainWindowBottomToolbarViewModel />
+                        <vm:ToolbarViewModel />
                     </Design.DataContext>
                     <StackPanel IsVisible="{Binding IsProgressBarVisible}" Orientation="Horizontal"
                                 HorizontalAlignment="Right" Spacing="20" Height="20">
@@ -185,7 +185,7 @@
                                     </Grid>
                                 </uc:NavigationButton>
 
-                                <uc:NavigationButton Name="HelpButton" Checked="OnNavigationButtonChecked" IsEnabled="False">
+                                <uc:NavigationButton Name="HelpButton" Checked="OnNavigationButtonChecked">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/help.png" Grid.Column="0"/>
                                         <TextBlock Text="HELP" Grid.Column="1" />

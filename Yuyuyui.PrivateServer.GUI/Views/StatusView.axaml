@@ -14,106 +14,129 @@
 
         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Private Server is not running."
                    IsVisible="{Binding NotStartedMessageVisible}" />
-        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Private Server is updating required files..."
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
+                   Text="Private Server is updating required files..."
                    IsVisible="{Binding UpdatingMessageVisible}" />
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding StartedPanelVisible}">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding StartedPanelVisible}" Spacing="50">
 
-            <TextBlock HorizontalAlignment="Left" Text="{Binding CurrentProcess}"></TextBlock>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock HorizontalAlignment="Left" Text="Proxy is listening at port "></TextBlock>
-                <TextBlock HorizontalAlignment="Left" Text="{Binding ListeningPort}" Foreground="Yellow"></TextBlock>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <TextBlock HorizontalAlignment="Left" Text="{Binding CurrentProcess}"></TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock HorizontalAlignment="Left" Text="Proxy is listening at port "></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding ListeningPort}" Foreground="Yellow"></TextBlock>
+                </StackPanel>
+                <TextBlock HorizontalAlignment="Left" Text=" "></TextBlock>
+                <TextBlock HorizontalAlignment="Left" Text="{Binding IpMessage}"></TextBlock>
+                <TextBlock HorizontalAlignment="Left" Text=" "></TextBlock>
+
+                <StackPanel Orientation="Horizontal">
+
+
+                    <StackPanel.Styles>
+                        <Style Selector="TextBlock.ip">
+                            <Setter Property="Foreground" Value="LightGreen"></Setter>
+                        </Style>
+                        <Style Selector="TextBlock.dev">
+                            <Setter Property="Foreground" Value="LightBlue"></Setter>
+                            <Setter Property="Margin" Value="15 0"></Setter>
+                        </Style>
+                        <Style Selector="TextBlock.eth">
+                            <Setter Property="Foreground" Value="Pink"></Setter>
+                        </Style>
+                    </StackPanel.Styles>
+
+
+                    <ItemsControl Items="{Binding NetworkInterfaces}">
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Socket}" Classes="ip"></TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                    </ItemsControl>
+
+                    <ItemsControl Items="{Binding NetworkInterfaces}">
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text=" : 44460" Classes="ip"></TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                    </ItemsControl>
+
+
+                    <ItemsControl Items="{Binding NetworkInterfaces}">
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Description}" Classes="dev"></TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                    </ItemsControl>
+
+
+                    <ItemsControl Items="{Binding NetworkInterfaces}">
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" Classes="eth"></TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                    </ItemsControl>
+
+                </StackPanel>
+
+
             </StackPanel>
-            <TextBlock HorizontalAlignment="Left" Text=" "></TextBlock>
-            <TextBlock HorizontalAlignment="Left" Text="{Binding IpMessage}"></TextBlock>
-            <TextBlock HorizontalAlignment="Left" Text=" "></TextBlock>
-
-            <StackPanel Orientation="Horizontal">
-
-
-                <StackPanel.Styles>
-                    <Style Selector="TextBlock.ip">
-                        <Setter Property="Foreground" Value="LightGreen"></Setter>
-                    </Style>
-                    <Style Selector="TextBlock.dev">
-                        <Setter Property="Foreground" Value="LightBlue"></Setter>
-                        <Setter Property="Margin" Value="15 0"></Setter>
-                    </Style>
-                    <Style Selector="TextBlock.eth">
-                        <Setter Property="Foreground" Value="Pink"></Setter>
-                    </Style>
-                </StackPanel.Styles>
-
-
-                <ItemsControl Items="{Binding NetworkInterfaces}">
-
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Socket}" Classes="ip"></TextBlock>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-
-                </ItemsControl>
-
-                <ItemsControl Items="{Binding NetworkInterfaces}">
-
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text=" : 44460" Classes="ip"></TextBlock>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-
-                </ItemsControl>
-
-
-                <ItemsControl Items="{Binding NetworkInterfaces}">
-
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Description}" Classes="dev"></TextBlock>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-
-                </ItemsControl>
-
-
-                <ItemsControl Items="{Binding NetworkInterfaces}">
-
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" Classes="eth"></TextBlock>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-
-                </ItemsControl>
-
+            
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+                
+                <TextBlock Text="Which one should I use?" />
+                
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Grid RowDefinitions="*,*" ColumnDefinitions="*,*">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="IP Address" Margin="0 0 10 0" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding IpAddressInput}" AcceptsReturn="False" AcceptsTab="False" Width="200" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Subnet Mask" Margin="0 0 10 0" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SubnetMaskInput}" AcceptsReturn="False" AcceptsTab="False" Width="200" />
+                    </Grid>
+                    
+                    <Button Content="Filter" Command="{Binding SetFilter}" IsEnabled="{Binding InputValid}" Width="100" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Button Content="Clear Filter" Command="{Binding ClearFilter}" Width="100" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                </StackPanel>
+                
             </StackPanel>
-
-
+            
         </StackPanel>
 
     </Panel>

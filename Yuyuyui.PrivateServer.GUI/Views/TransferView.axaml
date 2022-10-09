@@ -7,7 +7,7 @@
              x:Class="Yuyuyui.PrivateServer.GUI.Views.TransferView">
 
     <Design.DataContext>
-        <vm:TransferViewModel></vm:TransferViewModel>
+        <vm:TransferViewModel />
     </Design.DataContext>
 
     <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

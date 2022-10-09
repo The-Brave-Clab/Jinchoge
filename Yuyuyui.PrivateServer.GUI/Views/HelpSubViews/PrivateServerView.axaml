@@ -1,0 +1,124 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c="clr-namespace:Yuyuyui.PrivateServer.GUI.Controls"
+             xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
+             x:Class="Yuyuyui.PrivateServer.GUI.Views.PrivateServerView">
+
+    <Design.DataContext>
+        <vm:PrivateServerViewModel />
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <Style Selector="Image.MainButtonIcon">
+            <Style.Animations>
+                <Animation Duration="0:0:1.5" IterationCount="Infinite" FillMode="None" PlaybackDirection="Normal">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="RotateTransform.Angle" Value="-45" />
+                    </KeyFrame>
+                    <KeyFrame Cue="25%">
+                        <Setter Property="RotateTransform.Angle" Value="45" />
+                    </KeyFrame>
+                    <KeyFrame Cue="50%">
+                        <Setter Property="RotateTransform.Angle" Value="135" />
+                    </KeyFrame>
+                    <KeyFrame Cue="75%">
+                        <Setter Property="RotateTransform.Angle" Value="225" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="RotateTransform.Angle" Value="315" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+    </UserControl.Styles>
+
+    <ScrollViewer VerticalAlignment="Stretch">
+        <StackPanel Orientation="Vertical">
+
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p1.md" />
+            <c:HelpTopicButton ButtonText="{Binding IntroductionButtonText}"
+                               Command="{Binding IntroductionButtonCommand}" />
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p2.md" />
+            <c:HelpTopicButton ButtonText="{Binding AccountTransferButtonText}"
+                               Command="{Binding AccountTransferButtonCommand}" />
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p3.md" />
+
+            <Button HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                    Width="300" Height="100">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
+                            Orientation="Horizontal" Width="280" Height="80" Spacing="5" Margin="0 3 0 0">
+                    <Panel DockPanel.Dock="Left" Width="80" VerticalAlignment="Center"
+                           HorizontalAlignment="Stretch">
+                        <Image Width="50" Height="50"
+                               VerticalAlignment="Center" HorizontalAlignment="Right"
+                               Source="/Assets/Icons/General/Start.png" />
+                    </Panel>
+                    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                Orientation="Vertical">
+                        <TextBlock Text="{Binding ButtonStartContent}" FontSize="30" Margin="0 10 0 0" />
+                        <TextBlock Text="{Binding ButtonStartDescription}" Margin="2 0 0 0" />
+                    </StackPanel>
+                </StackPanel>
+            </Button>
+            
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p4.md" />
+
+            <Button HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                    Width="300" Height="100" IsEnabled="False">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
+                            Orientation="Horizontal" Width="280" Height="80" Spacing="5" Margin="0 3 0 0">
+                    <Panel DockPanel.Dock="Left" Width="80" VerticalAlignment="Center"
+                           HorizontalAlignment="Stretch">
+                        <Image Classes="MainButtonIcon" Width="50"
+                               Height="50" VerticalAlignment="Center" HorizontalAlignment="Right"
+                               Source="/Assets/Icons/General/Loading.png" />
+                    </Panel>
+                    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                Orientation="Vertical">
+                        <TextBlock Text="{Binding ButtonUpdateContent}" FontSize="30" Margin="0 10 0 0" />
+                        <TextBlock Text="{Binding ButtonUpdateDescription}" Margin="2 0 0 0" />
+                    </StackPanel>
+                </StackPanel>
+            </Button>
+            
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p5.md" />
+
+            <Button HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                    Width="300" Height="100" IsEnabled="False">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
+                            Orientation="Horizontal" Width="280" Height="80" Spacing="5" Margin="0 3 0 0">
+                    <Panel DockPanel.Dock="Left" Width="80" VerticalAlignment="Center"
+                           HorizontalAlignment="Stretch">
+                        <Image Classes="MainButtonIcon" Width="50"
+                               Height="50" VerticalAlignment="Center" HorizontalAlignment="Right"
+                               Source="/Assets/Icons/General/Loading.png" />
+                    </Panel>
+                    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                Orientation="Vertical">
+                        <TextBlock Text="{Binding ButtonTransferContent}" FontSize="30" Margin="0 10 0 0" />
+                        <TextBlock Text="{Binding ButtonTransferDescription}" Margin="2 0 0 0" />
+                    </StackPanel>
+                </StackPanel>
+            </Button>
+            
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p6.md" />
+            <c:HelpTopicButton ButtonText="{Binding ConnectProxyButtonText}"
+                               Command="{Binding ConnectProxyButtonCommand}" />
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p7.md" />
+            <c:HelpTopicButton ButtonText="{Binding InstallCertIosButtonText}"
+                               Command="{Binding InstallCertIosButtonCommand}" />
+            <c:HelpTopicButton ButtonText="{Binding InstallCertAndroidButtonText}"
+                               Command="{Binding InstallCertAndroidButtonCommand}" />
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p8.md" />
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

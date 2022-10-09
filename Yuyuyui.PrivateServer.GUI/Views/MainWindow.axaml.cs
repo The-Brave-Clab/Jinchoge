@@ -31,7 +31,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             
             InitializeComponent();
 
-            var bottomToolbarVM = new MainWindowBottomToolbarViewModel
+            var toolbarVM = new ToolbarViewModel
             {
                 ToolbarText = "",
                 IsProgressIndeterminate = false,
@@ -39,7 +39,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                 ToolbarProgress = 0,
                 ProgressBarText = ""
             };
-            BottomToolBar.DataContext = bottomToolbarVM;
+            BottomToolBar.DataContext = toolbarVM;
 
             logView = new LogView
             {
@@ -71,7 +71,8 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             helpView = new HelpView
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
+                VerticalAlignment = VerticalAlignment.Stretch,
+                DataContext = mainWindowVM.helpVM
             };
 
             aboutView = new AboutView
@@ -99,7 +100,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                             Utils.LogType.Error => Brushes.Red,
                             _ => throw new ArgumentOutOfRangeException(nameof(t), t, null)
                         };
-                        bottomToolbarVM.ToolbarText = content;
+                        toolbarVM.ToolbarText = content;
                         mainWindowVM.logVM.Logs.Add(new LogEntry
                         {
                             LogType = t,

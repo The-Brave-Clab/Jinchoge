@@ -1,9 +1,11 @@
 ﻿using ReactiveUI;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using Avalonia.Threading;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels
 {
@@ -38,6 +40,11 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
         private void UpdateNetworkInfo()
         {
+            UpdateNetworkInfo(IPAddress.Any, IPAddress.Any);
+        }
+
+        private void UpdateNetworkInfo(IPAddress deviceAddress, IPAddress subnetMask)
+        {
             NetworkInterfaces.Clear();
 
             foreach (NetworkInterface netInterface in NetworkInterface.GetAllNetworkInterfaces())
@@ -55,6 +62,21 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                     if (bytes[0] == 169 && bytes[1] == 254)
                         continue;
 
+                    var deviceBytes = deviceAddress.GetAddressBytes();
+                    var maskBytes = subnetMask.GetAddressBytes();
+
+                    bool isSameSubnet = true;
+                    for (int i = 0; i < 4; ++i)
+                    {
+                        if ((bytes[i] & maskBytes[i]) != (deviceBytes[i] & maskBytes[i]))
+                        {
+                            isSameSubnet = false;
+                            break;
+                        }
+                    }
+
+                    if (!isSameSubnet) continue;
+
                     InterfaceDescription desc = new InterfaceDescription()
                     {
                         Socket = $"{addr.Address}",
@@ -70,9 +92,13 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             {
                 IpMessage = "Use one of the following addresses as your proxy:";
             }
-            else
+            else if (NetworkInterfaces.Count == 1)
             {
                 IpMessage = "Use the following address as your proxy:";
+            }
+            else
+            {
+                IpMessage = "There is no address can be used as your proxy!";
             }
         }
 
@@ -102,6 +128,46 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         {
             get => currentProcess;
             set => this.RaiseAndSetIfChanged(ref currentProcess, value);
+        }
+        
+        private string ipAddressInput = "";
+        public string IpAddressInput
+        {
+            get => ipAddressInput;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref ipAddressInput, value);
+                InputValid = IPAddress.TryParse(ipAddressInput, out _) && IPAddress.TryParse(subnetMaskInput, out _);
+            }
+        }
+        
+        private string subnetMaskInput = "";
+        public string SubnetMaskInput
+        {
+            get => subnetMaskInput;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref subnetMaskInput, value);
+                InputValid = IPAddress.TryParse(ipAddressInput, out _) && IPAddress.TryParse(subnetMaskInput, out _);
+            }
+        }
+
+        private bool inputValid = false;
+
+        public bool InputValid
+        {
+            get => inputValid;
+            set => this.RaiseAndSetIfChanged(ref inputValid, value);
+        }
+
+        public void SetFilter()
+        {
+            UpdateNetworkInfo(IPAddress.Parse(IpAddressInput), IPAddress.Parse(SubnetMaskInput));
+        }
+
+        public void ClearFilter()
+        {
+            UpdateNetworkInfo();
         }
 
         public void SetServerStatus(MainWindowViewModel.ServerStatus status)
