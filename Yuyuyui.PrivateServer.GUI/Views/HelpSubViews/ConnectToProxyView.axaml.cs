@@ -2,9 +2,9 @@
 
 namespace Yuyuyui.PrivateServer.GUI.Views
 {
-    public partial class ChooseProperProxyIpView : HelpSubViewBase
+    public partial class ConnectToProxyView : HelpSubViewBase
     {
-        public ChooseProperProxyIpView()
+        public ConnectToProxyView()
         {
             InitializeComponent();
         }

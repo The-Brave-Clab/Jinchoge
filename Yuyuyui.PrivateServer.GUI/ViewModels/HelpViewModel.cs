@@ -34,7 +34,7 @@ public class HelpViewModel : ViewModelBase
         { typeof(IntroductionView),              "What is This Project" },
         { typeof(PrivateServerView),             "How to Use Private Server" },
         { typeof(AccountTransferView),           "How to Use the Account Transfer Tool" },
-        { typeof(ChooseProperProxyIpView),       "How to Choose the Correct Proxy IP" },
+        { typeof(ConnectToProxyView),       "How to Connect to the Proxy" },
         { typeof(InstallCertificateIosView),     "How to Install an SSL Certificate (iOS)" },
         { typeof(InstallCertificateAndroidView), "How to Install an SSL Certificate (Android)" },
     };
