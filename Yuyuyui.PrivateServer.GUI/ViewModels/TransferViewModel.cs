@@ -23,7 +23,7 @@ public class TransferViewModel : ViewModelBase
         buttonContent = "";
         TaskCompleteStatusList = new ObservableCollection<TaskCompleteStatus>();
 
-        ResetTaskCompleteStatus();
+        ResetTaskCompleteStatus(TaskCompleteStatusList);
     }
 
     public TransferViewModel()
@@ -34,19 +34,22 @@ public class TransferViewModel : ViewModelBase
         buttonContent = "";
         TaskCompleteStatusList = new ObservableCollection<TaskCompleteStatus>();
 
-        ResetTaskCompleteStatus();
+        ResetTaskCompleteStatus(TaskCompleteStatusList);
     }
 
     public void SetServerStatus(MainWindowViewModel.ServerStatus status)
     {
-        ButtonContent = status switch
+        ButtonContent = GetButtonContent(status);
+    }
+
+    public static string GetButtonContent(MainWindowViewModel.ServerStatus status)
+    {
+        return status switch
         {
             MainWindowViewModel.ServerStatus.Stopped => "Start\nAccount\nTransfer",
             MainWindowViewModel.ServerStatus.Transfer => "Stop\nAccount\nTransfer",
             _ => ""
         };
-        
-        
     }
 
     private string buttonContent;
@@ -95,12 +98,12 @@ public class TransferViewModel : ViewModelBase
         }
     }
 
-    private void ResetTaskCompleteStatus()
+    public static void ResetTaskCompleteStatus(ObservableCollection<TaskCompleteStatus> list)
     {
-        TaskCompleteStatusList.Clear();
+        list.Clear();
         foreach (var task in TransferProgress.TaskName)
         {
-            TaskCompleteStatusList.Add(new()
+            list.Add(new()
             {
                 TaskType = task.Key,
                 TaskName = task.Value,
@@ -111,7 +114,7 @@ public class TransferViewModel : ViewModelBase
 
     private void StartTransfer()
     {
-        ResetTaskCompleteStatus();
+        ResetTaskCompleteStatus(TaskCompleteStatusList);
         
         TransferProgress.RegisterTaskCompleteCallback((task, progress) =>
         {
@@ -125,7 +128,7 @@ public class TransferViewModel : ViewModelBase
             Task.Run(() =>
             {
                 Thread.Sleep(5000);
-                Dispatcher.UIThread.Post(ResetTaskCompleteStatus);
+                Dispatcher.UIThread.Post(() => { ResetTaskCompleteStatus(TaskCompleteStatusList); });
             });
         });
 
