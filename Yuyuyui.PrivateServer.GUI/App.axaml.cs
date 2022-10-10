@@ -13,7 +13,7 @@ namespace Yuyuyui.PrivateServer.GUI
         {
             AvaloniaXamlLoader.Load(this);
 
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("zh");
+            // Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("zh");
         }
 
         public override void OnFrameworkInitializationCompleted()

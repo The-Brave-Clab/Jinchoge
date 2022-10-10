@@ -28,24 +28,18 @@ namespace Yuyuyui.PrivateServer.GUI.Controls
             set => SetValue(LogContentProperty, value);
         }
 
-        public static readonly DirectProperty<LogEntryControl, string> CreatedTimeProperty =
-            AvaloniaProperty.RegisterDirect<LogEntryControl, string>(
-                nameof(CreatedTime),
-                o => o.CreatedTime);
-
-        private string createdTime = "";
+        public static readonly StyledProperty<string> CreatedTimeProperty =
+            AvaloniaProperty.Register<LogEntryControl, string>(nameof(CreatedTime));
 
         public string CreatedTime
         {
-            get => createdTime;
-            private set => SetAndRaise(CreatedTimeProperty, ref createdTime, value);
+            get => GetValue(CreatedTimeProperty);
+            set => SetValue(CreatedTimeProperty, value);
         }
 
         public LogEntryControl()
         {
             InitializeComponent();
-
-            CreatedTime = $"[{DateTime.Now:HH:mm:ss}]";
         }
     }
 

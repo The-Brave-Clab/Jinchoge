@@ -20,7 +20,7 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <c:LogEntryControl LogContent="{Binding LogContent}" LogLevel="{Binding LogType}" />
+                        <c:LogEntryControl LogContent="{Binding LogContent}" LogLevel="{Binding LogType}" CreatedTime="{Binding CreatedTime}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
 

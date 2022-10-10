@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels
 {
@@ -15,5 +16,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
     {
         public Utils.LogType LogType { get; set; }
         public string LogContent { get; set; } = "";
+        public string CreatedTime { get; set; } = $"[{DateTime.Now:HH:mm:ss}]";
     }
 }
