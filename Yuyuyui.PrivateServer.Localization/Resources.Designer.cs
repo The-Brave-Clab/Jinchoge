@@ -226,6 +226,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to en.
+        /// </summary>
+        internal static string LAN_CODE {
+            get {
+                return ResourceManager.GetString("LAN_CODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Transfer Started!.
         /// </summary>
         internal static string LOG_AT_START {

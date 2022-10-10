@@ -78,7 +78,8 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             aboutView = new AboutView
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
+                VerticalAlignment = VerticalAlignment.Stretch,
+                DataContext = mainWindowVM.aboutVM
             };
 
 

@@ -15,10 +15,10 @@
     <ScrollViewer VerticalAlignment="Stretch">
         <StackPanel Orientation="Vertical">
 
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/install-cert/android/p1.md" />
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/en/Helps/install-cert/android/p1.md" />
             <c:HelpTopicButton ButtonText="{Binding ConnectProxyButtonText}"
                                Command="{Binding ConnectProxyButtonCommand}" />
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/install-cert/android/p2.md" />
+            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/en/Helps/install-cert/android/p2.md" />
 
         </StackPanel>
     </ScrollViewer>

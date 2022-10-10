@@ -185,7 +185,7 @@
         <value>如何使用账号转移</value>
     </data>
     <data name="PS_HELP_INTRO" xml:space="preserve">
-        <value>关于本项目</value>
+        <value>这个项目是什么</value>
     </data>
     <data name="PS_HELP_PS" xml:space="preserve">
         <value>如何使用私服</value>
@@ -201,5 +201,8 @@
     </data>
     <data name="PS_HELP_BACK_BUTTON" xml:space="preserve">
         <value>返回</value>
+    </data>
+    <data name="LAN_CODE" xml:space="preserve">
+        <value>zh</value>
     </data>
 </root>

@@ -19,6 +19,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         internal TransferViewModel transferVM;
         internal StatusViewModel statusVM;
         internal HelpViewModel helpVM;
+        internal AboutViewModel aboutVM;
 
         public enum ServerStatus
         {
@@ -41,6 +42,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             transferVM = new TransferViewModel(this);
             statusVM = new StatusViewModel();
             helpVM = new HelpViewModel();
+            aboutVM = new AboutViewModel();
         }
 
         public MainWindowViewModel()
@@ -57,6 +59,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             transferVM = new TransferViewModel(this);
             statusVM = new StatusViewModel();
             helpVM = new HelpViewModel();
+            aboutVM = new AboutViewModel();
         }
 
         private ServerStatus status = ServerStatus.Stopped;

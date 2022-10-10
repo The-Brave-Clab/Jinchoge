@@ -202,4 +202,7 @@ Transfer</value>
     <data name="PS_HELP_BACK_BUTTON" xml:space="preserve">
         <value>Back</value>
     </data>
+    <data name="LAN_CODE" xml:space="preserve">
+        <value>en</value>
+    </data>
 </root>

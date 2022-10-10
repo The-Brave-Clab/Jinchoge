@@ -226,6 +226,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to zh.
+        /// </summary>
+        internal static string LAN_CODE {
+            get {
+                return ResourceManager.GetString("LAN_CODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 开始账号转移！.
         /// </summary>
         internal static string LOG_AT_START {
@@ -451,7 +460,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 关于本项目.
+        ///   Looks up a localized string similar to 这个项目是什么.
         /// </summary>
         internal static string PS_HELP_INTRO {
             get {
