@@ -60,6 +60,199 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 开始
+        ///账号
+        ///转移.
+        /// </summary>
+        internal static string AT_BUTTON_START {
+            get {
+                return ResourceManager.GetString("AT_BUTTON_START", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 停止
+        ///账号
+        ///转移.
+        /// </summary>
+        internal static string AT_BUTTON_STOP {
+            get {
+                return ResourceManager.GetString("AT_BUTTON_STOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 注意：.
+        /// </summary>
+        internal static string AT_NOTE {
+            get {
+                return ResourceManager.GetString("AT_NOTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 更多帮助请参考帮助页面。.
+        /// </summary>
+        internal static string AT_NOTE_MORE_INFO {
+            get {
+                return ResourceManager.GetString("AT_NOTE_MORE_INFO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 一次仅可转移一个账户。.
+        /// </summary>
+        internal static string AT_NOTE_ONE_ACCOUNT {
+            get {
+                return ResourceManager.GetString("AT_NOTE_ONE_ACCOUNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 转移完成后，必须完全重新启动游戏。.
+        /// </summary>
+        internal static string AT_NOTE_RESTART {
+            get {
+                return ResourceManager.GetString("AT_NOTE_RESTART", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 精灵.
+        /// </summary>
+        internal static string AT_TASK_ACCESSORIES {
+            get {
+                return ResourceManager.GetString("AT_TASK_ACCESSORIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 卡牌.
+        /// </summary>
+        internal static string AT_TASK_CARDS {
+            get {
+                return ResourceManager.GetString("AT_TASK_CARDS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 角色亲密度.
+        /// </summary>
+        internal static string AT_TASK_CHARACTER_FAMILIARITIES {
+            get {
+                return ResourceManager.GetString("AT_TASK_CHARACTER_FAMILIARITIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 队伍.
+        /// </summary>
+        internal static string AT_TASK_DECKS {
+            get {
+                return ResourceManager.GetString("AT_TASK_DECKS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 账号信息.
+        /// </summary>
+        internal static string AT_TASK_HEADER {
+            get {
+                return ResourceManager.GetString("AT_TASK_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 账号身份.
+        /// </summary>
+        internal static string AT_TASK_ID {
+            get {
+                return ResourceManager.GetString("AT_TASK_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 强化道具.
+        /// </summary>
+        internal static string AT_TASK_ITEMS_ENHANCEMENT {
+            get {
+                return ResourceManager.GetString("AT_TASK_ITEMS_ENHANCEMENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 活动道具.
+        /// </summary>
+        internal static string AT_TASK_ITEMS_EVENT {
+            get {
+                return ResourceManager.GetString("AT_TASK_ITEMS_EVENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 神花解放道具.
+        /// </summary>
+        internal static string AT_TASK_ITEMS_EVOLUTION {
+            get {
+                return ResourceManager.GetString("AT_TASK_ITEMS_EVOLUTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 体力道具.
+        /// </summary>
+        internal static string AT_TASK_ITEMS_STAMINA {
+            get {
+                return ResourceManager.GetString("AT_TASK_ITEMS_STAMINA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 称号.
+        /// </summary>
+        internal static string AT_TASK_ITEMS_TITLE {
+            get {
+                return ResourceManager.GetString("AT_TASK_ITEMS_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 玩家信息.
+        /// </summary>
+        internal static string AT_TASK_PROFILE {
+            get {
+                return ResourceManager.GetString("AT_TASK_PROFILE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 开始账号转移！.
+        /// </summary>
+        internal static string LOG_AT_START {
+            get {
+                return ResourceManager.GetString("LOG_AT_START", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 停止账号转移！.
+        /// </summary>
+        internal static string LOG_AT_STOP {
+            get {
+                return ResourceManager.GetString("LOG_AT_STOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}转移成功.
+        /// </summary>
+        internal static string LOG_AT_TRANSFER_SUCCESS {
+            get {
+                return ResourceManager.GetString("LOG_AT_TRANSFER_SUCCESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 私服已启动！.
         /// </summary>
         internal static string LOG_PS_START {

@@ -46,8 +46,8 @@ public class TransferViewModel : ViewModelBase
     {
         return status switch
         {
-            MainWindowViewModel.ServerStatus.Stopped => "Start\nAccount\nTransfer",
-            MainWindowViewModel.ServerStatus.Transfer => "Stop\nAccount\nTransfer",
+            MainWindowViewModel.ServerStatus.Stopped => Localization.Resources.AT_BUTTON_START,
+            MainWindowViewModel.ServerStatus.Transfer => Localization.Resources.AT_BUTTON_STOP,
             _ => ""
         };
     }
@@ -137,7 +137,7 @@ public class TransferViewModel : ViewModelBase
         mainWindowVM.TryGetTarget(out var mainWindowViewModel);
         mainWindowViewModel!.Status = MainWindowViewModel.ServerStatus.Transfer;
 
-        Utils.LogTrace("Account Transfer Started!");
+        Utils.LogTrace(Localization.Resources.LOG_AT_START);
     }
 
     public void StopTransfer()
@@ -150,6 +150,11 @@ public class TransferViewModel : ViewModelBase
 
         mainWindowViewModel!.Status = MainWindowViewModel.ServerStatus.Stopped;
 
-        Utils.LogTrace("Account Transfer Stopped!");
+        Utils.LogTrace(Localization.Resources.LOG_AT_STOP);
     }
+
+    public string AT_NOTE => Localization.Resources.AT_NOTE;
+    public string AT_NOTE_ONE_ACCOUNT => Localization.Resources.AT_NOTE_ONE_ACCOUNT;
+    public string AT_NOTE_RESTART => Localization.Resources.AT_NOTE_RESTART;
+    public string AT_NOTE_MORE_INFO => Localization.Resources.AT_NOTE_MORE_INFO;
 }

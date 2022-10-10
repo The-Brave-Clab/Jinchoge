@@ -57,12 +57,12 @@
             </StackPanel>
             
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <TextBlock Text="Note: "></TextBlock>
+                <TextBlock Text="{Binding AT_NOTE}"></TextBlock>
                 
                 <StackPanel>
-                    <TextBlock Text="You can only transfer one account at a time."></TextBlock>
-                    <TextBlock Text="The game must be restarted completely after each transfer."></TextBlock>
-                    <TextBlock Text="See the help page for more information."></TextBlock>
+                    <TextBlock Text="{Binding AT_NOTE_ONE_ACCOUNT}"></TextBlock>
+                    <TextBlock Text="{Binding AT_NOTE_RESTART}"></TextBlock>
+                    <TextBlock Text="{Binding AT_NOTE_MORE_INFO}"></TextBlock>
                 </StackPanel>
                 
             </StackPanel>

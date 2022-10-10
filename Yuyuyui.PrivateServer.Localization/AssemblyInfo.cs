@@ -4,4 +4,4 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("YuyuyuiPrivateServerCLI")]
 [assembly: InternalsVisibleTo("YuyuyuiPrivateServerGUI")]
 [assembly: InternalsVisibleTo("Yuyuyui.AccountTransfer")]
-[assembly: InternalsVisibleTo("YuyuyuiAccountTransferCLI")]
+[assembly: InternalsVisibleTo("AccountTransferCLI")]

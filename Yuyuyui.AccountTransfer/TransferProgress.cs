@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.AccountTransfer;
 
@@ -35,18 +36,18 @@ public static class TransferProgress
 
     public static Dictionary<TaskType, string> TaskName => new()
     {
-        { TaskType.Id, "ID" },
-        { TaskType.Header, "Common Data" },
-        { TaskType.Profile, "Profile" },
-        { TaskType.Accessories, "Spirits" },
-        { TaskType.Cards, "Cards" },
-        { TaskType.Decks, "Teams" },
-        { TaskType.EnhancementItems, "Enhancement Items" },
-        { TaskType.EventItems, "Event Items" },
-        { TaskType.EvolutionItems, "Evolution Items" },
-        { TaskType.StaminaItems, "Stamina Items" },
-        { TaskType.TitleItems, "Titles" },
-        { TaskType.CharacterFamiliarities, "Affinities" }
+        { TaskType.Id, Resources.AT_TASK_ID },
+        { TaskType.Header, Resources.AT_TASK_HEADER },
+        { TaskType.Profile, Resources.AT_TASK_PROFILE },
+        { TaskType.Accessories, Resources.AT_TASK_ACCESSORIES },
+        { TaskType.Cards, Resources.AT_TASK_CARDS },
+        { TaskType.Decks, Resources.AT_TASK_DECKS },
+        { TaskType.EnhancementItems, Resources.AT_TASK_ITEMS_ENHANCEMENT },
+        { TaskType.EventItems, Resources.AT_TASK_ITEMS_EVENT },
+        { TaskType.EvolutionItems, Resources.AT_TASK_ITEMS_EVOLUTION },
+        { TaskType.StaminaItems, Resources.AT_TASK_ITEMS_STAMINA },
+        { TaskType.TitleItems, Resources.AT_TASK_ITEMS_TITLE },
+        { TaskType.CharacterFamiliarities, Resources.AT_TASK_CHARACTER_FAMILIARITIES }
     };
 
     static TransferProgress()

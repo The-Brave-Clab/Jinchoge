@@ -72,4 +72,71 @@
     <data name="WINDOW_TITLE" xml:space="preserve">
         <value>花结私服</value>
     </data>
+    <data name="AT_BUTTON_START" xml:space="preserve">
+        <value>开始
+账号
+转移</value>
+    </data>
+    <data name="AT_BUTTON_STOP" xml:space="preserve">
+        <value>停止
+账号
+转移</value>
+    </data>
+    <data name="AT_NOTE" xml:space="preserve">
+        <value>注意：</value>
+    </data>
+    <data name="AT_NOTE_MORE_INFO" xml:space="preserve">
+        <value>更多帮助请参考帮助页面。</value>
+    </data>
+    <data name="AT_NOTE_ONE_ACCOUNT" xml:space="preserve">
+        <value>一次仅可转移一个账户。</value>
+    </data>
+    <data name="AT_NOTE_RESTART" xml:space="preserve">
+        <value>转移完成后，必须完全重新启动游戏。</value>
+    </data>
+    <data name="AT_TASK_ACCESSORIES" xml:space="preserve">
+        <value>精灵</value>
+    </data>
+    <data name="AT_TASK_CARDS" xml:space="preserve">
+        <value>卡牌</value>
+    </data>
+    <data name="AT_TASK_CHARACTER_FAMILIARITIES" xml:space="preserve">
+        <value>角色亲密度</value>
+    </data>
+    <data name="AT_TASK_DECKS" xml:space="preserve">
+        <value>队伍</value>
+    </data>
+    <data name="AT_TASK_HEADER" xml:space="preserve">
+        <value>账号信息</value>
+    </data>
+    <data name="AT_TASK_ID" xml:space="preserve">
+        <value>账号身份</value>
+    </data>
+    <data name="AT_TASK_PROFILE" xml:space="preserve">
+        <value>玩家信息</value>
+    </data>
+    <data name="AT_TASK_ITEMS_ENHANCEMENT" xml:space="preserve">
+        <value>强化道具</value>
+    </data>
+    <data name="AT_TASK_ITEMS_EVENT" xml:space="preserve">
+        <value>活动道具</value>
+    </data>
+    <data name="AT_TASK_ITEMS_STAMINA" xml:space="preserve">
+        <value>体力道具</value>
+    </data>
+    <data name="AT_TASK_ITEMS_EVOLUTION" xml:space="preserve">
+        <value>神花解放道具</value>
+    </data>
+    <data name="AT_TASK_ITEMS_TITLE" xml:space="preserve">
+        <value>称号</value>
+    </data>
+    <data name="LOG_AT_START" xml:space="preserve">
+        <value>开始账号转移！</value>
+    </data>
+    <data name="LOG_AT_STOP" xml:space="preserve">
+        <value>停止账号转移！</value>
+    </data>
+    <data name="LOG_AT_TRANSFER_SUCCESS" xml:space="preserve">
+        <value>{0}转移成功</value>
+    </data>
 </root>

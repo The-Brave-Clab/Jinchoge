@@ -72,4 +72,71 @@
     <data name="WINDOW_TITLE" xml:space="preserve">
         <value>Yuyuyui Private Server</value>
     </data>
+    <data name="AT_BUTTON_START" xml:space="preserve">
+        <value>Start
+Account
+Transfer</value>
+    </data>
+    <data name="AT_BUTTON_STOP" xml:space="preserve">
+        <value>Stop
+Account
+Transfer</value>
+    </data>
+    <data name="AT_NOTE" xml:space="preserve">
+        <value>Note:</value>
+    </data>
+    <data name="AT_NOTE_ONE_ACCOUNT" xml:space="preserve">
+        <value>You can only transfer one account at a time.</value>
+    </data>
+    <data name="AT_NOTE_RESTART" xml:space="preserve">
+        <value>The game must be restarted completely after each transfer.</value>
+    </data>
+    <data name="AT_NOTE_MORE_INFO" xml:space="preserve">
+        <value>See the help page for more information.</value>
+    </data>
+    <data name="AT_TASK_ID" xml:space="preserve">
+        <value>ID</value>
+    </data>
+    <data name="AT_TASK_HEADER" xml:space="preserve">
+        <value>Common Data</value>
+    </data>
+    <data name="AT_TASK_PROFILE" xml:space="preserve">
+        <value>Profile</value>
+    </data>
+    <data name="AT_TASK_ACCESSORIES" xml:space="preserve">
+        <value>Spirits</value>
+    </data>
+    <data name="AT_TASK_CARDS" xml:space="preserve">
+        <value>Cards</value>
+    </data>
+    <data name="AT_TASK_DECKS" xml:space="preserve">
+        <value>Teams</value>
+    </data>
+    <data name="AT_TASK_ITEMS_ENHANCEMENT" xml:space="preserve">
+        <value>Enhancement Items</value>
+    </data>
+    <data name="AT_TASK_ITEMS_EVOLUTION" xml:space="preserve">
+        <value>Evolution Items</value>
+    </data>
+    <data name="AT_TASK_ITEMS_EVENT" xml:space="preserve">
+        <value>Event Items</value>
+    </data>
+    <data name="AT_TASK_ITEMS_STAMINA" xml:space="preserve">
+        <value>Stamina Items</value>
+    </data>
+    <data name="AT_TASK_ITEMS_TITLE" xml:space="preserve">
+        <value>Titles</value>
+    </data>
+    <data name="AT_TASK_CHARACTER_FAMILIARITIES" xml:space="preserve">
+        <value>Affinities</value>
+    </data>
+    <data name="LOG_AT_START" xml:space="preserve">
+        <value>Account Transfer Started!</value>
+    </data>
+    <data name="LOG_AT_STOP" xml:space="preserve">
+        <value>Account Transfer Stopped!</value>
+    </data>
+    <data name="LOG_AT_TRANSFER_SUCCESS" xml:space="preserve">
+        <value>Successfully transferred {0}</value>
+    </data>
 </root>
