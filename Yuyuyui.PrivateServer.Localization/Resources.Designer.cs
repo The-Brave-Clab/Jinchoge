@@ -406,6 +406,123 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Which one should I use?.
+        /// </summary>
+        internal static string PS_STATUS_CHOOSE_IP {
+            get {
+                return ResourceManager.GetString("PS_STATUS_CHOOSE_IP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use one of the following addresses as your proxy:.
+        /// </summary>
+        internal static string PS_STATUS_CHOOSE_MULTIPLE {
+            get {
+                return ResourceManager.GetString("PS_STATUS_CHOOSE_MULTIPLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is no address can be used as your proxy!.
+        /// </summary>
+        internal static string PS_STATUS_CHOOSE_NONE {
+            get {
+                return ResourceManager.GetString("PS_STATUS_CHOOSE_NONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use the following address as your proxy:.
+        /// </summary>
+        internal static string PS_STATUS_CHOOSE_SINGLE {
+            get {
+                return ResourceManager.GetString("PS_STATUS_CHOOSE_SINGLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear Filter.
+        /// </summary>
+        internal static string PS_STATUS_CLEAR_FILTER_BUTTON {
+            get {
+                return ResourceManager.GetString("PS_STATUS_CLEAR_FILTER_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        internal static string PS_STATUS_FILTER_IP_BUTTON {
+            get {
+                return ResourceManager.GetString("PS_STATUS_FILTER_IP_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proxy is listening at port .
+        /// </summary>
+        internal static string PS_STATUS_PORT_LISTEN {
+            get {
+                return ResourceManager.GetString("PS_STATUS_PORT_LISTEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Private Server is currently running..
+        /// </summary>
+        internal static string PS_STATUS_STARTED {
+            get {
+                return ResourceManager.GetString("PS_STATUS_STARTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Private Server is not running..
+        /// </summary>
+        internal static string PS_STATUS_STOPPED {
+            get {
+                return ResourceManager.GetString("PS_STATUS_STOPPED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IP Address.
+        /// </summary>
+        internal static string PS_STATUS_TEXT_IP_ADDRESS {
+            get {
+                return ResourceManager.GetString("PS_STATUS_TEXT_IP_ADDRESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subnet Mask.
+        /// </summary>
+        internal static string PS_STATUS_TEXT_SUBNET_MASK {
+            get {
+                return ResourceManager.GetString("PS_STATUS_TEXT_SUBNET_MASK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Transfer is in progress..
+        /// </summary>
+        internal static string PS_STATUS_TRANSFERRING {
+            get {
+                return ResourceManager.GetString("PS_STATUS_TRANSFERRING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Private Server is updating required files....
+        /// </summary>
+        internal static string PS_STATUS_UPDATING {
+            get {
+                return ResourceManager.GetString("PS_STATUS_UPDATING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Yuyuyui Private Server.
         /// </summary>
         internal static string WINDOW_TITLE {

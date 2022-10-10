@@ -406,6 +406,123 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 我该使用哪个？.
+        /// </summary>
+        internal static string PS_STATUS_CHOOSE_IP {
+            get {
+                return ResourceManager.GetString("PS_STATUS_CHOOSE_IP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 请使用以下之一作为代理服务器地址：.
+        /// </summary>
+        internal static string PS_STATUS_CHOOSE_MULTIPLE {
+            get {
+                return ResourceManager.GetString("PS_STATUS_CHOOSE_MULTIPLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 没有可以作为代理服务器的地址！.
+        /// </summary>
+        internal static string PS_STATUS_CHOOSE_NONE {
+            get {
+                return ResourceManager.GetString("PS_STATUS_CHOOSE_NONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 请使用以下地址作为代理服务器地址：.
+        /// </summary>
+        internal static string PS_STATUS_CHOOSE_SINGLE {
+            get {
+                return ResourceManager.GetString("PS_STATUS_CHOOSE_SINGLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 取消过滤.
+        /// </summary>
+        internal static string PS_STATUS_CLEAR_FILTER_BUTTON {
+            get {
+                return ResourceManager.GetString("PS_STATUS_CLEAR_FILTER_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 过滤.
+        /// </summary>
+        internal static string PS_STATUS_FILTER_IP_BUTTON {
+            get {
+                return ResourceManager.GetString("PS_STATUS_FILTER_IP_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 代理服务器正在监听端口.
+        /// </summary>
+        internal static string PS_STATUS_PORT_LISTEN {
+            get {
+                return ResourceManager.GetString("PS_STATUS_PORT_LISTEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 私服正在运行。.
+        /// </summary>
+        internal static string PS_STATUS_STARTED {
+            get {
+                return ResourceManager.GetString("PS_STATUS_STARTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 私服已停止。.
+        /// </summary>
+        internal static string PS_STATUS_STOPPED {
+            get {
+                return ResourceManager.GetString("PS_STATUS_STOPPED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IP地址.
+        /// </summary>
+        internal static string PS_STATUS_TEXT_IP_ADDRESS {
+            get {
+                return ResourceManager.GetString("PS_STATUS_TEXT_IP_ADDRESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 子网掩码.
+        /// </summary>
+        internal static string PS_STATUS_TEXT_SUBNET_MASK {
+            get {
+                return ResourceManager.GetString("PS_STATUS_TEXT_SUBNET_MASK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 正在转移账号。.
+        /// </summary>
+        internal static string PS_STATUS_TRANSFERRING {
+            get {
+                return ResourceManager.GetString("PS_STATUS_TRANSFERRING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 正在更新所需文件…….
+        /// </summary>
+        internal static string PS_STATUS_UPDATING {
+            get {
+                return ResourceManager.GetString("PS_STATUS_UPDATING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 花结私服.
         /// </summary>
         internal static string WINDOW_TITLE {

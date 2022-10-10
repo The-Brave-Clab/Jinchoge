@@ -12,10 +12,10 @@
 
     <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Private Server is not running."
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding PS_STATUS_STOPPED}"
                    IsVisible="{Binding NotStartedMessageVisible}" />
         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
-                   Text="Private Server is updating required files..."
+                   Text="{Binding PS_STATUS_UPDATING}"
                    IsVisible="{Binding UpdatingMessageVisible}" />
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding StartedPanelVisible}" Spacing="50">
@@ -24,7 +24,7 @@
 
                 <TextBlock HorizontalAlignment="Left" Text="{Binding CurrentProcess}"></TextBlock>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock HorizontalAlignment="Left" Text="Proxy is listening at port "></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding PS_STATUS_PORT_LISTEN}"></TextBlock>
                     <TextBlock HorizontalAlignment="Left" Text="{Binding ListeningPort}" Foreground="Yellow"></TextBlock>
                 </StackPanel>
                 <TextBlock HorizontalAlignment="Left" Text=" "></TextBlock>
@@ -121,18 +121,18 @@
             
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
                 
-                <TextBlock Text="Which one should I use?" />
+                <TextBlock Text="{Binding PS_STATUS_CHOOSE_IP}" />
                 
                 <StackPanel Orientation="Horizontal" Spacing="10">
                     <Grid RowDefinitions="*,*" ColumnDefinitions="*,*">
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="IP Address" Margin="0 0 10 0" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding PS_STATUS_TEXT_IP_ADDRESS}" Margin="0 0 10 0" VerticalAlignment="Center"/>
                         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding IpAddressInput}" AcceptsReturn="False" AcceptsTab="False" Width="200" />
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Subnet Mask" Margin="0 0 10 0" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding PS_STATUS_TEXT_SUBNET_MASK}" Margin="0 0 10 0" VerticalAlignment="Center"/>
                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SubnetMaskInput}" AcceptsReturn="False" AcceptsTab="False" Width="200" />
                     </Grid>
                     
-                    <Button Content="Filter" Command="{Binding SetFilter}" IsEnabled="{Binding InputValid}" Width="100" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                    <Button Content="Clear Filter" Command="{Binding ClearFilter}" Width="100" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Button Content="{Binding PS_STATUS_FILTER_IP_BUTTON}" Command="{Binding SetFilter}" IsEnabled="{Binding InputValid}" Width="100" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Button Content="{Binding PS_STATUS_CLEAR_FILTER_BUTTON}" Command="{Binding ClearFilter}" Width="100" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </StackPanel>
                 
             </StackPanel>

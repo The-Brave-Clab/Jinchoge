@@ -139,4 +139,43 @@
     <data name="LOG_AT_TRANSFER_SUCCESS" xml:space="preserve">
         <value>{0}转移成功</value>
     </data>
+    <data name="PS_STATUS_STARTED" xml:space="preserve">
+        <value>私服正在运行。</value>
+    </data>
+    <data name="PS_STATUS_STOPPED" xml:space="preserve">
+        <value>私服已停止。</value>
+    </data>
+    <data name="PS_STATUS_TRANSFERRING" xml:space="preserve">
+        <value>正在转移账号。</value>
+    </data>
+    <data name="PS_STATUS_UPDATING" xml:space="preserve">
+        <value>正在更新所需文件……</value>
+    </data>
+    <data name="PS_STATUS_PORT_LISTEN" xml:space="preserve">
+        <value>代理服务器正在监听端口</value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_IP" xml:space="preserve">
+        <value>我该使用哪个？</value>
+    </data>
+    <data name="PS_STATUS_CLEAR_FILTER_BUTTON" xml:space="preserve">
+        <value>取消过滤</value>
+    </data>
+    <data name="PS_STATUS_FILTER_IP_BUTTON" xml:space="preserve">
+        <value>过滤</value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_MULTIPLE" xml:space="preserve">
+        <value>请使用以下之一作为代理服务器地址：</value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_NONE" xml:space="preserve">
+        <value>没有可以作为代理服务器的地址！</value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_SINGLE" xml:space="preserve">
+        <value>请使用以下地址作为代理服务器地址：</value>
+    </data>
+    <data name="PS_STATUS_TEXT_IP_ADDRESS" xml:space="preserve">
+        <value>IP地址</value>
+    </data>
+    <data name="PS_STATUS_TEXT_SUBNET_MASK" xml:space="preserve">
+        <value>子网掩码</value>
+    </data>
 </root>

@@ -139,4 +139,43 @@ Transfer</value>
     <data name="LOG_AT_TRANSFER_SUCCESS" xml:space="preserve">
         <value>Successfully transferred {0}</value>
     </data>
+    <data name="PS_STATUS_STOPPED" xml:space="preserve">
+        <value>Private Server is not running.</value>
+    </data>
+    <data name="PS_STATUS_STARTED" xml:space="preserve">
+        <value>Private Server is currently running.</value>
+    </data>
+    <data name="PS_STATUS_TRANSFERRING" xml:space="preserve">
+        <value>Account Transfer is in progress.</value>
+    </data>
+    <data name="PS_STATUS_UPDATING" xml:space="preserve">
+        <value>Private Server is updating required files...</value>
+    </data>
+    <data name="PS_STATUS_PORT_LISTEN" xml:space="preserve">
+        <value>Proxy is listening at port </value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_IP" xml:space="preserve">
+        <value>Which one should I use?</value>
+    </data>
+    <data name="PS_STATUS_FILTER_IP_BUTTON" xml:space="preserve">
+        <value>Filter</value>
+    </data>
+    <data name="PS_STATUS_CLEAR_FILTER_BUTTON" xml:space="preserve">
+        <value>Clear Filter</value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_MULTIPLE" xml:space="preserve">
+        <value>Use one of the following addresses as your proxy:</value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_SINGLE" xml:space="preserve">
+        <value>Use the following address as your proxy:</value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_NONE" xml:space="preserve">
+        <value>There is no address can be used as your proxy!</value>
+    </data>
+    <data name="PS_STATUS_TEXT_IP_ADDRESS" xml:space="preserve">
+        <value>IP Address</value>
+    </data>
+    <data name="PS_STATUS_TEXT_SUBNET_MASK" xml:space="preserve">
+        <value>Subnet Mask</value>
+    </data>
 </root>
