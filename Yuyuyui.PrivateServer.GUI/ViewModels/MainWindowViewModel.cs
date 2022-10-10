@@ -93,7 +93,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             return status switch
             {
                 ServerStatus.Updating => "UPDATING",
-                ServerStatus.Stopped => "START",
+                ServerStatus.Stopped => Localization.Resources.START_BUTTON,
                 ServerStatus.Started => "STOP",
                 ServerStatus.Transfer => "TRANSFER",
                 _ => throw new ArgumentOutOfRangeException()

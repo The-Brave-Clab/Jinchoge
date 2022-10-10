@@ -18,10 +18,11 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Titanium.Web.Proxy" Version="3.1.1397" />
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1" Condition=" '$(TargetFramework)' == 'net472' "/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" Condition=" '$(TargetFramework)' == 'net6.0' "/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1" Condition=" '$(TargetFramework)' == 'net472' " />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" Condition=" '$(TargetFramework)' == 'net6.0' " />
     <ProjectReference Include="..\Yuyuyui.GoalKeeper\Yuyuyui.GoalKeeper.csproj" />
     <ProjectReference Include="..\Yuyuyui.PrivateServer.DataModel\Yuyuyui.PrivateServer.DataModel.csproj" />
+    <ProjectReference Include="..\Yuyuyui.PrivateServer.Localization\Yuyuyui.PrivateServer.Localization.csproj" />
   </ItemGroup>
 
 </Project>

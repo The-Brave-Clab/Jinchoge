@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yuyuyui.GoalKeeper", "Yuyuy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.PrivateServer.GUI", "Yuyuyui.PrivateServer.GUI\Yuyuyui.PrivateServer.GUI.csproj", "{43E429E7-428C-4F8E-97AD-8BAC2A667508}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.PrivateServer.Localization", "Yuyuyui.PrivateServer.Localization\Yuyuyui.PrivateServer.Localization.csproj", "{0D4C2A16-5B84-4F97-A111-D58DAAB0B428}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{43E429E7-428C-4F8E-97AD-8BAC2A667508}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43E429E7-428C-4F8E-97AD-8BAC2A667508}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43E429E7-428C-4F8E-97AD-8BAC2A667508}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D4C2A16-5B84-4F97-A111-D58DAAB0B428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D4C2A16-5B84-4F97-A111-D58DAAB0B428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D4C2A16-5B84-4F97-A111-D58DAAB0B428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D4C2A16-5B84-4F97-A111-D58DAAB0B428}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
