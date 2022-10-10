@@ -18,7 +18,58 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="START_BUTTON" xml:space="preserve">
+    <data name="PS_BUTTON_START" xml:space="preserve">
         <value>START</value>
+    </data>
+    <data name="PS_BUTTON_UPDATE" xml:space="preserve">
+        <value>UPDATING</value>
+    </data>
+    <data name="PS_BUTTON_STOP" xml:space="preserve">
+        <value>STOP</value>
+    </data>
+    <data name="PS_BUTTON_TRANSFER" xml:space="preserve">
+        <value>TRANSFER</value>
+    </data>
+    <data name="PS_BUTTON_START_DESC" xml:space="preserve">
+        <value>Start the Private Server</value>
+    </data>
+    <data name="PS_BUTTON_STOP_DESC" xml:space="preserve">
+        <value>Private Server is running</value>
+    </data>
+    <data name="PS_BUTTON_TRANSFER_DESC" xml:space="preserve">
+        <value>Transferring Account...</value>
+    </data>
+    <data name="PS_BUTTON_UPDATE_DESC" xml:space="preserve">
+        <value>Updating Required Files...</value>
+    </data>
+    <data name="LOG_PS_START" xml:space="preserve">
+        <value>Private Server Started!</value>
+    </data>
+    <data name="LOG_PS_STOP" xml:space="preserve">
+        <value>Private Server Stopped!</value>
+    </data>
+    <data name="NAV_BUTTON_LOG" xml:space="preserve">
+        <value>LOG</value>
+    </data>
+    <data name="NAV_BUTTON_TRANSFER" xml:space="preserve">
+        <value>TRANSFER</value>
+    </data>
+    <data name="NAV_BUTTON_STATUS" xml:space="preserve">
+        <value>STATUS</value>
+    </data>
+    <data name="NAV_BUTTON_SETTINGS" xml:space="preserve">
+        <value>SETTINGS</value>
+    </data>
+    <data name="NAV_BUTTON_HELP" xml:space="preserve">
+        <value>HELP</value>
+    </data>
+    <data name="NAV_BUTTON_ABOUT" xml:space="preserve">
+        <value>ABOUT</value>
+    </data>
+    <data name="PROJ_DESC" xml:space="preserve">
+        <value>Private Server for Mobile Game YUYUYUI</value>
+    </data>
+    <data name="WINDOW_TITLE" xml:space="preserve">
+        <value>Yuyuyui Private Server</value>
     </data>
 </root>

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Threading;
-using Yuyuyui.PrivateServer.GUI.Views;
 using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 using ReactiveUI;
 using Titanium.Web.Proxy.Models;
+using Yuyuyui.PrivateServer.GUI.Views;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels
 {
@@ -92,10 +92,10 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         {
             return status switch
             {
-                ServerStatus.Updating => "UPDATING",
-                ServerStatus.Stopped => Localization.Resources.START_BUTTON,
-                ServerStatus.Started => "STOP",
-                ServerStatus.Transfer => "TRANSFER",
+                ServerStatus.Updating => Localization.Resources.PS_BUTTON_UPDATE,
+                ServerStatus.Stopped => Localization.Resources.PS_BUTTON_START,
+                ServerStatus.Started => Localization.Resources.PS_BUTTON_STOP,
+                ServerStatus.Transfer => Localization.Resources.PS_BUTTON_TRANSFER,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -104,10 +104,10 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         {
             return status switch
             {
-                ServerStatus.Updating => "Updating Required Files...",
-                ServerStatus.Stopped => "Start the Private Server",
-                ServerStatus.Started => "Private Server is running",
-                ServerStatus.Transfer => "Transferring Account...",
+                ServerStatus.Updating => Localization.Resources.PS_BUTTON_UPDATE_DESC,
+                ServerStatus.Stopped => Localization.Resources.PS_BUTTON_START_DESC,
+                ServerStatus.Started => Localization.Resources.PS_BUTTON_STOP_DESC,
+                ServerStatus.Transfer => Localization.Resources.PS_BUTTON_TRANSFER_DESC,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -171,6 +171,15 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             get => isTransferPageEnabled;
             set => this.RaiseAndSetIfChanged(ref isTransferPageEnabled, value);
         }
+
+        public string NAV_LOG => Localization.Resources.NAV_BUTTON_LOG;
+        public string NAV_TRANSFER => Localization.Resources.NAV_BUTTON_TRANSFER;
+        public string NAV_STATUS => Localization.Resources.NAV_BUTTON_STATUS;
+        public string NAV_SETTINGS => Localization.Resources.NAV_BUTTON_SETTINGS;
+        public string NAV_HELP => Localization.Resources.NAV_BUTTON_HELP;
+        public string NAV_ABOUT => Localization.Resources.NAV_BUTTON_ABOUT;
+        public string PROJ_DESC => Localization.Resources.PROJ_DESC;
+        public string WINDOW_TITLE => Localization.Resources.WINDOW_TITLE;
 
         public TextAlignment TitleAlignment => RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             ? TextAlignment.Left
@@ -249,7 +258,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
             Status = ServerStatus.Started;
 
-            Utils.LogTrace("Private Server Started!");
+            Utils.LogTrace(Localization.Resources.LOG_PS_START);
         }
 
         public void StopPrivateServer()
@@ -260,7 +269,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
             Status = ServerStatus.Stopped;
 
-            Utils.LogTrace("Private Server Stopped!");
+            Utils.LogTrace(Localization.Resources.LOG_PS_STOP);
         }
     }
 }

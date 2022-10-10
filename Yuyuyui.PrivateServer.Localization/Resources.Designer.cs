@@ -60,11 +60,164 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Private Server Started!.
+        /// </summary>
+        internal static string LOG_PS_START {
+            get {
+                return ResourceManager.GetString("LOG_PS_START", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Private Server Stopped!.
+        /// </summary>
+        internal static string LOG_PS_STOP {
+            get {
+                return ResourceManager.GetString("LOG_PS_STOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ABOUT.
+        /// </summary>
+        internal static string NAV_BUTTON_ABOUT {
+            get {
+                return ResourceManager.GetString("NAV_BUTTON_ABOUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HELP.
+        /// </summary>
+        internal static string NAV_BUTTON_HELP {
+            get {
+                return ResourceManager.GetString("NAV_BUTTON_HELP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LOG.
+        /// </summary>
+        internal static string NAV_BUTTON_LOG {
+            get {
+                return ResourceManager.GetString("NAV_BUTTON_LOG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SETTINGS.
+        /// </summary>
+        internal static string NAV_BUTTON_SETTINGS {
+            get {
+                return ResourceManager.GetString("NAV_BUTTON_SETTINGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to STATUS.
+        /// </summary>
+        internal static string NAV_BUTTON_STATUS {
+            get {
+                return ResourceManager.GetString("NAV_BUTTON_STATUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TRANSFER.
+        /// </summary>
+        internal static string NAV_BUTTON_TRANSFER {
+            get {
+                return ResourceManager.GetString("NAV_BUTTON_TRANSFER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Private Server for Mobile Game YUYUYUI.
+        /// </summary>
+        internal static string PROJ_DESC {
+            get {
+                return ResourceManager.GetString("PROJ_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to START.
         /// </summary>
-        internal static string START_BUTTON {
+        internal static string PS_BUTTON_START {
             get {
-                return ResourceManager.GetString("START_BUTTON", resourceCulture);
+                return ResourceManager.GetString("PS_BUTTON_START", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start the Private Server.
+        /// </summary>
+        internal static string PS_BUTTON_START_DESC {
+            get {
+                return ResourceManager.GetString("PS_BUTTON_START_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to STOP.
+        /// </summary>
+        internal static string PS_BUTTON_STOP {
+            get {
+                return ResourceManager.GetString("PS_BUTTON_STOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Private Server is running.
+        /// </summary>
+        internal static string PS_BUTTON_STOP_DESC {
+            get {
+                return ResourceManager.GetString("PS_BUTTON_STOP_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TRANSFER.
+        /// </summary>
+        internal static string PS_BUTTON_TRANSFER {
+            get {
+                return ResourceManager.GetString("PS_BUTTON_TRANSFER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transferring Account....
+        /// </summary>
+        internal static string PS_BUTTON_TRANSFER_DESC {
+            get {
+                return ResourceManager.GetString("PS_BUTTON_TRANSFER_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATING.
+        /// </summary>
+        internal static string PS_BUTTON_UPDATE {
+            get {
+                return ResourceManager.GetString("PS_BUTTON_UPDATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updating Required Files....
+        /// </summary>
+        internal static string PS_BUTTON_UPDATE_DESC {
+            get {
+                return ResourceManager.GetString("PS_BUTTON_UPDATE_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yuyuyui Private Server.
+        /// </summary>
+        internal static string WINDOW_TITLE {
+            get {
+                return ResourceManager.GetString("WINDOW_TITLE", resourceCulture);
             }
         }
     }

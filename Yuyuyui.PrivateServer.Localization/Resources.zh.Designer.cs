@@ -60,11 +60,164 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 私服已启动！.
+        /// </summary>
+        internal static string LOG_PS_START {
+            get {
+                return ResourceManager.GetString("LOG_PS_START", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 私服已停止！.
+        /// </summary>
+        internal static string LOG_PS_STOP {
+            get {
+                return ResourceManager.GetString("LOG_PS_STOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 关于.
+        /// </summary>
+        internal static string NAV_BUTTON_ABOUT {
+            get {
+                return ResourceManager.GetString("NAV_BUTTON_ABOUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 帮助.
+        /// </summary>
+        internal static string NAV_BUTTON_HELP {
+            get {
+                return ResourceManager.GetString("NAV_BUTTON_HELP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 日志.
+        /// </summary>
+        internal static string NAV_BUTTON_LOG {
+            get {
+                return ResourceManager.GetString("NAV_BUTTON_LOG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 设置.
+        /// </summary>
+        internal static string NAV_BUTTON_SETTINGS {
+            get {
+                return ResourceManager.GetString("NAV_BUTTON_SETTINGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 运行状态.
+        /// </summary>
+        internal static string NAV_BUTTON_STATUS {
+            get {
+                return ResourceManager.GetString("NAV_BUTTON_STATUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 账号转移.
+        /// </summary>
+        internal static string NAV_BUTTON_TRANSFER {
+            get {
+                return ResourceManager.GetString("NAV_BUTTON_TRANSFER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 《结城友奈是勇者 闪光的花结》私服.
+        /// </summary>
+        internal static string PROJ_DESC {
+            get {
+                return ResourceManager.GetString("PROJ_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 启动.
         /// </summary>
-        internal static string START_BUTTON {
+        internal static string PS_BUTTON_START {
             get {
-                return ResourceManager.GetString("START_BUTTON", resourceCulture);
+                return ResourceManager.GetString("PS_BUTTON_START", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 启动私服.
+        /// </summary>
+        internal static string PS_BUTTON_START_DESC {
+            get {
+                return ResourceManager.GetString("PS_BUTTON_START_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 停止.
+        /// </summary>
+        internal static string PS_BUTTON_STOP {
+            get {
+                return ResourceManager.GetString("PS_BUTTON_STOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 停止私服.
+        /// </summary>
+        internal static string PS_BUTTON_STOP_DESC {
+            get {
+                return ResourceManager.GetString("PS_BUTTON_STOP_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 转移中.
+        /// </summary>
+        internal static string PS_BUTTON_TRANSFER {
+            get {
+                return ResourceManager.GetString("PS_BUTTON_TRANSFER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 正在转移账号…….
+        /// </summary>
+        internal static string PS_BUTTON_TRANSFER_DESC {
+            get {
+                return ResourceManager.GetString("PS_BUTTON_TRANSFER_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 更新中.
+        /// </summary>
+        internal static string PS_BUTTON_UPDATE {
+            get {
+                return ResourceManager.GetString("PS_BUTTON_UPDATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 正在更新所需文件…….
+        /// </summary>
+        internal static string PS_BUTTON_UPDATE_DESC {
+            get {
+                return ResourceManager.GetString("PS_BUTTON_UPDATE_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 花结私服.
+        /// </summary>
+        internal static string WINDOW_TITLE {
+            get {
+                return ResourceManager.GetString("WINDOW_TITLE", resourceCulture);
             }
         }
     }

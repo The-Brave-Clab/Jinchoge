@@ -18,7 +18,58 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="START_BUTTON" xml:space="preserve">
+    <data name="PS_BUTTON_START" xml:space="preserve">
         <value>启动</value>
+    </data>
+    <data name="LOG_PS_START" xml:space="preserve">
+        <value>私服已启动！</value>
+    </data>
+    <data name="LOG_PS_STOP" xml:space="preserve">
+        <value>私服已停止！</value>
+    </data>
+    <data name="PS_BUTTON_START_DESC" xml:space="preserve">
+        <value>启动私服</value>
+    </data>
+    <data name="PS_BUTTON_STOP" xml:space="preserve">
+        <value>停止</value>
+    </data>
+    <data name="PS_BUTTON_STOP_DESC" xml:space="preserve">
+        <value>停止私服</value>
+    </data>
+    <data name="PS_BUTTON_TRANSFER" xml:space="preserve">
+        <value>转移中</value>
+    </data>
+    <data name="PS_BUTTON_TRANSFER_DESC" xml:space="preserve">
+        <value>正在转移账号……</value>
+    </data>
+    <data name="PS_BUTTON_UPDATE" xml:space="preserve">
+        <value>更新中</value>
+    </data>
+    <data name="PS_BUTTON_UPDATE_DESC" xml:space="preserve">
+        <value>正在更新所需文件……</value>
+    </data>
+    <data name="NAV_BUTTON_ABOUT" xml:space="preserve">
+        <value>关于</value>
+    </data>
+    <data name="NAV_BUTTON_HELP" xml:space="preserve">
+        <value>帮助</value>
+    </data>
+    <data name="NAV_BUTTON_LOG" xml:space="preserve">
+        <value>日志</value>
+    </data>
+    <data name="NAV_BUTTON_SETTINGS" xml:space="preserve">
+        <value>设置</value>
+    </data>
+    <data name="NAV_BUTTON_STATUS" xml:space="preserve">
+        <value>运行状态</value>
+    </data>
+    <data name="NAV_BUTTON_TRANSFER" xml:space="preserve">
+        <value>账号转移</value>
+    </data>
+    <data name="PROJ_DESC" xml:space="preserve">
+        <value>《结城友奈是勇者 闪光的花结》私服</value>
+    </data>
+    <data name="WINDOW_TITLE" xml:space="preserve">
+        <value>花结私服</value>
     </data>
 </root>

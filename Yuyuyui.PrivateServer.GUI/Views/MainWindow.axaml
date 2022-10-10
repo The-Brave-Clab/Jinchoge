@@ -13,7 +13,7 @@
         TransparencyLevelHint="Mica"
         Background="Transparent"
         x:Class="Yuyuyui.PrivateServer.GUI.Views.MainWindow"
-        Title="Yuyuyui Private Server"
+        Title="{Binding WINDOW_TITLE}"
         Closing="WindowOnClosing">
 
     <Design.DataContext>
@@ -64,7 +64,7 @@
                             <Image Source="/Assets/Icons/General/Blessing.png" Width="80" Height="80"></Image>
                             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                                 <TextBlock Text="Y3PS" FontSize="40"></TextBlock>
-                                <TextBlock Text="Private Server for Mobile Game YUYUYUI"></TextBlock>
+                                <TextBlock Text="{Binding PROJ_DESC}"></TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </Panel>
@@ -160,42 +160,42 @@
                                 <uc:NavigationButton Name="LogButton" Checked="OnNavigationButtonChecked" IsChecked="True">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/console.png" Grid.Column="0" />
-                                        <TextBlock Text="LOG" Grid.Column="1" />
+                                        <TextBlock Text="{Binding NAV_LOG}" Grid.Column="1" />
                                     </Grid>
                                 </uc:NavigationButton>
 
                                 <uc:NavigationButton Name="TransferButton" Checked="OnNavigationButtonChecked" IsEnabled="{Binding IsTransferPageEnabled}">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/data-transfer.png" Grid.Column="0" />
-                                        <TextBlock Text="TRANSFER" Grid.Column="1" />
+                                        <TextBlock Text="{Binding NAV_TRANSFER}" Grid.Column="1" />
                                     </Grid>
                                 </uc:NavigationButton>
 
                                 <uc:NavigationButton Name="StatusButton" Checked="OnNavigationButtonChecked">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/view-more.png" Grid.Column="0" />
-                                        <TextBlock Text="STATUS" Grid.Column="1" />
+                                        <TextBlock Text="{Binding NAV_STATUS}" Grid.Column="1" />
                                     </Grid>
                                 </uc:NavigationButton>
 
                                 <uc:NavigationButton Name="SettingsButton" Checked="OnNavigationButtonChecked" IsEnabled="False">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/settings.png" Grid.Column="0"/>
-                                        <TextBlock Text="SETTINGS" Grid.Column="1" />
+                                        <TextBlock Text="{Binding NAV_SETTINGS}" Grid.Column="1" />
                                     </Grid>
                                 </uc:NavigationButton>
 
                                 <uc:NavigationButton Name="HelpButton" Checked="OnNavigationButtonChecked">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/help.png" Grid.Column="0"/>
-                                        <TextBlock Text="HELP" Grid.Column="1" />
+                                        <TextBlock Text="{Binding NAV_HELP}" Grid.Column="1" />
                                     </Grid>
                                 </uc:NavigationButton>
 
                                 <uc:NavigationButton Name="AboutButton" Checked="OnNavigationButtonChecked">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/info.png" Grid.Column="0" />
-                                        <TextBlock Text="ABOUT" Grid.Column="1" />
+                                        <TextBlock Text="{Binding NAV_ABOUT}" Grid.Column="1" />
                                     </Grid>
                                 </uc:NavigationButton>
 
