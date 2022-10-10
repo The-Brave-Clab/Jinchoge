@@ -39,13 +39,13 @@
     <ScrollViewer VerticalAlignment="Stretch">
         <StackPanel Orientation="Vertical">
 
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p1.md" />
+            <md:MarkdownScrollViewer Source="{Binding MdP1}" />
             <c:HelpTopicButton ButtonText="{Binding IntroductionButtonText}"
                                Command="{Binding IntroductionButtonCommand}" />
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p2.md" />
+            <md:MarkdownScrollViewer Source="{Binding MdP2}" />
             <c:HelpTopicButton ButtonText="{Binding AccountTransferButtonText}"
                                Command="{Binding AccountTransferButtonCommand}" />
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p3.md" />
+            <md:MarkdownScrollViewer Source="{Binding MdP3}" />
 
             <Button HorizontalAlignment="Center" VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
@@ -66,7 +66,7 @@
                 </StackPanel>
             </Button>
             
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p4.md" />
+            <md:MarkdownScrollViewer Source="{Binding MdP4}" />
 
             <Button HorizontalAlignment="Center" VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
@@ -87,7 +87,7 @@
                 </StackPanel>
             </Button>
             
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p5.md" />
+            <md:MarkdownScrollViewer Source="{Binding MdP5}" />
 
             <Button HorizontalAlignment="Center" VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
@@ -108,15 +108,15 @@
                 </StackPanel>
             </Button>
             
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p6.md" />
+            <md:MarkdownScrollViewer Source="{Binding MdP6}" />
             <c:HelpTopicButton ButtonText="{Binding ConnectProxyButtonText}"
                                Command="{Binding ConnectProxyButtonCommand}" />
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p7.md" />
+            <md:MarkdownScrollViewer Source="{Binding MdP7}" />
             <c:HelpTopicButton ButtonText="{Binding InstallCertIosButtonText}"
                                Command="{Binding InstallCertIosButtonCommand}" />
             <c:HelpTopicButton ButtonText="{Binding InstallCertAndroidButtonText}"
                                Command="{Binding InstallCertAndroidButtonCommand}" />
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/Helps/private-server/p8.md" />
+            <md:MarkdownScrollViewer Source="{Binding MdP8}" />
 
         </StackPanel>
     </ScrollViewer>

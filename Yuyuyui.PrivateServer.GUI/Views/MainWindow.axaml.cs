@@ -1,6 +1,8 @@
 using Avalonia.Controls;
 using System;
 using System.ComponentModel;
+using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Input;
@@ -28,6 +30,11 @@ namespace Yuyuyui.PrivateServer.GUI.Views
         {
             mainWindowVM = new MainWindowViewModel(this);
             DataContext = mainWindowVM;
+
+            if (CultureInfo.CurrentUICulture.Name == "zh" && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                FontFamily = $"Microsoft YaHei,{FontFamily.DefaultFontFamilyName}";
+            }
             
             InitializeComponent();
 
@@ -78,7 +85,8 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             aboutView = new AboutView
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
+                VerticalAlignment = VerticalAlignment.Stretch,
+                DataContext = mainWindowVM.aboutVM
             };
 
 
@@ -110,7 +118,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                 }
             );
             
-            Utils.LogTrace("Initialized GUI.");
+            Utils.LogTrace(Localization.Resources.LOG_GUI_INITIALIZED);
 
             if (!Design.IsDesignMode)
             {

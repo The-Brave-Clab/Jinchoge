@@ -90,15 +90,15 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
             if (NetworkInterfaces.Count > 1)
             {
-                IpMessage = "Use one of the following addresses as your proxy:";
+                IpMessage = Localization.Resources.PS_STATUS_CHOOSE_MULTIPLE;
             }
             else if (NetworkInterfaces.Count == 1)
             {
-                IpMessage = "Use the following address as your proxy:";
+                IpMessage = Localization.Resources.PS_STATUS_CHOOSE_SINGLE;
             }
             else
             {
-                IpMessage = "There is no address can be used as your proxy!";
+                IpMessage = Localization.Resources.PS_STATUS_CHOOSE_NONE;
             }
         }
 
@@ -181,11 +181,22 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             {
                 MainWindowViewModel.ServerStatus.Updating => "",
                 MainWindowViewModel.ServerStatus.Stopped => "",
-                MainWindowViewModel.ServerStatus.Started => "Private Server is currently running.",
-                MainWindowViewModel.ServerStatus.Transfer => "Account Transfer is in progress.",
+                MainWindowViewModel.ServerStatus.Started => PS_STATUS_STARTED,
+                MainWindowViewModel.ServerStatus.Transfer => PS_STATUS_TRANSFERRING,
                 _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
             };
         }
+    
+        public string PS_STATUS_STOPPED => Localization.Resources.PS_STATUS_STOPPED;
+        public string PS_STATUS_STARTED => Localization.Resources.PS_STATUS_STARTED;
+        public string PS_STATUS_UPDATING => Localization.Resources.PS_STATUS_UPDATING;
+        public string PS_STATUS_TRANSFERRING => Localization.Resources.PS_STATUS_TRANSFERRING;
+        public string PS_STATUS_PORT_LISTEN => Localization.Resources.PS_STATUS_PORT_LISTEN;
+        public string PS_STATUS_CHOOSE_IP => Localization.Resources.PS_STATUS_CHOOSE_IP;
+        public string PS_STATUS_FILTER_IP_BUTTON => Localization.Resources.PS_STATUS_FILTER_IP_BUTTON;
+        public string PS_STATUS_CLEAR_FILTER_BUTTON => Localization.Resources.PS_STATUS_CLEAR_FILTER_BUTTON;
+        public string PS_STATUS_TEXT_IP_ADDRESS => Localization.Resources.PS_STATUS_TEXT_IP_ADDRESS;
+        public string PS_STATUS_TEXT_SUBNET_MASK => Localization.Resources.PS_STATUS_TEXT_SUBNET_MASK;
     }
 
     internal class InterfaceDescription

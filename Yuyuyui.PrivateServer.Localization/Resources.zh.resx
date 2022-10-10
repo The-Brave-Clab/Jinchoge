@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="PS_BUTTON_START" xml:space="preserve">
+        <value>启动</value>
+    </data>
+    <data name="LOG_PS_START" xml:space="preserve">
+        <value>私服已启动！</value>
+    </data>
+    <data name="LOG_PS_STOP" xml:space="preserve">
+        <value>私服已停止！</value>
+    </data>
+    <data name="PS_BUTTON_START_DESC" xml:space="preserve">
+        <value>启动私服</value>
+    </data>
+    <data name="PS_BUTTON_STOP" xml:space="preserve">
+        <value>停止</value>
+    </data>
+    <data name="PS_BUTTON_STOP_DESC" xml:space="preserve">
+        <value>停止私服</value>
+    </data>
+    <data name="PS_BUTTON_TRANSFER" xml:space="preserve">
+        <value>转移中</value>
+    </data>
+    <data name="PS_BUTTON_TRANSFER_DESC" xml:space="preserve">
+        <value>正在转移账号……</value>
+    </data>
+    <data name="PS_BUTTON_UPDATE" xml:space="preserve">
+        <value>更新中</value>
+    </data>
+    <data name="PS_BUTTON_UPDATE_DESC" xml:space="preserve">
+        <value>正在更新所需文件……</value>
+    </data>
+    <data name="NAV_BUTTON_ABOUT" xml:space="preserve">
+        <value>关于</value>
+    </data>
+    <data name="NAV_BUTTON_HELP" xml:space="preserve">
+        <value>帮助</value>
+    </data>
+    <data name="NAV_BUTTON_LOG" xml:space="preserve">
+        <value>日志</value>
+    </data>
+    <data name="NAV_BUTTON_SETTINGS" xml:space="preserve">
+        <value>设置</value>
+    </data>
+    <data name="NAV_BUTTON_STATUS" xml:space="preserve">
+        <value>运行状态</value>
+    </data>
+    <data name="NAV_BUTTON_TRANSFER" xml:space="preserve">
+        <value>账号转移</value>
+    </data>
+    <data name="PROJ_DESC" xml:space="preserve">
+        <value>《结城友奈是勇者 闪光的花结》私服</value>
+    </data>
+    <data name="WINDOW_TITLE" xml:space="preserve">
+        <value>花结私服</value>
+    </data>
+    <data name="AT_BUTTON_START" xml:space="preserve">
+        <value>开始
+账号
+转移</value>
+    </data>
+    <data name="AT_BUTTON_STOP" xml:space="preserve">
+        <value>停止
+账号
+转移</value>
+    </data>
+    <data name="AT_NOTE" xml:space="preserve">
+        <value>注意：</value>
+    </data>
+    <data name="AT_NOTE_MORE_INFO" xml:space="preserve">
+        <value>更多帮助信息请参考帮助页面。</value>
+    </data>
+    <data name="AT_NOTE_ONE_ACCOUNT" xml:space="preserve">
+        <value>一次仅可转移一个账号。</value>
+    </data>
+    <data name="AT_NOTE_RESTART" xml:space="preserve">
+        <value>转移完成后，必须完全重新启动游戏。</value>
+    </data>
+    <data name="AT_TASK_ACCESSORIES" xml:space="preserve">
+        <value>精灵</value>
+    </data>
+    <data name="AT_TASK_CARDS" xml:space="preserve">
+        <value>卡牌</value>
+    </data>
+    <data name="AT_TASK_CHARACTER_FAMILIARITIES" xml:space="preserve">
+        <value>角色亲密度</value>
+    </data>
+    <data name="AT_TASK_DECKS" xml:space="preserve">
+        <value>队伍</value>
+    </data>
+    <data name="AT_TASK_HEADER" xml:space="preserve">
+        <value>账号信息</value>
+    </data>
+    <data name="AT_TASK_ID" xml:space="preserve">
+        <value>账号身份</value>
+    </data>
+    <data name="AT_TASK_PROFILE" xml:space="preserve">
+        <value>玩家信息</value>
+    </data>
+    <data name="AT_TASK_ITEMS_ENHANCEMENT" xml:space="preserve">
+        <value>强化道具</value>
+    </data>
+    <data name="AT_TASK_ITEMS_EVENT" xml:space="preserve">
+        <value>活动道具</value>
+    </data>
+    <data name="AT_TASK_ITEMS_STAMINA" xml:space="preserve">
+        <value>体力道具</value>
+    </data>
+    <data name="AT_TASK_ITEMS_EVOLUTION" xml:space="preserve">
+        <value>神花解放道具</value>
+    </data>
+    <data name="AT_TASK_ITEMS_TITLE" xml:space="preserve">
+        <value>称号</value>
+    </data>
+    <data name="LOG_AT_START" xml:space="preserve">
+        <value>开始账号转移！</value>
+    </data>
+    <data name="LOG_AT_STOP" xml:space="preserve">
+        <value>停止账号转移！</value>
+    </data>
+    <data name="LOG_AT_TRANSFER_SUCCESS" xml:space="preserve">
+        <value>{0}转移成功</value>
+    </data>
+    <data name="PS_STATUS_STARTED" xml:space="preserve">
+        <value>私服正在运行。</value>
+    </data>
+    <data name="PS_STATUS_STOPPED" xml:space="preserve">
+        <value>私服已停止。</value>
+    </data>
+    <data name="PS_STATUS_TRANSFERRING" xml:space="preserve">
+        <value>正在转移账号。</value>
+    </data>
+    <data name="PS_STATUS_UPDATING" xml:space="preserve">
+        <value>正在更新所需文件……</value>
+    </data>
+    <data name="PS_STATUS_PORT_LISTEN" xml:space="preserve">
+        <value>代理服务器正在监听端口</value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_IP" xml:space="preserve">
+        <value>我该使用哪个？</value>
+    </data>
+    <data name="PS_STATUS_CLEAR_FILTER_BUTTON" xml:space="preserve">
+        <value>取消过滤</value>
+    </data>
+    <data name="PS_STATUS_FILTER_IP_BUTTON" xml:space="preserve">
+        <value>过滤</value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_MULTIPLE" xml:space="preserve">
+        <value>请使用以下之一作为代理服务器地址：</value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_NONE" xml:space="preserve">
+        <value>没有可以作为代理服务器的地址！</value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_SINGLE" xml:space="preserve">
+        <value>请使用以下地址作为代理服务器地址：</value>
+    </data>
+    <data name="PS_STATUS_TEXT_IP_ADDRESS" xml:space="preserve">
+        <value>IP地址</value>
+    </data>
+    <data name="PS_STATUS_TEXT_SUBNET_MASK" xml:space="preserve">
+        <value>子网掩码</value>
+    </data>
+    <data name="LOG_GUI_INITIALIZED" xml:space="preserve">
+        <value>初始化用户界面</value>
+    </data>
+    <data name="PS_HELP_AT" xml:space="preserve">
+        <value>如何使用账号转移</value>
+    </data>
+    <data name="PS_HELP_INTRO" xml:space="preserve">
+        <value>这个项目是什么</value>
+    </data>
+    <data name="PS_HELP_PS" xml:space="preserve">
+        <value>如何使用私服</value>
+    </data>
+    <data name="PS_HELP_PROXY" xml:space="preserve">
+        <value>如何连接至代理服务器</value>
+    </data>
+    <data name="PS_HELP_CERT_ANDROID" xml:space="preserve">
+        <value>如何安装SSL证书（Android设备）</value>
+    </data>
+    <data name="PS_HELP_CERT_IOS" xml:space="preserve">
+        <value>如何安装SSL证书（iOS设备）</value>
+    </data>
+    <data name="PS_HELP_BACK_BUTTON" xml:space="preserve">
+        <value>返回</value>
+    </data>
+    <data name="LAN_CODE" xml:space="preserve">
+        <value>zh</value>
+    </data>
+</root>

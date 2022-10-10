@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Yuyuyui.PrivateServer\Yuyuyui.PrivateServer.csproj" />
+    <ProjectReference Include="..\Yuyuyui.PrivateServer.Localization\Yuyuyui.PrivateServer.Localization.csproj" />
   </ItemGroup>
 
 </Project>

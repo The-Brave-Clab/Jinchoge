@@ -31,12 +31,12 @@ public class HelpViewModel : ViewModelBase
 
     public static Dictionary<Type, string> ButtonInfo => new()
     {
-        { typeof(IntroductionView),              "What is This Project" },
-        { typeof(PrivateServerView),             "How to Use Private Server" },
-        { typeof(AccountTransferView),           "How to Use the Account Transfer Tool" },
-        { typeof(ConnectToProxyView),       "How to Connect to the Proxy" },
-        { typeof(InstallCertificateIosView),     "How to Install an SSL Certificate (iOS)" },
-        { typeof(InstallCertificateAndroidView), "How to Install an SSL Certificate (Android)" },
+        { typeof(IntroductionView),              Localization.Resources.PS_HELP_INTRO },
+        { typeof(PrivateServerView),             Localization.Resources.PS_HELP_PS },
+        { typeof(AccountTransferView),           Localization.Resources.PS_HELP_AT },
+        { typeof(ConnectToProxyView),            Localization.Resources.PS_HELP_PROXY },
+        { typeof(InstallCertificateIosView),     Localization.Resources.PS_HELP_CERT_IOS },
+        { typeof(InstallCertificateAndroidView), Localization.Resources.PS_HELP_CERT_ANDROID },
     };
 
     public HelpViewModel()
@@ -108,4 +108,6 @@ public class HelpViewModel : ViewModelBase
             }
         }
     }
+
+    public string PS_HELP_BACK_BUTTON => Localization.Resources.PS_HELP_BACK_BUTTON;
 }

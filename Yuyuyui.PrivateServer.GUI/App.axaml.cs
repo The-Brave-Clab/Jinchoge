@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Threading;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -10,6 +12,8 @@ namespace Yuyuyui.PrivateServer.GUI
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
+
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("zh");
         }
 
         public override void OnFrameworkInitializationCompleted()

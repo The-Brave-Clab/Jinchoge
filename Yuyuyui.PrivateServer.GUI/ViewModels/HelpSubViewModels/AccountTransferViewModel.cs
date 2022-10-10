@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using ReactiveUI;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels;
@@ -38,4 +39,9 @@ public class AccountTransferViewModel : HelpSubViewModelBase
 
     public ObservableCollection<TransferViewModel.TaskCompleteStatus> TaskList { get; } = new();
     public ObservableCollection<TransferViewModel.TaskCompleteStatus> TaskListSomeCompleted { get; } = new();
+    
+    public Uri MdP1 => MarkdownDocuments("account-transfer", 1);
+    public Uri MdP2 => MarkdownDocuments("account-transfer", 2);
+    public Uri MdP3 => MarkdownDocuments("account-transfer", 3);
+    public Uri MdP4 => MarkdownDocuments("account-transfer", 4);
 }
