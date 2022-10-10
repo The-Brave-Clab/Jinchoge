@@ -9,19 +9,19 @@
              x:Class="Yuyuyui.PrivateServer.GUI.Views.IntroductionView">
 
     <Design.DataContext>
-        <vm:HelpSubViewModelBase />
+        <vm:IntroductionViewModel />
     </Design.DataContext>
     
     <ScrollViewer VerticalAlignment="Stretch">
         <StackPanel Orientation="Vertical">
 
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/en/Helps/introduction/p1.md" />
+            <md:MarkdownScrollViewer Source="{Binding MdP1}" />
             <c:HelpTopicButton ButtonText="{Binding PrivateServerButtonText}" Command="{Binding PrivateServerButtonCommand}" />
             <c:HelpTopicButton ButtonText="{Binding AccountTransferButtonText}" Command="{Binding AccountTransferButtonCommand}" />
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/en/Helps/introduction/p2.md" />
+            <md:MarkdownScrollViewer Source="{Binding MdP2}" />
             <c:HelpTopicButton ButtonText="{Binding InstallCertIosButtonText}" Command="{Binding InstallCertIosButtonCommand}" />
             <c:HelpTopicButton ButtonText="{Binding InstallCertAndroidButtonText}" Command="{Binding InstallCertAndroidButtonCommand}" />
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/en/Helps/introduction/p3.md" />
+            <md:MarkdownScrollViewer Source="{Binding MdP3}" />
 
         </StackPanel>
     </ScrollViewer>

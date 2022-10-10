@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using System;
+using ReactiveUI;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels;
 
@@ -61,4 +62,14 @@ public class PrivateServerViewModel : HelpSubViewModelBase
         get => buttonTransferDescription;
         set => this.RaiseAndSetIfChanged(ref buttonTransferDescription, value);
     }
+    
+    
+    public Uri MdP1 => MarkdownDocuments("private-server", 1);
+    public Uri MdP2 => MarkdownDocuments("private-server", 2);
+    public Uri MdP3 => MarkdownDocuments("private-server", 3);
+    public Uri MdP4 => MarkdownDocuments("private-server", 4);
+    public Uri MdP5 => MarkdownDocuments("private-server", 5);
+    public Uri MdP6 => MarkdownDocuments("private-server", 6);
+    public Uri MdP7 => MarkdownDocuments("private-server", 7);
+    public Uri MdP8 => MarkdownDocuments("private-server", 8);
 }

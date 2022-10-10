@@ -15,7 +15,7 @@
     <ScrollViewer VerticalAlignment="Stretch">
         <StackPanel Orientation="Vertical">
 
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/en/Helps/connect-proxy/p1.md" />
+            <md:MarkdownScrollViewer Source="{Binding Md}" />
             <c:HelpTopicButton ButtonText="{Binding InstallCertIosButtonText}"
                                Command="{Binding InstallCertIosButtonCommand}" />
             <c:HelpTopicButton ButtonText="{Binding InstallCertAndroidButtonText}"

@@ -1,6 +1,8 @@
 using Avalonia.Controls;
 using System;
 using System.ComponentModel;
+using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Input;
@@ -28,6 +30,11 @@ namespace Yuyuyui.PrivateServer.GUI.Views
         {
             mainWindowVM = new MainWindowViewModel(this);
             DataContext = mainWindowVM;
+
+            if (CultureInfo.CurrentUICulture.Name == "zh" && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                FontFamily = $"Microsoft YaHei,{FontFamily.DefaultFontFamilyName}";
+            }
             
             InitializeComponent();
 

@@ -100,7 +100,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 一次仅可转移一个账户。.
+        ///   Looks up a localized string similar to 一次仅可转移一个账号。.
         /// </summary>
         internal static string AT_NOTE_ONE_ACCOUNT {
             get {

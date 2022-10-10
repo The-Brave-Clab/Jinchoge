@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using System;
+using ReactiveUI;
 using Yuyuyui.PrivateServer.GUI.Views;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels;
@@ -93,5 +94,10 @@ public class HelpSubViewModelBase : ViewModelBase
     public void InstallCertAndroidButtonCommand()
     {
         HelpViewModel!.PushPage(typeof(InstallCertificateAndroidView));
+    }
+
+    protected static Uri MarkdownDocuments(string subFolder, int part)
+    {
+        return new Uri($"avares://YuyuyuiPrivateServerGUI/Assets/Texts/{Localization.Resources.LAN_CODE}/Helps/{subFolder}/p{part}.md");
     }
 }

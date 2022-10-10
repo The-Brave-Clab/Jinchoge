@@ -15,7 +15,7 @@
     <ScrollViewer VerticalAlignment="Stretch">
         <StackPanel Orientation="Vertical">
 
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/en/Helps/account-transfer/p1.md" />
+            <md:MarkdownScrollViewer Source="{Binding MdP1}" />
             
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Spacing="20">
                 <Button Content="{Binding StartButtonContent}"
@@ -59,9 +59,9 @@
 
             </StackPanel>
 
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/en/Helps/account-transfer/p2.md" />
+            <md:MarkdownScrollViewer Source="{Binding MdP2}" />
             <c:HelpTopicButton ButtonText="{Binding PrivateServerButtonText}" Command="{Binding PrivateServerButtonCommand}" />
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/en/Helps/account-transfer/p3.md" />
+            <md:MarkdownScrollViewer Source="{Binding MdP3}" />
             
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Spacing="20">
                 <Button Content="{Binding StopButtonContent}"
@@ -105,7 +105,7 @@
 
             </StackPanel>
             
-            <md:MarkdownScrollViewer Source="avares://YuyuyuiPrivateServerGUI/Assets/Texts/en/Helps/account-transfer/p4.md" />
+            <md:MarkdownScrollViewer Source="{Binding MdP4}" />
 
         </StackPanel>
     </ScrollViewer>
