@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.AccountTransfer.CLI
 {
@@ -47,7 +48,8 @@ namespace Yuyuyui.AccountTransfer.CLI
             EventWaitHandle waitHandle = new AutoResetEvent(false);
 
             TransferProgress.RegisterTaskCompleteCallback((type, progress) =>
-                Utils.LogTrace($"Successfully transferred {TransferProgress.TaskName[type]} ({progress.Count(b => b)}/{progress.Length})")
+                Utils.LogTrace(string.Format(Resources.LOG_AT_TRANSFER_SUCCESS, TransferProgress.TaskName[type]) + 
+                               $" ({progress.Count(b => b)}/{progress.Length})")
             );
             
             TransferProgress.RegisterAllTaskCompleteCallback(() => waitHandle.Set());

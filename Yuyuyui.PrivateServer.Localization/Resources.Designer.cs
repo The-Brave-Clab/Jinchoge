@@ -60,6 +60,199 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start
+        ///Account
+        ///Transfer.
+        /// </summary>
+        internal static string AT_BUTTON_START {
+            get {
+                return ResourceManager.GetString("AT_BUTTON_START", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop
+        ///Account
+        ///Transfer.
+        /// </summary>
+        internal static string AT_BUTTON_STOP {
+            get {
+                return ResourceManager.GetString("AT_BUTTON_STOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note:.
+        /// </summary>
+        internal static string AT_NOTE {
+            get {
+                return ResourceManager.GetString("AT_NOTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to See the help page for more information..
+        /// </summary>
+        internal static string AT_NOTE_MORE_INFO {
+            get {
+                return ResourceManager.GetString("AT_NOTE_MORE_INFO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can only transfer one account at a time..
+        /// </summary>
+        internal static string AT_NOTE_ONE_ACCOUNT {
+            get {
+                return ResourceManager.GetString("AT_NOTE_ONE_ACCOUNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The game must be restarted completely after each transfer..
+        /// </summary>
+        internal static string AT_NOTE_RESTART {
+            get {
+                return ResourceManager.GetString("AT_NOTE_RESTART", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spirits.
+        /// </summary>
+        internal static string AT_TASK_ACCESSORIES {
+            get {
+                return ResourceManager.GetString("AT_TASK_ACCESSORIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cards.
+        /// </summary>
+        internal static string AT_TASK_CARDS {
+            get {
+                return ResourceManager.GetString("AT_TASK_CARDS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Affinities.
+        /// </summary>
+        internal static string AT_TASK_CHARACTER_FAMILIARITIES {
+            get {
+                return ResourceManager.GetString("AT_TASK_CHARACTER_FAMILIARITIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Teams.
+        /// </summary>
+        internal static string AT_TASK_DECKS {
+            get {
+                return ResourceManager.GetString("AT_TASK_DECKS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Common Data.
+        /// </summary>
+        internal static string AT_TASK_HEADER {
+            get {
+                return ResourceManager.GetString("AT_TASK_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID.
+        /// </summary>
+        internal static string AT_TASK_ID {
+            get {
+                return ResourceManager.GetString("AT_TASK_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enhancement Items.
+        /// </summary>
+        internal static string AT_TASK_ITEMS_ENHANCEMENT {
+            get {
+                return ResourceManager.GetString("AT_TASK_ITEMS_ENHANCEMENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event Items.
+        /// </summary>
+        internal static string AT_TASK_ITEMS_EVENT {
+            get {
+                return ResourceManager.GetString("AT_TASK_ITEMS_EVENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evolution Items.
+        /// </summary>
+        internal static string AT_TASK_ITEMS_EVOLUTION {
+            get {
+                return ResourceManager.GetString("AT_TASK_ITEMS_EVOLUTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stamina Items.
+        /// </summary>
+        internal static string AT_TASK_ITEMS_STAMINA {
+            get {
+                return ResourceManager.GetString("AT_TASK_ITEMS_STAMINA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Titles.
+        /// </summary>
+        internal static string AT_TASK_ITEMS_TITLE {
+            get {
+                return ResourceManager.GetString("AT_TASK_ITEMS_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile.
+        /// </summary>
+        internal static string AT_TASK_PROFILE {
+            get {
+                return ResourceManager.GetString("AT_TASK_PROFILE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Transfer Started!.
+        /// </summary>
+        internal static string LOG_AT_START {
+            get {
+                return ResourceManager.GetString("LOG_AT_START", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Transfer Stopped!.
+        /// </summary>
+        internal static string LOG_AT_STOP {
+            get {
+                return ResourceManager.GetString("LOG_AT_STOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully transferred {0}.
+        /// </summary>
+        internal static string LOG_AT_TRANSFER_SUCCESS {
+            get {
+                return ResourceManager.GetString("LOG_AT_TRANSFER_SUCCESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Private Server Started!.
         /// </summary>
         internal static string LOG_PS_START {
