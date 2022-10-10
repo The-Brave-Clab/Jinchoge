@@ -110,7 +110,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                 }
             );
             
-            Utils.LogTrace("Initialized GUI.");
+            Utils.LogTrace(Localization.Resources.LOG_GUI_INITIALIZED);
 
             if (!Design.IsDesignMode)
             {

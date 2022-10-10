@@ -253,6 +253,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Initialized GUI..
+        /// </summary>
+        internal static string LOG_GUI_INITIALIZED {
+            get {
+                return ResourceManager.GetString("LOG_GUI_INITIALIZED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Private Server Started!.
         /// </summary>
         internal static string LOG_PS_START {
@@ -402,6 +411,69 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string PS_BUTTON_UPDATE_DESC {
             get {
                 return ResourceManager.GetString("PS_BUTTON_UPDATE_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How to Use the Account Transfer Tool.
+        /// </summary>
+        internal static string PS_HELP_AT {
+            get {
+                return ResourceManager.GetString("PS_HELP_AT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        internal static string PS_HELP_BACK_BUTTON {
+            get {
+                return ResourceManager.GetString("PS_HELP_BACK_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How to Install an SSL Certificate (Android).
+        /// </summary>
+        internal static string PS_HELP_CERT_ANDROID {
+            get {
+                return ResourceManager.GetString("PS_HELP_CERT_ANDROID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How to Install an SSL Certificate (iOS).
+        /// </summary>
+        internal static string PS_HELP_CERT_IOS {
+            get {
+                return ResourceManager.GetString("PS_HELP_CERT_IOS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What is This Project.
+        /// </summary>
+        internal static string PS_HELP_INTRO {
+            get {
+                return ResourceManager.GetString("PS_HELP_INTRO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How to Connect to the Proxy.
+        /// </summary>
+        internal static string PS_HELP_PROXY {
+            get {
+                return ResourceManager.GetString("PS_HELP_PROXY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How to Use Private Server.
+        /// </summary>
+        internal static string PS_HELP_PS {
+            get {
+                return ResourceManager.GetString("PS_HELP_PS", resourceCulture);
             }
         }
         

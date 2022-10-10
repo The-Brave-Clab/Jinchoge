@@ -178,4 +178,28 @@ Transfer</value>
     <data name="PS_STATUS_TEXT_SUBNET_MASK" xml:space="preserve">
         <value>Subnet Mask</value>
     </data>
+    <data name="LOG_GUI_INITIALIZED" xml:space="preserve">
+        <value>Initialized GUI.</value>
+    </data>
+    <data name="PS_HELP_INTRO" xml:space="preserve">
+        <value>What is This Project</value>
+    </data>
+    <data name="PS_HELP_PS" xml:space="preserve">
+        <value>How to Use Private Server</value>
+    </data>
+    <data name="PS_HELP_AT" xml:space="preserve">
+        <value>How to Use the Account Transfer Tool</value>
+    </data>
+    <data name="PS_HELP_PROXY" xml:space="preserve">
+        <value>How to Connect to the Proxy</value>
+    </data>
+    <data name="PS_HELP_CERT_IOS" xml:space="preserve">
+        <value>How to Install an SSL Certificate (iOS)</value>
+    </data>
+    <data name="PS_HELP_CERT_ANDROID" xml:space="preserve">
+        <value>How to Install an SSL Certificate (Android)</value>
+    </data>
+    <data name="PS_HELP_BACK_BUTTON" xml:space="preserve">
+        <value>Back</value>
+    </data>
 </root>

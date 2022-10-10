@@ -91,7 +91,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 更多帮助请参考帮助页面。.
+        ///   Looks up a localized string similar to 更多帮助信息请参考帮助页面。.
         /// </summary>
         internal static string AT_NOTE_MORE_INFO {
             get {
@@ -253,6 +253,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 初始化用户界面.
+        /// </summary>
+        internal static string LOG_GUI_INITIALIZED {
+            get {
+                return ResourceManager.GetString("LOG_GUI_INITIALIZED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 私服已启动！.
         /// </summary>
         internal static string LOG_PS_START {
@@ -402,6 +411,69 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string PS_BUTTON_UPDATE_DESC {
             get {
                 return ResourceManager.GetString("PS_BUTTON_UPDATE_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 如何使用账号转移.
+        /// </summary>
+        internal static string PS_HELP_AT {
+            get {
+                return ResourceManager.GetString("PS_HELP_AT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 返回.
+        /// </summary>
+        internal static string PS_HELP_BACK_BUTTON {
+            get {
+                return ResourceManager.GetString("PS_HELP_BACK_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 如何安装SSL证书（Android设备）.
+        /// </summary>
+        internal static string PS_HELP_CERT_ANDROID {
+            get {
+                return ResourceManager.GetString("PS_HELP_CERT_ANDROID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 如何安装SSL证书（iOS设备）.
+        /// </summary>
+        internal static string PS_HELP_CERT_IOS {
+            get {
+                return ResourceManager.GetString("PS_HELP_CERT_IOS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 关于本项目.
+        /// </summary>
+        internal static string PS_HELP_INTRO {
+            get {
+                return ResourceManager.GetString("PS_HELP_INTRO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 如何连接至代理服务器.
+        /// </summary>
+        internal static string PS_HELP_PROXY {
+            get {
+                return ResourceManager.GetString("PS_HELP_PROXY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 如何使用私服.
+        /// </summary>
+        internal static string PS_HELP_PS {
+            get {
+                return ResourceManager.GetString("PS_HELP_PS", resourceCulture);
             }
         }
         

@@ -86,7 +86,7 @@
         <value>注意：</value>
     </data>
     <data name="AT_NOTE_MORE_INFO" xml:space="preserve">
-        <value>更多帮助请参考帮助页面。</value>
+        <value>更多帮助信息请参考帮助页面。</value>
     </data>
     <data name="AT_NOTE_ONE_ACCOUNT" xml:space="preserve">
         <value>一次仅可转移一个账户。</value>
@@ -177,5 +177,29 @@
     </data>
     <data name="PS_STATUS_TEXT_SUBNET_MASK" xml:space="preserve">
         <value>子网掩码</value>
+    </data>
+    <data name="LOG_GUI_INITIALIZED" xml:space="preserve">
+        <value>初始化用户界面</value>
+    </data>
+    <data name="PS_HELP_AT" xml:space="preserve">
+        <value>如何使用账号转移</value>
+    </data>
+    <data name="PS_HELP_INTRO" xml:space="preserve">
+        <value>关于本项目</value>
+    </data>
+    <data name="PS_HELP_PS" xml:space="preserve">
+        <value>如何使用私服</value>
+    </data>
+    <data name="PS_HELP_PROXY" xml:space="preserve">
+        <value>如何连接至代理服务器</value>
+    </data>
+    <data name="PS_HELP_CERT_ANDROID" xml:space="preserve">
+        <value>如何安装SSL证书（Android设备）</value>
+    </data>
+    <data name="PS_HELP_CERT_IOS" xml:space="preserve">
+        <value>如何安装SSL证书（iOS设备）</value>
+    </data>
+    <data name="PS_HELP_BACK_BUTTON" xml:space="preserve">
+        <value>返回</value>
     </data>
 </root>

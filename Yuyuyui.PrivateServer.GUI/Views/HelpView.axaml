@@ -41,7 +41,7 @@
                 <DockPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" LastChildFill="True">
                     
                     <Image Source="/Assets/Icons/Navigation/back.png" Width="20" Height="20" DockPanel.Dock="Left"></Image>
-                    <TextBlock Text="Back" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    <TextBlock Text="{Binding PS_HELP_BACK_BUTTON}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
                     
                 </DockPanel>
                 
