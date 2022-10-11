@@ -9,11 +9,18 @@ public static class Config
 {
     public class ConfigObject
     {
-        public readonly General General = new();
+        public General General = new();
+        public InGame InGame = new();
     }
+
     public class General
     {
         public string Language { get; set; } = "";
+    }
+
+    public class InGame
+    {
+        public string ScenarioLanguage { get; set; } = SupportedInGameScenarioLanguage[0];
     }
 
 
@@ -29,7 +36,7 @@ public static class Config
 
         if (File.Exists(GetFileName())) return;
         var serializer = new Serializer();
-        File.WriteAllText(GetFileName(), serializer.Serialize(instance));
+        File.WriteAllText(GetFileName(), serializer.Serialize(instance), Encoding.UTF8);
     }
 
     public static void Load()
@@ -42,7 +49,7 @@ public static class Config
     public static void Save()
     {
         var serializer = new Serializer();
-        File.WriteAllText(GetFileName(), serializer.Serialize(instance));
+        File.WriteAllText(GetFileName(), serializer.Serialize(instance), Encoding.UTF8);
     }
 
 
