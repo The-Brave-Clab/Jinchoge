@@ -16,9 +16,10 @@ namespace Yuyuyui.PrivateServer.GUI
             AvaloniaXamlLoader.Load(this);
 
             string language = Config.Get().General.Language;
-            if (!string.IsNullOrEmpty(language))
+            CultureInfo cultureInfo = CultureInfo.GetCultureInfo(language);
+            if (!Equals(cultureInfo, CultureInfo.InvariantCulture))
             {
-                Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(language);
+                Thread.CurrentThread.CurrentUICulture = cultureInfo;
             }
         }
 

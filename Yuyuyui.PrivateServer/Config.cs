@@ -70,13 +70,14 @@ public static class Config
 
     public static readonly List<string> SupportedInterfaceLocale = new()
     {
+        "",
         "en",
         "zh"
     };
 
     public static readonly List<string> SupportedInGameScenarioLanguage = new()
     {
-        "jp",
+        "ja",
         "zh",
         "en"
     };

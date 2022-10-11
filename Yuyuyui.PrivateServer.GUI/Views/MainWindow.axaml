@@ -178,7 +178,7 @@
                                     </Grid>
                                 </uc:NavigationButton>
 
-                                <uc:NavigationButton Name="SettingsButton" Checked="OnNavigationButtonChecked" IsEnabled="False">
+                                <uc:NavigationButton Name="SettingsButton" Checked="OnNavigationButtonChecked">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/settings.png" Grid.Column="0"/>
                                         <TextBlock Text="{Binding NAV_SETTINGS}" Grid.Column="1" />

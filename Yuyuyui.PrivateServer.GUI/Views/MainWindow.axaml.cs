@@ -72,7 +72,8 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             settingsView = new SettingsView
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
+                VerticalAlignment = VerticalAlignment.Stretch,
+                DataContext = mainWindowVM.settingsVM
             };
 
             helpView = new HelpView
