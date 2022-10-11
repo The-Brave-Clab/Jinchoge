@@ -34,7 +34,13 @@ public static class Config
     {
         instance = new ConfigObject();
 
-        if (File.Exists(GetFileName())) return;
+        if (File.Exists(GetFileName()))
+        {
+            var deserializer = new DeserializerBuilder()
+                .IgnoreUnmatchedProperties()
+                .Build();
+            instance = deserializer.Deserialize<ConfigObject>(File.ReadAllText(GetFileName(), Encoding.UTF8));
+        }
         var serializer = new Serializer();
         File.WriteAllText(GetFileName(), serializer.Serialize(instance), Encoding.UTF8);
     }
