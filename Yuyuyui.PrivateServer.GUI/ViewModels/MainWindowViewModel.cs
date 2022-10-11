@@ -18,6 +18,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         internal LogViewModel logVM;
         internal TransferViewModel transferVM;
         internal StatusViewModel statusVM;
+        internal SettingsViewModel settingsVM;
         internal HelpViewModel helpVM;
         internal AboutViewModel aboutVM;
 
@@ -41,6 +42,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             logVM = new LogViewModel();
             transferVM = new TransferViewModel(this);
             statusVM = new StatusViewModel();
+            settingsVM = new SettingsViewModel();
             helpVM = new HelpViewModel();
             aboutVM = new AboutViewModel();
         }
@@ -58,6 +60,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             logVM = new LogViewModel();
             transferVM = new TransferViewModel(this);
             statusVM = new StatusViewModel();
+            settingsVM = new SettingsViewModel();
             helpVM = new HelpViewModel();
             aboutVM = new AboutViewModel();
         }

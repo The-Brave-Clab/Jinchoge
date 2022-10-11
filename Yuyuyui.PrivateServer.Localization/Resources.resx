@@ -205,4 +205,25 @@ Transfer</value>
     <data name="LAN_CODE" xml:space="preserve">
         <value>en</value>
     </data>
+    <data name="SETTINGS_CATEGORY_GENERAL" xml:space="preserve">
+        <value>General Settings</value>
+    </data>
+    <data name="SETTINGS_CATEGORY_IN_GAME" xml:space="preserve">
+        <value>In-Game Settings</value>
+    </data>
+    <data name="SETTINGS_GENERAL_LANGUAGE" xml:space="preserve">
+        <value>Interface Language</value>
+    </data>
+    <data name="SETTINGS_IN_GAME_LANGUAGE" xml:space="preserve">
+        <value>Scenario Language</value>
+    </data>
+    <data name="LAN_DEFAULT" xml:space="preserve">
+        <value>Follow System</value>
+    </data>
+    <data name="SETTINGS_INFO_REQUIRE_RESTART" xml:space="preserve">
+        <value>Requires Restart</value>
+    </data>
+    <data name="SETTINGS_INFO_TRANSLATION_PROVIDER" xml:space="preserve">
+        <value>Translations Provided by Community Contributions</value>
+    </data>
 </root>

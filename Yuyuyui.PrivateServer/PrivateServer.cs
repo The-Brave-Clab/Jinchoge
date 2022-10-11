@@ -89,8 +89,6 @@ namespace Yuyuyui.PrivateServer
                 playerUUID.Add(player.id.uuid, player);
                 playerCode.Add(player.id.code, player);
             }
-            
-            ConfigPlayer.Initialize();
         }
 
         public static PlayerProfile RegisterNewPlayer(string uuid, string? code = null)

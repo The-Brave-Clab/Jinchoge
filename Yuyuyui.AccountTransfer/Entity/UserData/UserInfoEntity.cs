@@ -6,7 +6,7 @@ namespace Yuyuyui.AccountTransfer;
 
 public class UserInfoEntity : BaseEntity<UserInfoEntity>
 {
-    public UserInfoEntity(Uri requestUri, string httpMethod, Config config)
+    public UserInfoEntity(Uri requestUri, string httpMethod, RouteConfig config)
         : base(requestUri, httpMethod, config)
     {
     }

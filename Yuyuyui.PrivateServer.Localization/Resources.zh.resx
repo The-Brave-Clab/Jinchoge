@@ -205,4 +205,25 @@
     <data name="LAN_CODE" xml:space="preserve">
         <value>zh</value>
     </data>
+    <data name="SETTINGS_CATEGORY_GENERAL" xml:space="preserve">
+        <value>通用设置</value>
+    </data>
+    <data name="SETTINGS_CATEGORY_IN_GAME" xml:space="preserve">
+        <value>游戏内设置</value>
+    </data>
+    <data name="SETTINGS_IN_GAME_LANGUAGE" xml:space="preserve">
+        <value>游戏内剧情语言</value>
+    </data>
+    <data name="SETTINGS_GENERAL_LANGUAGE" xml:space="preserve">
+        <value>界面语言</value>
+    </data>
+    <data name="LAN_DEFAULT" xml:space="preserve">
+        <value>跟随系统</value>
+    </data>
+    <data name="SETTINGS_INFO_REQUIRE_RESTART" xml:space="preserve">
+        <value>需要重启程序</value>
+    </data>
+    <data name="SETTINGS_INFO_TRANSLATION_PROVIDER" xml:space="preserve">
+        <value>翻译由社区贡献</value>
+    </data>
 </root>

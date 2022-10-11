@@ -41,7 +41,7 @@ namespace Yuyuyui.PrivateServer
                     $"{apiError.body}",
                     e.HttpClient.Request.RequestUri,
                     e.HttpClient.Request.Method,
-                    new Config(entity.RequestUri.AbsolutePath, e.HttpClient.Request.Method),
+                    new RouteConfig(entity.RequestUri.AbsolutePath, e.HttpClient.Request.Method),
                     headersAndBody.Item1,
                     headersAndBody.Item2,
                     $"{apiError.body}");

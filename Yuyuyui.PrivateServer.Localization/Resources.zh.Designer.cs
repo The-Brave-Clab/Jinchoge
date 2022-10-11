@@ -235,6 +235,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 跟随系统.
+        /// </summary>
+        internal static string LAN_DEFAULT {
+            get {
+                return ResourceManager.GetString("LAN_DEFAULT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 开始账号转移！.
         /// </summary>
         internal static string LOG_AT_START {
@@ -600,6 +609,60 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string PS_STATUS_UPDATING {
             get {
                 return ResourceManager.GetString("PS_STATUS_UPDATING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 通用设置.
+        /// </summary>
+        internal static string SETTINGS_CATEGORY_GENERAL {
+            get {
+                return ResourceManager.GetString("SETTINGS_CATEGORY_GENERAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 游戏内设置.
+        /// </summary>
+        internal static string SETTINGS_CATEGORY_IN_GAME {
+            get {
+                return ResourceManager.GetString("SETTINGS_CATEGORY_IN_GAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 界面语言.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_LANGUAGE {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_LANGUAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 游戏内剧情语言.
+        /// </summary>
+        internal static string SETTINGS_IN_GAME_LANGUAGE {
+            get {
+                return ResourceManager.GetString("SETTINGS_IN_GAME_LANGUAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 需要重启程序.
+        /// </summary>
+        internal static string SETTINGS_INFO_REQUIRE_RESTART {
+            get {
+                return ResourceManager.GetString("SETTINGS_INFO_REQUIRE_RESTART", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 翻译由社区贡献.
+        /// </summary>
+        internal static string SETTINGS_INFO_TRANSLATION_PROVIDER {
+            get {
+                return ResourceManager.GetString("SETTINGS_INFO_TRANSLATION_PROVIDER", resourceCulture);
             }
         }
         

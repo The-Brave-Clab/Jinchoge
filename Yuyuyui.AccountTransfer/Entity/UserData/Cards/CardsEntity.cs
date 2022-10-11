@@ -12,7 +12,7 @@ namespace Yuyuyui.AccountTransfer
         public CardsEntity(
             Uri requestUri,
             string httpMethod,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, config)
         {
         }

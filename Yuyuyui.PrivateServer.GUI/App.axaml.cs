@@ -11,9 +11,16 @@ namespace Yuyuyui.PrivateServer.GUI
     {
         public override void Initialize()
         {
+            Config.Load();
+
             AvaloniaXamlLoader.Load(this);
 
-            // Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("zh");
+            string language = Config.Get().General.Language;
+            CultureInfo cultureInfo = CultureInfo.GetCultureInfo(language);
+            if (!Equals(cultureInfo, CultureInfo.InvariantCulture))
+            {
+                Thread.CurrentThread.CurrentUICulture = cultureInfo;
+            }
         }
 
         public override void OnFrameworkInitializationCompleted()

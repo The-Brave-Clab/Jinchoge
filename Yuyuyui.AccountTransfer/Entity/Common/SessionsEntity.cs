@@ -6,7 +6,7 @@ namespace Yuyuyui.AccountTransfer;
 
 public class SessionsEntity : BaseEntity<SessionsEntity>
 {
-    public SessionsEntity(Uri requestUri, string httpMethod, Config config)
+    public SessionsEntity(Uri requestUri, string httpMethod, RouteConfig config)
         : base(requestUri, httpMethod, config)
     {
     }

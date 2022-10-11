@@ -16,6 +16,8 @@ namespace Yuyuyui.AccountTransfer.CLI
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
+            Config.Load();
+
             object logLock = new();
             Utils.SetLogCallback(
                 (o, t) =>
