@@ -69,8 +69,8 @@
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel>
-                                    <TextBlock Text="{Binding DisplayName}" HorizontalAlignment="Left" />
-                                    <TextBlock Text="{Binding NativeName}" HorizontalAlignment="Right" />
+                                    <TextBlock Text="{Binding DisplayName}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding NativeName}" HorizontalAlignment="Right" VerticalAlignment="Center" />
                                 </DockPanel>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
@@ -87,8 +87,8 @@
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel>
-                                    <TextBlock Text="{Binding DisplayName}" HorizontalAlignment="Left" />
-                                    <TextBlock Text="{Binding NativeName}" HorizontalAlignment="Right" />
+                                    <TextBlock Text="{Binding DisplayName}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding NativeName}" HorizontalAlignment="Right" VerticalAlignment="Center" />
                                 </DockPanel>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
