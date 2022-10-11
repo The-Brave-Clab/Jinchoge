@@ -13,7 +13,7 @@ public class ExchangeItemUpdateEntity : BaseEntity<ExchangeItemUpdateEntity>
         string httpMethod,
         Dictionary<string, string> requestHeaders,
         byte[] requestBody,
-        Config config)
+        RouteConfig config)
         : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
     }

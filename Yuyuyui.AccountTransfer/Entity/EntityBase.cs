@@ -91,7 +91,7 @@ namespace Yuyuyui.AccountTransfer
                             {
                                 typeof(Uri),
                                 typeof(string),
-                                typeof(Config)
+                                typeof(RouteConfig)
                             },
                             args: new object[]
                             {
@@ -125,7 +125,7 @@ namespace Yuyuyui.AccountTransfer
             return JsonSerializer.Create().Deserialize(reader, typeof(T)) as T;
         }
 
-        public EntityBase(Uri requestUri, string httpMethod, Config config)
+        public EntityBase(Uri requestUri, string httpMethod, RouteConfig config)
         {
             AcceptedHttpMethods = config.httpMethods;
             HttpMethod = httpMethod;
@@ -136,62 +136,62 @@ namespace Yuyuyui.AccountTransfer
             pathParameters = ExtractPathParameters(config.apiPath, StripApiPrefix(requestUri.AbsolutePath))!;
         }
 
-        private static readonly Dictionary<Type, Config> configs = new()
+        private static readonly Dictionary<Type, RouteConfig> configs = new()
         {
             {
                 typeof(SessionsEntity),
-                new Config(TransferProgress.TaskType.Id, "/sessions", "POST")
+                new RouteConfig(TransferProgress.TaskType.Id, "/sessions", "POST")
             },
             {
                 typeof(HeaderEntity),
-                new Config(TransferProgress.TaskType.Header, "/my/header", "GET")
+                new RouteConfig(TransferProgress.TaskType.Header, "/my/header", "GET")
             },
             {
                 typeof(UserInfoEntity),
-                new Config(TransferProgress.TaskType.Profile, "/users/{user_id}", "GET")
+                new RouteConfig(TransferProgress.TaskType.Profile, "/users/{user_id}", "GET")
             },
             {
                 typeof(AccessoryListEntity),
-                new Config(TransferProgress.TaskType.Accessories, "/my/accessories", "GET")
+                new RouteConfig(TransferProgress.TaskType.Accessories, "/my/accessories", "GET")
             },
             {
                 typeof(CardsEntity),
-                new Config(TransferProgress.TaskType.Cards, "/my/cards", "GET")
+                new RouteConfig(TransferProgress.TaskType.Cards, "/my/cards", "GET")
             },
             {
                 typeof(DeckEntity),
-                new Config(TransferProgress.TaskType.Decks, "/my/decks", "GET")
+                new RouteConfig(TransferProgress.TaskType.Decks, "/my/decks", "GET")
             },
             {
                 typeof(EnhancementItemsEntity),
-                new Config(TransferProgress.TaskType.EnhancementItems, "/my/enhancement_items", "GET")
+                new RouteConfig(TransferProgress.TaskType.EnhancementItems, "/my/enhancement_items", "GET")
             },
             {
                 typeof(EventItemsEntity),
-                new Config(TransferProgress.TaskType.EventItems, "/my/event_items", "GET")
+                new RouteConfig(TransferProgress.TaskType.EventItems, "/my/event_items", "GET")
             },
             {
                 typeof(EvolutionItemsEntity),
-                new Config(TransferProgress.TaskType.EvolutionItems, "/my/evolution_items", "GET")
+                new RouteConfig(TransferProgress.TaskType.EvolutionItems, "/my/evolution_items", "GET")
             },
             {
                 typeof(StaminaItemsEntity),
-                new Config(TransferProgress.TaskType.StaminaItems, "/my/stamina_items", "GET")
+                new RouteConfig(TransferProgress.TaskType.StaminaItems, "/my/stamina_items", "GET")
             },
             {
                 typeof(TitleItemsEntity),
-                new Config(TransferProgress.TaskType.TitleItems, "/my/title_items", "GET")
+                new RouteConfig(TransferProgress.TaskType.TitleItems, "/my/title_items", "GET")
             },
             {
                 typeof(CharacterFamiliarityEntity),
-                new Config(TransferProgress.TaskType.CharacterFamiliarities, "/my/character_familiarities", "GET")
+                new RouteConfig(TransferProgress.TaskType.CharacterFamiliarities, "/my/character_familiarities", "GET")
             },
         };
     }
 
-    public struct Config
+    public struct RouteConfig
     {
-        public Config(TransferProgress.TaskType transferTask, string apiPath, params string[] httpMethods)
+        public RouteConfig(TransferProgress.TaskType transferTask, string apiPath, params string[] httpMethods)
         {
             this.transferTask = transferTask;
             this.apiPath = apiPath;
