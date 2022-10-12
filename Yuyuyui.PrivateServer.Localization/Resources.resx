@@ -69,9 +69,6 @@
     <data name="PROJ_DESC" xml:space="preserve">
         <value>Private Server for Mobile Game YUYUYUI</value>
     </data>
-    <data name="WINDOW_TITLE" xml:space="preserve">
-        <value>Yuyuyui Private Server</value>
-    </data>
     <data name="AT_BUTTON_START" xml:space="preserve">
         <value>Start
 Account

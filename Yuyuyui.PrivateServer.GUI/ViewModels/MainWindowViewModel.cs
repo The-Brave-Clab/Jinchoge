@@ -185,7 +185,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         public string NAV_HELP => Localization.Resources.NAV_BUTTON_HELP;
         public string NAV_ABOUT => Localization.Resources.NAV_BUTTON_ABOUT;
         public string PROJ_DESC => Localization.Resources.PROJ_DESC;
-        public string WINDOW_TITLE => Localization.Resources.WINDOW_TITLE;
+        public string WINDOW_TITLE => "Jinchōge";
 
         public TextAlignment TitleAlignment => RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             ? TextAlignment.Left

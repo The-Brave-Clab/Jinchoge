@@ -665,14 +665,5 @@ namespace Yuyuyui.PrivateServer.Localization {
                 return ResourceManager.GetString("SETTINGS_INFO_TRANSLATION_PROVIDER", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Yuyuyui Private Server.
-        /// </summary>
-        internal static string WINDOW_TITLE {
-            get {
-                return ResourceManager.GetString("WINDOW_TITLE", resourceCulture);
-            }
-        }
     }
 }
