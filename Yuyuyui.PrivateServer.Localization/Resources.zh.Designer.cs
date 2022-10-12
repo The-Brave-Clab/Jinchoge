@@ -352,11 +352,20 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 《结城友奈是勇者 闪光的花结》账号转移工具.
+        /// </summary>
+        internal static string PROJ_DESC_EUCALYPTUS {
+            get {
+                return ResourceManager.GetString("PROJ_DESC_EUCALYPTUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 《结城友奈是勇者 闪光的花结》私服.
         /// </summary>
-        internal static string PROJ_DESC {
+        internal static string PROJ_DESC_JINCHOGE {
             get {
-                return ResourceManager.GetString("PROJ_DESC", resourceCulture);
+                return ResourceManager.GetString("PROJ_DESC_JINCHOGE", resourceCulture);
             }
         }
         

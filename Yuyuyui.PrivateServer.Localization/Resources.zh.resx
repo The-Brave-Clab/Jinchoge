@@ -66,7 +66,7 @@
     <data name="NAV_BUTTON_TRANSFER" xml:space="preserve">
         <value>账号转移</value>
     </data>
-    <data name="PROJ_DESC" xml:space="preserve">
+    <data name="PROJ_DESC_JINCHOGE" xml:space="preserve">
         <value>《结城友奈是勇者 闪光的花结》私服</value>
     </data>
     <data name="AT_BUTTON_START" xml:space="preserve">
@@ -222,5 +222,8 @@
     </data>
     <data name="SETTINGS_INFO_TRANSLATION_PROVIDER" xml:space="preserve">
         <value>翻译由社区贡献</value>
+    </data>
+    <data name="PROJ_DESC_EUCALYPTUS" xml:space="preserve">
+        <value>《结城友奈是勇者 闪光的花结》账号转移工具</value>
     </data>
 </root>

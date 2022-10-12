@@ -177,6 +177,20 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             get => isTransferPageEnabled;
             set => this.RaiseAndSetIfChanged(ref isTransferPageEnabled, value);
         }
+        
+        private string projectDescription = "";
+        public string ProjectDescription
+        {
+            get => projectDescription;
+            set => this.RaiseAndSetIfChanged(ref projectDescription, value);
+        }
+
+        private string projectName = "";
+        public string ProjectName
+        {
+            get => projectName;
+            set => this.RaiseAndSetIfChanged(ref projectName, value);
+        }
 
         public string NAV_LOG => Localization.Resources.NAV_BUTTON_LOG;
         public string NAV_TRANSFER => Localization.Resources.NAV_BUTTON_TRANSFER;
@@ -184,7 +198,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         public string NAV_SETTINGS => Localization.Resources.NAV_BUTTON_SETTINGS;
         public string NAV_HELP => Localization.Resources.NAV_BUTTON_HELP;
         public string NAV_ABOUT => Localization.Resources.NAV_BUTTON_ABOUT;
-        public string PROJ_DESC => Localization.Resources.PROJ_DESC;
         public string WINDOW_TITLE => "Jinchōge";
 
         public TextAlignment TitleAlignment => RuntimeInformation.IsOSPlatform(OSPlatform.Windows)

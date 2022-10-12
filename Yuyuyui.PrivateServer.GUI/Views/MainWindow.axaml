@@ -63,8 +63,8 @@
                         <StackPanel Orientation="Horizontal" Spacing="10">
                             <Image Source="/Assets/Icons/General/Blessing.png" Width="80" Height="80"></Image>
                             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                                <TextBlock Text="Jinchōge" FontSize="40"></TextBlock>
-                                <TextBlock Text="{Binding PROJ_DESC}"></TextBlock>
+                                <TextBlock Text="{Binding ProjectName}" FontSize="40"></TextBlock>
+                                <TextBlock Text="{Binding ProjectDescription}"></TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </Panel>

@@ -352,11 +352,20 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Transfer Tool for Mobile Game YUYUYUI.
+        /// </summary>
+        internal static string PROJ_DESC_EUCALYPTUS {
+            get {
+                return ResourceManager.GetString("PROJ_DESC_EUCALYPTUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Private Server for Mobile Game YUYUYUI.
         /// </summary>
-        internal static string PROJ_DESC {
+        internal static string PROJ_DESC_JINCHOGE {
             get {
-                return ResourceManager.GetString("PROJ_DESC", resourceCulture);
+                return ResourceManager.GetString("PROJ_DESC_JINCHOGE", resourceCulture);
             }
         }
         
