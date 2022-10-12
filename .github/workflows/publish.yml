@@ -25,7 +25,7 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore -r ${{ matrix.rid }}
     - name: Build Private Server GUI
       run: dotnet publish Yuyuyui.PrivateServer.GUI/Yuyuyui.PrivateServer.GUI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=true -p:PublishSingleFile=true --no-restore
     - name: Build Private Server CLI
