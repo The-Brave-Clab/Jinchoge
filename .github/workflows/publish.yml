@@ -37,3 +37,25 @@ jobs:
       with:
         name: ${{ matrix.tfm }}-${{ matrix.rid }}
         path: publish/${{ matrix.tfm }}/${{ matrix.rid }}
+  
+  upload:
+  
+    name: Upload Artifacs to AWS
+    
+    strategy:
+      matrix:
+        rid: [ "win10-x64", "osx-x64", "osx-arm64", "linux-x64" ]
+        tfm: [ "net6.0" ]
+        
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-1
+    - name: Download Artifacts
+      uses: actions/download-artifact@v3
+    - name: Upload to AWS S3
+      run: aws s3 cp ${{ matrix.tfm }}-${{ matrix.rid }}.zip s3://y3ps-publish/${{ github.run_number }}/${{ matrix.tfm }}-${{ matrix.rid }}.zip
