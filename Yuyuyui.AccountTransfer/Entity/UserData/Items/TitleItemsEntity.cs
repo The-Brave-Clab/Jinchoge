@@ -10,7 +10,7 @@ namespace Yuyuyui.AccountTransfer
         public TitleItemsEntity(
             Uri requestUri,
             string httpMethod,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, config)
         {
         }

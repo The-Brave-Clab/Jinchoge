@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="PS_BUTTON_START" xml:space="preserve">
+        <value>START</value>
+    </data>
+    <data name="PS_BUTTON_UPDATE" xml:space="preserve">
+        <value>UPDATING</value>
+    </data>
+    <data name="PS_BUTTON_STOP" xml:space="preserve">
+        <value>STOP</value>
+    </data>
+    <data name="PS_BUTTON_TRANSFER" xml:space="preserve">
+        <value>TRANSFER</value>
+    </data>
+    <data name="PS_BUTTON_START_DESC" xml:space="preserve">
+        <value>Start the Private Server</value>
+    </data>
+    <data name="PS_BUTTON_STOP_DESC" xml:space="preserve">
+        <value>Private Server is running</value>
+    </data>
+    <data name="PS_BUTTON_TRANSFER_DESC" xml:space="preserve">
+        <value>Transferring Account...</value>
+    </data>
+    <data name="PS_BUTTON_UPDATE_DESC" xml:space="preserve">
+        <value>Updating Required Files...</value>
+    </data>
+    <data name="LOG_PS_START" xml:space="preserve">
+        <value>Private Server Started!</value>
+    </data>
+    <data name="LOG_PS_STOP" xml:space="preserve">
+        <value>Private Server Stopped!</value>
+    </data>
+    <data name="NAV_BUTTON_LOG" xml:space="preserve">
+        <value>LOG</value>
+    </data>
+    <data name="NAV_BUTTON_TRANSFER" xml:space="preserve">
+        <value>TRANSFER</value>
+    </data>
+    <data name="NAV_BUTTON_STATUS" xml:space="preserve">
+        <value>STATUS</value>
+    </data>
+    <data name="NAV_BUTTON_SETTINGS" xml:space="preserve">
+        <value>SETTINGS</value>
+    </data>
+    <data name="NAV_BUTTON_HELP" xml:space="preserve">
+        <value>HELP</value>
+    </data>
+    <data name="NAV_BUTTON_ABOUT" xml:space="preserve">
+        <value>ABOUT</value>
+    </data>
+    <data name="PROJ_DESC" xml:space="preserve">
+        <value>Private Server for Mobile Game YUYUYUI</value>
+    </data>
+    <data name="WINDOW_TITLE" xml:space="preserve">
+        <value>Yuyuyui Private Server</value>
+    </data>
+    <data name="AT_BUTTON_START" xml:space="preserve">
+        <value>Start
+Account
+Transfer</value>
+    </data>
+    <data name="AT_BUTTON_STOP" xml:space="preserve">
+        <value>Stop
+Account
+Transfer</value>
+    </data>
+    <data name="AT_NOTE" xml:space="preserve">
+        <value>Note:</value>
+    </data>
+    <data name="AT_NOTE_ONE_ACCOUNT" xml:space="preserve">
+        <value>You can only transfer one account at a time.</value>
+    </data>
+    <data name="AT_NOTE_RESTART" xml:space="preserve">
+        <value>The game must be restarted completely after each transfer.</value>
+    </data>
+    <data name="AT_NOTE_MORE_INFO" xml:space="preserve">
+        <value>See the help page for more information.</value>
+    </data>
+    <data name="AT_TASK_ID" xml:space="preserve">
+        <value>ID</value>
+    </data>
+    <data name="AT_TASK_HEADER" xml:space="preserve">
+        <value>Common Data</value>
+    </data>
+    <data name="AT_TASK_PROFILE" xml:space="preserve">
+        <value>Profile</value>
+    </data>
+    <data name="AT_TASK_ACCESSORIES" xml:space="preserve">
+        <value>Spirits</value>
+    </data>
+    <data name="AT_TASK_CARDS" xml:space="preserve">
+        <value>Cards</value>
+    </data>
+    <data name="AT_TASK_DECKS" xml:space="preserve">
+        <value>Teams</value>
+    </data>
+    <data name="AT_TASK_ITEMS_ENHANCEMENT" xml:space="preserve">
+        <value>Enhancement Items</value>
+    </data>
+    <data name="AT_TASK_ITEMS_EVOLUTION" xml:space="preserve">
+        <value>Evolution Items</value>
+    </data>
+    <data name="AT_TASK_ITEMS_EVENT" xml:space="preserve">
+        <value>Event Items</value>
+    </data>
+    <data name="AT_TASK_ITEMS_STAMINA" xml:space="preserve">
+        <value>Stamina Items</value>
+    </data>
+    <data name="AT_TASK_ITEMS_TITLE" xml:space="preserve">
+        <value>Titles</value>
+    </data>
+    <data name="AT_TASK_CHARACTER_FAMILIARITIES" xml:space="preserve">
+        <value>Affinities</value>
+    </data>
+    <data name="LOG_AT_START" xml:space="preserve">
+        <value>Account Transfer Started!</value>
+    </data>
+    <data name="LOG_AT_STOP" xml:space="preserve">
+        <value>Account Transfer Stopped!</value>
+    </data>
+    <data name="LOG_AT_TRANSFER_SUCCESS" xml:space="preserve">
+        <value>Successfully transferred {0}</value>
+    </data>
+    <data name="PS_STATUS_STOPPED" xml:space="preserve">
+        <value>Private Server is not running.</value>
+    </data>
+    <data name="PS_STATUS_STARTED" xml:space="preserve">
+        <value>Private Server is currently running.</value>
+    </data>
+    <data name="PS_STATUS_TRANSFERRING" xml:space="preserve">
+        <value>Account Transfer is in progress.</value>
+    </data>
+    <data name="PS_STATUS_UPDATING" xml:space="preserve">
+        <value>Private Server is updating required files...</value>
+    </data>
+    <data name="PS_STATUS_PORT_LISTEN" xml:space="preserve">
+        <value>Proxy is listening at port </value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_IP" xml:space="preserve">
+        <value>Which one should I use?</value>
+    </data>
+    <data name="PS_STATUS_FILTER_IP_BUTTON" xml:space="preserve">
+        <value>Filter</value>
+    </data>
+    <data name="PS_STATUS_CLEAR_FILTER_BUTTON" xml:space="preserve">
+        <value>Clear Filter</value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_MULTIPLE" xml:space="preserve">
+        <value>Use one of the following addresses as your proxy:</value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_SINGLE" xml:space="preserve">
+        <value>Use the following address as your proxy:</value>
+    </data>
+    <data name="PS_STATUS_CHOOSE_NONE" xml:space="preserve">
+        <value>There is no address can be used as your proxy!</value>
+    </data>
+    <data name="PS_STATUS_TEXT_IP_ADDRESS" xml:space="preserve">
+        <value>IP Address</value>
+    </data>
+    <data name="PS_STATUS_TEXT_SUBNET_MASK" xml:space="preserve">
+        <value>Subnet Mask</value>
+    </data>
+    <data name="LOG_GUI_INITIALIZED" xml:space="preserve">
+        <value>Initialized GUI.</value>
+    </data>
+    <data name="PS_HELP_INTRO" xml:space="preserve">
+        <value>What is This Project</value>
+    </data>
+    <data name="PS_HELP_PS" xml:space="preserve">
+        <value>How to Use Private Server</value>
+    </data>
+    <data name="PS_HELP_AT" xml:space="preserve">
+        <value>How to Use the Account Transfer Tool</value>
+    </data>
+    <data name="PS_HELP_PROXY" xml:space="preserve">
+        <value>How to Connect to the Proxy</value>
+    </data>
+    <data name="PS_HELP_CERT_IOS" xml:space="preserve">
+        <value>How to Install an SSL Certificate (iOS)</value>
+    </data>
+    <data name="PS_HELP_CERT_ANDROID" xml:space="preserve">
+        <value>How to Install an SSL Certificate (Android)</value>
+    </data>
+    <data name="PS_HELP_BACK_BUTTON" xml:space="preserve">
+        <value>Back</value>
+    </data>
+    <data name="LAN_CODE" xml:space="preserve">
+        <value>en</value>
+    </data>
+    <data name="SETTINGS_CATEGORY_GENERAL" xml:space="preserve">
+        <value>General Settings</value>
+    </data>
+    <data name="SETTINGS_CATEGORY_IN_GAME" xml:space="preserve">
+        <value>In-Game Settings</value>
+    </data>
+    <data name="SETTINGS_GENERAL_LANGUAGE" xml:space="preserve">
+        <value>Interface Language</value>
+    </data>
+    <data name="SETTINGS_IN_GAME_LANGUAGE" xml:space="preserve">
+        <value>Scenario Language</value>
+    </data>
+    <data name="LAN_DEFAULT" xml:space="preserve">
+        <value>Follow System</value>
+    </data>
+    <data name="SETTINGS_INFO_REQUIRE_RESTART" xml:space="preserve">
+        <value>Requires Restart</value>
+    </data>
+    <data name="SETTINGS_INFO_TRANSLATION_PROVIDER" xml:space="preserve">
+        <value>Translations Provided by Community Contributions</value>
+    </data>
+</root>

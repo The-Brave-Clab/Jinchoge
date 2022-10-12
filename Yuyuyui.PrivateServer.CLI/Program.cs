@@ -12,33 +12,38 @@ namespace Yuyuyui.PrivateServer.CLI
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
+            Config.Load();
+
             object logLock = new();
-            Utils.SetLogCallbacks(
-                o =>
+            Utils.SetLogCallback(
+                (o, t) =>
                 {
-                    lock (logLock) 
-                        ColoredOutput.WriteLine(o, ConsoleColor.Green);
-                },
-                o =>
-                {
-                    lock (logLock) 
-                        Console.WriteLine(o);
-                },
-                o =>
-                {
-                    lock (logLock) 
-                        ColoredOutput.WriteLine(o, ConsoleColor.Yellow);
-                },
-                o =>
-                {
-                    lock (logLock) 
-                        ColoredOutput.WriteLine(o, ConsoleColor.Red);
+                    lock (logLock)
+                    {
+                        switch (t)
+                        {
+                            case Utils.LogType.Trace:
+                                ColoredOutput.WriteLine(o, ConsoleColor.Green);
+                                break;
+                            case Utils.LogType.Info:
+                                Console.WriteLine(o);
+                                break;
+                            case Utils.LogType.Warning:
+                                ColoredOutput.WriteLine(o, ConsoleColor.Yellow);
+                                break;
+                            case Utils.LogType.Error:
+                                ColoredOutput.WriteLine(o, ConsoleColor.Red);
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(t), t, null);
+                        }
+                    }
                 }
             );
 
             await LocalData.Update();
 
-            var endpoint = Proxy<PrivateServerProxyCallbacks>.StartProxy();
+            var endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
 
             //foreach (var endPoint in proxyServer.ProxyEndPoints)
             Console.Write("Listening at ");

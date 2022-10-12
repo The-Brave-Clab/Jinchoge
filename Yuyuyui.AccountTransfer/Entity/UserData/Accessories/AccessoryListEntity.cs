@@ -9,7 +9,7 @@ namespace Yuyuyui.AccountTransfer
         public AccessoryListEntity(
             Uri requestUri,
             string httpMethod,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, config)
         {
         }

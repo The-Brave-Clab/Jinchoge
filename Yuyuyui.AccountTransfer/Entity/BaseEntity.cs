@@ -8,7 +8,7 @@ namespace Yuyuyui.AccountTransfer
         public BaseEntity(
             Uri requestUri,
             string httpMethod,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, config)
         {
         }

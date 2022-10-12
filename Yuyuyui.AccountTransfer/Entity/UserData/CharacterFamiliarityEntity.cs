@@ -9,7 +9,7 @@ namespace Yuyuyui.AccountTransfer
         public CharacterFamiliarityEntity(
             Uri requestUri,
             string httpMethod,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, config)
         {
         }

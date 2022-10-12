@@ -6,7 +6,7 @@ namespace Yuyuyui.AccountTransfer;
 
 public class HeaderEntity : BaseEntity<HeaderEntity>
 {
-    public HeaderEntity(Uri requestUri, string httpMethod, Config config)
+    public HeaderEntity(Uri requestUri, string httpMethod, RouteConfig config)
         : base(requestUri, httpMethod, config)
     {
     }

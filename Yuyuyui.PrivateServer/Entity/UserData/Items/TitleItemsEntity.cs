@@ -14,7 +14,7 @@ namespace Yuyuyui.PrivateServer
             string httpMethod,
             Dictionary<string, string> requestHeaders,
             byte[] requestBody,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, requestHeaders, requestBody, config)
         {
         }

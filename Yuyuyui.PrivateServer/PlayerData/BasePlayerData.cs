@@ -70,7 +70,9 @@ namespace Yuyuyui.PrivateServer
                     string file = GetFileName(identifier);
                     string content = File.ReadAllText(file, Encoding.UTF8);
                     //return JsonConvert.DeserializeObject<T>(content)!;
-                    var deserializer = new Deserializer();
+                    var deserializer = new DeserializerBuilder()
+                        .IgnoreUnmatchedProperties()
+                        .Build();
                     TSelf result = deserializer.Deserialize<TSelf>(content);
 
                     // Add to cache

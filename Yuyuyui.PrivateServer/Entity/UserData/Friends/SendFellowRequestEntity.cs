@@ -13,7 +13,7 @@ namespace Yuyuyui.PrivateServer
             string httpMethod,
             Dictionary<string, string> requestHeaders,
             byte[] requestBody,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, requestHeaders, requestBody, config)
         {
         }
@@ -53,13 +53,6 @@ namespace Yuyuyui.PrivateServer
             catch (InvalidOperationException)
             {
                 friendRequest = FriendRequest.CreateOrLoad(player, friend);
-
-                if (friend.IsConfigPlayer())
-                {
-                    Utils.Log($"Player sent friend request to a config player <{friend.profile.comment}>");
-                    friendRequest.status = 1; // Accept
-                    friendRequest.ProcessStatus();
-                }
             }
 
             Response responseObj;

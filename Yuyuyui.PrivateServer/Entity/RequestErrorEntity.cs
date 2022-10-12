@@ -18,7 +18,7 @@ namespace Yuyuyui.PrivateServer
             string message,
             Uri requestedUri,
             string httpMethod,
-            Config requestConfig,
+            RouteConfig requestConfig,
             Dictionary<string, string> requestHeaders,
             byte[] requestBody,
             string? logMessage = null
