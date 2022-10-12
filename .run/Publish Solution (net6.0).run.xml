@@ -1,7 +1,0 @@
-﻿<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Publish Solution (net6.0)" type="CompoundRunConfigurationType">
-    <toRun name="Publish Account Transfer (net6.0)" type="DotNetFolderPublish" />
-    <toRun name="Publish Private Server (net6.0)" type="DotNetFolderPublish" />
-    <method v="2" />
-  </configuration>
-</component>
