@@ -4,4 +4,4 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Jinchoge.CLI")]
 [assembly: InternalsVisibleTo("Jinchoge")]
 [assembly: InternalsVisibleTo("Yuyuyui.AccountTransfer")]
-[assembly: InternalsVisibleTo("AccountTransferCLI")]
+[assembly: InternalsVisibleTo("Eucalyptus.CLI")]
