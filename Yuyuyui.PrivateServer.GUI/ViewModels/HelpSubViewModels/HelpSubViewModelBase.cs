@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using ReactiveUI;
 using Yuyuyui.PrivateServer.GUI.Views;
 
@@ -98,6 +99,6 @@ public class HelpSubViewModelBase : ViewModelBase
 
     protected static Uri MarkdownDocuments(string subFolder, int part)
     {
-        return new Uri($"avares://YuyuyuiPrivateServerGUI/Assets/Texts/{Localization.Resources.LAN_CODE}/Helps/{subFolder}/p{part}.md");
+        return new Uri($"avares://{Assembly.GetExecutingAssembly().GetName().Name}/Assets/Texts/{Localization.Resources.LAN_CODE}/Helps/{subFolder}/p{part}.md");
     }
 }
