@@ -442,7 +442,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 如何使用账号转移.
+        ///   Looks up a localized string similar to 如何使用Eucalyptus（账号转移）.
         /// </summary>
         internal static string PS_HELP_AT {
             get {
@@ -496,7 +496,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 如何使用私服.
+        ///   Looks up a localized string similar to 如何使用Jinchōge（私服）.
         /// </summary>
         internal static string PS_HELP_PS {
             get {

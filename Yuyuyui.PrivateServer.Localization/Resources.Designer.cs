@@ -82,7 +82,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Note:.
+        ///   Looks up a localized string similar to Note: .
         /// </summary>
         internal static string AT_NOTE {
             get {
@@ -442,7 +442,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to How to Use the Account Transfer Tool.
+        ///   Looks up a localized string similar to How to Use Eucalyptus (Account Transfer).
         /// </summary>
         internal static string PS_HELP_AT {
             get {
@@ -496,7 +496,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to How to Use Private Server.
+        ///   Looks up a localized string similar to How to Use Jinchōge (Private Server).
         /// </summary>
         internal static string PS_HELP_PS {
             get {

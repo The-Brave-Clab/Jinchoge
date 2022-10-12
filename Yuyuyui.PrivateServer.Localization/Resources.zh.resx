@@ -179,13 +179,13 @@
         <value>初始化用户界面</value>
     </data>
     <data name="PS_HELP_AT" xml:space="preserve">
-        <value>如何使用账号转移</value>
+        <value>如何使用Eucalyptus（账号转移）</value>
     </data>
     <data name="PS_HELP_INTRO" xml:space="preserve">
         <value>这个项目是什么</value>
     </data>
     <data name="PS_HELP_PS" xml:space="preserve">
-        <value>如何使用私服</value>
+        <value>如何使用Jinchōge（私服）</value>
     </data>
     <data name="PS_HELP_PROXY" xml:space="preserve">
         <value>如何连接至代理服务器</value>
