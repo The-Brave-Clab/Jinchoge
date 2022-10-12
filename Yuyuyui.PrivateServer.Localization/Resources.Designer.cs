@@ -82,7 +82,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Note:.
+        ///   Looks up a localized string similar to Note: .
         /// </summary>
         internal static string AT_NOTE {
             get {
@@ -352,11 +352,20 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Transfer Tool for Mobile Game YUYUYUI.
+        /// </summary>
+        internal static string PROJ_DESC_EUCALYPTUS {
+            get {
+                return ResourceManager.GetString("PROJ_DESC_EUCALYPTUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Private Server for Mobile Game YUYUYUI.
         /// </summary>
-        internal static string PROJ_DESC {
+        internal static string PROJ_DESC_JINCHOGE {
             get {
-                return ResourceManager.GetString("PROJ_DESC", resourceCulture);
+                return ResourceManager.GetString("PROJ_DESC_JINCHOGE", resourceCulture);
             }
         }
         
@@ -433,7 +442,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to How to Use the Account Transfer Tool.
+        ///   Looks up a localized string similar to How to Use Eucalyptus (Account Transfer).
         /// </summary>
         internal static string PS_HELP_AT {
             get {
@@ -487,7 +496,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to How to Use Private Server.
+        ///   Looks up a localized string similar to How to Use Jinchōge (Private Server).
         /// </summary>
         internal static string PS_HELP_PS {
             get {
@@ -663,15 +672,6 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_INFO_TRANSLATION_PROVIDER {
             get {
                 return ResourceManager.GetString("SETTINGS_INFO_TRANSLATION_PROVIDER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Yuyuyui Private Server.
-        /// </summary>
-        internal static string WINDOW_TITLE {
-            get {
-                return ResourceManager.GetString("WINDOW_TITLE", resourceCulture);
             }
         }
     }

@@ -66,11 +66,8 @@
     <data name="NAV_BUTTON_ABOUT" xml:space="preserve">
         <value>ABOUT</value>
     </data>
-    <data name="PROJ_DESC" xml:space="preserve">
+    <data name="PROJ_DESC_JINCHOGE" xml:space="preserve">
         <value>Private Server for Mobile Game YUYUYUI</value>
-    </data>
-    <data name="WINDOW_TITLE" xml:space="preserve">
-        <value>Yuyuyui Private Server</value>
     </data>
     <data name="AT_BUTTON_START" xml:space="preserve">
         <value>Start
@@ -83,7 +80,7 @@ Account
 Transfer</value>
     </data>
     <data name="AT_NOTE" xml:space="preserve">
-        <value>Note:</value>
+        <value>Note: </value>
     </data>
     <data name="AT_NOTE_ONE_ACCOUNT" xml:space="preserve">
         <value>You can only transfer one account at a time.</value>
@@ -185,10 +182,10 @@ Transfer</value>
         <value>What is This Project</value>
     </data>
     <data name="PS_HELP_PS" xml:space="preserve">
-        <value>How to Use Private Server</value>
+        <value>How to Use Jinchōge (Private Server)</value>
     </data>
     <data name="PS_HELP_AT" xml:space="preserve">
-        <value>How to Use the Account Transfer Tool</value>
+        <value>How to Use Eucalyptus (Account Transfer)</value>
     </data>
     <data name="PS_HELP_PROXY" xml:space="preserve">
         <value>How to Connect to the Proxy</value>
@@ -225,5 +222,8 @@ Transfer</value>
     </data>
     <data name="SETTINGS_INFO_TRANSLATION_PROVIDER" xml:space="preserve">
         <value>Translations Provided by Community Contributions</value>
+    </data>
+    <data name="PROJ_DESC_EUCALYPTUS" xml:space="preserve">
+        <value>Account Transfer Tool for Mobile Game YUYUYUI</value>
     </data>
 </root>

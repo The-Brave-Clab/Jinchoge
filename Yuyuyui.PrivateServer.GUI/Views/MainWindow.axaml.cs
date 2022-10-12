@@ -171,6 +171,17 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }
+
+            if (button.Name == nameof(TransferButton))
+            {
+                mainWindowVM.ProjectName = "EUCALYPTUS";
+                mainWindowVM.ProjectDescription = Localization.Resources.PROJ_DESC_EUCALYPTUS;
+            }
+            else
+            {
+                mainWindowVM.ProjectName = "JINCHŌGE";
+                mainWindowVM.ProjectDescription = Localization.Resources.PROJ_DESC_JINCHOGE;
+            }
         }
     }
 }

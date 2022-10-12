@@ -352,11 +352,20 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 《结城友奈是勇者 闪光的花结》账号转移工具.
+        /// </summary>
+        internal static string PROJ_DESC_EUCALYPTUS {
+            get {
+                return ResourceManager.GetString("PROJ_DESC_EUCALYPTUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 《结城友奈是勇者 闪光的花结》私服.
         /// </summary>
-        internal static string PROJ_DESC {
+        internal static string PROJ_DESC_JINCHOGE {
             get {
-                return ResourceManager.GetString("PROJ_DESC", resourceCulture);
+                return ResourceManager.GetString("PROJ_DESC_JINCHOGE", resourceCulture);
             }
         }
         
@@ -433,7 +442,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 如何使用账号转移.
+        ///   Looks up a localized string similar to 如何使用Eucalyptus（账号转移）.
         /// </summary>
         internal static string PS_HELP_AT {
             get {
@@ -487,7 +496,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 如何使用私服.
+        ///   Looks up a localized string similar to 如何使用Jinchōge（私服）.
         /// </summary>
         internal static string PS_HELP_PS {
             get {
@@ -663,15 +672,6 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_INFO_TRANSLATION_PROVIDER {
             get {
                 return ResourceManager.GetString("SETTINGS_INFO_TRANSLATION_PROVIDER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 花结私服.
-        /// </summary>
-        internal static string WINDOW_TITLE {
-            get {
-                return ResourceManager.GetString("WINDOW_TITLE", resourceCulture);
             }
         }
     }
