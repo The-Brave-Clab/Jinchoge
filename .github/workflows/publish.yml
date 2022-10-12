@@ -41,6 +41,7 @@ jobs:
   upload:
   
     name: Upload Artifacs to AWS
+    needs: publish
     
     strategy:
       matrix:
