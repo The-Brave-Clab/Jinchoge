@@ -27,11 +27,11 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore -r ${{ matrix.rid }}
     - name: Build Private Server GUI
-      run: dotnet publish Yuyuyui.PrivateServer.GUI/Yuyuyui.PrivateServer.GUI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=true -p:PublishSingleFile=true --no-restore
+      run: dotnet publish Yuyuyui.PrivateServer.GUI/Yuyuyui.PrivateServer.GUI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=false -p:PublishSingleFile=true --no-restore
     - name: Build Private Server CLI
-      run: dotnet publish Yuyuyui.PrivateServer.CLI/Yuyuyui.PrivateServer.CLI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=true -p:PublishSingleFile=true --no-restore
+      run: dotnet publish Yuyuyui.PrivateServer.CLI/Yuyuyui.PrivateServer.CLI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=false -p:PublishSingleFile=true --no-restore
     - name: Build Account Transfer CLI
-      run: dotnet publish Yuyuyui.AccountTransfer.CLI/Yuyuyui.AccountTransfer.CLI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=true -p:PublishSingleFile=true --no-restore
+      run: dotnet publish Yuyuyui.AccountTransfer.CLI/Yuyuyui.AccountTransfer.CLI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=false -p:PublishSingleFile=true --no-restore
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
       with:
