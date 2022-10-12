@@ -1,0 +1,39 @@
+name: Build Private Server GUI
+
+on:
+  push:
+    branches: [ "master", "release" ]
+  pull_request:
+    branches: [ "master", "release" ]
+
+jobs:
+  publish:
+  
+    name: Publish for ${{ matrix.rid }}, ${{ matrix.tfm }}
+  
+    strategy:
+      matrix:
+        rid: [ "win10-x64", "osx-x64", "osx-arm64", "linux-x64" ]
+        tfm: [ "net6.0" ]
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build Private Server GUI
+      run: dotnet publish Yuyuyui.PrivateServer.GUI/Yuyuyui.PrivateServer.GUI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=true -p:PublishSingleFile=true --no-restore
+    - name: Build Private Server CLI
+      run: dotnet publish Yuyuyui.PrivateServer.CLI/Yuyuyui.PrivateServer.CLI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=true -p:PublishSingleFile=true --no-restore
+    - name: Build Account Transfer CLI
+      run: dotnet publish Yuyuyui.AccountTransfer.CLI/Yuyuyui.AccountTransfer.CLI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=true -p:PublishSingleFile=true --no-restore
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.tfm }}-${{ matrix.rid }}
+        path: publish/${{ matrix.tfm }}/${{ matrix.rid }}
