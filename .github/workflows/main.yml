@@ -11,7 +11,7 @@ jobs:
         tfm: [ "net6.0" ]
 
     uses: ./.github/workflows/publish.yml
-      width:
+      with:
         rid: win10-x64
         tfm: ${{ matrix.tfm }}
         build_host: windows-latest
@@ -22,7 +22,7 @@ jobs:
         tfm: [ "net6.0" ]
 
     uses: ./.github/workflows/publish.yml
-      width:
+      with:
         rid: linux-x64
         tfm: ${{ matrix.tfm }}
         build_host: ubuntu-latest
@@ -34,7 +34,7 @@ jobs:
         tfm: [ "net6.0" ]
 
     uses: ./.github/workflows/publish.yml
-      width:
+      with:
         rid: ${{ matrix.rid }}
         tfm: ${{ matrix.tfm }}
         build_host: macos-latest
