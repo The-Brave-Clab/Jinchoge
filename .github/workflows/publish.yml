@@ -36,7 +36,7 @@ jobs:
     - name: Set Output Folder
       run: echo "output_folder=publish/${{ inputs.tfm }}/${{ inputs.rid }}" >> $GITHUB_ENV
     - name: Set .NET Publish Configuration
-      run: echo "publish_config=\"-r ${{ inputs.rid }} -c Release -f ${{ inputs.tfm }} --sc false -o ${{ env.output_folder }} --version-suffix ${{ env.version_suffix }} -p:PublishReadyToRun=false -p:PublishSingleFile=true -p:UseAppHost=true --no-restore\"" >> $GITHUB_ENV
+      run: echo "publish_config=-r ${{ inputs.rid }} -c Release -f ${{ inputs.tfm }} --sc false -o ${{ env.output_folder }} --version-suffix ${{ env.version_suffix }} -p:PublishReadyToRun=false -p:PublishSingleFile=true -p:UseAppHost=true --no-restore" >> $GITHUB_ENV
     - name: Restore dependencies
       run: dotnet restore -r ${{ inputs.rid }}
     - name: Build Private Server GUI
