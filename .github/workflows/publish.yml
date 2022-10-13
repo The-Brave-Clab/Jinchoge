@@ -25,7 +25,7 @@ jobs:
     - name: Get Short Commit SHA
       run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
     - name: Set Version Number
-      run: echo "version_suffix=${{ github.ref_name }}.{{ env.sha_short }}" >> $GITHUB_ENV
+      run: echo "version_suffix=${{ github.ref_name }}.${{ env.sha_short }}" >> $GITHUB_ENV
     - name: Restore dependencies
       run: dotnet restore -r ${{ matrix.rid }}
     - name: Build Private Server GUI
