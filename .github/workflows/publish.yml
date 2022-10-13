@@ -21,34 +21,34 @@ on:
 jobs:
   build:
 
-  name: Build for ${{ inputs.rid }}, ${{ inputs.tfm }}
+    name: Build for ${{ inputs.rid }}, ${{ inputs.tfm }}
 
-  runs-on: ${{ inputs.build_host }}
+    runs-on: ${{ inputs.build_host }}
 
-  steps:
-  - uses: actions/checkout@v3
-  - name: Setup .NET
-    uses: actions/setup-dotnet@v3
-    with:
-      dotnet-version: 6.0.x
-  - name: Get Short Commit SHA
-    run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-  - name: Set Version Number
-    run: echo "version_suffix=${{ github.ref_name }}.${{ env.sha_short }}" >> $GITHUB_ENV
-  - name: Set Output Folder
-    run: echo "output_folder=publish/${{ inputs.tfm }}/${{ inputs.rid }}" >> $GITHUB_ENV
-  - name: Set .NET Publish Configuration
-    run: echo "publish_config=\"-r ${{ inputs.rid }} -c Release -f ${{ inputs.tfm }} --sc false -o ${{ env.output_folder }} --version-suffix ${{ env.version_suffix }} -p:PublishReadyToRun=false -p:PublishSingleFile=true -p:UseAppHost=true --no-restore\"" >> $GITHUB_ENV
-  - name: Restore dependencies
-    run: dotnet restore -r ${{ inputs.rid }}
-  - name: Build Private Server GUI
-    run: dotnet publish Yuyuyui.PrivateServer.GUI/Yuyuyui.PrivateServer.GUI.csproj ${{ env.publish_config }}
-  - name: Build Private Server CLI
-    run: dotnet publish Yuyuyui.PrivateServer.CLI/Yuyuyui.PrivateServer.CLI.csproj ${{ env.publish_config }}
-  - name: Build Account Transfer CLI
-    run: dotnet publish Yuyuyui.AccountTransfer.CLI/Yuyuyui.AccountTransfer.CLI.csproj ${{ env.publish_config }}
-  - name: Archive production artifacts
-    uses: actions/upload-artifact@v3
-    with:
-      name: ${{ inputs.tfm }}-${{ inputs.rid }}
-      path: ${{ env.output_folder }}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Get Short Commit SHA
+      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+    - name: Set Version Number
+      run: echo "version_suffix=${{ github.ref_name }}.${{ env.sha_short }}" >> $GITHUB_ENV
+    - name: Set Output Folder
+      run: echo "output_folder=publish/${{ inputs.tfm }}/${{ inputs.rid }}" >> $GITHUB_ENV
+    - name: Set .NET Publish Configuration
+      run: echo "publish_config=\"-r ${{ inputs.rid }} -c Release -f ${{ inputs.tfm }} --sc false -o ${{ env.output_folder }} --version-suffix ${{ env.version_suffix }} -p:PublishReadyToRun=false -p:PublishSingleFile=true -p:UseAppHost=true --no-restore\"" >> $GITHUB_ENV
+    - name: Restore dependencies
+      run: dotnet restore -r ${{ inputs.rid }}
+    - name: Build Private Server GUI
+      run: dotnet publish Yuyuyui.PrivateServer.GUI/Yuyuyui.PrivateServer.GUI.csproj ${{ env.publish_config }}
+    - name: Build Private Server CLI
+      run: dotnet publish Yuyuyui.PrivateServer.CLI/Yuyuyui.PrivateServer.CLI.csproj ${{ env.publish_config }}
+    - name: Build Account Transfer CLI
+      run: dotnet publish Yuyuyui.AccountTransfer.CLI/Yuyuyui.AccountTransfer.CLI.csproj ${{ env.publish_config }}
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ inputs.tfm }}-${{ inputs.rid }}
+        path: ${{ env.output_folder }}
