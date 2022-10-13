@@ -36,10 +36,8 @@
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Yuyuyui.AccountTransfer.CLI\Yuyuyui.AccountTransfer.CLI.csproj" />
     <ProjectReference Include="..\Yuyuyui.AccountTransfer\Yuyuyui.AccountTransfer.csproj" />
     <ProjectReference Include="..\Yuyuyui.GoalKeeper\Yuyuyui.GoalKeeper.csproj" />
-    <ProjectReference Include="..\Yuyuyui.PrivateServer.CLI\Yuyuyui.PrivateServer.CLI.csproj" />
     <ProjectReference Include="..\Yuyuyui.PrivateServer.DataModel\Yuyuyui.PrivateServer.DataModel.csproj" />
     <ProjectReference Include="..\Yuyuyui.PrivateServer\Yuyuyui.PrivateServer.csproj" />
     <ProjectReference Include="..\Yuyuyui.PrivateServer.Localization\Yuyuyui.PrivateServer.Localization.csproj" />

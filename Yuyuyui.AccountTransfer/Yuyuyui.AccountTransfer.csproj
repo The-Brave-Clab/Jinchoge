@@ -8,7 +8,8 @@
         <DebugType>embedded</DebugType>
         <Company>YuyuyuiPrivateServer</Company>
         <Product>AccountTransfer</Product>
-        <TargetFrameworks>net472;net6.0</TargetFrameworks>
+        <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net472;net6.0</TargetFrameworks>
+        <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">net6.0</TargetFrameworks>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
