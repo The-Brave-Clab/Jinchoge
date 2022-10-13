@@ -38,6 +38,19 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             
             InitializeComponent();
 
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                TransparencyLevelHint = WindowTransparencyLevel.Mica;
+                ExtendClientAreaToDecorationsHint = true;
+                Background = Brushes.Transparent;
+            }
+            else
+            {
+                TransparencyLevelHint = WindowTransparencyLevel.None;
+                ExtendClientAreaToDecorationsHint = false;
+                Background = Brushes.Gray;
+            }
+
             var toolbarVM = new ToolbarViewModel
             {
                 ToolbarText = "",
