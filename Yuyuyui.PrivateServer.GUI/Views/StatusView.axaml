@@ -125,9 +125,9 @@
                 
                 <StackPanel Orientation="Horizontal" Spacing="10">
                     <Grid RowDefinitions="*,*" ColumnDefinitions="*,*">
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding PS_STATUS_TEXT_IP_ADDRESS}" Margin="0 0 10 0" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding PS_STATUS_TEXT_IP_ADDRESS}" Margin="0 0 10 0" VerticalAlignment="Center" HorizontalAlignment="Right" />
                         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding IpAddressInput}" AcceptsReturn="False" AcceptsTab="False" Width="200" />
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding PS_STATUS_TEXT_SUBNET_MASK}" Margin="0 0 10 0" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding PS_STATUS_TEXT_SUBNET_MASK}" Margin="0 0 10 0" VerticalAlignment="Center" HorizontalAlignment="Right" />
                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SubnetMaskInput}" AcceptsReturn="False" AcceptsTab="False" Width="200" />
                     </Grid>
                     

@@ -27,7 +27,8 @@ namespace Yuyuyui.PrivateServer
             LocalDataResult localDataResult = JsonConvert.DeserializeObject<LocalDataResult>(responseStr)!;
 
             // Get local data
-            var dataFolder = Utils.EnsureDirectory(PrivateServer.LOCAL_DATA_FOLDER);
+            var dataFolder = Utils.EnsureDirectory(
+                Path.Combine(PrivateServer.BASE_DIR, PrivateServer.LOCAL_DATA_FOLDER));
             var localDataVersionFile = Path.Combine(dataFolder, PrivateServer.LOCAL_DATA_VERSION_FILE);
 
             List<LocalDataDownload> needUpdate;
@@ -60,7 +61,9 @@ namespace Yuyuyui.PrivateServer
             {
                 totalProgress?.Invoke(count, needUpdate.Count);
                 // Download each file
-                var filePath = Path.Combine(PrivateServer.LOCAL_DATA_FOLDER,
+                var filePath = Path.Combine(
+                    PrivateServer.BASE_DIR, 
+                    PrivateServer.LOCAL_DATA_FOLDER,
                     data.key.Replace('/', Path.DirectorySeparatorChar));
 
                 Utils.EnsureDirectory(Path.GetDirectoryName(filePath)!);
@@ -101,7 +104,9 @@ namespace Yuyuyui.PrivateServer
                 };
 
                 File.WriteAllText(
-                    Path.Combine(PrivateServer.LOCAL_DATA_FOLDER, PrivateServer.LOCAL_DATA_VERSION_FILE),
+                    Path.Combine(PrivateServer.BASE_DIR,
+                        PrivateServer.LOCAL_DATA_FOLDER,
+                        PrivateServer.LOCAL_DATA_VERSION_FILE),
                     JsonConvert.SerializeObject(newVersionList));
             }
         }

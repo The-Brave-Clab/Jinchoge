@@ -50,6 +50,9 @@ namespace Yuyuyui.PrivateServer
         public const string PRIVATE_LOCAL_API_SERVER = "private.yuyuyui.org";
         public const string PRIVATE_PUBLIC_API_SERVER = "936fkiz1v2.execute-api.ap-northeast-1.amazonaws.com";
 
+        public static string BASE_DIR => Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YuyuyuiPrivateServer");
+
         private static object dataFileLock = new();
         
         public static readonly HttpClient HttpClient = new();
@@ -63,7 +66,7 @@ namespace Yuyuyui.PrivateServer
 
             lock (dataFileLock)
             {
-                dataFolder = Utils.EnsureDirectory(PLAYER_DATA_FOLDER);
+                dataFolder = Utils.EnsureDirectory(Path.Combine(BASE_DIR, PLAYER_DATA_FOLDER));
             }
 
             var playerDataFile = Path.Combine(dataFolder, PLAYER_DATA_FILE);

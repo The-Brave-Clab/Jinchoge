@@ -46,7 +46,8 @@ namespace Yuyuyui.PrivateServer
             proxyServer.CertificateManager.RootCertificateName = "Yuyuyui Private Server Root CA";
 
             proxyServer.CertificateManager.EnsureRootCertificate();
-            File.WriteAllBytes("ca.cer", proxyServer.CertificateManager.RootCertificate!.Export(X509ContentType.Cert));
+            File.WriteAllBytes(ProxyUtils.LOCAL_CERT_FILE,
+                proxyServer.CertificateManager.RootCertificate!.Export(X509ContentType.Cert));
 
             proxyServer.BeforeRequest += callbacks.OnRequest;
             proxyServer.BeforeResponse += callbacks.OnResponse;

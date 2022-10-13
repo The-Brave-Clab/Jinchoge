@@ -65,7 +65,7 @@ public static class Config
 
     private static string GetFileName()
     {
-        return FILE_NAME;
+        return Path.Combine(PrivateServer.BASE_DIR, FILE_NAME);
     }
 
     public static readonly List<string> SupportedInterfaceLocale = new()

@@ -121,7 +121,7 @@ jobs:
       - name: Update "timestamp.json"
         uses: jossef/action-set-json-field@v1
         with:
-          file: "timestamp.json"
+          file: timestamp.json
           field: created_at
           value: ${{ env.current_time }}
 
