@@ -58,3 +58,4 @@ jobs:
       with:
         name: ${{ inputs.tfm }}-${{ inputs.rid }}
         path: ${{ env.output_folder }}
+        retention-days: 1
