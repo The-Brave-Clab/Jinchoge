@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Runtime.InteropServices;
@@ -199,6 +200,9 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         public string NAV_HELP => Localization.Resources.NAV_BUTTON_HELP;
         public string NAV_ABOUT => Localization.Resources.NAV_BUTTON_ABOUT;
         public string WINDOW_TITLE => "Jinchōge";
+
+        public string VERSION_NUMBER => Assembly.GetExecutingAssembly()
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
 
         public TextAlignment TitleAlignment => RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             ? TextAlignment.Left

@@ -95,6 +95,9 @@
                             </StackPanel>
                         </Button>
                     </Panel>
+                    <Panel HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                        <TextBlock Text="{Binding VERSION_NUMBER}" Foreground="Gray" FontSize="12" />
+                    </Panel>
                 </Panel>
             </Panel>
 

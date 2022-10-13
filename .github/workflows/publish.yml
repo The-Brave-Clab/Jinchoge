@@ -3,8 +3,6 @@ name: Build Private Server GUI
 on:
   push:
     branches: [ "master", "release" ]
-  pull_request:
-    branches: [ "master", "release" ]
 
 jobs:
   publish:
@@ -16,7 +14,7 @@ jobs:
         rid: [ "win10-x64", "osx-x64", "osx-arm64", "linux-x64" ]
         tfm: [ "net6.0" ]
 
-    runs-on: windows-latest
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -24,14 +22,18 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
+    - name: Get Short Commit SHA
+      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+    - name: Set Version Number
+      run: echo "version_suffix=${{ github.ref_name }}.{{ env.sha_short }}" >> $GITHUB_ENV
     - name: Restore dependencies
       run: dotnet restore -r ${{ matrix.rid }}
     - name: Build Private Server GUI
-      run: dotnet publish Yuyuyui.PrivateServer.GUI/Yuyuyui.PrivateServer.GUI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=false -p:PublishSingleFile=true --no-restore
+      run: dotnet publish Yuyuyui.PrivateServer.GUI/Yuyuyui.PrivateServer.GUI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} --version-suffix ${{ env.version_suffix }} -p:PublishReadyToRun=false -p:PublishSingleFile=true -p:UseAppHost=true --no-restore
     - name: Build Private Server CLI
-      run: dotnet publish Yuyuyui.PrivateServer.CLI/Yuyuyui.PrivateServer.CLI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=false -p:PublishSingleFile=true --no-restore
+      run: dotnet publish Yuyuyui.PrivateServer.CLI/Yuyuyui.PrivateServer.CLI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} --version-suffix ${{ env.version_suffix }} -p:PublishReadyToRun=false -p:PublishSingleFile=true -p:UseAppHost=true --no-restore
     - name: Build Account Transfer CLI
-      run: dotnet publish Yuyuyui.AccountTransfer.CLI/Yuyuyui.AccountTransfer.CLI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=false -p:PublishSingleFile=true --no-restore
+      run: dotnet publish Yuyuyui.AccountTransfer.CLI/Yuyuyui.AccountTransfer.CLI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} --version-suffix ${{ env.version_suffix }} -p:PublishReadyToRun=false -p:PublishSingleFile=true -p:UseAppHost=true --no-restore
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
       with:
