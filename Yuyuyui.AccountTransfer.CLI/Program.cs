@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer;
@@ -44,6 +45,8 @@ namespace Yuyuyui.AccountTransfer.CLI
                     }
                 }
             );
+
+            Utils.Log($"Version {Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion}");
 
             await LocalData.Update();
 

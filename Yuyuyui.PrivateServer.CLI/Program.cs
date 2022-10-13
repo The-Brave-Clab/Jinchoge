@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Yuyuyui.PrivateServer.CLI
@@ -40,6 +41,8 @@ namespace Yuyuyui.PrivateServer.CLI
                     }
                 }
             );
+
+            Utils.Log($"Version {Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion}");
 
             await LocalData.Update();
 
