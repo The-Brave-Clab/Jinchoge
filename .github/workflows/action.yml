@@ -1,0 +1,96 @@
+name: Build Private Server GUI
+
+on:
+  push:
+    branches: [ "master", "release" ]
+
+jobs:
+  build:
+  
+    name: Build for ${{ matrix.profiles.name }}
+  
+    strategy:
+      matrix:
+        profiles:
+          - name: Windows x64
+            rid: win10-x64
+            host: windows-latest
+
+          - name: macOS x64
+            rid: osx-x64
+            host: macos-latest
+
+          - name: macOS ARM64
+            rid: osx-arm64
+            host: macos-latest
+
+          - name: Linux x64
+            rid: linux-x64
+            host: ubuntu-latest
+
+        tfm: [ "net6.0" ]
+
+    runs-on: ${{ matrix.profiles.host }}
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Get Short Commit SHA
+      shell: pwsh
+      run: |
+        "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+    - name: Set Version Number
+      shell: pwsh
+      run: |
+        "version_suffix=${{ github.ref_name }}.${{ env.sha_short }}" >> $GITHUB_ENV
+    - name: Set Output Folder
+      shell: pwsh
+      run: |
+        "output_folder=publish/${{ matrix.tfm }}/${{ matrix.profiles.rid }}" >> $GITHUB_ENV
+    - name: Set .NET Publish Configuration
+      shell: pwsh
+      run: |
+        "publish_config=-r ${{ matrix.profiles.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o ${{ env.output_folder }} --version-suffix ${{ env.version_suffix }} -p:PublishReadyToRun=false -p:PublishSingleFile=true -p:UseAppHost=true --no-restore" >> $GITHUB_ENV
+    - name: Restore dependencies
+      run: dotnet restore -r ${{ matrix.profiles.rid }}
+    - name: Build Private Server GUI
+      run: dotnet publish Yuyuyui.PrivateServer.GUI/Yuyuyui.PrivateServer.GUI.csproj ${{ env.publish_config }}
+    - name: Build Private Server CLI
+      run: dotnet publish Yuyuyui.PrivateServer.CLI/Yuyuyui.PrivateServer.CLI.csproj ${{ env.publish_config }}
+    - name: Build Account Transfer CLI
+      run: dotnet publish Yuyuyui.AccountTransfer.CLI/Yuyuyui.AccountTransfer.CLI.csproj ${{ env.publish_config }}
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.tfm }}-${{ matrix.profiles.rid }}
+        path: ${{ env.output_folder }}
+  
+  deploy:
+  
+    name: Upload ${{ matrix.rid }}, ${{ matrix.tfm }} to AWS
+    needs: build
+    
+    strategy:
+      matrix:
+        rid: [ "win10-x64", "osx-x64", "osx-arm64", "linux-x64" ]
+        tfm: [ "net6.0" ]
+        
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-1
+    - name: Download Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: ${{ matrix.tfm }}-${{ matrix.rid }}
+    - name: Archive Artifact
+      run: zip ${{ matrix.tfm }}-${{ matrix.rid }}.zip ./* -r
+    - name: Upload to AWS S3
+      run: aws s3 cp ${{ matrix.tfm }}-${{ matrix.rid }}.zip s3://y3ps-publish/${{ github.run_number }}/${{ matrix.tfm }}-${{ matrix.rid }}.zip
