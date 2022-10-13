@@ -15,6 +15,7 @@ jobs:
       rid: win10-x64
       tfm: ${{ matrix.tfm }}
       build_host: windows-latest
+    secrets: inherit
 
   build_linux:
     strategy:
@@ -26,6 +27,7 @@ jobs:
       rid: linux-x64
       tfm: ${{ matrix.tfm }}
       build_host: ubuntu-latest
+    secrets: inherit
 
   build_mac:
     strategy:
@@ -38,6 +40,7 @@ jobs:
       rid: ${{ matrix.rid }}
       tfm: ${{ matrix.tfm }}
       build_host: macos-latest
+    secrets: inherit
 
     
   
