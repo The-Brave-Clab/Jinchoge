@@ -15,18 +15,26 @@ jobs:
           - name: Windows x64
             rid: win10-x64
             host: windows-latest
+            sh: pwsh
+            echo_command: ''
 
           - name: macOS x64
             rid: osx-x64
             host: macos-latest
+            sh: shell
+            echo_command: 'echo'
 
           - name: macOS ARM64
             rid: osx-arm64
             host: macos-latest
+            sh: shell
+            echo_command: 'echo'
 
           - name: Linux x64
             rid: linux-x64
             host: ubuntu-latest
+            sh: shell
+            echo_command: 'echo'
 
         tfm: [ "net6.0" ]
 
@@ -39,21 +47,21 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Get Short Commit SHA
-      shell: pwsh
+      shell: ${{ matrix.profiles.sh }}
       run: |
-        "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+        ${{ matrix.profiles.echo_command }} "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
     - name: Set Version Number
-      shell: pwsh
+      shell: ${{ matrix.profiles.sh }}
       run: |
-        "version_suffix=${{ github.ref_name }}.${{ env.sha_short }}" >> $GITHUB_ENV
+        ${{ matrix.profiles.echo_command }} "version_suffix=${{ github.ref_name }}.${{ env.sha_short }}" >> $GITHUB_ENV
     - name: Set Output Folder
-      shell: pwsh
+      shell: ${{ matrix.profiles.sh }}
       run: |
-        "output_folder=publish/${{ matrix.tfm }}/${{ matrix.profiles.rid }}" >> $GITHUB_ENV
+        ${{ matrix.profiles.echo_command }} "output_folder=publish/${{ matrix.tfm }}/${{ matrix.profiles.rid }}" >> $GITHUB_ENV
     - name: Set .NET Publish Configuration
-      shell: pwsh
+      shell: ${{ matrix.profiles.sh }}
       run: |
-        "publish_config=-r ${{ matrix.profiles.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o ${{ env.output_folder }} --version-suffix ${{ env.version_suffix }} -p:PublishReadyToRun=false -p:PublishSingleFile=true -p:UseAppHost=true --no-restore" >> $GITHUB_ENV
+        ${{ matrix.profiles.echo_command }} "publish_config=-r ${{ matrix.profiles.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o ${{ env.output_folder }} --version-suffix ${{ env.version_suffix }} -p:PublishReadyToRun=false -p:PublishSingleFile=true -p:UseAppHost=true --no-restore" >> $GITHUB_ENV
     - name: Restore dependencies
       run: dotnet restore -r ${{ matrix.profiles.rid }}
     - name: Build Private Server GUI
