@@ -36,7 +36,7 @@ jobs:
     - name: Set Version Number
       shell: pwsh
       run: |
-        echo "version_suffix=${{ github.ref_name }}.${{ env.sha_short }}" >> $env:GITHUB_ENV
+        echo "version_suffix=${{ github.ref_name }}.${{ env.sha_short }}.${{ github.run_number }}" >> $env:GITHUB_ENV
     - name: Set Output Folder
       shell: pwsh
       run: |
