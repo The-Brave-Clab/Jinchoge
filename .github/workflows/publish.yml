@@ -1,22 +1,27 @@
-name: Build Private Server GUI
-
 on:
-  push:
-    branches: [ "master", "release" ]
-  pull_request:
-    branches: [ "master", "release" ]
+  workflow_call:
+    inputs:
+      rid:
+        required: true
+        type: string
+      tfm:
+        required: true
+        type: string
+      build_host:
+        required: true
+        type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
 
 jobs:
-  publish:
-  
-    name: Publish for ${{ matrix.rid }}, ${{ matrix.tfm }}
-  
-    strategy:
-      matrix:
-        rid: [ "win10-x64", "osx-x64", "osx-arm64", "linux-x64" ]
-        tfm: [ "net6.0" ]
+  build:
 
-    runs-on: windows-latest
+    name: Build for ${{ inputs.rid }}, ${{ inputs.tfm }}
+
+    runs-on: ${{ inputs.build_host }}
 
     steps:
     - uses: actions/checkout@v3
@@ -24,43 +29,32 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
+    - name: Get Short Commit SHA
+      shell: pwsh
+      run: |
+        echo "sha_short=$(git rev-parse --short HEAD)" >> $env:GITHUB_ENV
+    - name: Set Version Number
+      shell: pwsh
+      run: |
+        echo "version_suffix=${{ github.ref_name }}.${{ env.sha_short }}.${{ github.run_number }}" >> $env:GITHUB_ENV
+    - name: Set Output Folder
+      shell: pwsh
+      run: |
+        echo "output_folder=publish/${{ inputs.tfm }}/${{ inputs.rid }}" >> $env:GITHUB_ENV
+    - name: Set .NET Publish Configuration
+      shell: pwsh
+      run: |
+        echo "publish_config=-r ${{ inputs.rid }} -c Release -f ${{ inputs.tfm }} --sc false -o ${{ env.output_folder }} --version-suffix ${{ env.version_suffix }} -p:PublishReadyToRun=false -p:PublishSingleFile=true -p:UseAppHost=true --no-restore" >> $env:GITHUB_ENV
     - name: Restore dependencies
-      run: dotnet restore -r ${{ matrix.rid }}
+      run: dotnet restore -r ${{ inputs.rid }}
     - name: Build Private Server GUI
-      run: dotnet publish Yuyuyui.PrivateServer.GUI/Yuyuyui.PrivateServer.GUI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=false -p:PublishSingleFile=true --no-restore
+      run: dotnet publish Yuyuyui.PrivateServer.GUI/Yuyuyui.PrivateServer.GUI.csproj ${{ env.publish_config }}
     - name: Build Private Server CLI
-      run: dotnet publish Yuyuyui.PrivateServer.CLI/Yuyuyui.PrivateServer.CLI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=false -p:PublishSingleFile=true --no-restore
+      run: dotnet publish Yuyuyui.PrivateServer.CLI/Yuyuyui.PrivateServer.CLI.csproj ${{ env.publish_config }}
     - name: Build Account Transfer CLI
-      run: dotnet publish Yuyuyui.AccountTransfer.CLI/Yuyuyui.AccountTransfer.CLI.csproj -r ${{ matrix.rid }} -c Release -f ${{ matrix.tfm }} --sc false -o publish/${{ matrix.tfm }}/${{ matrix.rid }} -p:PublishReadyToRun=false -p:PublishSingleFile=true --no-restore
+      run: dotnet publish Yuyuyui.AccountTransfer.CLI/Yuyuyui.AccountTransfer.CLI.csproj ${{ env.publish_config }}
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ matrix.tfm }}-${{ matrix.rid }}
-        path: publish/${{ matrix.tfm }}/${{ matrix.rid }}
-  
-  upload:
-  
-    name: Upload ${{ matrix.rid }}, ${{ matrix.tfm }} to AWS
-    needs: publish
-    
-    strategy:
-      matrix:
-        rid: [ "win10-x64", "osx-x64", "osx-arm64", "linux-x64" ]
-        tfm: [ "net6.0" ]
-        
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ap-northeast-1
-    - name: Download Artifacts
-      uses: actions/download-artifact@v3
-      with:
-        name: ${{ matrix.tfm }}-${{ matrix.rid }}
-    - name: Archive Artifact
-      run: zip ${{ matrix.tfm }}-${{ matrix.rid }}.zip ./* -r
-    - name: Upload to AWS S3
-      run: aws s3 cp ${{ matrix.tfm }}-${{ matrix.rid }}.zip s3://y3ps-publish/${{ github.run_number }}/${{ matrix.tfm }}-${{ matrix.rid }}.zip
+        name: ${{ inputs.tfm }}-${{ inputs.rid }}
+        path: ${{ env.output_folder }}
