@@ -649,11 +649,65 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 检查更新.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 检查.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_BUTTON {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 正在检查最新更新…….
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_TEXT_CHECKING {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_TEXT_CHECKING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 有新更新可用。.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_TEXT_FOUND {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_TEXT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 当前为最新版本。.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_TEXT_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_TEXT_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 界面语言.
         /// </summary>
         internal static string SETTINGS_GENERAL_LANGUAGE {
             get {
                 return ResourceManager.GetString("SETTINGS_GENERAL_LANGUAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 下载更新.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_UPDATE_NOW_BUTTON {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_UPDATE_NOW_BUTTON", resourceCulture);
             }
         }
         

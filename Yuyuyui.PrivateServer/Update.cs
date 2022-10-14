@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -10,14 +11,13 @@ namespace Yuyuyui.PrivateServer;
 public static class Update
 {
 
-    private const string BASE_URL = "https://y3ps-publish.s3.ap-northeast-1.amazonaws.com";
+    public const string BASE_URL = "https://y3ps-publish.s3.ap-northeast-1.amazonaws.com";
 
     private static VersionInfo latestVersionInfo;
 
     private static LocalVersionInfo localVersionInfo;
 
-    public static bool IsLocalBuild => localVersionInfo.is_local_build;
-    public static BuildInfo LocalVersion => localVersionInfo.version_info;
+    public static LocalVersionInfo LocalVersion => localVersionInfo;
 
     static Update()
     {
@@ -55,12 +55,14 @@ public static class Update
 
         newVersionInfo = latestVersionInfo.version_info[localVersionInfo.version_info.branch];
 
-        return localVersionInfo.version_info != newVersionInfo;
+        return newVersionInfo.IsNewerThan(localVersionInfo.version_info);
     }
 
-    private class LocalVersionInfo
+    public class LocalVersionInfo
     {
         public bool is_local_build { get; set; } = true;
+        public string framework { get; set; } = "";
+        public string runtime_id { get; set; } = "";
         public BuildInfo version_info { get; set; } = new();
     }
 
@@ -69,21 +71,20 @@ public static class Update
         public IDictionary<string, BuildInfo> version_info = new Dictionary<string, BuildInfo>();
     }
 
-    public class BuildInfo : IEquatable<BuildInfo>
+    public class BuildInfo
     {
         public string created_at { get; set; } = "";
         public string commit_sha { get; set; } = "";
         public string ci_run { get; set; } = "";
         public string branch { get; set; } = "";
 
-        public bool Equals(BuildInfo? other)
+        private DateTime CreatedAt => DateTime.ParseExact(created_at, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+
+        public bool IsNewerThan(BuildInfo other)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return created_at == other.created_at &&
-                   commit_sha == other.commit_sha &&
-                   ci_run == other.ci_run &&
-                   branch == other.branch;
+            return CreatedAt > other.CreatedAt &&
+                   commit_sha != other.commit_sha &&
+                   int.Parse(ci_run) > int.Parse(other.ci_run);
         }
     }
 

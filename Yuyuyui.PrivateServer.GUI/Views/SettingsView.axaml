@@ -14,7 +14,7 @@
 
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5 0">
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5 0" Spacing="10">
 
                 <StackPanel.Styles>
 
@@ -84,6 +84,28 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
+                </Panel>
+                
+                <Panel Classes="entry">
+                    <StackPanel Classes="name">
+                        <TextBlock Classes="nameText" Text="{Binding SETTINGS_GENERAL_CHECK_UPDATE}" />
+                    </StackPanel>
+                    <DockPanel LastChildFill="False" HorizontalAlignment="Right">
+                        <Button Classes="action" DockPanel.Dock="Right"
+                                Content="{Binding SETTINGS_GENERAL_CHECK_UPDATE_BUTTON}"
+                                Command="{Binding CheckUpdate}"
+                                IsEnabled="{Binding AllowCheckUpdate}" />
+                        <TextBlock DockPanel.Dock="Right" Margin="0 0 10 0"
+                                   HorizontalAlignment="Right" TextAlignment="Right" VerticalAlignment="Center"
+                                   Text="{Binding UpdateStatus}" />
+                    </DockPanel>
+                </Panel>
+                
+                <Panel Classes="entry">
+                    <Button Classes="action" DockPanel.Dock="Right"
+                            Content="{Binding SETTINGS_GENERAL_UPDATE_NOW_BUTTON}"
+                            Command="{Binding DownloadUpdate}"
+                            IsEnabled="{Binding HasNewVersion}" />
                 </Panel>
                 
                 

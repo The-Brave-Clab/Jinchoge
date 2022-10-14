@@ -238,4 +238,22 @@ Transfer</value>
     <data name="SETTINGS_INFO_REISSUE_CERT" xml:space="preserve">
         <value>You'll need to reinstall the certificate</value>
     </data>
+    <data name="SETTINGS_GENERAL_CHECK_UPDATE" xml:space="preserve">
+        <value>Check Update</value>
+    </data>
+    <data name="SETTINGS_GENERAL_CHECK_UPDATE_BUTTON" xml:space="preserve">
+        <value>Check</value>
+    </data>
+    <data name="SETTINGS_GENERAL_CHECK_UPDATE_TEXT_CHECKING" xml:space="preserve">
+        <value>Checking for latest updates...</value>
+    </data>
+    <data name="SETTINGS_GENERAL_CHECK_UPDATE_TEXT_FOUND" xml:space="preserve">
+        <value>New update avaliable.</value>
+    </data>
+    <data name="SETTINGS_GENERAL_CHECK_UPDATE_TEXT_NOT_FOUND" xml:space="preserve">
+        <value>You are using the latest version.</value>
+    </data>
+    <data name="SETTINGS_GENERAL_UPDATE_NOW_BUTTON" xml:space="preserve">
+        <value>Download Update</value>
+    </data>
 </root>

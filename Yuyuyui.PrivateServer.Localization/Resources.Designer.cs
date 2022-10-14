@@ -649,11 +649,65 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check Update.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_BUTTON {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Checking for latest updates....
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_TEXT_CHECKING {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_TEXT_CHECKING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New update avaliable..
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_TEXT_FOUND {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_TEXT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are using the latest version..
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_TEXT_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_TEXT_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interface Language.
         /// </summary>
         internal static string SETTINGS_GENERAL_LANGUAGE {
             get {
                 return ResourceManager.GetString("SETTINGS_GENERAL_LANGUAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download Update.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_UPDATE_NOW_BUTTON {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_UPDATE_NOW_BUTTON", resourceCulture);
             }
         }
         

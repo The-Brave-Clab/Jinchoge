@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using Avalonia.Controls;
 using ReactiveUI;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels;
 
@@ -20,7 +20,8 @@ internal class SettingsViewModel : ViewModelBase
         
         canReissueCert = ProxyUtils.CertExists();
         hasNewVersion = false;
-        isCheckingUpdate = false;
+        allowCheckUpdate = !Update.LocalVersion.is_local_build;
+        updateStatus = "";
 
         newVersionInfo = new();
     }
@@ -35,22 +36,25 @@ internal class SettingsViewModel : ViewModelBase
         
         canReissueCert = ProxyUtils.CertExists();
         hasNewVersion = false;
-        isCheckingUpdate = false;
+        allowCheckUpdate = false;
 
         newVersionInfo = new();
     }
 
     
-    public string SETTINGS_CATEGORY_GENERAL => Localization.Resources.SETTINGS_CATEGORY_GENERAL;
-    public string SETTINGS_CATEGORY_IN_GAME => Localization.Resources.SETTINGS_CATEGORY_IN_GAME;
-    public string SETTINGS_CATEGORY_SECURITY => Localization.Resources.SETTINGS_CATEGORY_SECURITY;
-    public string SETTINGS_GENERAL_LANGUAGE => Localization.Resources.SETTINGS_GENERAL_LANGUAGE;
-    public string SETTINGS_IN_GAME_LANGUAGE => Localization.Resources.SETTINGS_IN_GAME_LANGUAGE;
-    public string SETTINGS_SECURITY_REISSUE_CERT => Localization.Resources.SETTINGS_SECURITY_REISSUE_CERT;
-    public string SETTINGS_SECURITY_REISSUE_BUTTON => Localization.Resources.SETTINGS_SECURITY_REISSUE_BUTTON;
-    public string SETTINGS_INFO_REQUIRE_RESTART => Localization.Resources.SETTINGS_INFO_REQUIRE_RESTART;
-    public string SETTINGS_INFO_TRANSLATION_PROVIDER => Localization.Resources.SETTINGS_INFO_TRANSLATION_PROVIDER;
-    public string SETTINGS_INFO_REISSUE_CERT => Localization.Resources.SETTINGS_INFO_REISSUE_CERT;
+    public string SETTINGS_CATEGORY_GENERAL => Resources.SETTINGS_CATEGORY_GENERAL;
+    public string SETTINGS_CATEGORY_IN_GAME => Resources.SETTINGS_CATEGORY_IN_GAME;
+    public string SETTINGS_CATEGORY_SECURITY => Resources.SETTINGS_CATEGORY_SECURITY;
+    public string SETTINGS_GENERAL_LANGUAGE => Resources.SETTINGS_GENERAL_LANGUAGE;
+    public string SETTINGS_GENERAL_CHECK_UPDATE => Resources.SETTINGS_GENERAL_CHECK_UPDATE;
+    public string SETTINGS_GENERAL_CHECK_UPDATE_BUTTON => Resources.SETTINGS_GENERAL_CHECK_UPDATE_BUTTON;
+    public string SETTINGS_GENERAL_UPDATE_NOW_BUTTON => Resources.SETTINGS_GENERAL_UPDATE_NOW_BUTTON;
+    public string SETTINGS_IN_GAME_LANGUAGE => Resources.SETTINGS_IN_GAME_LANGUAGE;
+    public string SETTINGS_SECURITY_REISSUE_CERT => Resources.SETTINGS_SECURITY_REISSUE_CERT;
+    public string SETTINGS_SECURITY_REISSUE_BUTTON => Resources.SETTINGS_SECURITY_REISSUE_BUTTON;
+    public string SETTINGS_INFO_REQUIRE_RESTART => Resources.SETTINGS_INFO_REQUIRE_RESTART;
+    public string SETTINGS_INFO_TRANSLATION_PROVIDER => Resources.SETTINGS_INFO_TRANSLATION_PROVIDER;
+    public string SETTINGS_INFO_REISSUE_CERT => Resources.SETTINGS_INFO_REISSUE_CERT;
 
     public List<LanguageDisplay> InterfaceLanguages => Config.SupportedInterfaceLocale
         .Select(CultureInfo.GetCultureInfo)
@@ -101,11 +105,18 @@ internal class SettingsViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref hasNewVersion, value);
     }
     
-    private bool isCheckingUpdate;
-    public bool IsCheckingUpdate
+    private bool allowCheckUpdate;
+    public bool AllowCheckUpdate
     {
-        get => isCheckingUpdate;
-        set => this.RaiseAndSetIfChanged(ref isCheckingUpdate, value);
+        get => allowCheckUpdate;
+        set => this.RaiseAndSetIfChanged(ref allowCheckUpdate, value);
+    }
+    
+    private string updateStatus;
+    public string UpdateStatus
+    {
+        get => updateStatus;
+        set => this.RaiseAndSetIfChanged(ref updateStatus, value);
     }
 
     private Update.BuildInfo newVersionInfo;
@@ -125,7 +136,7 @@ internal class SettingsViewModel : ViewModelBase
         {
             if (Equals(culture, CultureInfo.InvariantCulture))
             {
-                DisplayName = Localization.Resources.LAN_DEFAULT;
+                DisplayName = Resources.LAN_DEFAULT;
                 NativeName = "";
             }
             else
@@ -147,10 +158,12 @@ internal class SettingsViewModel : ViewModelBase
 
     public void CheckUpdate()
     {
-        if (Update.IsLocalBuild) return;
+        if (Update.LocalVersion.is_local_build) return;
         
-        Utils.Log($"Checking for application update on branch {Update.LocalVersion.branch}...");
-        IsCheckingUpdate = true;
+        Utils.Log($"Checking for application update on branch {Update.LocalVersion.version_info.branch}...");
+        UpdateStatus = Resources.SETTINGS_GENERAL_CHECK_UPDATE_TEXT_CHECKING;
+        AllowCheckUpdate = false;
+        HasNewVersion = false;
         Update.Check()
             .ContinueWith(_ =>
             {
@@ -159,9 +172,21 @@ internal class SettingsViewModel : ViewModelBase
                 {
                     Utils.Log(
                         $"Found new version: commit {newVersionInfo.commit_sha[..7]} on branch {newVersionInfo.branch}");
+                    UpdateStatus = Resources.SETTINGS_GENERAL_CHECK_UPDATE_TEXT_FOUND;
+                }
+                else
+                {
+                    Utils.Log($"No new version found.");
+                    UpdateStatus = Resources.SETTINGS_GENERAL_CHECK_UPDATE_TEXT_NOT_FOUND;
                 }
 
-                IsCheckingUpdate = false;
+                AllowCheckUpdate = true;
             });
+    }
+
+    public void DownloadUpdate()
+    {
+        string url = $"{Update.BASE_URL}/{newVersionInfo.branch}/{newVersionInfo.ci_run}/{Update.LocalVersion.framework}-{Update.LocalVersion.runtime_id}.zip";
+        Utils.Log(url);
     }
 }
