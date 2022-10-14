@@ -95,21 +95,21 @@ jobs:
         uses: jossef/action-set-json-field@v1
         with:
           file: version.json
-          field: ${{ github.ref_name }}.created_at
+          field: version_info.${{ github.ref_name }}.created_at
           value: ${{ env.current_time }}
 
       - name: Update "commit_sha"
         uses: jossef/action-set-json-field@v1
         with:
           file: version.json
-          field: ${{ github.ref_name }}.commit_sha
+          field: version_info.${{ github.ref_name }}.commit_sha
           value: ${{ github.sha }}
 
       - name: Update "ci_run"
         uses: jossef/action-set-json-field@v1
         with:
           file: version.json
-          field: ${{ github.ref_name }}.ci_run
+          field: version_info.${{ github.ref_name }}.ci_run
           value: ${{ github.run_number }}
 
       - name: Upload Manifest File

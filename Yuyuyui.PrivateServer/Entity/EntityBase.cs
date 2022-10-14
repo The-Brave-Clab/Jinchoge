@@ -192,8 +192,8 @@ namespace Yuyuyui.PrivateServer
 
         protected static T? Deserialize<T>(byte[] data) where T : class
         {
-            var stream = new MemoryStream(data);
-            var reader = new StreamReader(stream, Encoding.UTF8);
+            using var stream = new MemoryStream(data);
+            using var reader = new StreamReader(stream, Encoding.UTF8);
             return JsonSerializer.Create().Deserialize(reader, typeof(T)) as T;
         }
 

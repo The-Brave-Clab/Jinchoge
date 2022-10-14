@@ -19,6 +19,9 @@ internal class SettingsViewModel : ViewModelBase
         scenarioLanguageSelected = Config.SupportedInGameScenarioLanguage.IndexOf(Config.Get().InGame.ScenarioLanguage);
         
         canReissueCert = ProxyUtils.CertExists();
+        hasNewVersion = false;
+
+        NewVersionInfo = new();
     }
 
     public SettingsViewModel()
@@ -30,6 +33,9 @@ internal class SettingsViewModel : ViewModelBase
         scenarioLanguageSelected = Config.SupportedInGameScenarioLanguage.IndexOf(Config.Get().InGame.ScenarioLanguage);
         
         canReissueCert = ProxyUtils.CertExists();
+        hasNewVersion = false;
+
+        NewVersionInfo = new();
     }
 
     
@@ -80,13 +86,21 @@ internal class SettingsViewModel : ViewModelBase
     }
 
     private bool canReissueCert;
-
     public bool CanReissueCert
     {
         get => canReissueCert;
         set => this.RaiseAndSetIfChanged(ref canReissueCert, value);
     }
+    
+    private bool hasNewVersion;
+    public bool HasNewVersion
+    {
+        get => hasNewVersion;
+        set => this.RaiseAndSetIfChanged(ref hasNewVersion, value);
+    }
 
+    public Update.BuildInfo NewVersionInfo;
+    
     public void ReissueCert()
     {
         ProxyUtils.ReissueCert();
