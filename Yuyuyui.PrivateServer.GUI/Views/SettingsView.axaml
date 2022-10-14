@@ -88,6 +88,22 @@
                 
                 <Panel Classes="entry">
                     <StackPanel Classes="name">
+                        <TextBlock Classes="nameText" Text="{Binding SETTINGS_GENERAL_UPDATE_CHANNEL}" />
+                    </StackPanel>
+                    <ComboBox Classes="value" 
+                              Items="{Binding AvailableBranches}" 
+                              SelectedIndex="{Binding AvailableBranchSelected}"
+                              IsEnabled="{Binding AllowCheckUpdate}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Panel>
+                
+                <Panel Classes="entry">
+                    <StackPanel Classes="name">
                         <TextBlock Classes="nameText" Text="{Binding SETTINGS_GENERAL_CHECK_UPDATE}" />
                     </StackPanel>
                     <DockPanel LastChildFill="False" HorizontalAlignment="Right">

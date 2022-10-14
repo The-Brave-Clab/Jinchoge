@@ -703,6 +703,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 更新通道.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_UPDATE_CHANNEL {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_UPDATE_CHANNEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 下载更新.
         /// </summary>
         internal static string SETTINGS_GENERAL_UPDATE_NOW_BUTTON {

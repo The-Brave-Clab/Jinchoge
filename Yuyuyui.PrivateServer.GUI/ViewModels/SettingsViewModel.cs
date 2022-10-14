@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -49,6 +50,7 @@ internal class SettingsViewModel : ViewModelBase
     public string SETTINGS_CATEGORY_IN_GAME => Resources.SETTINGS_CATEGORY_IN_GAME;
     public string SETTINGS_CATEGORY_SECURITY => Resources.SETTINGS_CATEGORY_SECURITY;
     public string SETTINGS_GENERAL_LANGUAGE => Resources.SETTINGS_GENERAL_LANGUAGE;
+    public string SETTINGS_GENERAL_UPDATE_CHANNEL => Resources.SETTINGS_GENERAL_UPDATE_CHANNEL;
     public string SETTINGS_GENERAL_CHECK_UPDATE => Resources.SETTINGS_GENERAL_CHECK_UPDATE;
     public string SETTINGS_GENERAL_CHECK_UPDATE_BUTTON => Resources.SETTINGS_GENERAL_CHECK_UPDATE_BUTTON;
     public string SETTINGS_GENERAL_UPDATE_NOW_BUTTON => Resources.SETTINGS_GENERAL_UPDATE_NOW_BUTTON;
@@ -63,11 +65,11 @@ internal class SettingsViewModel : ViewModelBase
         .Select(CultureInfo.GetCultureInfo)
         .Select(c => new LanguageDisplay(c))
         .ToList();
+    public List<string> AvailableBranches => Config.SupportedUpdateChannel;
     public List<LanguageDisplay> ScenarioLanguages => Config.SupportedInGameScenarioLanguage
         .Select(CultureInfo.GetCultureInfo)
         .Select(c => new LanguageDisplay(c))
         .ToList();
-
 
     private int interfaceLanguageSelected;
     public int InterfaceLanguagesSelected
@@ -81,7 +83,6 @@ internal class SettingsViewModel : ViewModelBase
         }
     }
 
-
     private int scenarioLanguageSelected;
     public int ScenarioLanguagesSelected
     {
@@ -90,6 +91,18 @@ internal class SettingsViewModel : ViewModelBase
         {
             this.RaiseAndSetIfChanged(ref scenarioLanguageSelected, value);
             Config.Get().InGame.ScenarioLanguage = Config.SupportedInGameScenarioLanguage[scenarioLanguageSelected];
+            Config.Save();
+        }
+    }
+
+    private int availableBranchSelected;
+    public int AvailableBranchSelected
+    {
+        get => availableBranchSelected;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref availableBranchSelected, value);
+            Config.Get().General.UpdateBranch = AvailableBranches[availableBranchSelected];
             Config.Save();
         }
     }
@@ -164,7 +177,7 @@ internal class SettingsViewModel : ViewModelBase
     {
         if (Update.LocalVersion.is_local_build) return;
         
-        Utils.Log($"Checking for application update on branch {Update.LocalVersion.version_info.branch}...");
+        Utils.Log($"Checking for application update on branch {Config.Get().General.UpdateBranch}...");
         UpdateStatus = Resources.SETTINGS_GENERAL_CHECK_UPDATE_TEXT_CHECKING;
         AllowCheckUpdate = false;
         AllowDownloadUpdate = false;
@@ -220,7 +233,12 @@ internal class SettingsViewModel : ViewModelBase
         mainWindowViewModel!.TryGetWindow(out var mainWindow);
 
         var localFileName = await saveFileBox.ShowAsync(mainWindow!);
-        if (string.IsNullOrEmpty(localFileName)) return;
+        if (string.IsNullOrEmpty(localFileName))
+        {
+            AllowCheckUpdate = true;
+            AllowDownloadUpdate = hasNewUpdate;
+            return;
+        }
 
         ToolbarViewModel toolbarVM = (ToolbarViewModel)mainWindow!.BottomToolBar.DataContext!;
 

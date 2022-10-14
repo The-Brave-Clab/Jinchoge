@@ -703,6 +703,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update Channel.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_UPDATE_CHANNEL {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_UPDATE_CHANNEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download Update.
         /// </summary>
         internal static string SETTINGS_GENERAL_UPDATE_NOW_BUTTON {

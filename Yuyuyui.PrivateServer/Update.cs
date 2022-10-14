@@ -51,9 +51,9 @@ public static class Update
 
         if (localVersionInfo.is_local_build) return false;
         if (latestVersionInfo.version_info.Count == 0) return false;
-        if (!latestVersionInfo.version_info.ContainsKey(localVersionInfo.version_info.branch)) return false;
+        if (!latestVersionInfo.version_info.ContainsKey(Config.Get().General.UpdateBranch)) return false;
 
-        newVersionInfo = latestVersionInfo.version_info[localVersionInfo.version_info.branch];
+        newVersionInfo = latestVersionInfo.version_info[Config.Get().General.UpdateBranch];
 
         return newVersionInfo.IsNewerThan(localVersionInfo.version_info);
     }

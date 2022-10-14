@@ -256,4 +256,7 @@
     <data name="SETTINGS_GENERAL_UPDATE_NOW_BUTTON" xml:space="preserve">
         <value>下载更新</value>
     </data>
+    <data name="SETTINGS_GENERAL_UPDATE_CHANNEL" xml:space="preserve">
+        <value>更新通道</value>
+    </data>
 </root>
