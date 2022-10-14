@@ -1,11 +1,11 @@
 {
-  "is_local_build": true,
+  "is_local_build": "true",
   "framework": "",
   "runtime_id": "",
   "version_info": {
     "branch": "",
     "commit_sha": "",
-    "ci_run": "",
+    "ci_run": "0",
     "created_at": ""
   }
 }

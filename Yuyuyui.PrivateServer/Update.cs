@@ -75,7 +75,7 @@ public static class Update
     {
         public string created_at { get; set; } = "";
         public string commit_sha { get; set; } = "";
-        public string ci_run { get; set; } = "";
+        public int ci_run { get; set; } = 0;
         public string branch { get; set; } = "";
 
         private DateTime CreatedAt => DateTime.ParseExact(created_at, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
@@ -84,7 +84,7 @@ public static class Update
         {
             return CreatedAt > other.CreatedAt &&
                    commit_sha != other.commit_sha &&
-                   int.Parse(ci_run) > int.Parse(other.ci_run);
+                   ci_run > other.ci_run;
         }
     }
 

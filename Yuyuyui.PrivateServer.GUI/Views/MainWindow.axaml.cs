@@ -33,7 +33,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
 
             if (CultureInfo.CurrentUICulture.Name == "zh" && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                FontFamily = $"Microsoft YaHei,{FontFamily.DefaultFontFamilyName}";
+                FontFamily = $"Microsoft YaHei UI,{FontFamily.DefaultFontFamilyName}";
             }
             
             InitializeComponent();
