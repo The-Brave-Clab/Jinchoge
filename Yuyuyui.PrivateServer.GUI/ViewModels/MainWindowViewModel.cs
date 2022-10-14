@@ -43,7 +43,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             logVM = new LogViewModel();
             transferVM = new TransferViewModel(this);
             statusVM = new StatusViewModel();
-            settingsVM = new SettingsViewModel();
+            settingsVM = new SettingsViewModel(this);
             helpVM = new HelpViewModel();
             aboutVM = new AboutViewModel();
         }
@@ -61,7 +61,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             logVM = new LogViewModel();
             transferVM = new TransferViewModel(this);
             statusVM = new StatusViewModel();
-            settingsVM = new SettingsViewModel();
+            settingsVM = new SettingsViewModel(this);
             helpVM = new HelpViewModel();
             aboutVM = new AboutViewModel();
         }
@@ -141,13 +141,15 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             {
                 case ServerStatus.Stopped:
                     StartPrivateServer();
-                    return;
+                    break;
                 case ServerStatus.Started:
                     StopPrivateServer();
-                    return;
+                    break;
                 default:
                     return;
             }
+            
+            settingsVM.Refresh();
         }
 
         private bool isStopped;

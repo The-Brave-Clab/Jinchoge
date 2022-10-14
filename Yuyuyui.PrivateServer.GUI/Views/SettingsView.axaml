@@ -57,9 +57,18 @@
                         <Setter Property="Width" Value="200" />
                     </Style>
 
+                    <Style Selector="Button.action">
+                        <Setter Property="HorizontalAlignment" Value="Right" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Width" Value="150" />
+                    </Style>
+
                 </StackPanel.Styles>
 
                 <TextBlock Classes="category" Text="{Binding SETTINGS_CATEGORY_GENERAL}" />
+                
                 <Panel Classes="entry">
                     <StackPanel Classes="name">
                         <TextBlock Classes="nameText" Text="{Binding SETTINGS_GENERAL_LANGUAGE}" />
@@ -76,8 +85,11 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </Panel>
+                
+                
 
                 <TextBlock Classes="category" Text="{Binding SETTINGS_CATEGORY_IN_GAME}" />
+                
                 <Panel Classes="entry">
                     <StackPanel Classes="name">
                         <TextBlock Classes="nameText" Text="{Binding SETTINGS_IN_GAME_LANGUAGE}" />
@@ -93,6 +105,21 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
+                </Panel>
+                
+                
+                
+                <TextBlock Classes="category" Text="{Binding SETTINGS_CATEGORY_SECURITY}" />
+                
+                <Panel Classes="entry">
+                    <StackPanel Classes="name">
+                        <TextBlock Classes="nameText" Text="{Binding SETTINGS_SECURITY_REISSUE_CERT}" />
+                        <TextBlock Classes="comment" Text="{Binding SETTINGS_INFO_REISSUE_CERT}" />
+                    </StackPanel>
+                    <Button Classes="action"
+                            Content="{Binding SETTINGS_SECURITY_REISSUE_BUTTON}"
+                            Command="{Binding ReissueCert}"
+                            IsEnabled="{Binding CanReissueCert}" />
                 </Panel>
 
             </StackPanel>

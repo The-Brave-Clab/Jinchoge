@@ -640,6 +640,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 安全设置.
+        /// </summary>
+        internal static string SETTINGS_CATEGORY_SECURITY {
+            get {
+                return ResourceManager.GetString("SETTINGS_CATEGORY_SECURITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 界面语言.
         /// </summary>
         internal static string SETTINGS_GENERAL_LANGUAGE {
@@ -658,6 +667,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 重置后需要重新安装新证书.
+        /// </summary>
+        internal static string SETTINGS_INFO_REISSUE_CERT {
+            get {
+                return ResourceManager.GetString("SETTINGS_INFO_REISSUE_CERT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 需要重启程序.
         /// </summary>
         internal static string SETTINGS_INFO_REQUIRE_RESTART {
@@ -672,6 +690,24 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_INFO_TRANSLATION_PROVIDER {
             get {
                 return ResourceManager.GetString("SETTINGS_INFO_TRANSLATION_PROVIDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 重置.
+        /// </summary>
+        internal static string SETTINGS_SECURITY_REISSUE_BUTTON {
+            get {
+                return ResourceManager.GetString("SETTINGS_SECURITY_REISSUE_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 重置SSL证书.
+        /// </summary>
+        internal static string SETTINGS_SECURITY_REISSUE_CERT {
+            get {
+                return ResourceManager.GetString("SETTINGS_SECURITY_REISSUE_CERT", resourceCulture);
             }
         }
     }

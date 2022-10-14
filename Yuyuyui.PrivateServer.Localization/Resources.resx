@@ -226,4 +226,16 @@ Transfer</value>
     <data name="PROJ_DESC_EUCALYPTUS" xml:space="preserve">
         <value>Account Transfer Tool for Mobile Game YUYUYUI</value>
     </data>
+    <data name="SETTINGS_CATEGORY_SECURITY" xml:space="preserve">
+        <value>Security Settings</value>
+    </data>
+    <data name="SETTINGS_SECURITY_REISSUE_CERT" xml:space="preserve">
+        <value>Reissue SSL Certificate</value>
+    </data>
+    <data name="SETTINGS_SECURITY_REISSUE_BUTTON" xml:space="preserve">
+        <value>Reissue</value>
+    </data>
+    <data name="SETTINGS_INFO_REISSUE_CERT" xml:space="preserve">
+        <value>You'll need to reinstall the certificate</value>
+    </data>
 </root>

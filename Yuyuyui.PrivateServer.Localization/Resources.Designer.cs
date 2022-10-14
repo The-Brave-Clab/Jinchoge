@@ -640,6 +640,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Security Settings.
+        /// </summary>
+        internal static string SETTINGS_CATEGORY_SECURITY {
+            get {
+                return ResourceManager.GetString("SETTINGS_CATEGORY_SECURITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interface Language.
         /// </summary>
         internal static string SETTINGS_GENERAL_LANGUAGE {
@@ -658,6 +667,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You&apos;ll need to reinstall the certificate.
+        /// </summary>
+        internal static string SETTINGS_INFO_REISSUE_CERT {
+            get {
+                return ResourceManager.GetString("SETTINGS_INFO_REISSUE_CERT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Requires Restart.
         /// </summary>
         internal static string SETTINGS_INFO_REQUIRE_RESTART {
@@ -672,6 +690,24 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_INFO_TRANSLATION_PROVIDER {
             get {
                 return ResourceManager.GetString("SETTINGS_INFO_TRANSLATION_PROVIDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reissue.
+        /// </summary>
+        internal static string SETTINGS_SECURITY_REISSUE_BUTTON {
+            get {
+                return ResourceManager.GetString("SETTINGS_SECURITY_REISSUE_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reissue SSL Certificate.
+        /// </summary>
+        internal static string SETTINGS_SECURITY_REISSUE_CERT {
+            get {
+                return ResourceManager.GetString("SETTINGS_SECURITY_REISSUE_CERT", resourceCulture);
             }
         }
     }

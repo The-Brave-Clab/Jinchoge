@@ -226,4 +226,16 @@
     <data name="PROJ_DESC_EUCALYPTUS" xml:space="preserve">
         <value>《结城友奈是勇者 闪光的花结》账号转移工具</value>
     </data>
+    <data name="SETTINGS_CATEGORY_SECURITY" xml:space="preserve">
+        <value>安全设置</value>
+    </data>
+    <data name="SETTINGS_SECURITY_REISSUE_CERT" xml:space="preserve">
+        <value>重置SSL证书</value>
+    </data>
+    <data name="SETTINGS_SECURITY_REISSUE_BUTTON" xml:space="preserve">
+        <value>重置</value>
+    </data>
+    <data name="SETTINGS_INFO_REISSUE_CERT" xml:space="preserve">
+        <value>重置后需要重新安装新证书</value>
+    </data>
 </root>
