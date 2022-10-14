@@ -95,6 +95,8 @@ jobs:
         file: Yuyuyui.PrivateServer/Resources/version.json
         field: version_info.created_at
         value: ${{ env.current_time }}
+    - name: Check JSON
+      run: cat Yuyuyui.PrivateServer/Resources/version.json
     - name: Restore dependencies
       run: dotnet restore -r ${{ inputs.rid }}
     - name: Build Private Server GUI
