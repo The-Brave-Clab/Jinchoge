@@ -63,6 +63,7 @@ namespace Yuyuyui.PrivateServer
             playerCode = new Dictionary<string, PlayerProfile>();
             playerSessions = new Dictionary<string, PlayerSession>();
 
+            DataModel.Config.BaseDir = Path.Combine(BASE_DIR, LOCAL_DATA_FOLDER, "master_data");
 
             lock (dataFileLock)
             {
