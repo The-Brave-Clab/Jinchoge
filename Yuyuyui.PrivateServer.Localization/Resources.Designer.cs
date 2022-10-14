@@ -649,6 +649,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Auto Check Update.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_AUTO_UPDATE {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_AUTO_UPDATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check Update.
         /// </summary>
         internal static string SETTINGS_GENERAL_CHECK_UPDATE {

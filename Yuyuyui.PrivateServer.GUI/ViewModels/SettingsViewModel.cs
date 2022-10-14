@@ -21,6 +21,7 @@ internal class SettingsViewModel : ViewModelBase
         scenarioLanguageSelected = Config.SupportedInGameScenarioLanguage.IndexOf(Config.Get().InGame.ScenarioLanguage);
         
         canReissueCert = ProxyUtils.CertExists();
+        autoCheckUpdate = Config.Get().General.AutoCheckUpdate;
         allowCheckUpdate = !Update.LocalVersion.is_local_build;
         allowDownloadUpdate = false;
         updateStatus = "";
@@ -34,10 +35,11 @@ internal class SettingsViewModel : ViewModelBase
         if (!Design.IsDesignMode)
             throw new NotImplementedException();
 
-        interfaceLanguageSelected = Config.SupportedInterfaceLocale.IndexOf(Config.Get().General.Language);
-        scenarioLanguageSelected = Config.SupportedInGameScenarioLanguage.IndexOf(Config.Get().InGame.ScenarioLanguage);
+        interfaceLanguageSelected = 0;
+        scenarioLanguageSelected = 0;
         
-        canReissueCert = ProxyUtils.CertExists();
+        canReissueCert = false;
+        autoCheckUpdate = true;
         allowCheckUpdate = false;
         updateStatus = "";
 
@@ -50,6 +52,7 @@ internal class SettingsViewModel : ViewModelBase
     public string SETTINGS_CATEGORY_IN_GAME => Resources.SETTINGS_CATEGORY_IN_GAME;
     public string SETTINGS_CATEGORY_SECURITY => Resources.SETTINGS_CATEGORY_SECURITY;
     public string SETTINGS_GENERAL_LANGUAGE => Resources.SETTINGS_GENERAL_LANGUAGE;
+    public string SETTINGS_GENERAL_AUTO_UPDATE => Resources.SETTINGS_GENERAL_AUTO_UPDATE;
     public string SETTINGS_GENERAL_UPDATE_CHANNEL => Resources.SETTINGS_GENERAL_UPDATE_CHANNEL;
     public string SETTINGS_GENERAL_CHECK_UPDATE => Resources.SETTINGS_GENERAL_CHECK_UPDATE;
     public string SETTINGS_GENERAL_CHECK_UPDATE_BUTTON => Resources.SETTINGS_GENERAL_CHECK_UPDATE_BUTTON;
@@ -83,18 +86,6 @@ internal class SettingsViewModel : ViewModelBase
         }
     }
 
-    private int scenarioLanguageSelected;
-    public int ScenarioLanguagesSelected
-    {
-        get => scenarioLanguageSelected;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref scenarioLanguageSelected, value);
-            Config.Get().InGame.ScenarioLanguage = Config.SupportedInGameScenarioLanguage[scenarioLanguageSelected];
-            Config.Save();
-        }
-    }
-
     private int availableBranchSelected;
     public int AvailableBranchSelected
     {
@@ -103,6 +94,30 @@ internal class SettingsViewModel : ViewModelBase
         {
             this.RaiseAndSetIfChanged(ref availableBranchSelected, value);
             Config.Get().General.UpdateBranch = AvailableBranches[availableBranchSelected];
+            Config.Save();
+        }
+    }
+
+    public bool autoCheckUpdate;
+    public bool AutoCheckUpdate
+    {
+        get => autoCheckUpdate;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref autoCheckUpdate, value);
+            Config.Get().General.AutoCheckUpdate = value;
+            Config.Save();
+        }
+    }
+
+    private int scenarioLanguageSelected;
+    public int ScenarioLanguagesSelected
+    {
+        get => scenarioLanguageSelected;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref scenarioLanguageSelected, value);
+            Config.Get().InGame.ScenarioLanguage = Config.SupportedInGameScenarioLanguage[scenarioLanguageSelected];
             Config.Save();
         }
     }

@@ -88,6 +88,14 @@
                 
                 <Panel Classes="entry">
                     <StackPanel Classes="name">
+                        <TextBlock Classes="nameText" Text="{Binding SETTINGS_GENERAL_AUTO_UPDATE}" />
+                    </StackPanel>
+                    <ToggleSwitch HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding AutoCheckUpdate}"
+                                  OffContent="" OnContent="" />
+                </Panel>
+                
+                <Panel Classes="entry">
+                    <StackPanel Classes="name">
                         <TextBlock Classes="nameText" Text="{Binding SETTINGS_GENERAL_UPDATE_CHANNEL}" />
                     </StackPanel>
                     <ComboBox Classes="value" 

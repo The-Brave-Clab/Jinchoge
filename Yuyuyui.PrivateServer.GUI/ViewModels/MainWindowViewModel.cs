@@ -218,7 +218,8 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         {
             Status = ServerStatus.Updating;
 
-            settingsVM.CheckUpdate();
+            if (Config.Get().General.AutoCheckUpdate)
+                settingsVM.CheckUpdate();
 
             window.TryGetTarget(out var mainWindow);
             var toolbarVM = (ToolbarViewModel)mainWindow!.BottomToolBar.DataContext!;

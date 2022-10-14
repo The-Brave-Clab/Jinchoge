@@ -259,4 +259,7 @@ Transfer</value>
     <data name="SETTINGS_GENERAL_UPDATE_CHANNEL" xml:space="preserve">
         <value>Update Channel</value>
     </data>
+    <data name="SETTINGS_GENERAL_AUTO_UPDATE" xml:space="preserve">
+        <value>Enable Auto Check Update</value>
+    </data>
 </root>
