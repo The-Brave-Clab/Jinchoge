@@ -16,6 +16,8 @@ public static class Config
     public class General
     {
         public string Language { get; set; } = "";
+        public bool AutoCheckUpdate { get; set; } = true;
+        public string UpdateBranch { get; set; } = "master";
     }
 
     public class InGame
@@ -73,6 +75,11 @@ public static class Config
         "",
         "en",
         "zh"
+    };
+
+    public static readonly List<string> SupportedUpdateChannel = new()
+    {
+        "master",
     };
 
     public static readonly List<string> SupportedInGameScenarioLanguage = new()

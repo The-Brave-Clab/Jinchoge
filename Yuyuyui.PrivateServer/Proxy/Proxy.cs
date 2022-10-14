@@ -46,7 +46,7 @@ namespace Yuyuyui.PrivateServer
             proxyServer.CertificateManager.RootCertificateName = "Yuyuyui Private Server Root CA";
 
             proxyServer.CertificateManager.PfxFilePath = ProxyUtils.LOCAL_PFX_FILE;
-            if (File.Exists(ProxyUtils.LOCAL_PFX_FILE))
+            if (ProxyUtils.CertExists())
             {
                 proxyServer.CertificateManager.RootCertificate = proxyServer.CertificateManager.LoadRootCertificate();
             }

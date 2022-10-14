@@ -14,7 +14,7 @@
 
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5 0">
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5 0" Spacing="10">
 
                 <StackPanel.Styles>
 
@@ -57,9 +57,18 @@
                         <Setter Property="Width" Value="200" />
                     </Style>
 
+                    <Style Selector="Button.action">
+                        <Setter Property="HorizontalAlignment" Value="Right" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Width" Value="150" />
+                    </Style>
+
                 </StackPanel.Styles>
 
                 <TextBlock Classes="category" Text="{Binding SETTINGS_CATEGORY_GENERAL}" />
+                
                 <Panel Classes="entry">
                     <StackPanel Classes="name">
                         <TextBlock Classes="nameText" Text="{Binding SETTINGS_GENERAL_LANGUAGE}" />
@@ -76,8 +85,57 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </Panel>
+                
+                <Panel Classes="entry">
+                    <StackPanel Classes="name">
+                        <TextBlock Classes="nameText" Text="{Binding SETTINGS_GENERAL_AUTO_UPDATE}" />
+                    </StackPanel>
+                    <ToggleSwitch HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding AutoCheckUpdate}"
+                                  OffContent="" OnContent="" />
+                </Panel>
+                
+                <Panel Classes="entry">
+                    <StackPanel Classes="name">
+                        <TextBlock Classes="nameText" Text="{Binding SETTINGS_GENERAL_UPDATE_CHANNEL}" />
+                    </StackPanel>
+                    <ComboBox Classes="value" 
+                              Items="{Binding AvailableBranches}" 
+                              SelectedIndex="{Binding AvailableBranchSelected}"
+                              IsEnabled="{Binding AllowCheckUpdate}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Panel>
+                
+                <Panel Classes="entry">
+                    <StackPanel Classes="name">
+                        <TextBlock Classes="nameText" Text="{Binding SETTINGS_GENERAL_CHECK_UPDATE}" />
+                    </StackPanel>
+                    <DockPanel LastChildFill="False" HorizontalAlignment="Right">
+                        <Button Classes="action" DockPanel.Dock="Right"
+                                Content="{Binding SETTINGS_GENERAL_CHECK_UPDATE_BUTTON}"
+                                Command="{Binding CheckUpdate}"
+                                IsEnabled="{Binding AllowCheckUpdate}" />
+                        <TextBlock DockPanel.Dock="Right" Margin="0 0 10 0"
+                                   HorizontalAlignment="Right" TextAlignment="Right" VerticalAlignment="Center"
+                                   Text="{Binding UpdateStatus}" />
+                    </DockPanel>
+                </Panel>
+                
+                <Panel Classes="entry">
+                    <Button Classes="action" DockPanel.Dock="Right"
+                            Content="{Binding SETTINGS_GENERAL_UPDATE_NOW_BUTTON}"
+                            Command="{Binding DownloadUpdate}"
+                            IsEnabled="{Binding AllowDownloadUpdate}" />
+                </Panel>
+                
+                
 
                 <TextBlock Classes="category" Text="{Binding SETTINGS_CATEGORY_IN_GAME}" />
+                
                 <Panel Classes="entry">
                     <StackPanel Classes="name">
                         <TextBlock Classes="nameText" Text="{Binding SETTINGS_IN_GAME_LANGUAGE}" />
@@ -93,6 +151,21 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
+                </Panel>
+                
+                
+                
+                <TextBlock Classes="category" Text="{Binding SETTINGS_CATEGORY_SECURITY}" />
+                
+                <Panel Classes="entry">
+                    <StackPanel Classes="name">
+                        <TextBlock Classes="nameText" Text="{Binding SETTINGS_SECURITY_REISSUE_CERT}" />
+                        <TextBlock Classes="comment" Text="{Binding SETTINGS_INFO_REISSUE_CERT}" />
+                    </StackPanel>
+                    <Button Classes="action"
+                            Content="{Binding SETTINGS_SECURITY_REISSUE_BUTTON}"
+                            Command="{Binding ReissueCert}"
+                            IsEnabled="{Binding CanReissueCert}" />
                 </Panel>
 
             </StackPanel>

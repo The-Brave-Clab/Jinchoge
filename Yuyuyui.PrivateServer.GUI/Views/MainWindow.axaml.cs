@@ -195,6 +195,11 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                 mainWindowVM.ProjectName = "JINCHŌGE";
                 mainWindowVM.ProjectDescription = Localization.Resources.PROJ_DESC_JINCHOGE;
             }
+
+            if (button.Name == nameof(SettingsButton))
+            {
+                mainWindowVM.settingsVM.Refresh();
+            }
         }
     }
 }

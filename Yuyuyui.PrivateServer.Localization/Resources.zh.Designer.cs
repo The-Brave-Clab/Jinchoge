@@ -640,6 +640,69 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 安全设置.
+        /// </summary>
+        internal static string SETTINGS_CATEGORY_SECURITY {
+            get {
+                return ResourceManager.GetString("SETTINGS_CATEGORY_SECURITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 启动时自动检查更新.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_AUTO_UPDATE {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_AUTO_UPDATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 检查更新.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 检查.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_BUTTON {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 正在检查最新更新…….
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_TEXT_CHECKING {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_TEXT_CHECKING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 有新更新可用。.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_TEXT_FOUND {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_TEXT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 当前为最新版本。.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_TEXT_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_TEXT_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 界面语言.
         /// </summary>
         internal static string SETTINGS_GENERAL_LANGUAGE {
@@ -649,11 +712,38 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 更新通道.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_UPDATE_CHANNEL {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_UPDATE_CHANNEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 下载更新.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_UPDATE_NOW_BUTTON {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_UPDATE_NOW_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 游戏内剧情语言.
         /// </summary>
         internal static string SETTINGS_IN_GAME_LANGUAGE {
             get {
                 return ResourceManager.GetString("SETTINGS_IN_GAME_LANGUAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 重置后需要重新安装新证书.
+        /// </summary>
+        internal static string SETTINGS_INFO_REISSUE_CERT {
+            get {
+                return ResourceManager.GetString("SETTINGS_INFO_REISSUE_CERT", resourceCulture);
             }
         }
         
@@ -672,6 +762,24 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_INFO_TRANSLATION_PROVIDER {
             get {
                 return ResourceManager.GetString("SETTINGS_INFO_TRANSLATION_PROVIDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 重置.
+        /// </summary>
+        internal static string SETTINGS_SECURITY_REISSUE_BUTTON {
+            get {
+                return ResourceManager.GetString("SETTINGS_SECURITY_REISSUE_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 重置SSL证书.
+        /// </summary>
+        internal static string SETTINGS_SECURITY_REISSUE_CERT {
+            get {
+                return ResourceManager.GetString("SETTINGS_SECURITY_REISSUE_CERT", resourceCulture);
             }
         }
     }

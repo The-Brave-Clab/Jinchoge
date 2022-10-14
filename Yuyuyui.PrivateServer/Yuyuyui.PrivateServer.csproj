@@ -27,4 +27,8 @@
     <ProjectReference Include="..\Yuyuyui.PrivateServer.Localization\Yuyuyui.PrivateServer.Localization.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\version.json" />
+  </ItemGroup>
+
 </Project>

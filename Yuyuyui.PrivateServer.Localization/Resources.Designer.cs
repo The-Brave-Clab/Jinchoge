@@ -640,6 +640,69 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Security Settings.
+        /// </summary>
+        internal static string SETTINGS_CATEGORY_SECURITY {
+            get {
+                return ResourceManager.GetString("SETTINGS_CATEGORY_SECURITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable Auto Check Update.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_AUTO_UPDATE {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_AUTO_UPDATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check Update.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_BUTTON {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Checking for latest updates....
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_TEXT_CHECKING {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_TEXT_CHECKING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New update avaliable..
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_TEXT_FOUND {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_TEXT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are using the latest version..
+        /// </summary>
+        internal static string SETTINGS_GENERAL_CHECK_UPDATE_TEXT_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_CHECK_UPDATE_TEXT_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interface Language.
         /// </summary>
         internal static string SETTINGS_GENERAL_LANGUAGE {
@@ -649,11 +712,38 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update Channel.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_UPDATE_CHANNEL {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_UPDATE_CHANNEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download Update.
+        /// </summary>
+        internal static string SETTINGS_GENERAL_UPDATE_NOW_BUTTON {
+            get {
+                return ResourceManager.GetString("SETTINGS_GENERAL_UPDATE_NOW_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scenario Language.
         /// </summary>
         internal static string SETTINGS_IN_GAME_LANGUAGE {
             get {
                 return ResourceManager.GetString("SETTINGS_IN_GAME_LANGUAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;ll need to reinstall the certificate.
+        /// </summary>
+        internal static string SETTINGS_INFO_REISSUE_CERT {
+            get {
+                return ResourceManager.GetString("SETTINGS_INFO_REISSUE_CERT", resourceCulture);
             }
         }
         
@@ -672,6 +762,24 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_INFO_TRANSLATION_PROVIDER {
             get {
                 return ResourceManager.GetString("SETTINGS_INFO_TRANSLATION_PROVIDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reissue.
+        /// </summary>
+        internal static string SETTINGS_SECURITY_REISSUE_BUTTON {
+            get {
+                return ResourceManager.GetString("SETTINGS_SECURITY_REISSUE_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reissue SSL Certificate.
+        /// </summary>
+        internal static string SETTINGS_SECURITY_REISSUE_CERT {
+            get {
+                return ResourceManager.GetString("SETTINGS_SECURITY_REISSUE_CERT", resourceCulture);
             }
         }
     }
