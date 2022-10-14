@@ -32,7 +32,7 @@ public static class Update
 
     public static async Task Check()
     {
-        //if (localVersionInfo.is_local_build) return;
+        if (localVersionInfo.is_local_build) return;
 
         HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, new Uri($"{BASE_URL}/version.json"));
         requestMessage.Headers.Connection.Add("Keep-Alive");
@@ -49,7 +49,7 @@ public static class Update
     {
         newVersionInfo = new();
 
-        //if (localVersionInfo.is_local_build) return false;
+        if (localVersionInfo.is_local_build) return false;
         if (latestVersionInfo.version_info.Count == 0) return false;
         if (!latestVersionInfo.version_info.ContainsKey(localVersionInfo.version_info.branch)) return false;
 

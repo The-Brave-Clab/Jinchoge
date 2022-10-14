@@ -20,8 +20,9 @@ internal class SettingsViewModel : ViewModelBase
         
         canReissueCert = ProxyUtils.CertExists();
         hasNewVersion = false;
+        isCheckingUpdate = false;
 
-        NewVersionInfo = new();
+        newVersionInfo = new();
     }
 
     public SettingsViewModel()
@@ -34,8 +35,9 @@ internal class SettingsViewModel : ViewModelBase
         
         canReissueCert = ProxyUtils.CertExists();
         hasNewVersion = false;
+        isCheckingUpdate = false;
 
-        NewVersionInfo = new();
+        newVersionInfo = new();
     }
 
     
@@ -98,8 +100,15 @@ internal class SettingsViewModel : ViewModelBase
         get => hasNewVersion;
         set => this.RaiseAndSetIfChanged(ref hasNewVersion, value);
     }
+    
+    private bool isCheckingUpdate;
+    public bool IsCheckingUpdate
+    {
+        get => isCheckingUpdate;
+        set => this.RaiseAndSetIfChanged(ref isCheckingUpdate, value);
+    }
 
-    public Update.BuildInfo NewVersionInfo;
+    private Update.BuildInfo newVersionInfo;
     
     public void ReissueCert()
     {
@@ -134,5 +143,25 @@ internal class SettingsViewModel : ViewModelBase
                          mainWindowViewModel!.Status is
                              MainWindowViewModel.ServerStatus.Stopped or
                              MainWindowViewModel.ServerStatus.Updating;
+    }
+
+    public void CheckUpdate()
+    {
+        if (Update.IsLocalBuild) return;
+        
+        Utils.Log($"Checking for application update on branch {Update.LocalVersion.branch}...");
+        IsCheckingUpdate = true;
+        Update.Check()
+            .ContinueWith(_ =>
+            {
+                HasNewVersion = Update.TryGetNewerVersion(out newVersionInfo);
+                if (HasNewVersion)
+                {
+                    Utils.Log(
+                        $"Found new version: commit {newVersionInfo.commit_sha[..7]} on branch {newVersionInfo.branch}");
+                }
+
+                IsCheckingUpdate = false;
+            });
     }
 }

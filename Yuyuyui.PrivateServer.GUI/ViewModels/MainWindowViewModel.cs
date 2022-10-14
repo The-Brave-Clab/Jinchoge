@@ -218,21 +218,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         {
             Status = ServerStatus.Updating;
 
-            //if (!Update.IsLocalBuild)
-            {
-                Utils.Log($"Checking for application update on branch {Update.LocalVersion.branch}...");
-
-                Update.Check()
-                    .ContinueWith(_ =>
-                    {
-                        settingsVM.HasNewVersion = Update.TryGetNewerVersion(out settingsVM.NewVersionInfo);
-                        if (settingsVM.HasNewVersion)
-                        {
-                            Utils.Log(
-                                $"Found new version: commit {settingsVM.NewVersionInfo.commit_sha[..7]} on branch {settingsVM.NewVersionInfo.branch}");
-                        }
-                    });
-            }
+            settingsVM.CheckUpdate();
 
             window.TryGetTarget(out var mainWindow);
             var toolbarVM = (ToolbarViewModel)mainWindow!.BottomToolBar.DataContext!;
