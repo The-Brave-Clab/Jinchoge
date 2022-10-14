@@ -15,6 +15,7 @@ namespace Yuyuyui.PrivateServer
         private const string CERT_PATH = "/cert/pem";
 
         public static string LOCAL_CERT_FILE => Path.Combine(PrivateServer.BASE_DIR, "ca.cer");
+        public static string LOCAL_PFX_FILE => Path.Combine(PrivateServer.BASE_DIR, "ca.pfx");
 
         public static bool EchoService(SessionEventArgs e)
         {

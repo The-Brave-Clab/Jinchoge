@@ -45,9 +45,20 @@ namespace Yuyuyui.PrivateServer
             proxyServer.CertificateManager.RootCertificateIssuerName = "Yuyuyui Private Server";
             proxyServer.CertificateManager.RootCertificateName = "Yuyuyui Private Server Root CA";
 
-            proxyServer.CertificateManager.EnsureRootCertificate();
+            proxyServer.CertificateManager.PfxFilePath = ProxyUtils.LOCAL_PFX_FILE;
+            if (File.Exists(ProxyUtils.LOCAL_PFX_FILE))
+            {
+                proxyServer.CertificateManager.RootCertificate = proxyServer.CertificateManager.LoadRootCertificate();
+            }
+            else
+            {
+                proxyServer.CertificateManager.EnsureRootCertificate();
+                File.WriteAllBytes(ProxyUtils.LOCAL_PFX_FILE, 
+                    proxyServer.CertificateManager.RootCertificate!.Export(X509ContentType.Pfx));
+            }
             File.WriteAllBytes(ProxyUtils.LOCAL_CERT_FILE,
                 proxyServer.CertificateManager.RootCertificate!.Export(X509ContentType.Cert));
+            
 
             proxyServer.BeforeRequest += callbacks.OnRequest;
             proxyServer.BeforeResponse += callbacks.OnResponse;
