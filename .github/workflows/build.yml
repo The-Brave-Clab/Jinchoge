@@ -87,7 +87,7 @@ jobs:
       uses: jossef/action-set-json-field@v1
       with:
         file: Yuyuyui.PrivateServer/Resources/version.json
-        field: version_info.commit_sha
+        field: version_info.ci_run
         value: ${{ github.run_number }}
     - name: Update "created_at"
       uses: jossef/action-set-json-field@v1
@@ -95,8 +95,6 @@ jobs:
         file: Yuyuyui.PrivateServer/Resources/version.json
         field: version_info.created_at
         value: ${{ env.current_time }}
-    - name: Check JSON
-      run: cat Yuyuyui.PrivateServer/Resources/version.json
     - name: Restore dependencies
       run: dotnet restore -r ${{ inputs.rid }}
     - name: Build Private Server GUI
