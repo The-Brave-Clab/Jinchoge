@@ -29,6 +29,14 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
+    - name: Download Current Time
+      uses: actions/download-artifact@v3
+      with:
+        name: build_time
+    - name: Get Current Time
+      shell: pwsh
+      run: |
+        cat build_time.txt >> $env:GITHUB_ENV
     - name: Get Short Commit SHA
       shell: pwsh
       run: |
@@ -45,6 +53,48 @@ jobs:
       shell: pwsh
       run: |
         echo "publish_config=-r ${{ inputs.rid }} -c Release -f ${{ inputs.tfm }} --sc false -o ${{ env.output_folder }} --version-suffix ${{ env.version_suffix }} -p:PublishReadyToRun=false -p:PublishSingleFile=true -p:UseAppHost=true --no-restore" >> $env:GITHUB_ENV
+    - name: Update "is_local_build"
+      uses: jossef/action-set-json-field@v1
+      with:
+        file: Yuyuyui.PrivateServer/Resources/version.json
+        field: is_local_build
+        value: false
+    - name: Update "framework"
+      uses: jossef/action-set-json-field@v1
+      with:
+        file: Yuyuyui.PrivateServer/Resources/version.json
+        field: framework
+        value: ${{ inputs.tfm }}
+    - name: Update "runtime_id"
+      uses: jossef/action-set-json-field@v1
+      with:
+        file: Yuyuyui.PrivateServer/Resources/version.json
+        field: runtime_id
+        value: ${{ inputs.rid }}
+    - name: Update "branch"
+      uses: jossef/action-set-json-field@v1
+      with:
+        file: Yuyuyui.PrivateServer/Resources/version.json
+        field: version_info.branch
+        value: ${{ github.ref_name }}
+    - name: Update "commit_sha"
+      uses: jossef/action-set-json-field@v1
+      with:
+        file: Yuyuyui.PrivateServer/Resources/version.json
+        field: version_info.commit_sha
+        value: ${{ github.sha }}
+    - name: Update "ci_run"
+      uses: jossef/action-set-json-field@v1
+      with:
+        file: Yuyuyui.PrivateServer/Resources/version.json
+        field: version_info.commit_sha
+        value: ${{ github.run_number }}
+    - name: Update "created_at"
+      uses: jossef/action-set-json-field@v1
+      with:
+        file: Yuyuyui.PrivateServer/Resources/version.json
+        field: version_info.created_at
+        value: ${{ env.current_time }}
     - name: Restore dependencies
       run: dotnet restore -r ${{ inputs.rid }}
     - name: Build Private Server GUI

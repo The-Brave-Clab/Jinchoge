@@ -1,7 +1,9 @@
 {
   "is_local_build": true,
+  "framework": "",
+  "runtime_id": "",
   "version_info": {
-    "branch": "master",
+    "branch": "",
     "commit_sha": "",
     "ci_run": "",
     "created_at": ""

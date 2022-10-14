@@ -5,7 +5,23 @@ on:
     branches: [ "master", "release" ]
 
 jobs:
+  get_time:
+        
+    runs-on: ubuntu-latest
+
+    name: Get Current Time
+    steps:
+      - name: Get Current Time
+        run: echo "current_time=$(date +'%Y%m%d%H%M%S')" > build_time.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build_time
+          path: build_time.txt
+          retention-days: 1
+
+
   build_win:
+    needs: [get_time]
     strategy:
       matrix:
         tfm: [ "net6.0" ]
@@ -18,6 +34,7 @@ jobs:
     secrets: inherit
 
   build_linux:
+    needs: [get_time]
     strategy:
       matrix:
         tfm: [ "net6.0" ]
@@ -30,6 +47,7 @@ jobs:
     secrets: inherit
 
   build_mac:
+    needs: [get_time]
     strategy:
       matrix:
         rid: [ "osx-x64", "osx-arm64" ]
@@ -57,19 +75,19 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ap-northeast-1
-    - name: Download Artifacts
-      uses: actions/download-artifact@v3
-      with:
-        name: ${{ matrix.tfm }}-${{ matrix.rid }}
-    - name: Archive Artifact
-      run: zip ${{ matrix.tfm }}-${{ matrix.rid }}.zip ./* -r
-    - name: Upload to AWS S3
-      run: aws s3 cp ${{ matrix.tfm }}-${{ matrix.rid }}.zip s3://y3ps-publish/${{ github.ref_name }}/${{ github.run_number }}/${{ matrix.tfm }}-${{ matrix.rid }}.zip
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ matrix.tfm }}-${{ matrix.rid }}
+      - name: Archive Artifact
+        run: zip ${{ matrix.tfm }}-${{ matrix.rid }}.zip ./* -r
+      - name: Upload to AWS S3
+        run: aws s3 cp ${{ matrix.tfm }}-${{ matrix.rid }}.zip s3://y3ps-publish/${{ github.ref_name }}/${{ github.run_number }}/${{ matrix.tfm }}-${{ matrix.rid }}.zip
 
 
   deploy:
@@ -85,8 +103,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
+      - name: Download Current Time
+        uses: actions/download-artifact@v3
+        with:
+          name: build_time
       - name: Get Current Time
-        run: echo "current_time=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+        shell: pwsh
+        run: cat build_time.txt >> $GITHUB_ENV
 
       - name: Download Manifest File
         run: aws s3 cp s3://y3ps-publish/version.json version.json
@@ -111,6 +134,13 @@ jobs:
           file: version.json
           field: version_info.${{ github.ref_name }}.ci_run
           value: ${{ github.run_number }}
+
+      - name: Update "created_at"
+        uses: jossef/action-set-json-field@v1
+        with:
+          file: version.json
+          field: version_info.${{ github.ref_name }}.created_at
+          value: ${{ env.current_time }}
 
       - name: Upload Manifest File
         run: aws s3 cp version.json s3://y3ps-publish/version.json
