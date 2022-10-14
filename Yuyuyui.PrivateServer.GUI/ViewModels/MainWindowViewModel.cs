@@ -298,5 +298,10 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
             Utils.LogTrace(Localization.Resources.LOG_PS_STOP);
         }
+
+        public bool TryGetWindow(out MainWindow? output)
+        {
+            return window.TryGetTarget(out output);
+        }
     }
 }

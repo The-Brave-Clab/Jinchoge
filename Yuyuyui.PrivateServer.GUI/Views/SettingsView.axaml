@@ -105,7 +105,7 @@
                     <Button Classes="action" DockPanel.Dock="Right"
                             Content="{Binding SETTINGS_GENERAL_UPDATE_NOW_BUTTON}"
                             Command="{Binding DownloadUpdate}"
-                            IsEnabled="{Binding HasNewVersion}" />
+                            IsEnabled="{Binding AllowDownloadUpdate}" />
                 </Panel>
                 
                 

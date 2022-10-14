@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using Avalonia.Controls;
 using ReactiveUI;
@@ -19,10 +20,11 @@ internal class SettingsViewModel : ViewModelBase
         scenarioLanguageSelected = Config.SupportedInGameScenarioLanguage.IndexOf(Config.Get().InGame.ScenarioLanguage);
         
         canReissueCert = ProxyUtils.CertExists();
-        hasNewVersion = false;
         allowCheckUpdate = !Update.LocalVersion.is_local_build;
+        allowDownloadUpdate = false;
         updateStatus = "";
 
+        hasNewUpdate = false;
         newVersionInfo = new();
     }
 
@@ -35,9 +37,10 @@ internal class SettingsViewModel : ViewModelBase
         scenarioLanguageSelected = Config.SupportedInGameScenarioLanguage.IndexOf(Config.Get().InGame.ScenarioLanguage);
         
         canReissueCert = ProxyUtils.CertExists();
-        hasNewVersion = false;
         allowCheckUpdate = false;
+        updateStatus = "";
 
+        hasNewUpdate = false;
         newVersionInfo = new();
     }
 
@@ -98,11 +101,11 @@ internal class SettingsViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref canReissueCert, value);
     }
     
-    private bool hasNewVersion;
-    public bool HasNewVersion
+    private bool allowDownloadUpdate;
+    public bool AllowDownloadUpdate
     {
-        get => hasNewVersion;
-        set => this.RaiseAndSetIfChanged(ref hasNewVersion, value);
+        get => allowDownloadUpdate;
+        set => this.RaiseAndSetIfChanged(ref allowDownloadUpdate, value);
     }
     
     private bool allowCheckUpdate;
@@ -119,6 +122,7 @@ internal class SettingsViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref updateStatus, value);
     }
 
+    private bool hasNewUpdate;
     private Update.BuildInfo newVersionInfo;
     
     public void ReissueCert()
@@ -163,12 +167,13 @@ internal class SettingsViewModel : ViewModelBase
         Utils.Log($"Checking for application update on branch {Update.LocalVersion.version_info.branch}...");
         UpdateStatus = Resources.SETTINGS_GENERAL_CHECK_UPDATE_TEXT_CHECKING;
         AllowCheckUpdate = false;
-        HasNewVersion = false;
+        AllowDownloadUpdate = false;
+        hasNewUpdate = false;
         Update.Check()
             .ContinueWith(_ =>
             {
-                HasNewVersion = Update.TryGetNewerVersion(out newVersionInfo);
-                if (HasNewVersion)
+                hasNewUpdate = Update.TryGetNewerVersion(out newVersionInfo);
+                if (hasNewUpdate)
                 {
                     Utils.Log(
                         $"Found new version: commit {newVersionInfo.commit_sha[..7]} on branch {newVersionInfo.branch}");
@@ -181,12 +186,59 @@ internal class SettingsViewModel : ViewModelBase
                 }
 
                 AllowCheckUpdate = true;
+                AllowDownloadUpdate = hasNewUpdate;
             });
     }
 
-    public void DownloadUpdate()
+    public async void DownloadUpdate()
     {
-        string url = $"{Update.BASE_URL}/{newVersionInfo.branch}/{newVersionInfo.ci_run}/{Update.LocalVersion.framework}-{Update.LocalVersion.runtime_id}.zip";
-        Utils.Log(url);
+        if (Update.LocalVersion.is_local_build) return;
+
+        AllowDownloadUpdate = false;
+        AllowCheckUpdate = false;
+
+        string fileName = $"{Update.LocalVersion.framework}-{Update.LocalVersion.runtime_id}.zip";
+        string url = $"{Update.BASE_URL}/{newVersionInfo.branch}/{newVersionInfo.ci_run}/{fileName}";
+        
+        SaveFileDialog saveFileBox = new SaveFileDialog
+        {
+            Title = "Save Update File As...",
+            InitialFileName = fileName,
+            Directory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+            Filters = new List<FileDialogFilter>
+            {
+                new()
+                {
+                    Extensions = new List<string> { "zip" },
+                    Name = "Update File"
+                }
+            },
+            DefaultExtension = "zip",
+        };
+
+        mainWindowVM.TryGetTarget(out var mainWindowViewModel);
+        mainWindowViewModel!.TryGetWindow(out var mainWindow);
+
+        var localFileName = await saveFileBox.ShowAsync(mainWindow!);
+        if (string.IsNullOrEmpty(localFileName)) return;
+
+        ToolbarViewModel toolbarVM = (ToolbarViewModel)mainWindow!.BottomToolBar.DataContext!;
+
+        await using FileStream fs = new FileStream(localFileName, FileMode.Create, FileAccess.Write, FileShare.None);
+
+        toolbarVM.ClearProgressBar();
+        toolbarVM.IsProgressBarVisible = true;
+        toolbarVM.ShowProgressText = true;
+        toolbarVM.IsProgressIndeterminate = false;
+        toolbarVM.ProgressBarText = fileName;
+        await PrivateServer.HttpClient.DownloadAsync(url, fs, new Progress<float>(
+            progress => { toolbarVM.ToolbarProgress = progress * 100; }));
+
+        toolbarVM.ClearProgressBar();
+
+        AllowCheckUpdate = true;
+        AllowDownloadUpdate = hasNewUpdate;
+        
+        Utils.Log($"Downloaded new update file at {localFileName}");
     }
 }
