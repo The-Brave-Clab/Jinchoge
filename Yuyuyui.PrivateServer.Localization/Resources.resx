@@ -382,4 +382,19 @@ Transfer</value>
     <data name="LOG_PS_LOCAL_DATA_UPDATED" xml:space="preserve">
         <value>Updated {0} file(s)</value>
     </data>
+    <data name="LOG_PS_REDIRECT_API" xml:space="preserve">
+        <value>Redirected to the unofficial public API Server</value>
+    </data>
+    <data name="LOG_PS_SCENARIO_LANGUAGE" xml:space="preserve">
+        <value>Scenario language is {0}</value>
+    </data>
+    <data name="LOG_PS_GOT_CONNECTION" xml:space="preserve">
+        <value>Got connection from UUID {0}</value>
+    </data>
+    <data name="LOG_PS_API_NOT_IMPLEMENTED" xml:space="preserve">
+        <value>API Not Implemented: </value>
+    </data>
+    <data name="LOG_PS_API_ERROR_TEMPLATE" xml:space="preserve">
+        <value>&lt;APIError&gt; </value>
+    </data>
 </root>

@@ -22,16 +22,10 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            Utils.Log("Path parameters:");
-            foreach (var pathParameter in pathParameters)
-            {
-                Utils.Log($"\t{pathParameter.Key} = {pathParameter.Value}");
-            }
-
             long chapterId = long.Parse(GetPathParameter("chapter_id"));
             long episodeId = long.Parse(GetPathParameter("episode_id"));
 
-            Utils.LogWarning("Many status not filled.");
+            // Utils.LogWarning("Many status not filled.");
 
             using var questsDb = new QuestsContext();
             Response responseObj = new()

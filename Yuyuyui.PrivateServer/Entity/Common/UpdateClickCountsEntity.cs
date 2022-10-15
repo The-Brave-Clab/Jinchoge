@@ -19,7 +19,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override Task ProcessRequest()
         {
-            Utils.LogError("Not documented! Stubbed for now.");
+            // Utils.LogError("Not documented! Stubbed for now.");
 
             //Request requestObj = Deserialize<Request>(requestBody)!;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -19,7 +20,7 @@ namespace Yuyuyui.PrivateServer
         protected override Task ProcessRequest()
         {
             var requestObj = Deserialize<Request>(requestBody);
-            Utils.Log($"Got connection from UUID {requestObj!.uuid}");
+            Utils.Log(string.Format(Resources.LOG_PS_GOT_CONNECTION, requestObj!.uuid));
             
             PrivateServer.PlayerSession sessionDetail = PrivateServer.CreateSessionForPlayer(requestObj!.uuid, this);
 

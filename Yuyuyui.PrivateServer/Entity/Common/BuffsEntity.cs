@@ -18,9 +18,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
-            
-            Utils.LogError("Not documented! Returns nothing for now.");
+            // Utils.LogError("Not documented! Returns nothing for now.");
 
             Response responseObj = new()
             {

@@ -20,7 +20,7 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            Utils.LogWarning("Stub API, fixed items for now");
+            // Utils.LogWarning("Stub API, fixed items for now");
 
             Response responseObj = new()
             {

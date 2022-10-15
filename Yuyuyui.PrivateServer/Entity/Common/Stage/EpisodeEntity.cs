@@ -21,16 +21,10 @@ namespace Yuyuyui.PrivateServer
         protected override Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
-            
-            Utils.Log("Path parameters:");
-            foreach (var pathParameter in pathParameters)
-            {
-                Utils.Log($"\t{pathParameter.Key} = {pathParameter.Value}");
-            }
 
             long chapterId = long.Parse(GetPathParameter("chapter_id"));
 
-            Utils.LogWarning("Finished status not filled!");
+            // Utils.LogWarning("Finished status not filled!");
 
             using var questsDb = new QuestsContext();
             Response responseObj = new()

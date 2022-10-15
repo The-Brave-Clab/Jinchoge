@@ -18,7 +18,7 @@ public class EventChapterEntity : ChapterEntity
 
     protected override Response GetChapters(QuestsContext questsDb)
     {
-        Utils.LogWarning("Stub API! Returns nothing for now.");
+        // Utils.LogWarning("Stub API! Returns nothing for now.");
         return new()
         {
             chapters = new Dictionary<long, Chapter>()

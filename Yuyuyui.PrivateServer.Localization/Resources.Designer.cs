@@ -424,6 +424,24 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;APIError&gt; .
+        /// </summary>
+        internal static string LOG_PS_API_ERROR_TEMPLATE {
+            get {
+                return ResourceManager.GetString("LOG_PS_API_ERROR_TEMPLATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API Not Implemented: .
+        /// </summary>
+        internal static string LOG_PS_API_NOT_IMPLEMENTED {
+            get {
+                return ResourceManager.GetString("LOG_PS_API_NOT_IMPLEMENTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assigned new card with master_id = {0}.
         /// </summary>
         internal static string LOG_PS_CARD_ASSIGN_NEW {
@@ -523,6 +541,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Got connection from UUID {0}.
+        /// </summary>
+        internal static string LOG_PS_GOT_CONNECTION {
+            get {
+                return ResourceManager.GetString("LOG_PS_GOT_CONNECTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Downloading {0}....
         /// </summary>
         internal static string LOG_PS_LOCAL_DATA_DOWNLOADING {
@@ -559,11 +586,29 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Redirected to the unofficial public API Server.
+        /// </summary>
+        internal static string LOG_PS_REDIRECT_API {
+            get {
+                return ResourceManager.GetString("LOG_PS_REDIRECT_API", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registered new player {0}.
         /// </summary>
         internal static string LOG_PS_REGISTER_NEW_PLAYER {
             get {
                 return ResourceManager.GetString("LOG_PS_REGISTER_NEW_PLAYER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scenario language is {0}.
+        /// </summary>
+        internal static string LOG_PS_SCENARIO_LANGUAGE {
+            get {
+                return ResourceManager.GetString("LOG_PS_SCENARIO_LANGUAGE", resourceCulture);
             }
         }
         

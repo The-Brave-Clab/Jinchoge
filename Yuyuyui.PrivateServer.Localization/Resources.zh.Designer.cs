@@ -424,6 +424,24 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;API错误&gt; .
+        /// </summary>
+        internal static string LOG_PS_API_ERROR_TEMPLATE {
+            get {
+                return ResourceManager.GetString("LOG_PS_API_ERROR_TEMPLATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 未实现的API：.
+        /// </summary>
+        internal static string LOG_PS_API_NOT_IMPLEMENTED {
+            get {
+                return ResourceManager.GetString("LOG_PS_API_NOT_IMPLEMENTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 获得新卡牌，master_id = {0}.
         /// </summary>
         internal static string LOG_PS_CARD_ASSIGN_NEW {
@@ -523,6 +541,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to UUID为{0}的玩家已连接.
+        /// </summary>
+        internal static string LOG_PS_GOT_CONNECTION {
+            get {
+                return ResourceManager.GetString("LOG_PS_GOT_CONNECTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 正在下载{0}…….
         /// </summary>
         internal static string LOG_PS_LOCAL_DATA_DOWNLOADING {
@@ -559,11 +586,29 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 重定向至非官方公开API服务器.
+        /// </summary>
+        internal static string LOG_PS_REDIRECT_API {
+            get {
+                return ResourceManager.GetString("LOG_PS_REDIRECT_API", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 新玩家{0}已注册.
         /// </summary>
         internal static string LOG_PS_REGISTER_NEW_PLAYER {
             get {
                 return ResourceManager.GetString("LOG_PS_REGISTER_NEW_PLAYER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 剧情语言为{0}.
+        /// </summary>
+        internal static string LOG_PS_SCENARIO_LANGUAGE {
+            get {
+                return ResourceManager.GetString("LOG_PS_SCENARIO_LANGUAGE", resourceCulture);
             }
         }
         
