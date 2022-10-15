@@ -244,6 +244,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All transfer tasks have completed. Program will exit in 10 seconds..
+        /// </summary>
+        internal static string LOG_AT_FINISH_EXIT {
+            get {
+                return ResourceManager.GetString("LOG_AT_FINISH_EXIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Got Titles, {0} in Total.
         /// </summary>
         internal static string LOG_AT_GET_TITLES {
@@ -370,6 +379,24 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Listening at .
+        /// </summary>
+        internal static string LOG_LISTENING_AT {
+            get {
+                return ResourceManager.GetString("LOG_LISTENING_AT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press Enter key to exit the program at any time..
+        /// </summary>
+        internal static string LOG_PS_ENTER_TO_EXIT {
+            get {
+                return ResourceManager.GetString("LOG_PS_ENTER_TO_EXIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Private Server Started!.
         /// </summary>
         internal static string LOG_PS_START {
@@ -420,6 +447,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string LOG_UPDATE_NOT_FOUND {
             get {
                 return ResourceManager.GetString("LOG_UPDATE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version {0}.
+        /// </summary>
+        internal static string LOG_VERSION {
+            get {
+                return ResourceManager.GetString("LOG_VERSION", resourceCulture);
             }
         }
         

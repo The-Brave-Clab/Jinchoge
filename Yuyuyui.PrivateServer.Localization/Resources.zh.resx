@@ -313,4 +313,16 @@
     <data name="LOG_AT_GOT_USER_INFO" xml:space="preserve">
         <value>已获取玩家资料：昵称：{0}，签名：{1}</value>
     </data>
+    <data name="LOG_VERSION" xml:space="preserve">
+        <value>当前版本：{0}</value>
+    </data>
+    <data name="LOG_LISTENING_AT" xml:space="preserve">
+        <value>正在监听</value>
+    </data>
+    <data name="LOG_AT_FINISH_EXIT" xml:space="preserve">
+        <value>已完成全部转移任务。程序将在10秒后退出。</value>
+    </data>
+    <data name="LOG_PS_ENTER_TO_EXIT" xml:space="preserve">
+        <value>若要在任何时刻退出程序，请按回车键。</value>
+    </data>
 </root>

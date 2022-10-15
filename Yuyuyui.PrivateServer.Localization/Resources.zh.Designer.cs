@@ -244,6 +244,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 已完成全部转移任务。程序将在10秒后退出。.
+        /// </summary>
+        internal static string LOG_AT_FINISH_EXIT {
+            get {
+                return ResourceManager.GetString("LOG_AT_FINISH_EXIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 已获取称号，共{0}个.
         /// </summary>
         internal static string LOG_AT_GET_TITLES {
@@ -370,6 +379,24 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 正在监听.
+        /// </summary>
+        internal static string LOG_LISTENING_AT {
+            get {
+                return ResourceManager.GetString("LOG_LISTENING_AT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 若要在任何时刻退出程序，请按回车键。.
+        /// </summary>
+        internal static string LOG_PS_ENTER_TO_EXIT {
+            get {
+                return ResourceManager.GetString("LOG_PS_ENTER_TO_EXIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 私服已启动！.
         /// </summary>
         internal static string LOG_PS_START {
@@ -420,6 +447,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string LOG_UPDATE_NOT_FOUND {
             get {
                 return ResourceManager.GetString("LOG_UPDATE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 当前版本：{0}.
+        /// </summary>
+        internal static string LOG_VERSION {
+            get {
+                return ResourceManager.GetString("LOG_VERSION", resourceCulture);
             }
         }
         

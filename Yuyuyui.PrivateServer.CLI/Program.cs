@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Globalization;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer.CLI
 {
@@ -14,6 +17,9 @@ namespace Yuyuyui.PrivateServer.CLI
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             Config.Load();
+            var cultureInfo = CultureInfo.GetCultureInfo(Config.Get().General.Language);
+            if (!cultureInfo.Equals(CultureInfo.InvariantCulture))
+                Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
             object logLock = new();
             Utils.SetLogCallback(
@@ -42,19 +48,21 @@ namespace Yuyuyui.PrivateServer.CLI
                 }
             );
 
-            Utils.Log($"Version {Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion}");
+            Utils.Log(string.Format(Resources.LOG_VERSION,
+                Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()!
+                    .InformationalVersion));
 
             await LocalData.Update();
 
             var endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
 
             //foreach (var endPoint in proxyServer.ProxyEndPoints)
-            Console.Write("Listening at ");
+            Console.Write(Resources.LOG_LISTENING_AT);
             ColoredOutput.WriteLine($"{endpoint.IpAddress}:{endpoint.Port}", ConsoleColor.Cyan);
 
             Console.WriteLine();
 
-            ColoredOutput.WriteLine("Please use one of the following addresses as your proxy:", ConsoleColor.Yellow);
+            ColoredOutput.WriteLine(Resources.PS_STATUS_CHOOSE_MULTIPLE, ConsoleColor.Yellow);
 
             foreach (NetworkInterface netInterface in NetworkInterface.GetAllNetworkInterfaces())
             {
@@ -72,13 +80,17 @@ namespace Yuyuyui.PrivateServer.CLI
                         continue;
 
                     ColoredOutput.Write($"{addr.Address}:{endpoint.Port}", ConsoleColor.Green);
-                    Console.Write("\t");
+                    Console.Write(@"	");
                     ColoredOutput.Write(netInterface.Name, ConsoleColor.DarkMagenta);
-                    Console.Write(", ");
+                    Console.Write(@", ");
                     ColoredOutput.WriteLine(netInterface.Description, ConsoleColor.DarkBlue);
                 }
             }
 
+            Console.WriteLine();
+            
+            Console.WriteLine(Resources.LOG_PS_ENTER_TO_EXIT);
+            
             Console.WriteLine();
 
             Console.Read();

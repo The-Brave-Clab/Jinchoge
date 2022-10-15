@@ -313,4 +313,16 @@ Transfer</value>
     <data name="LOG_AT_GOT_USER_INFO" xml:space="preserve">
         <value>Got User Profile: Nickname: {0}, Comment: {1}</value>
     </data>
+    <data name="LOG_VERSION" xml:space="preserve">
+        <value>Version {0}</value>
+    </data>
+    <data name="LOG_LISTENING_AT" xml:space="preserve">
+        <value>Listening at </value>
+    </data>
+    <data name="LOG_AT_FINISH_EXIT" xml:space="preserve">
+        <value>All transfer tasks have completed. Program will exit in 10 seconds.</value>
+    </data>
+    <data name="LOG_PS_ENTER_TO_EXIT" xml:space="preserve">
+        <value>Press Enter key to exit the program at any time.</value>
+    </data>
 </root>
