@@ -766,6 +766,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 使用在线解密服务.
+        /// </summary>
+        internal static string SETTINGS_SECURITY_ONLINE_DECRYPTION {
+            get {
+                return ResourceManager.GetString("SETTINGS_SECURITY_ONLINE_DECRYPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 重置.
         /// </summary>
         internal static string SETTINGS_SECURITY_REISSUE_BUTTON {

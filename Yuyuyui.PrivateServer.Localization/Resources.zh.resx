@@ -262,4 +262,7 @@
     <data name="SETTINGS_GENERAL_AUTO_UPDATE" xml:space="preserve">
         <value>启动时自动检查更新</value>
     </data>
+    <data name="SETTINGS_SECURITY_ONLINE_DECRYPTION" xml:space="preserve">
+        <value>使用在线解密服务</value>
+    </data>
 </root>

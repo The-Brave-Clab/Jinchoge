@@ -64,6 +64,13 @@
                         <Setter Property="VerticalContentAlignment" Value="Center" />
                         <Setter Property="Width" Value="150" />
                     </Style>
+                    
+                    <Style Selector="ToggleSwitch.switch">
+                        <Setter Property="HorizontalAlignment" Value="Right" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="OffContent" Value="" />
+                        <Setter Property="OnContent" Value="" />
+                    </Style>
 
                 </StackPanel.Styles>
 
@@ -90,8 +97,7 @@
                     <StackPanel Classes="name">
                         <TextBlock Classes="nameText" Text="{Binding SETTINGS_GENERAL_AUTO_UPDATE}" />
                     </StackPanel>
-                    <ToggleSwitch HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding AutoCheckUpdate}"
-                                  OffContent="" OnContent="" />
+                    <ToggleSwitch Classes="switch" IsChecked="{Binding AutoCheckUpdate}" />
                 </Panel>
                 
                 <Panel Classes="entry">
@@ -156,6 +162,13 @@
                 
                 
                 <TextBlock Classes="category" Text="{Binding SETTINGS_CATEGORY_SECURITY}" />
+                
+                <Panel Classes="entry">
+                    <StackPanel Classes="name">
+                        <TextBlock Classes="nameText" Text="{Binding SETTINGS_SECURITY_ONLINE_DECRYPTION}" />
+                    </StackPanel>
+                    <ToggleSwitch Classes="switch" IsChecked="{Binding UseOnlineDecryption}" />
+                </Panel>
                 
                 <Panel Classes="entry">
                     <StackPanel Classes="name">

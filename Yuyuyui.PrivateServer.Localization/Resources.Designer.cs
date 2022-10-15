@@ -739,7 +739,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You&apos;ll need to reinstall the certificate.
+        ///   Looks up a localized string similar to Requires Reinstall the Certificate.
         /// </summary>
         internal static string SETTINGS_INFO_REISSUE_CERT {
             get {
@@ -762,6 +762,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_INFO_TRANSLATION_PROVIDER {
             get {
                 return ResourceManager.GetString("SETTINGS_INFO_TRANSLATION_PROVIDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Online Decryption.
+        /// </summary>
+        internal static string SETTINGS_SECURITY_ONLINE_DECRYPTION {
+            get {
+                return ResourceManager.GetString("SETTINGS_SECURITY_ONLINE_DECRYPTION", resourceCulture);
             }
         }
         
