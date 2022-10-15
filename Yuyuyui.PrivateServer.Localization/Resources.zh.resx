@@ -265,4 +265,22 @@
     <data name="SETTINGS_SECURITY_ONLINE_DECRYPTION" xml:space="preserve">
         <value>使用在线解密服务</value>
     </data>
+    <data name="SETTINGS_DIALOG_SAVE_TITLE" xml:space="preserve">
+        <value>将更新文件保存为……</value>
+    </data>
+    <data name="SETTINGS_DIALOG_SAVE_FILE_TYPE" xml:space="preserve">
+        <value>更新文件</value>
+    </data>
+    <data name="LOG_UPDATE_DOWNLOADED" xml:space="preserve">
+        <value>已将更新文件下载至{0}</value>
+    </data>
+    <data name="LOG_UPDATE_FOUND" xml:space="preserve">
+        <value>发现更新：位于{1}分支上的提交{0}</value>
+    </data>
+    <data name="LOG_UPDATE_CHECKING" xml:space="preserve">
+        <value>正在检查{0}分支上的更新……</value>
+    </data>
+    <data name="LOG_UPDATE_NOT_FOUND" xml:space="preserve">
+        <value>没有发现更新。</value>
+    </data>
 </root>

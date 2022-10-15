@@ -265,4 +265,22 @@ Transfer</value>
     <data name="SETTINGS_SECURITY_ONLINE_DECRYPTION" xml:space="preserve">
         <value>Use Online Decryption</value>
     </data>
+    <data name="SETTINGS_DIALOG_SAVE_TITLE" xml:space="preserve">
+        <value>Save Update File As...</value>
+    </data>
+    <data name="SETTINGS_DIALOG_SAVE_FILE_TYPE" xml:space="preserve">
+        <value>Update File</value>
+    </data>
+    <data name="LOG_UPDATE_DOWNLOADED" xml:space="preserve">
+        <value>Downloaded new update file at {0}</value>
+    </data>
+    <data name="LOG_UPDATE_FOUND" xml:space="preserve">
+        <value>Found new version: commit {0} on branch {1}</value>
+    </data>
+    <data name="LOG_UPDATE_CHECKING" xml:space="preserve">
+        <value>Checking for application update on branch {0}...</value>
+    </data>
+    <data name="LOG_UPDATE_NOT_FOUND" xml:space="preserve">
+        <value>No new version found.</value>
+    </data>
 </root>

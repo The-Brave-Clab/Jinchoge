@@ -298,6 +298,42 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 正在检查{0}分支上的更新…….
+        /// </summary>
+        internal static string LOG_UPDATE_CHECKING {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_CHECKING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已将更新文件下载至{0}.
+        /// </summary>
+        internal static string LOG_UPDATE_DOWNLOADED {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_DOWNLOADED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 发现更新：位于{1}分支上的提交{0}.
+        /// </summary>
+        internal static string LOG_UPDATE_FOUND {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 没有发现更新。.
+        /// </summary>
+        internal static string LOG_UPDATE_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 关于.
         /// </summary>
         internal static string NAV_BUTTON_ABOUT {
@@ -645,6 +681,24 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_CATEGORY_SECURITY {
             get {
                 return ResourceManager.GetString("SETTINGS_CATEGORY_SECURITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 更新文件.
+        /// </summary>
+        internal static string SETTINGS_DIALOG_SAVE_FILE_TYPE {
+            get {
+                return ResourceManager.GetString("SETTINGS_DIALOG_SAVE_FILE_TYPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 将更新文件保存为…….
+        /// </summary>
+        internal static string SETTINGS_DIALOG_SAVE_TITLE {
+            get {
+                return ResourceManager.GetString("SETTINGS_DIALOG_SAVE_TITLE", resourceCulture);
             }
         }
         

@@ -298,6 +298,42 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Checking for application update on branch {0}....
+        /// </summary>
+        internal static string LOG_UPDATE_CHECKING {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_CHECKING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloaded new update file at {0}.
+        /// </summary>
+        internal static string LOG_UPDATE_DOWNLOADED {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_DOWNLOADED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Found new version: commit {0} on branch {1}.
+        /// </summary>
+        internal static string LOG_UPDATE_FOUND {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No new version found..
+        /// </summary>
+        internal static string LOG_UPDATE_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ABOUT.
         /// </summary>
         internal static string NAV_BUTTON_ABOUT {
@@ -645,6 +681,24 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_CATEGORY_SECURITY {
             get {
                 return ResourceManager.GetString("SETTINGS_CATEGORY_SECURITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update File.
+        /// </summary>
+        internal static string SETTINGS_DIALOG_SAVE_FILE_TYPE {
+            get {
+                return ResourceManager.GetString("SETTINGS_DIALOG_SAVE_FILE_TYPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Update File As....
+        /// </summary>
+        internal static string SETTINGS_DIALOG_SAVE_TITLE {
+            get {
+                return ResourceManager.GetString("SETTINGS_DIALOG_SAVE_TITLE", resourceCulture);
             }
         }
         
