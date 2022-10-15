@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using YamlDotNet.Serialization;
 
 namespace Yuyuyui.PrivateServer;
@@ -11,6 +12,7 @@ public static class Config
     {
         public General General = new();
         public InGame InGame = new();
+        public Security Security = new();
     }
 
     public class General
@@ -25,10 +27,23 @@ public static class Config
         public string ScenarioLanguage { get; set; } = SupportedInGameScenarioLanguage[0];
     }
 
+    public class Security
+    {
+        public bool UseOnlineDecryption { get; set; } = false;
+    }
+
 
     public static ConfigObject Get()
     {
-        return instance;
+        rwLock.EnterReadLock();
+        try
+        {
+            return instance;
+        }
+        finally
+        {
+            rwLock.ExitReadLock();
+        }
     }
 
 
@@ -49,21 +64,39 @@ public static class Config
 
     public static void Load()
     {
-        string content = File.ReadAllText(GetFileName(), Encoding.UTF8);
-        var deserializer = new Deserializer();
-        instance = deserializer.Deserialize<ConfigObject>(content);
+        rwLock.EnterWriteLock();
+        try
+        {
+            string content = File.ReadAllText(GetFileName(), Encoding.UTF8);
+            var deserializer = new Deserializer();
+            instance = deserializer.Deserialize<ConfigObject>(content);
+        }
+        finally
+        {
+            rwLock.ExitWriteLock();
+        }
     }
 
     public static void Save()
     {
-        var serializer = new Serializer();
-        File.WriteAllText(GetFileName(), serializer.Serialize(instance), Encoding.UTF8);
+        rwLock.EnterWriteLock();
+        try
+        {
+            var serializer = new Serializer();
+            File.WriteAllText(GetFileName(), serializer.Serialize(instance), Encoding.UTF8);
+        }
+        finally
+        {
+            rwLock.ExitWriteLock();
+        }
     }
 
 
     private static ConfigObject instance;
 
     private const string FILE_NAME = "config.yaml";
+
+    private static ReaderWriterLockSlim rwLock = new ReaderWriterLockSlim();
 
     private static string GetFileName()
     {

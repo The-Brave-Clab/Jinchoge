@@ -9,9 +9,6 @@ using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
 using Yuyuyui.GK;
 
-using TLibGKImpl = Yuyuyui.GK.GoalKeeper;
-//using TLibGKImpl = Yuyuyui.PrivateServer.LibGKLambda;
-
 namespace Yuyuyui.PrivateServer
 {
     public abstract class EntityBase
@@ -159,18 +156,19 @@ namespace Yuyuyui.PrivateServer
                     bool hasSessionCookie = this.GetSessionFromCookie(out var session);
                     if (!hasSessionCookie)
                     {
-                        requestBody = LibGK<TLibGKImpl>.Execute(
-                            CryptType.API,
-                            CryptDirection.Decrypt,
-                            requestBody); //, currentKey, currentIV, currentSessionKey);
+                        requestBody =
+                            Config.Get().Security.UseOnlineDecryption
+                                ? LibGK<LibGKLambda>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody)
+                                : LibGK<GoalKeeper>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody);
                     }
                     else
                     {
-                        requestBody = LibGK<TLibGKImpl>.Execute(
-                            CryptType.API,
-                            CryptDirection.Decrypt,
-                            requestBody,
-                            session.sessionKey, sessionKey: true);
+                        requestBody =
+                            Config.Get().Security.UseOnlineDecryption
+                                ? LibGK<LibGKLambda>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody,
+                                    session.sessionKey, sessionKey: true)
+                                : LibGK<GoalKeeper>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody,
+                                    session.sessionKey, sessionKey: true);
                     }
                 }
             }

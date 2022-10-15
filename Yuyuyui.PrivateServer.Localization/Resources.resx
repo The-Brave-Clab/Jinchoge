@@ -236,7 +236,7 @@ Transfer</value>
         <value>Reissue</value>
     </data>
     <data name="SETTINGS_INFO_REISSUE_CERT" xml:space="preserve">
-        <value>You'll need to reinstall the certificate</value>
+        <value>Requires Reinstall the Certificate</value>
     </data>
     <data name="SETTINGS_GENERAL_CHECK_UPDATE" xml:space="preserve">
         <value>Check Update</value>
@@ -261,5 +261,8 @@ Transfer</value>
     </data>
     <data name="SETTINGS_GENERAL_AUTO_UPDATE" xml:space="preserve">
         <value>Enable Auto Check Update</value>
+    </data>
+    <data name="SETTINGS_SECURITY_ONLINE_DECRYPTION" xml:space="preserve">
+        <value>Use Online Decryption</value>
     </data>
 </root>

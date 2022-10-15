@@ -25,6 +25,7 @@ internal class SettingsViewModel : ViewModelBase
         allowCheckUpdate = !Update.LocalVersion.is_local_build;
         allowDownloadUpdate = false;
         updateStatus = "";
+        useOnlineDecryption = Config.Get().Security.UseOnlineDecryption;
 
         hasNewUpdate = false;
         newVersionInfo = new();
@@ -42,6 +43,7 @@ internal class SettingsViewModel : ViewModelBase
         autoCheckUpdate = true;
         allowCheckUpdate = false;
         updateStatus = "";
+        useOnlineDecryption = false;
 
         hasNewUpdate = false;
         newVersionInfo = new();
@@ -60,6 +62,7 @@ internal class SettingsViewModel : ViewModelBase
     public string SETTINGS_IN_GAME_LANGUAGE => Resources.SETTINGS_IN_GAME_LANGUAGE;
     public string SETTINGS_SECURITY_REISSUE_CERT => Resources.SETTINGS_SECURITY_REISSUE_CERT;
     public string SETTINGS_SECURITY_REISSUE_BUTTON => Resources.SETTINGS_SECURITY_REISSUE_BUTTON;
+    public string SETTINGS_SECURITY_ONLINE_DECRYPTION => Resources.SETTINGS_SECURITY_ONLINE_DECRYPTION;
     public string SETTINGS_INFO_REQUIRE_RESTART => Resources.SETTINGS_INFO_REQUIRE_RESTART;
     public string SETTINGS_INFO_TRANSLATION_PROVIDER => Resources.SETTINGS_INFO_TRANSLATION_PROVIDER;
     public string SETTINGS_INFO_REISSUE_CERT => Resources.SETTINGS_INFO_REISSUE_CERT;
@@ -106,6 +109,18 @@ internal class SettingsViewModel : ViewModelBase
         {
             this.RaiseAndSetIfChanged(ref autoCheckUpdate, value);
             Config.Get().General.AutoCheckUpdate = value;
+            Config.Save();
+        }
+    }
+
+    public bool useOnlineDecryption;
+    public bool UseOnlineDecryption
+    {
+        get => useOnlineDecryption;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref useOnlineDecryption, value);
+            Config.Get().Security.UseOnlineDecryption = value;
             Config.Save();
         }
     }

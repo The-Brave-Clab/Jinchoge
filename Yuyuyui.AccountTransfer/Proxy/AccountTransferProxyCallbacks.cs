@@ -56,12 +56,14 @@ namespace Yuyuyui.AccountTransfer
                     byte[] requestBodyBytes = await e.GetRequestBody();
                     if (e.HttpClient.Request.ContentType == "application/x-gk-json")
                     {
-                        decodedBytes = LibGK<GoalKeeper>.Execute(
-                            CryptType.API, CryptDirection.Decrypt,
-                            requestBodyBytes, 
-                            currentPlayerSession.sessionKey, 
-                            null, 
-                            !string.IsNullOrEmpty(currentPlayerSession.sessionKey));
+                        decodedBytes =
+                            Config.Get().Security.UseOnlineDecryption
+                                ? LibGK<LibGKLambda>.Execute(CryptType.API, CryptDirection.Decrypt, requestBodyBytes,
+                                    currentPlayerSession.sessionKey, null,
+                                    !string.IsNullOrEmpty(currentPlayerSession.sessionKey))
+                                : LibGK<GoalKeeper>.Execute(CryptType.API, CryptDirection.Decrypt, requestBodyBytes,
+                                    currentPlayerSession.sessionKey, null,
+                                    !string.IsNullOrEmpty(currentPlayerSession.sessionKey));
                     }
                     else
                     {
@@ -97,12 +99,14 @@ namespace Yuyuyui.AccountTransfer
                     byte[] responseBodyBytes = await e.GetResponseBody();
                     if (e.HttpClient.Response.ContentType == "application/x-gk-json")
                     {
-                        decodedBytes = LibGK<GoalKeeper>.Execute(
-                            CryptType.API, CryptDirection.Decrypt,
-                            responseBodyBytes, 
-                            currentPlayerSession.sessionKey, 
-                            null, 
-                            !string.IsNullOrEmpty(currentPlayerSession.sessionKey));
+                        decodedBytes =
+                            Config.Get().Security.UseOnlineDecryption
+                                ? LibGK<LibGKLambda>.Execute(CryptType.API, CryptDirection.Decrypt, responseBodyBytes,
+                                    currentPlayerSession.sessionKey, null,
+                                    !string.IsNullOrEmpty(currentPlayerSession.sessionKey))
+                                : LibGK<GoalKeeper>.Execute(CryptType.API, CryptDirection.Decrypt, responseBodyBytes,
+                                    currentPlayerSession.sessionKey, null,
+                                    !string.IsNullOrEmpty(currentPlayerSession.sessionKey));
                     }
                     else
                     {
