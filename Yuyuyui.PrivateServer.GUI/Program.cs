@@ -1,7 +1,11 @@
 using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Runtime.InteropServices;
+using System.Threading;
+using Avalonia.Media;
 
 namespace Yuyuyui.PrivateServer.GUI
 {
@@ -16,9 +20,50 @@ namespace Yuyuyui.PrivateServer.GUI
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>()
+        {
+            Config.Load();
+
+            string language = Config.Get().General.Language;
+            CultureInfo cultureInfo = CultureInfo.GetCultureInfo(language);
+            if (!Equals(cultureInfo, CultureInfo.InvariantCulture))
+                Thread.CurrentThread.CurrentUICulture = cultureInfo;
+
+            IReadOnlyList<FontFallback> fallbacks = Array.Empty<FontFallback>();
+
+            if (CultureInfo.CurrentUICulture.Name == "zh")
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    fallbacks = new[]
+                    {
+                        new FontFallback { FontFamily = new FontFamily("Microsoft YaHei UI") },
+                    };
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    fallbacks = new[]
+                    {
+                        new FontFallback { FontFamily = new FontFamily("PingFang SC") },
+                    };
+                }
+                else
+                {
+                    fallbacks = new[]
+                    {
+                        new FontFallback { FontFamily = new FontFamily("Source Han Sans SC") },
+                        new FontFallback { FontFamily = new FontFamily("Noto Sans CJK SC") },
+                    };
+                }
+            }
+
+            return AppBuilder.Configure<App>()
                 .UsePlatformDetect()
+                .With(new FontManagerOptions
+                {
+                    FontFallbacks = fallbacks
+                })
                 .LogToTrace()
                 .UseReactiveUI();
+        }
     }
 }

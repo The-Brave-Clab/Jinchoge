@@ -30,11 +30,6 @@ namespace Yuyuyui.PrivateServer.GUI.Views
         {
             mainWindowVM = new MainWindowViewModel(this);
             DataContext = mainWindowVM;
-
-            if (CultureInfo.CurrentUICulture.Name == "zh" && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                FontFamily = $"Microsoft YaHei UI,{FontFamily.DefaultFontFamilyName}";
-            }
             
             InitializeComponent();
 
