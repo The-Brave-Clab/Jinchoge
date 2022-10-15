@@ -325,4 +325,61 @@ Transfer</value>
     <data name="LOG_PS_ENTER_TO_EXIT" xml:space="preserve">
         <value>Press Enter key to exit the program at any time.</value>
     </data>
+    <data name="LOG_PS_REGISTER_NEW_PLAYER" xml:space="preserve">
+        <value>Registered new player {0}</value>
+    </data>
+    <data name="LOG_PS_CREATE_SESSION" xml:space="preserve">
+        <value>Created session for player {0} with Session ID = {1}, Session Key = {2}</value>
+    </data>
+    <data name="LOG_LIBGK_LAMBDA_FAILED" xml:space="preserve">
+        <value>LibGK Lambda Call Failed! </value>
+    </data>
+    <data name="LOG_PS_ACCOUNT_BANNING" xml:space="preserve">
+        <value>Banning Account {0}</value>
+    </data>
+    <data name="LOG_PS_ACCOUNT_BANNED" xml:space="preserve">
+        <value>Account {0} Banned</value>
+    </data>
+    <data name="LOG_PS_ACCESSORY_ASSIGN_NEW" xml:space="preserve">
+        <value>Assigned new accessory with master_id = {0}</value>
+    </data>
+    <data name="LOG_PS_CARD_ASSIGN_NEW" xml:space="preserve">
+        <value>Assigned new card with master_id = {0}</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_FOUND" xml:space="preserve">
+        <value>Found an existed friend request {0} ({1}=&gt;{2})</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_CREATED" xml:space="preserve">
+        <value>Created friend request {0} ({1}=&gt;{2})</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_SENT" xml:space="preserve">
+        <value>Friend request {0} sent to player {1}</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_REMOVED" xml:space="preserve">
+        <value>Friend request {0} removed from player {1}</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_DELETED" xml:space="preserve">
+        <value>Friend request {0} ({1}=&gt;{2}) deleted!</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_UNKNOWN" xml:space="preserve">
+        <value>Unknown status, shouldn't be here!</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_ACCEPTED" xml:space="preserve">
+        <value>Player {0} and {1} are friends now!</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_REJECTED" xml:space="preserve">
+        <value>Player {0} rejected the friend request from {1}</value>
+    </data>
+    <data name="LOG_PS_LOCAL_DATA_UPDATING" xml:space="preserve">
+        <value>Updating required local resources...</value>
+    </data>
+    <data name="LOG_PS_LOCAL_DATA_DOWNLOADING" xml:space="preserve">
+        <value>Downloading {0}...</value>
+    </data>
+    <data name="LOG_PS_LOCAL_DATA_UP_TO_DATE" xml:space="preserve">
+        <value>All data files are up to date</value>
+    </data>
+    <data name="LOG_PS_LOCAL_DATA_UPDATED" xml:space="preserve">
+        <value>Updated {0} file(s)</value>
+    </data>
 </root>

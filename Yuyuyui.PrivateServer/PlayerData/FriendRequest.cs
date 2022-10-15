@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using Yuyuyui.PrivateServer.Localization;
+
+namespace Yuyuyui.PrivateServer
 {
     public class FriendRequest : BasePlayerData<FriendRequest, long>
     {
@@ -30,7 +32,7 @@
                 FriendRequest req = Load(requestID);
                 if (req.fromUser == from.id.code)
                 {
-                    Utils.Log($"Found an existed friend request {req.id} ({from.id.code}=>{to.id.code})");
+                    Utils.LogTrace(string.Format(Resources.LOG_PS_FRIEND_REQUEST_FOUND, req.id, from.id.code, to.id.code));
                     return req;
                 }
             }
@@ -45,7 +47,7 @@
                 toUser = to.id.code
             };
             request.Save();
-            Utils.Log($"Created friend request {request.id} ({from.id.code}=>{to.id.code})");
+            Utils.LogTrace(string.Format(Resources.LOG_PS_FRIEND_REQUEST_CREATED, request.id, from.id.code, to.id.code));
 
             // and save into the requested user's profile
             if (!to.id.code.StartsWith("0"))
@@ -53,7 +55,7 @@
                 to.friendRequests.Add(request.id);
                 to.Save();
             }
-            Utils.Log($"Friend request {request.id} sent to player {to.id.code}");
+            Utils.Log(string.Format(Resources.LOG_PS_FRIEND_REQUEST_SENT, request.id, to.id.code));
 
             return request;
         }
@@ -64,18 +66,18 @@
             PlayerProfile toPlayer = PlayerProfile.Load(toUser);
             toPlayer.friendRequests.Remove(id);
             toPlayer.Save();
-            Utils.Log($"Friend request {id} removed from player {toPlayer.id.code}");
+            Utils.Log(string.Format(Resources.LOG_PS_FRIEND_REQUEST_REMOVED, id, toPlayer.id.code));
             
             // delete the file
             Delete();
-            Utils.Log($"Friend request {id} ({fromUser}=>{toUser}) deleted!");
+            Utils.Log(string.Format(Resources.LOG_PS_FRIEND_REQUEST_DELETED, id, fromUser, toUser));
         }
 
         public void ProcessStatus()
         {
             if (status == 0)
             {
-                Utils.LogError("Process the status of a friend request, but the request is neither accepted nor rejected!");
+                Utils.LogError(Resources.LOG_PS_FRIEND_REQUEST_UNKNOWN);
                 return;
             }
 
@@ -94,12 +96,12 @@
                     to.Save();
                 }
                 
-                Utils.Log($"Player {from.id.code} and {to.id.code} are friends now!");
+                Utils.Log(string.Format(Resources.LOG_PS_FRIEND_REQUEST_ACCEPTED, from.id.code, to.id.code));
             }
             else if (status == 2) // rejected
             {
                 // does nothing
-                Utils.Log($"Player {toUser} rejected the friend request from {fromUser}");
+                Utils.Log(string.Format(Resources.LOG_PS_FRIEND_REQUEST_REJECTED, toUser, fromUser));
             }
 
             if (status is 1 or 2) // huh good looking syntax
@@ -109,7 +111,7 @@
                 return;
             }
             
-            Utils.LogError("Unknown status, shouldn't be here!");
+            Utils.LogError(Resources.LOG_PS_FRIEND_REQUEST_UNKNOWN);
         }
     }
 }

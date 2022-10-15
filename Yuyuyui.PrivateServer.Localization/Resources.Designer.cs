@@ -379,6 +379,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to LibGK Lambda Call Failed! .
+        /// </summary>
+        internal static string LOG_LIBGK_LAMBDA_FAILED {
+            get {
+                return ResourceManager.GetString("LOG_LIBGK_LAMBDA_FAILED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Listening at .
         /// </summary>
         internal static string LOG_LISTENING_AT {
@@ -388,11 +397,173 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assigned new accessory with master_id = {0}.
+        /// </summary>
+        internal static string LOG_PS_ACCESSORY_ASSIGN_NEW {
+            get {
+                return ResourceManager.GetString("LOG_PS_ACCESSORY_ASSIGN_NEW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account {0} Banned.
+        /// </summary>
+        internal static string LOG_PS_ACCOUNT_BANNED {
+            get {
+                return ResourceManager.GetString("LOG_PS_ACCOUNT_BANNED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Banning Account {0}.
+        /// </summary>
+        internal static string LOG_PS_ACCOUNT_BANNING {
+            get {
+                return ResourceManager.GetString("LOG_PS_ACCOUNT_BANNING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assigned new card with master_id = {0}.
+        /// </summary>
+        internal static string LOG_PS_CARD_ASSIGN_NEW {
+            get {
+                return ResourceManager.GetString("LOG_PS_CARD_ASSIGN_NEW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created session for player {0} with Session ID = {1}, Session Key = {2}.
+        /// </summary>
+        internal static string LOG_PS_CREATE_SESSION {
+            get {
+                return ResourceManager.GetString("LOG_PS_CREATE_SESSION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Press Enter key to exit the program at any time..
         /// </summary>
         internal static string LOG_PS_ENTER_TO_EXIT {
             get {
                 return ResourceManager.GetString("LOG_PS_ENTER_TO_EXIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Player {0} and {1} are friends now!.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_ACCEPTED {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_ACCEPTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created friend request {0} ({1}=&gt;{2}).
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_CREATED {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_CREATED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Friend request {0} ({1}=&gt;{2}) deleted!.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_DELETED {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_DELETED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Found an existed friend request {0} ({1}=&gt;{2}).
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_FOUND {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Player {0} rejected the friend request from {1}.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_REJECTED {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_REJECTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Friend request {0} removed from player {1}.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_REMOVED {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_REMOVED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Friend request {0} sent to player {1}.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_SENT {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_SENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown status, shouldn&apos;t be here!.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_UNKNOWN {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_UNKNOWN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading {0}....
+        /// </summary>
+        internal static string LOG_PS_LOCAL_DATA_DOWNLOADING {
+            get {
+                return ResourceManager.GetString("LOG_PS_LOCAL_DATA_DOWNLOADING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All data files are up to date.
+        /// </summary>
+        internal static string LOG_PS_LOCAL_DATA_UP_TO_DATE {
+            get {
+                return ResourceManager.GetString("LOG_PS_LOCAL_DATA_UP_TO_DATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updated {0} file(s).
+        /// </summary>
+        internal static string LOG_PS_LOCAL_DATA_UPDATED {
+            get {
+                return ResourceManager.GetString("LOG_PS_LOCAL_DATA_UPDATED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updating required local resources....
+        /// </summary>
+        internal static string LOG_PS_LOCAL_DATA_UPDATING {
+            get {
+                return ResourceManager.GetString("LOG_PS_LOCAL_DATA_UPDATING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registered new player {0}.
+        /// </summary>
+        internal static string LOG_PS_REGISTER_NEW_PLAYER {
+            get {
+                return ResourceManager.GetString("LOG_PS_REGISTER_NEW_PLAYER", resourceCulture);
             }
         }
         

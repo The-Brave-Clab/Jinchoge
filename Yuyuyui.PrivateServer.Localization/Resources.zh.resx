@@ -325,4 +325,61 @@
     <data name="LOG_PS_ENTER_TO_EXIT" xml:space="preserve">
         <value>若要在任何时刻退出程序，请按回车键。</value>
     </data>
+    <data name="LOG_PS_REGISTER_NEW_PLAYER" xml:space="preserve">
+        <value>新玩家{0}已注册</value>
+    </data>
+    <data name="LOG_PS_CREATE_SESSION" xml:space="preserve">
+        <value>玩家{0}已创建会话，会话ID：{1}，会话密钥：{2}</value>
+    </data>
+    <data name="LOG_LIBGK_LAMBDA_FAILED" xml:space="preserve">
+        <value>LibGK Lambda调用失败！</value>
+    </data>
+    <data name="LOG_PS_ACCOUNT_BANNING" xml:space="preserve">
+        <value>正在禁用账号{0}</value>
+    </data>
+    <data name="LOG_PS_ACCOUNT_BANNED" xml:space="preserve">
+        <value>已禁用账号{0}</value>
+    </data>
+    <data name="LOG_PS_ACCESSORY_ASSIGN_NEW" xml:space="preserve">
+        <value>获得新精灵，master_id = {0}</value>
+    </data>
+    <data name="LOG_PS_CARD_ASSIGN_NEW" xml:space="preserve">
+        <value>获得新卡牌，master_id = {0}</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_FOUND" xml:space="preserve">
+        <value>发现已存在的好友申请{0} ({1}=&gt;{2})</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_CREATED" xml:space="preserve">
+        <value>已创建好友申请{0} ({1}=&gt;{2})</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_SENT" xml:space="preserve">
+        <value>已向玩家{1}发送好友申请{0}</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_REMOVED" xml:space="preserve">
+        <value>玩家{1}移除了好友申请{0}</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_DELETED" xml:space="preserve">
+        <value>已删除好友申请{0} ({1}=&gt;{2})！</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_UNKNOWN" xml:space="preserve">
+        <value>未知状态，不应到达此处！</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_ACCEPTED" xml:space="preserve">
+        <value>玩家{0}和{1}已成为好友！</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_REJECTED" xml:space="preserve">
+        <value>玩家{0}拒绝了来自玩家{1}的好友申请</value>
+    </data>
+    <data name="LOG_PS_LOCAL_DATA_UPDATING" xml:space="preserve">
+        <value>正在更新所需本地资源……</value>
+    </data>
+    <data name="LOG_PS_LOCAL_DATA_DOWNLOADING" xml:space="preserve">
+        <value>正在下载{0}……</value>
+    </data>
+    <data name="LOG_PS_LOCAL_DATA_UP_TO_DATE" xml:space="preserve">
+        <value>所有资源均为最新</value>
+    </data>
+    <data name="LOG_PS_LOCAL_DATA_UPDATED" xml:space="preserve">
+        <value>已更新{0}个文件</value>
+    </data>
 </root>

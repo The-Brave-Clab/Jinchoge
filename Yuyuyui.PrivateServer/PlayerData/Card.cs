@@ -158,7 +158,6 @@ namespace Yuyuyui.PrivateServer
             }
 
             Save();
-            Utils.Log("Potential Increment Done.");
         }
     }
 

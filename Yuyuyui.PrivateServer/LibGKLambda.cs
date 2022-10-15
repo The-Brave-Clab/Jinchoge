@@ -5,6 +5,7 @@ using System.Web;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Yuyuyui.GK;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -41,7 +42,7 @@ namespace Yuyuyui.PrivateServer
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                Utils.LogError($"Libgk Call Failed! {type}/{direction}{queryStr}");
+                Utils.LogError(Resources.LOG_LIBGK_LAMBDA_FAILED + $"{type}/{direction}{queryStr}");
             }
 
             return decodedBytes;

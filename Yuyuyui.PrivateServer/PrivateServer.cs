@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -119,7 +120,7 @@ namespace Yuyuyui.PrivateServer
                 File.AppendAllText(playerDataFile, $"{player.id.uuid},{player.id.code}\n");
             player.Save();
 
-            Utils.Log($"Registered new player {player.id.code}");
+            Utils.Log(string.Format(Resources.LOG_PS_REGISTER_NEW_PLAYER, player.id.code));
 
             return player;
         }
@@ -127,11 +128,9 @@ namespace Yuyuyui.PrivateServer
         public static PlayerSession CreateSessionForPlayer(string uuid, EntityBase entity)
         {
             PlayerSession session;
-            string verb = "";
             try
             {
                 session = playerSessions.First(p => p.Value.player.id.uuid == uuid).Value;
-                verb = "Found";
             }
             catch (InvalidOperationException)
             {
@@ -143,12 +142,10 @@ namespace Yuyuyui.PrivateServer
                 };
 
                 playerSessions.Add(session.sessionID, session);
-
-                verb = "Created";
             }
 
-            Utils.Log(
-                $"{verb} session for player {session.player.id.code}\n\tSession  ID = {session.sessionID}\n\tSession Key = {session.sessionKey}");
+            Utils.Log(string.Format(Resources.LOG_PS_CREATE_SESSION,
+                session.player.id.code, session.sessionID, session.sessionKey));
 
             session.deviceInfo = new DeviceInfo
             {
