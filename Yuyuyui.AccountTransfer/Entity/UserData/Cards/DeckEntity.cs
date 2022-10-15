@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.Extensions.DependencyModel;
 using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.AccountTransfer
 {
@@ -55,7 +57,7 @@ namespace Yuyuyui.AccountTransfer
 
             playerSession.player!.Save();
             
-            Utils.LogTrace($"Got decks.");
+            Utils.LogTrace(Resources.LOG_AT_GOT_DECKS);
         }
     }
 }

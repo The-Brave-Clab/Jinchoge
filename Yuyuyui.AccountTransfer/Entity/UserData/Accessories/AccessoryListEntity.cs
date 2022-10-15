@@ -1,6 +1,7 @@
 ﻿using System;
 using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.AccountTransfer
 {
@@ -39,7 +40,7 @@ namespace Yuyuyui.AccountTransfer
             }
             playerSession.player!.Save();
             
-            Utils.LogTrace($"Got accessories, {response.accessories.Count} in total.");
+            Utils.LogTrace(string.Format(Resources.LOG_AT_GOT_ACCESSORIES, response.accessories.Count));
         }
     }
 }

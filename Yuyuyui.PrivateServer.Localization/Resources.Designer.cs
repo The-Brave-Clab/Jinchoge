@@ -244,6 +244,96 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Got Titles, {0} in Total.
+        /// </summary>
+        internal static string LOG_AT_GET_TITLES {
+            get {
+                return ResourceManager.GetString("LOG_AT_GET_TITLES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got Accessories, {0} in Total.
+        /// </summary>
+        internal static string LOG_AT_GOT_ACCESSORIES {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_ACCESSORIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got Cards, {0} in Total.
+        /// </summary>
+        internal static string LOG_AT_GOT_CARDS {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_CARDS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got Character Affinities.
+        /// </summary>
+        internal static string LOG_AT_GOT_CHARACTER_FAMILIARITIES {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_CHARACTER_FAMILIARITIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got User Code: {0}.
+        /// </summary>
+        internal static string LOG_AT_GOT_CODE {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_CODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got Decks.
+        /// </summary>
+        internal static string LOG_AT_GOT_DECKS {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_DECKS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got User Data: Level {0}, EXP: {1}, Money: {2}.
+        /// </summary>
+        internal static string LOG_AT_GOT_HEADER {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got {0}.
+        /// </summary>
+        internal static string LOG_AT_GOT_ITEMS {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_ITEMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got User Profile: Nickname: {0}, Comment: {1}.
+        /// </summary>
+        internal static string LOG_AT_GOT_USER_INFO {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_USER_INFO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got User UUID: {0}.
+        /// </summary>
+        internal static string LOG_AT_GOT_UUID {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_UUID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Transfer Started!.
         /// </summary>
         internal static string LOG_AT_START {

@@ -244,6 +244,96 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 已获取称号，共{0}个.
+        /// </summary>
+        internal static string LOG_AT_GET_TITLES {
+            get {
+                return ResourceManager.GetString("LOG_AT_GET_TITLES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取精灵，共{0}个.
+        /// </summary>
+        internal static string LOG_AT_GOT_ACCESSORIES {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_ACCESSORIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取卡牌，共{0}个.
+        /// </summary>
+        internal static string LOG_AT_GOT_CARDS {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_CARDS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取角色亲密度.
+        /// </summary>
+        internal static string LOG_AT_GOT_CHARACTER_FAMILIARITIES {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_CHARACTER_FAMILIARITIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取账号代码：{0}.
+        /// </summary>
+        internal static string LOG_AT_GOT_CODE {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_CODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取队伍信息.
+        /// </summary>
+        internal static string LOG_AT_GOT_DECKS {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_DECKS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取玩家信息：等级：{0}，经验：{1}，硬币：{2}.
+        /// </summary>
+        internal static string LOG_AT_GOT_HEADER {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取{0}.
+        /// </summary>
+        internal static string LOG_AT_GOT_ITEMS {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_ITEMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取玩家资料：昵称：{0}，签名：{1}.
+        /// </summary>
+        internal static string LOG_AT_GOT_USER_INFO {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_USER_INFO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取账号UUID：{0}.
+        /// </summary>
+        internal static string LOG_AT_GOT_UUID {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_UUID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 开始账号转移！.
         /// </summary>
         internal static string LOG_AT_START {

@@ -283,4 +283,34 @@ Transfer</value>
     <data name="LOG_UPDATE_NOT_FOUND" xml:space="preserve">
         <value>No new version found.</value>
     </data>
+    <data name="LOG_AT_GOT_UUID" xml:space="preserve">
+        <value>Got User UUID: {0}</value>
+    </data>
+    <data name="LOG_AT_GOT_CODE" xml:space="preserve">
+        <value>Got User Code: {0}</value>
+    </data>
+    <data name="LOG_AT_GOT_ACCESSORIES" xml:space="preserve">
+        <value>Got Accessories, {0} in Total</value>
+    </data>
+    <data name="LOG_AT_GOT_CARDS" xml:space="preserve">
+        <value>Got Cards, {0} in Total</value>
+    </data>
+    <data name="LOG_AT_GOT_DECKS" xml:space="preserve">
+        <value>Got Decks</value>
+    </data>
+    <data name="LOG_AT_GOT_ITEMS" xml:space="preserve">
+        <value>Got {0}</value>
+    </data>
+    <data name="LOG_AT_GET_TITLES" xml:space="preserve">
+        <value>Got Titles, {0} in Total</value>
+    </data>
+    <data name="LOG_AT_GOT_CHARACTER_FAMILIARITIES" xml:space="preserve">
+        <value>Got Character Affinities</value>
+    </data>
+    <data name="LOG_AT_GOT_HEADER" xml:space="preserve">
+        <value>Got User Data: Level {0}, EXP: {1}, Money: {2}</value>
+    </data>
+    <data name="LOG_AT_GOT_USER_INFO" xml:space="preserve">
+        <value>Got User Profile: Nickname: {0}, Comment: {1}</value>
+    </data>
 </root>

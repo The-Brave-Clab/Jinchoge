@@ -283,4 +283,34 @@
     <data name="LOG_UPDATE_NOT_FOUND" xml:space="preserve">
         <value>没有发现更新。</value>
     </data>
+    <data name="LOG_AT_GOT_UUID" xml:space="preserve">
+        <value>已获取账号UUID：{0}</value>
+    </data>
+    <data name="LOG_AT_GOT_CODE" xml:space="preserve">
+        <value>已获取账号代码：{0}</value>
+    </data>
+    <data name="LOG_AT_GOT_ACCESSORIES" xml:space="preserve">
+        <value>已获取精灵，共{0}个</value>
+    </data>
+    <data name="LOG_AT_GOT_CARDS" xml:space="preserve">
+        <value>已获取卡牌，共{0}个</value>
+    </data>
+    <data name="LOG_AT_GOT_DECKS" xml:space="preserve">
+        <value>已获取队伍信息</value>
+    </data>
+    <data name="LOG_AT_GOT_ITEMS" xml:space="preserve">
+        <value>已获取{0}</value>
+    </data>
+    <data name="LOG_AT_GET_TITLES" xml:space="preserve">
+        <value>已获取称号，共{0}个</value>
+    </data>
+    <data name="LOG_AT_GOT_CHARACTER_FAMILIARITIES" xml:space="preserve">
+        <value>已获取角色亲密度</value>
+    </data>
+    <data name="LOG_AT_GOT_HEADER" xml:space="preserve">
+        <value>已获取玩家信息：等级：{0}，经验：{1}，硬币：{2}</value>
+    </data>
+    <data name="LOG_AT_GOT_USER_INFO" xml:space="preserve">
+        <value>已获取玩家资料：昵称：{0}，签名：{1}</value>
+    </data>
 </root>
