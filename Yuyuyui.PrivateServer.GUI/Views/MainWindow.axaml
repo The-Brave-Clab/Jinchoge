@@ -108,16 +108,20 @@
                     <Design.DataContext>
                         <vm:ToolbarViewModel />
                     </Design.DataContext>
-                    <StackPanel IsVisible="{Binding IsProgressBarVisible}" Orientation="Horizontal"
-                                HorizontalAlignment="Right" Spacing="20" Height="20">
-                        <TextBlock Height="20" Text="{Binding ProgressBarText}" HorizontalAlignment="Right"
-                                   VerticalAlignment="Center" TextAlignment="Right" />
-                        <ProgressBar Height="20" Value="{Binding ToolbarProgress}"
-                                     ShowProgressText="{Binding ShowProgressText}"
-                                     IsIndeterminate="{Binding IsProgressIndeterminate}" />
-                    </StackPanel>
-                    <TextBlock Name="LogText" Height="20" Text="{Binding ToolbarText}" HorizontalAlignment="Left"
-                               VerticalAlignment="Center" TextAlignment="Left" />
+                    <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" LastChildFill="True">
+                        <StackPanel DockPanel.Dock="Right"
+                                    IsVisible="{Binding IsProgressBarVisible}" Orientation="Horizontal"
+                                    HorizontalAlignment="Right" Spacing="20" Height="20">
+                            <TextBlock Height="20" Text="{Binding ProgressBarText}" HorizontalAlignment="Right"
+                                       VerticalAlignment="Center" TextAlignment="Right" />
+                            <ProgressBar Height="20" Value="{Binding ToolbarProgress}"
+                                         ShowProgressText="{Binding ShowProgressText}"
+                                         IsIndeterminate="{Binding IsProgressIndeterminate}" />
+                        </StackPanel>
+                        <TextBlock DockPanel.Dock="Left"
+                                   Name="LogText" Height="20" Text="{Binding ToolbarText}" HorizontalAlignment="Left"
+                                   VerticalAlignment="Center" TextAlignment="Left" />
+                    </DockPanel>
                 </Panel>
             </Panel>
 

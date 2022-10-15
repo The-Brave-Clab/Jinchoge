@@ -272,21 +272,32 @@ internal class SettingsViewModel : ViewModelBase
 
         ToolbarViewModel toolbarVM = (ToolbarViewModel)mainWindow!.BottomToolBar.DataContext!;
 
-        await using FileStream fs = new FileStream(localFileName, FileMode.Create, FileAccess.Write, FileShare.None);
+        try
+        {
 
-        toolbarVM.ClearProgressBar();
-        toolbarVM.IsProgressBarVisible = true;
-        toolbarVM.ShowProgressText = true;
-        toolbarVM.IsProgressIndeterminate = false;
-        toolbarVM.ProgressBarText = fileName;
-        await PrivateServer.HttpClient.DownloadAsync(url, fs, new Progress<float>(
-            progress => { toolbarVM.ToolbarProgress = progress * 100; }));
+            await using FileStream fs = new FileStream(localFileName, FileMode.Create, FileAccess.Write,
+                FileShare.None);
 
-        toolbarVM.ClearProgressBar();
+            toolbarVM.ClearProgressBar();
+            toolbarVM.IsProgressBarVisible = true;
+            toolbarVM.ShowProgressText = true;
+            toolbarVM.IsProgressIndeterminate = false;
+            toolbarVM.ProgressBarText = fileName;
+            await PrivateServer.HttpClient.DownloadAsync(url, fs, new Progress<float>(
+                progress => { toolbarVM.ToolbarProgress = progress * 100; }));
 
-        AllowCheckUpdate = true;
-        AllowDownloadUpdate = hasNewUpdate;
-        
-        Utils.Log($"Downloaded new update file at {localFileName}");
+            Utils.Log($"Downloaded new update file at {localFileName}");
+        }
+        catch (Exception e)
+        {
+            Utils.LogError(e.Message);
+        }
+        finally
+        {
+            toolbarVM.ClearProgressBar();
+
+            AllowCheckUpdate = true;
+            AllowDownloadUpdate = hasNewUpdate;
+        }
     }
 }
