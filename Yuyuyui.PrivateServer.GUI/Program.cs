@@ -30,7 +30,7 @@ namespace Yuyuyui.PrivateServer.GUI
 
             IReadOnlyList<FontFallback> fallbacks = Array.Empty<FontFallback>();
 
-            if (CultureInfo.CurrentUICulture.Name == "zh")
+            if (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "zh")
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
@@ -50,7 +50,6 @@ namespace Yuyuyui.PrivateServer.GUI
                 {
                     fallbacks = new[]
                     {
-                        new FontFallback { FontFamily = new FontFamily("Source Han Sans SC") },
                         new FontFallback { FontFamily = new FontFamily("Noto Sans CJK SC") },
                     };
                 }
