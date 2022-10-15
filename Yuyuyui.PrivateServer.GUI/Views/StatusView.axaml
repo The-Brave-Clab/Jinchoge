@@ -1,0 +1,143 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Yuyuyui.PrivateServer.GUI.Views.StatusView">
+
+    <Design.DataContext>
+        <vm:StatusViewModel />
+    </Design.DataContext>
+
+    <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding PS_STATUS_STOPPED}"
+                   IsVisible="{Binding NotStartedMessageVisible}" />
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
+                   Text="{Binding PS_STATUS_UPDATING}"
+                   IsVisible="{Binding UpdatingMessageVisible}" />
+
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding StartedPanelVisible}" Spacing="50">
+
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <TextBlock HorizontalAlignment="Left" Text="{Binding CurrentProcess}"></TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding PS_STATUS_PORT_LISTEN}"></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding ListeningPort}" Foreground="Yellow"></TextBlock>
+                </StackPanel>
+                <TextBlock HorizontalAlignment="Left" Text=" "></TextBlock>
+                <TextBlock HorizontalAlignment="Left" Text="{Binding IpMessage}"></TextBlock>
+                <TextBlock HorizontalAlignment="Left" Text=" "></TextBlock>
+
+                <StackPanel Orientation="Horizontal">
+
+
+                    <StackPanel.Styles>
+                        <Style Selector="TextBlock.ip">
+                            <Setter Property="Foreground" Value="LightGreen"></Setter>
+                        </Style>
+                        <Style Selector="TextBlock.dev">
+                            <Setter Property="Foreground" Value="LightBlue"></Setter>
+                            <Setter Property="Margin" Value="15 0"></Setter>
+                        </Style>
+                        <Style Selector="TextBlock.eth">
+                            <Setter Property="Foreground" Value="Pink"></Setter>
+                        </Style>
+                    </StackPanel.Styles>
+
+
+                    <ItemsControl Items="{Binding NetworkInterfaces}">
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Socket}" Classes="ip"></TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                    </ItemsControl>
+
+                    <ItemsControl Items="{Binding NetworkInterfaces}">
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text=" : 44460" Classes="ip"></TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                    </ItemsControl>
+
+
+                    <ItemsControl Items="{Binding NetworkInterfaces}">
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Description}" Classes="dev"></TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                    </ItemsControl>
+
+
+                    <ItemsControl Items="{Binding NetworkInterfaces}">
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" Classes="eth"></TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                    </ItemsControl>
+
+                </StackPanel>
+
+
+            </StackPanel>
+            
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+                
+                <TextBlock Text="{Binding PS_STATUS_CHOOSE_IP}" />
+                
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Grid RowDefinitions="*,*" ColumnDefinitions="*,*">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding PS_STATUS_TEXT_IP_ADDRESS}" Margin="0 0 10 0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding IpAddressInput}" AcceptsReturn="False" AcceptsTab="False" Width="200" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding PS_STATUS_TEXT_SUBNET_MASK}" Margin="0 0 10 0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SubnetMaskInput}" AcceptsReturn="False" AcceptsTab="False" Width="200" />
+                    </Grid>
+                    
+                    <Button Content="{Binding PS_STATUS_FILTER_IP_BUTTON}" Command="{Binding SetFilter}" IsEnabled="{Binding InputValid}" Width="100" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Button Content="{Binding PS_STATUS_CLEAR_FILTER_BUTTON}" Command="{Binding ClearFilter}" Width="100" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                </StackPanel>
+                
+            </StackPanel>
+            
+        </StackPanel>
+
+    </Panel>
+</UserControl>

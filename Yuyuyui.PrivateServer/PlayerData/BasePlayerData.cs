@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using YamlDotNet.Serialization;
 
 namespace Yuyuyui.PrivateServer
@@ -68,7 +70,9 @@ namespace Yuyuyui.PrivateServer
                     string file = GetFileName(identifier);
                     string content = File.ReadAllText(file, Encoding.UTF8);
                     //return JsonConvert.DeserializeObject<T>(content)!;
-                    var deserializer = new Deserializer();
+                    var deserializer = new DeserializerBuilder()
+                        .IgnoreUnmatchedProperties()
+                        .Build();
                     TSelf result = deserializer.Deserialize<TSelf>(content);
 
                     // Add to cache
@@ -100,7 +104,7 @@ namespace Yuyuyui.PrivateServer
 
         private static string EnsurePlayerDataFolder(string subFolder)
         {
-            string dir = Path.Combine(PrivateServer.PLAYER_DATA_FOLDER, subFolder);
+            string dir = Path.Combine(PrivateServer.BASE_DIR, PrivateServer.PLAYER_DATA_FOLDER, subFolder);
             return Utils.EnsureDirectory(dir);
         }
     }

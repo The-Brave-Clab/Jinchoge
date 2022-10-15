@@ -1,11 +1,12 @@
-﻿using Titanium.Web.Proxy.Http;
+﻿using System;
+using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
 
 namespace Yuyuyui.AccountTransfer;
 
 public class SessionsEntity : BaseEntity<SessionsEntity>
 {
-    public SessionsEntity(Uri requestUri, string httpMethod, Config config)
+    public SessionsEntity(Uri requestUri, string httpMethod, RouteConfig config)
         : base(requestUri, httpMethod, config)
     {
     }
@@ -23,10 +24,6 @@ public class SessionsEntity : BaseEntity<SessionsEntity>
                 uuid = request.uuid
             }
         };
-        
-        Utils.LogTrace($"Got user UUID: {request.uuid}");
-        
-        TransferProgress.Completed(TransferProgress.TaskType.UUID);
     }
 
     public override void ProcessResponse(byte[] responseBody,
@@ -50,11 +47,10 @@ public class SessionsEntity : BaseEntity<SessionsEntity>
         }
         playerSession.player.Save();
 
-        Utils.LogTrace($"Got user code: {response.code}");
+        Utils.LogTrace($"Got user UUID: {playerSession.player.id.uuid}");
+        Utils.LogTrace($"Got user code: {playerSession.player.id.code}");
 
         playerSession.sessionID = response.session_id;
         playerSession.sessionKey = response.gk_key;
-
-        TransferProgress.Completed(TransferProgress.TaskType.Code);
     }
 }

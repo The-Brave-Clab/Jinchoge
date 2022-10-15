@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
@@ -10,7 +13,7 @@ namespace Yuyuyui.PrivateServer
             string httpMethod,
             Dictionary<string, string> requestHeaders,
             byte[] requestBody,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, requestHeaders, requestBody, config)
         {
         }

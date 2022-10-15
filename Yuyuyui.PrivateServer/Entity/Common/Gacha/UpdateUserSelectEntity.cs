@@ -1,5 +1,7 @@
-﻿using System.Text;
-using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -10,7 +12,7 @@ namespace Yuyuyui.PrivateServer
             string httpMethod,
             Dictionary<string, string> requestHeaders,
             byte[] requestBody,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, requestHeaders, requestBody, config)
         {
         }

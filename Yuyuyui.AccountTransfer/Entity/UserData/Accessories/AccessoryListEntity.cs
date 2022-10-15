@@ -1,4 +1,5 @@
-﻿using Titanium.Web.Proxy.Http;
+﻿using System;
+using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
 
 namespace Yuyuyui.AccountTransfer
@@ -8,7 +9,7 @@ namespace Yuyuyui.AccountTransfer
         public AccessoryListEntity(
             Uri requestUri,
             string httpMethod,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, config)
         {
         }
@@ -39,8 +40,6 @@ namespace Yuyuyui.AccountTransfer
             playerSession.player!.Save();
             
             Utils.LogTrace($"Got accessories, {response.accessories.Count} in total.");
-            
-            TransferProgress.Completed(TransferProgress.TaskType.Accessories);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Titanium.Web.Proxy.Http;
+﻿using System;
+using System.Linq;
+using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
 
 namespace Yuyuyui.AccountTransfer
@@ -8,7 +10,7 @@ namespace Yuyuyui.AccountTransfer
         public EventItemsEntity(
             Uri requestUri,
             string httpMethod,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, config)
         {
         }
@@ -35,8 +37,6 @@ namespace Yuyuyui.AccountTransfer
             playerSession.player!.Save();
             
             Utils.LogTrace("Got event items.");
-            
-            TransferProgress.Completed(TransferProgress.TaskType.EventItems);
         }
     }
 }

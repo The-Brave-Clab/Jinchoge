@@ -1,0 +1,224 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels"
+        xmlns:uc="clr-namespace:Yuyuyui.PrivateServer.GUI.Controls"
+        Icon="/Assets/item_10001.ico"
+        mc:Ignorable="d"
+        d:DesignWidth="1000" d:DesignHeight="600"
+        Width="1000" Height="600" CanResize="False"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="PreferSystemChrome"
+        TransparencyLevelHint="Mica"
+        Background="Transparent"
+        x:Class="Yuyuyui.PrivateServer.GUI.Views.MainWindow"
+        Title="{Binding WINDOW_TITLE}"
+        Closing="WindowOnClosing">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Window.Styles>
+        <Style Selector="Image.MainButtonIcon">
+            <Style.Animations>
+                <Animation Duration="0:0:1.5" IterationCount="Infinite" FillMode="None" PlaybackDirection="Normal">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="RotateTransform.Angle" Value="-45" />
+                    </KeyFrame>
+                    <KeyFrame Cue="25%">
+                        <Setter Property="RotateTransform.Angle" Value="45" />
+                    </KeyFrame>
+                    <KeyFrame Cue="50%">
+                        <Setter Property="RotateTransform.Angle" Value="135" />
+                    </KeyFrame>
+                    <KeyFrame Cue="75%">
+                        <Setter Property="RotateTransform.Angle" Value="225" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="RotateTransform.Angle" Value="315" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+    </Window.Styles>
+
+    <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+        <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LastChildFill="True">
+
+            <Panel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="40"
+                   IsHitTestVisible="False" Background="Black" Opacity="0.7"
+                   IsVisible="{Binding $parent[Window].ExtendClientAreaToDecorationsHint}">
+                <TextBlock Text="{Binding $parent[Window].Title}" Foreground="Gray" FontSize="12"
+                           TextAlignment="{Binding TitleAlignment}" HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch" Margin="{Binding TitleMargin}">
+                </TextBlock>
+            </Panel>
+
+            <Panel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="150">
+                <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" Opacity="0.7"></Panel>
+                <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 0 10 10">
+                    <Panel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20 0 0 0">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <Image Source="/Assets/Icons/General/Blessing.png" Width="80" Height="80"></Image>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding ProjectName}" FontSize="40"></TextBlock>
+                                <TextBlock Text="{Binding ProjectDescription}"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Panel>
+                    <Panel IsEnabled="{Binding CanStart}" HorizontalAlignment="Right" VerticalAlignment="Center"
+                           Width="300" Height="100" Margin="0 0 20 0">
+                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                Command="{Binding ButtonPress}" CommandParameter="" IsHitTestVisible="True">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
+                                        Orientation="Horizontal" Width="280" Height="80" Spacing="5" Margin="0 3 0 0">
+                                <Panel DockPanel.Dock="Left" Width="80" VerticalAlignment="Center"
+                                       HorizontalAlignment="Stretch">
+                                    <Image IsVisible="{Binding !CanStart}" Classes="MainButtonIcon" Width="50"
+                                           Height="50" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                           Source="/Assets/Icons/General/Loading.png" />
+                                    <Image IsVisible="{Binding IsStopped}" Width="50" Height="50"
+                                           VerticalAlignment="Center" HorizontalAlignment="Right"
+                                           Source="/Assets/Icons/General/Start.png" />
+                                    <Image IsVisible="{Binding IsStarted}" Width="50" Height="50"
+                                           VerticalAlignment="Center" HorizontalAlignment="Right"
+                                           Source="/Assets/Icons/General/Stop.png" />
+                                </Panel>
+                                <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                            Orientation="Vertical">
+                                    <TextBlock Text="{Binding ButtonContent}" FontSize="30" Margin="0 10 0 0" />
+                                    <TextBlock Text="{Binding ButtonDescription}" Margin="2 0 0 0" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Button>
+                    </Panel>
+                    <Panel HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                        <TextBlock Text="{Binding VERSION_NUMBER}" Foreground="Gray" FontSize="12" />
+                    </Panel>
+                </Panel>
+            </Panel>
+
+            <Panel Height="40" Name="BottomToolBar" DockPanel.Dock="Bottom">
+                <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" Opacity="0.7"></Panel>
+                <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 10 10 10">
+                    <Design.DataContext>
+                        <vm:ToolbarViewModel />
+                    </Design.DataContext>
+                    <StackPanel IsVisible="{Binding IsProgressBarVisible}" Orientation="Horizontal"
+                                HorizontalAlignment="Right" Spacing="20" Height="20">
+                        <TextBlock Height="20" Text="{Binding ProgressBarText}" HorizontalAlignment="Right"
+                                   VerticalAlignment="Center" TextAlignment="Right" />
+                        <ProgressBar Height="20" Value="{Binding ToolbarProgress}"
+                                     ShowProgressText="{Binding ShowProgressText}"
+                                     IsIndeterminate="{Binding IsProgressIndeterminate}" />
+                    </StackPanel>
+                    <TextBlock Name="LogText" Height="20" Text="{Binding ToolbarText}" HorizontalAlignment="Left"
+                               VerticalAlignment="Center" TextAlignment="Left" />
+                </Panel>
+            </Panel>
+
+            <SplitView Name="MainSplitView"
+                       IsPaneOpen="False"
+                       DisplayMode="CompactInline"
+                       CompactPaneLength="60"
+                       OpenPaneLength="225"
+                       Background="Transparent"
+                       PaneBackground="Transparent">
+                <SplitView.Pane>
+                    <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="NavigationPanel"
+                           PointerEnter="OnPointerEnterNavigation" PointerLeave="OnPointerLeaveNavigation">
+                        <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                               Background="Black" Opacity="0.5">
+                        </Panel>
+                        <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
+
+                            <StackPanel Orientation="Vertical" Spacing="0" Margin="0">
+                                <StackPanel.Styles>
+                                    <StyleInclude Source="/Assets/Styles/NavigationButton.axaml" />
+
+                                    <Style Selector="uc|NavigationButton">
+                                        <Setter Property="GroupName" Value="0"></Setter>
+                                        <Setter Property="Height" Value="50"></Setter>
+                                    </Style>
+
+                                    <Style Selector="uc|NavigationButton Image">
+                                        <Setter Property="Width" Value="30"></Setter>
+                                        <Setter Property="Height" Value="30"></Setter>
+                                        <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+                                    </Style>
+
+                                    <Style Selector="uc|NavigationButton[IsEnabled=False] Image">
+                                        <Setter Property="Opacity" Value="0.4"></Setter>
+                                    </Style>
+
+                                    <Style Selector="uc|NavigationButton TextBlock">
+                                        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                                        <Setter Property="FontSize" Value="20"></Setter>
+                                    </Style>
+                                </StackPanel.Styles>
+
+                                <uc:NavigationButton Name="LogButton" Checked="OnNavigationButtonChecked" IsChecked="True">
+                                    <Grid ColumnDefinitions="40,*">
+                                        <Image Source="/Assets/Icons/Navigation/console.png" Grid.Column="0" />
+                                        <TextBlock Text="{Binding NAV_LOG}" Grid.Column="1" />
+                                    </Grid>
+                                </uc:NavigationButton>
+
+                                <uc:NavigationButton Name="TransferButton" Checked="OnNavigationButtonChecked" IsEnabled="{Binding IsTransferPageEnabled}">
+                                    <Grid ColumnDefinitions="40,*">
+                                        <Image Source="/Assets/Icons/Navigation/data-transfer.png" Grid.Column="0" />
+                                        <TextBlock Text="{Binding NAV_TRANSFER}" Grid.Column="1" />
+                                    </Grid>
+                                </uc:NavigationButton>
+
+                                <uc:NavigationButton Name="StatusButton" Checked="OnNavigationButtonChecked">
+                                    <Grid ColumnDefinitions="40,*">
+                                        <Image Source="/Assets/Icons/Navigation/view-more.png" Grid.Column="0" />
+                                        <TextBlock Text="{Binding NAV_STATUS}" Grid.Column="1" />
+                                    </Grid>
+                                </uc:NavigationButton>
+
+                                <uc:NavigationButton Name="SettingsButton" Checked="OnNavigationButtonChecked">
+                                    <Grid ColumnDefinitions="40,*">
+                                        <Image Source="/Assets/Icons/Navigation/settings.png" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding NAV_SETTINGS}" Grid.Column="1" />
+                                    </Grid>
+                                </uc:NavigationButton>
+
+                                <uc:NavigationButton Name="HelpButton" Checked="OnNavigationButtonChecked">
+                                    <Grid ColumnDefinitions="40,*">
+                                        <Image Source="/Assets/Icons/Navigation/help.png" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding NAV_HELP}" Grid.Column="1" />
+                                    </Grid>
+                                </uc:NavigationButton>
+
+                                <uc:NavigationButton Name="AboutButton" Checked="OnNavigationButtonChecked">
+                                    <Grid ColumnDefinitions="40,*">
+                                        <Image Source="/Assets/Icons/Navigation/info.png" Grid.Column="0" />
+                                        <TextBlock Text="{Binding NAV_ABOUT}" Grid.Column="1" />
+                                    </Grid>
+                                </uc:NavigationButton>
+
+                            </StackPanel>
+
+                        </Panel>
+                    </Panel>
+                </SplitView.Pane>
+
+                <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" Opacity="0.6"></Panel>
+                    <ContentControl Name="MainPageContentControl"
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                    Margin="10 10 10 10">
+                    </ContentControl>
+                </Panel>
+            </SplitView>
+
+        </DockPanel>
+    </Panel>
+
+</Window>

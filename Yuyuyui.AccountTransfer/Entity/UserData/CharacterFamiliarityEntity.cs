@@ -1,4 +1,5 @@
-﻿using Titanium.Web.Proxy.Http;
+﻿using System;
+using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
 
 namespace Yuyuyui.AccountTransfer
@@ -8,7 +9,7 @@ namespace Yuyuyui.AccountTransfer
         public CharacterFamiliarityEntity(
             Uri requestUri,
             string httpMethod,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, config)
         {
         }
@@ -27,8 +28,6 @@ namespace Yuyuyui.AccountTransfer
             playerSession.player!.Save();
             
             Utils.LogTrace($"Got character familiarities.");
-            
-            TransferProgress.Completed(TransferProgress.TaskType.CharacterFamiliarities);
         }
     }
 }

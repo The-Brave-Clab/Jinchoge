@@ -1,4 +1,6 @@
-﻿using Titanium.Web.Proxy.Http;
+﻿using System;
+using System.Linq;
+using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
 
 namespace Yuyuyui.AccountTransfer
@@ -8,7 +10,7 @@ namespace Yuyuyui.AccountTransfer
         public DeckEntity(
             Uri requestUri,
             string httpMethod,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, config)
         {
         }
@@ -54,8 +56,6 @@ namespace Yuyuyui.AccountTransfer
             playerSession.player!.Save();
             
             Utils.LogTrace($"Got decks.");
-            
-            TransferProgress.Completed(TransferProgress.TaskType.Decks);
         }
     }
 }

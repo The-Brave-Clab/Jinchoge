@@ -1,4 +1,5 @@
-﻿using Titanium.Web.Proxy.EventArguments;
+﻿using System.Threading.Tasks;
+using Titanium.Web.Proxy.EventArguments;
 
 namespace Yuyuyui.PrivateServer
 {

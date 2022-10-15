@@ -1,11 +1,16 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
 using Yuyuyui.GK;
 
-//using TLibGKImpl = Yuyuyui.GK.GoalKeeper;
-using TLibGKImpl = Yuyuyui.PrivateServer.LibGKLambda;
+using TLibGKImpl = Yuyuyui.GK.GoalKeeper;
+//using TLibGKImpl = Yuyuyui.PrivateServer.LibGKLambda;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -68,14 +73,14 @@ namespace Yuyuyui.PrivateServer
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
 
-            var orig = apiPathWithParameters.Split("/", StringSplitOptions.RemoveEmptyEntries);
-            var real = apiPathReal.Split("/", StringSplitOptions.RemoveEmptyEntries);
+            var orig = apiPathWithParameters.Split(new [] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+            var real = apiPathReal.Split(new [] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 
             if (orig.Length != real.Length) return null;
 
             for (int i = 0; i < orig.Length; i++)
             {
-                if (orig[i].StartsWith('{') && orig[i].EndsWith('}'))
+                if (orig[i].StartsWith("{") && orig[i].EndsWith("}"))
                     result.Add(orig[i].Trim('{', '}'), real[i]);
                 else if (orig[i] != real[i]) return null;
             }
@@ -112,7 +117,7 @@ namespace Yuyuyui.PrivateServer
                                 typeof(string),
                                 typeof(Dictionary<string, string>),
                                 typeof(byte[]),
-                                typeof(Config)
+                                typeof(RouteConfig)
                             },
                             args: new object[]
                             {
@@ -136,7 +141,7 @@ namespace Yuyuyui.PrivateServer
                 $"\n\nAPI Not Implemented:\n\n{e.HttpClient.Request.Method} {apiPath}",
                 e.HttpClient.Request.RequestUri,
                 e.HttpClient.Request.Method,
-                new Config(apiPath, e.HttpClient.Request.Method),
+                new RouteConfig(apiPath, e.HttpClient.Request.Method),
                 headersAndBody.Item1,
                 headersAndBody.Item2,
                 $"API Not Implemented: {e.HttpClient.Request.Method} {apiPath}"
@@ -187,8 +192,8 @@ namespace Yuyuyui.PrivateServer
 
         protected static T? Deserialize<T>(byte[] data) where T : class
         {
-            var stream = new MemoryStream(data);
-            var reader = new StreamReader(stream, Encoding.UTF8);
+            using var stream = new MemoryStream(data);
+            using var reader = new StreamReader(stream, Encoding.UTF8);
             return JsonSerializer.Create().Deserialize(reader, typeof(T)) as T;
         }
 
@@ -218,7 +223,7 @@ namespace Yuyuyui.PrivateServer
         }
 
         public EntityBase(Uri requestUri, string httpMethod, Dictionary<string, string> requestHeaders,
-            byte[] requestBody, Config config)
+            byte[] requestBody, RouteConfig config)
         {
             AcceptedHttpMethods = config.httpMethods;
             HttpMethod = httpMethod;
@@ -231,51 +236,51 @@ namespace Yuyuyui.PrivateServer
             pathParameters = ExtractPathParameters(config.apiPath, StripApiPrefix(requestUri.AbsolutePath))!;
         }
 
-        public static readonly Dictionary<Type, Config> configs = new()
+        public static readonly Dictionary<Type, RouteConfig> configs = new()
         {
             {
                 typeof(TutorialProgressEntity),
-                new Config("/my/tutorial_progress", "GET", "PUT")
+                new RouteConfig("/my/tutorial_progress", "GET", "PUT")
             },
             {
                 typeof(ArticleEntity),
-                new Config("/articles", "GET")
+                new RouteConfig("/articles", "GET")
             },
             {
                 typeof(RegistrationsEntity),
-                new Config("/registrations", "POST")
+                new RouteConfig("/registrations", "POST")
             },
             {
                 typeof(SessionsEntity),
-                new Config("/sessions", "POST")
+                new RouteConfig("/sessions", "POST")
             },
             {
                 typeof(BanEntity),
-                new Config("/my/profile/ban", "POST")
+                new RouteConfig("/my/profile/ban", "POST")
             },
             {
                 typeof(RegulationEntity),
-                new Config("/my/regulation_version", "GET", "PUT")
+                new RouteConfig("/my/regulation_version", "GET", "PUT")
             },
             {
                 typeof(HeaderEntity),
-                new Config("/my/header", "GET")
+                new RouteConfig("/my/header", "GET")
             },
             {
                 typeof(BadgeEntity),
-                new Config("/my/badge", "GET", "PUT")
+                new RouteConfig("/my/badge", "GET", "PUT")
             },
             {
                 typeof(BannerEntity),
-                new Config("/banners", "GET")
+                new RouteConfig("/banners", "GET")
             },
             {
                 typeof(AccessoryListEntity),
-                new Config("/my/accessories", "GET")
+                new RouteConfig("/my/accessories", "GET")
             },
             {
             	typeof(AccessoryEnhancementResultEntity),
-            	new Config("/my/accessories/{accessory_id}", "PUT")
+            	new RouteConfig("/my/accessories/{accessory_id}", "PUT")
             },
             //{
             //	typeof(MenuUserTransferEntity),
@@ -307,15 +312,15 @@ namespace Yuyuyui.PrivateServer
             //},
             {
                 typeof(EpisodeEntity),
-                new Config("/my/chapters/{chapter_id}/episodes", "GET")
+                new RouteConfig("/my/chapters/{chapter_id}/episodes", "GET")
             },
             {
                 typeof(ChapterEntity),
-                new Config("/my/chapters", "GET")
+                new RouteConfig("/my/chapters", "GET")
             },
             {
                 typeof(StageEntity),
-                new Config("/my/chapters/{chapter_id}/episodes/{episode_id}/stages", "GET")
+                new RouteConfig("/my/chapters/{chapter_id}/episodes/{episode_id}/stages", "GET")
             },
             //{
             //	typeof(GuestEntity),
@@ -323,11 +328,11 @@ namespace Yuyuyui.PrivateServer
             //},
             {
             	typeof(CheckBattleTokensEntity),
-            	new Config("/check_battle_tokens", "GET")
+            	new RouteConfig("/check_battle_tokens", "GET")
             },
             {
                 typeof(EventChapterEntity),
-                new Config("/special/chapters", "GET")
+                new RouteConfig("/special/chapters", "GET")
             },
             //{
             //	typeof(EventEpisodeEntity),
@@ -339,23 +344,23 @@ namespace Yuyuyui.PrivateServer
             //},
             {
                 typeof(CardsEntity),
-                new Config("/my/cards", "GET")
+                new RouteConfig("/my/cards", "GET")
             },
             {
             	typeof(EnhancementResultTransactionCreateEntity),
-            	new Config("/my/cards/{card_id}/enhancement/transactions", "POST")
+            	new RouteConfig("/my/cards/{card_id}/enhancement/transactions", "POST")
             },
             {
             	typeof(EnhancementResultTransactionUpdateEntity),
-            	new Config("/my/cards/{card_id}/enhancement/transactions/{transaction_id}", "PUT")
+            	new RouteConfig("/my/cards/{card_id}/enhancement/transactions/{transaction_id}", "PUT")
             },
             {
             	typeof(EvolutionCardResultEntity),
-            	new Config("/my/cards/{card_id}/evolution", "PUT")
+            	new RouteConfig("/my/cards/{card_id}/evolution", "PUT")
             },
             {
                 typeof(ShopEntity),
-                new Config("/shops", "GET")
+                new RouteConfig("/shops", "GET")
             },
             //{
             //	typeof(BirthdateRegistrationEntity),
@@ -363,7 +368,7 @@ namespace Yuyuyui.PrivateServer
             //},
             {
                 typeof(IABItemStatsEntity),
-                new Config("/my/billing_point", "GET")
+                new RouteConfig("/my/billing_point", "GET")
             },
             //{
             //	typeof(StaminaRecoveryTransactionCreateEntity),
@@ -399,51 +404,51 @@ namespace Yuyuyui.PrivateServer
             //},
             {
                 typeof(BillingItemListEntity),
-                new Config("/platform_products", "GET")
+                new RouteConfig("/platform_products", "GET")
             },
             {
                 typeof(BillingPointShopEntity),
-                new Config("/billing_point_shop", "GET")
+                new RouteConfig("/billing_point_shop", "GET")
             },
             {
             	typeof(ExchangeItemListEntity),
-            	new Config("/exchange_booths", "GET")
+            	new RouteConfig("/exchange_booths", "GET")
             },
             {
                 typeof(TradeBoothsEntity),
-                new Config("/trade_booths", "GET")
+                new RouteConfig("/trade_booths", "GET")
             },
             {
                 typeof(EventItemBoothsEntity),
-                new Config("/event_item_booths", "GET")
+                new RouteConfig("/event_item_booths", "GET")
             },
             {
                 typeof(ExchangeItemCreateEntity),
-                new Config("/exchange_booths/{exchange_list_id}/exchange_item/{exchange_item}/current", "GET")
+                new RouteConfig("/exchange_booths/{exchange_list_id}/exchange_item/{exchange_item}/current", "GET")
             },
             {
                 typeof(ExchangeItemUpdateEntity),
-                new Config("/exchange_booths/{exchange_list_id}/exchange_item/{exchange_item}/exchange", "POST")
+                new RouteConfig("/exchange_booths/{exchange_list_id}/exchange_item/{exchange_item}/exchange", "POST")
             },
             {
                 typeof(EventBonusCardsEntity),
-                new Config("/cards/event_bonus_cards", "GET")
+                new RouteConfig("/cards/event_bonus_cards", "GET")
             },
             {
                 typeof(EventBonusCharacterCardsEntity),
-                new Config("/cards/event_bonus_character_cards", "GET")
+                new RouteConfig("/cards/event_bonus_character_cards", "GET")
             },
             {
                 typeof(GachaEntity),
-                new Config("/gachas", "GET")
+                new RouteConfig("/gachas", "GET")
             },
             {
                 typeof(SelectGachaEntity),
-                new Config("/select_gachas/select_gacha_cards", "GET")
+                new RouteConfig("/select_gachas/select_gacha_cards", "GET")
             },
             {
                 typeof(UpdateUserSelectEntity),
-                new Config("/select_gachas/update_user_select", "POST")
+                new RouteConfig("/select_gachas/update_user_select", "POST")
             },
             //{
             //	typeof(GachaTicketEntity),
@@ -459,11 +464,11 @@ namespace Yuyuyui.PrivateServer
             //},
             {
                 typeof(PresentsEntity),
-                new Config("/my/gifts", "GET")
+                new RouteConfig("/my/gifts", "GET")
             },
             {
                 typeof(PresentsHistoryEntity),
-                new Config("/my/gifts/received", "GET")
+                new RouteConfig("/my/gifts/received", "GET")
             },
             //{
             //	typeof(UpdatePresentEntity),
@@ -475,31 +480,31 @@ namespace Yuyuyui.PrivateServer
             //},
             {
             	typeof(FriendEntity),
-            	new Config("/my/fellowships", "GET")
+            	new RouteConfig("/my/fellowships", "GET")
             },
             {
             	typeof(DeleteFriendEntity),
-            	new Config("/my/fellowships/{user_id}/removal", "POST")
+            	new RouteConfig("/my/fellowships/{user_id}/removal", "POST")
             },
             {
             	typeof(FellowRequestEntity),
-            	new Config("/my/fellow_requests", "GET")
+            	new RouteConfig("/my/fellow_requests", "GET")
             },
             {
             	typeof(UpdateFellowRequestEntity),
-            	new Config("/my/fellow_requests/{request_id}", "PUT")
+            	new RouteConfig("/my/fellow_requests/{request_id}", "PUT")
             },
             {
             	typeof(SendFellowRequestEntity),
-            	new Config("/users/{user_id}/fellow_requests", "POST")
+            	new RouteConfig("/users/{user_id}/fellow_requests", "POST")
             },
             {
             	typeof(ClubWorkingSlotEntity),
-            	new Config("/my/club_working/slots", "GET")
+            	new RouteConfig("/my/club_working/slots", "GET")
             },
             {
                 typeof(ClubWorkingOrderEntity),
-                new Config("/my/club_working/orders", "GET")
+                new RouteConfig("/my/club_working/orders", "GET")
             },
             //{
             //	typeof(ClubWorkingStartEntity),
@@ -519,15 +524,15 @@ namespace Yuyuyui.PrivateServer
             //},
             {
                 typeof(UserInfoEntity),
-                new Config("/users/{user_id}", "GET")
+                new RouteConfig("/users/{user_id}", "GET")
             },
             {
                 typeof(ProfileEntity),
-                new Config("/my/profile", "PUT")
+                new RouteConfig("/my/profile", "PUT")
             },
             {
                 typeof(LoginBonusEntity),
-                new Config("/my/checkin", "POST")
+                new RouteConfig("/my/checkin", "POST")
             },
             //{
             //	typeof(MissionListEntity),
@@ -559,7 +564,7 @@ namespace Yuyuyui.PrivateServer
             //},
             {
                 typeof(EnhancementItemsEntity),
-                new Config("/my/enhancement_items", "GET")
+                new RouteConfig("/my/enhancement_items", "GET")
             },
             //{
             //	typeof(EnhancementItemDisposalEntity),
@@ -567,7 +572,7 @@ namespace Yuyuyui.PrivateServer
             //},
             {
                 typeof(StaminaItemsEntity),
-                new Config("/my/stamina_items", "GET")
+                new RouteConfig("/my/stamina_items", "GET")
             },
             //{
             //	typeof(StaminaTransactionCreateEntity),
@@ -579,7 +584,7 @@ namespace Yuyuyui.PrivateServer
             //},
             {
                 typeof(EvolutionItemsEntity),
-                new Config("/my/evolution_items", "GET")
+                new RouteConfig("/my/evolution_items", "GET")
             },
             //{
             //	typeof(EnhancementItemDisposalTransactionCreateEntity),
@@ -591,43 +596,43 @@ namespace Yuyuyui.PrivateServer
             //},
             {
                 typeof(TitleItemsEntity),
-                new Config("/my/title_items", "GET", "POST")
+                new RouteConfig("/my/title_items", "GET", "POST")
             },
             {
                 typeof(TitleItemsReadEntity),
-                new Config("/my/title_items/read", "POST")
+                new RouteConfig("/my/title_items/read", "POST")
             },
             {
                 typeof(TitleItemsCheckEntity),
-                new Config("/my/title_items/check", "POST")
+                new RouteConfig("/my/title_items/check", "POST")
             },
             {
             	typeof(AlbumListEntity),
-            	new Config("/my/adventure_books", "GET", "POST")
+            	new RouteConfig("/my/adventure_books", "GET", "POST")
             },
             {
             	typeof(AlbumReadEntity),
-            	new Config("/my/adventure_books/{adventure_books_id}", "PUT")
+            	new RouteConfig("/my/adventure_books/{adventure_books_id}", "PUT")
             },
             {
                 typeof(DeckEntity),
-                new Config("/my/decks", "GET")
+                new RouteConfig("/my/decks", "GET")
             },
             {
             	typeof(DeckUpdateEntity),
-            	new Config("/my/decks/{deck_id}", "PUT")
+            	new RouteConfig("/my/decks/{deck_id}", "PUT")
             },
             {
             	typeof(QuestTransactionCreateEntity),
-            	new Config("/stages/{stage_id}/transactions", "POST")
+            	new RouteConfig("/stages/{stage_id}/transactions", "POST")
             },
             {
             	typeof(QuestTransactionUpdateEntity),
-            	new Config("/stages/{stage_id}/transactions/{transaction_id}", "PUT")
+            	new RouteConfig("/stages/{stage_id}/transactions/{transaction_id}", "PUT")
             },
             {
             	typeof(QuestTransactionResultEntity),
-            	new Config("/stages/{stage_id}/transactions/{transaction_id}/result", "PUT")
+            	new RouteConfig("/stages/{stage_id}/transactions/{transaction_id}/result", "PUT")
             },
             //{
             //	typeof(QuestTransactionRetireEntity),
@@ -667,15 +672,15 @@ namespace Yuyuyui.PrivateServer
             //},
             {
                 typeof(CharacterFamiliarityEntity),
-                new Config("/my/character_familiarities", "GET")
+                new RouteConfig("/my/character_familiarities", "GET")
             },
             {
                 typeof(GameResourceVersionEntity),
-                new Config("/resource_versions/{type}", "GET")
+                new RouteConfig("/resource_versions/{type}", "GET")
             },
             {
                 typeof(ScenarioResourceVersionEntity),
-                new Config("/resource_versions/scenario/{scenario_id}", "GET")
+                new RouteConfig("/resource_versions/scenario/{scenario_id}", "GET")
             },
             //{
             //	typeof(MasterDataListEntity),
@@ -687,11 +692,11 @@ namespace Yuyuyui.PrivateServer
             //},
             {
                 typeof(RequirementVersionEntity),
-                new Config("/requirement_version", "GET")
+                new RouteConfig("/requirement_version", "GET")
             },
             {
                 typeof(PushTokenEntity),
-                new Config("/my/push_token", "POST")
+                new RouteConfig("/my/push_token", "POST")
             },
             //{
             //	typeof(DeletePushTokenEnity),
@@ -721,34 +726,34 @@ namespace Yuyuyui.PrivateServer
             // The following entities don't have mono code!
             {
                 typeof(UpdateClickCountsEntity),
-                new Config("/click_counts/update_click_counts", "POST")
+                new RouteConfig("/click_counts/update_click_counts", "POST")
             },
             {
                 typeof(EventItemsEntity),
-                new Config("/my/event_items", "GET")
+                new RouteConfig("/my/event_items", "GET")
             },
             {
                 typeof(PopupEntity),
-                new Config("/popups", "GET")
+                new RouteConfig("/popups", "GET")
             },
             {
                 typeof(BuffsEntity),
-                new Config("/my/buffs", "GET")
+                new RouteConfig("/my/buffs", "GET")
             },
             {
                 typeof(AutoClearTicketsEntity),
-                new Config("/my/auto_clear_tickets", "GET")
+                new RouteConfig("/my/auto_clear_tickets", "GET")
             },
             {
                 typeof(CharacterTitleItemsEntity),
-                new Config("/my/character_title_items", "POST")
+                new RouteConfig("/my/character_title_items", "POST")
             }
         };
     }
 
-    public struct Config
+    public struct RouteConfig
     {
-        public Config(string apiPath, params string[] httpMethods)
+        public RouteConfig(string apiPath, params string[] httpMethods)
         {
             this.apiPath = apiPath;
             this.httpMethods = httpMethods;

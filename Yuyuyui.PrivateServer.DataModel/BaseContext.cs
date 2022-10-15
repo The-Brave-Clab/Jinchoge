@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -8,8 +9,6 @@ namespace Yuyuyui.PrivateServer.DataModel
     public abstract class BaseContext<TSelf> : DbContext
         where TSelf : BaseContext<TSelf>
     {
-        private const string DatabaseFolder = "Resources/master_data/";
-
         public BaseContext()
         {
         }
@@ -25,7 +24,8 @@ namespace Yuyuyui.PrivateServer.DataModel
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite($"Data Source={DatabaseFolder}{DatabaseFileName}.db.compress");
+                var path = Path.Combine(Config.BaseDir, $"{DatabaseFileName}.db.compress");
+                optionsBuilder.UseSqlite($"Data Source={path}");
             }
         }
     }

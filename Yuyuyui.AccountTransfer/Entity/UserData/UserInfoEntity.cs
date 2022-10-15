@@ -1,11 +1,12 @@
-﻿using Titanium.Web.Proxy.Http;
+﻿using System;
+using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
 
 namespace Yuyuyui.AccountTransfer;
 
 public class UserInfoEntity : BaseEntity<UserInfoEntity>
 {
-    public UserInfoEntity(Uri requestUri, string httpMethod, Config config)
+    public UserInfoEntity(Uri requestUri, string httpMethod, RouteConfig config)
         : base(requestUri, httpMethod, config)
     {
     }
@@ -33,7 +34,5 @@ public class UserInfoEntity : BaseEntity<UserInfoEntity>
         Utils.LogTrace("Got user profile:");
         Utils.LogTrace($"\tNickname: {playerSession.player!.profile.nickname}");
         Utils.LogTrace($"\tComment: {playerSession.player!.profile.comment}");
-
-        TransferProgress.Completed(TransferProgress.TaskType.Profile);
     }
 }

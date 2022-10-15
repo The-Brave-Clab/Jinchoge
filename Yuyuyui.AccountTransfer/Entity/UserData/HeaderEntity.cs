@@ -1,11 +1,12 @@
-﻿using Titanium.Web.Proxy.Http;
+﻿using System;
+using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
 
 namespace Yuyuyui.AccountTransfer;
 
 public class HeaderEntity : BaseEntity<HeaderEntity>
 {
-    public HeaderEntity(Uri requestUri, string httpMethod, Config config)
+    public HeaderEntity(Uri requestUri, string httpMethod, RouteConfig config)
         : base(requestUri, httpMethod, config)
     {
     }
@@ -42,7 +43,5 @@ public class HeaderEntity : BaseEntity<HeaderEntity>
         Utils.LogTrace($"\tEXP: {playerSession.player!.data.exp}");
         Utils.LogTrace($"\tMoney: {playerSession.player!.data.money}");
         Utils.LogTrace($"\tStamina: {playerSession.player!.data.stamina}");
-
-        TransferProgress.Completed(TransferProgress.TaskType.Header);
     }
 }

@@ -1,5 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Http;
@@ -17,6 +22,7 @@ namespace Yuyuyui.AccountTransfer
         public readonly string HttpMethod;
         public readonly Uri RequestUri;
         protected readonly Dictionary<string, string> pathParameters;
+        public readonly TransferProgress.TaskType TransferTask;
         
         public Dictionary<string, string> PathParameters => pathParameters;
 
@@ -47,14 +53,14 @@ namespace Yuyuyui.AccountTransfer
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
 
-            var orig = apiPathWithParameters.Split("/", StringSplitOptions.RemoveEmptyEntries);
-            var real = apiPathReal.Split("/", StringSplitOptions.RemoveEmptyEntries);
+            var orig = apiPathWithParameters.Split(new []{'/'}, StringSplitOptions.RemoveEmptyEntries);
+            var real = apiPathReal.Split(new []{'/'}, StringSplitOptions.RemoveEmptyEntries);
 
             if (orig.Length != real.Length) return null;
 
             for (int i = 0; i < orig.Length; i++)
             {
-                if (orig[i].StartsWith('{') && orig[i].EndsWith('}'))
+                if (orig[i].StartsWith("{") && orig[i].EndsWith("}"))
                     result.Add(orig[i].Trim('{', '}'), real[i]);
                 else if (orig[i] != real[i]) return null;
             }
@@ -85,7 +91,7 @@ namespace Yuyuyui.AccountTransfer
                             {
                                 typeof(Uri),
                                 typeof(string),
-                                typeof(Config)
+                                typeof(RouteConfig)
                             },
                             args: new object[]
                             {
@@ -119,80 +125,80 @@ namespace Yuyuyui.AccountTransfer
             return JsonSerializer.Create().Deserialize(reader, typeof(T)) as T;
         }
 
-        public EntityBase(Uri requestUri, string httpMethod, Config config)
+        public EntityBase(Uri requestUri, string httpMethod, RouteConfig config)
         {
             AcceptedHttpMethods = config.httpMethods;
             HttpMethod = httpMethod;
             RequestUri = requestUri;
 
+            TransferTask = config.transferTask;
+
             pathParameters = ExtractPathParameters(config.apiPath, StripApiPrefix(requestUri.AbsolutePath))!;
         }
 
-        private static readonly Dictionary<Type, Config> configs = new()
+        private static readonly Dictionary<Type, RouteConfig> configs = new()
         {
             {
                 typeof(SessionsEntity),
-                new Config("/sessions", "POST")
+                new RouteConfig(TransferProgress.TaskType.Id, "/sessions", "POST")
             },
             {
                 typeof(HeaderEntity),
-                new Config("/my/header", "GET")
+                new RouteConfig(TransferProgress.TaskType.Header, "/my/header", "GET")
             },
             {
                 typeof(UserInfoEntity),
-                new Config("/users/{user_id}", "GET")
+                new RouteConfig(TransferProgress.TaskType.Profile, "/users/{user_id}", "GET")
             },
             {
                 typeof(AccessoryListEntity),
-                new Config("/my/accessories", "GET")
+                new RouteConfig(TransferProgress.TaskType.Accessories, "/my/accessories", "GET")
             },
             {
                 typeof(CardsEntity),
-                new Config("/my/cards", "GET")
+                new RouteConfig(TransferProgress.TaskType.Cards, "/my/cards", "GET")
             },
             {
                 typeof(DeckEntity),
-                new Config("/my/decks", "GET")
-            },
-            {
-                typeof(AutoClearTicketsEntity),
-                new Config("/my/auto_clear_tickets", "GET")
+                new RouteConfig(TransferProgress.TaskType.Decks, "/my/decks", "GET")
             },
             {
                 typeof(EnhancementItemsEntity),
-                new Config("/my/enhancement_items", "GET")
+                new RouteConfig(TransferProgress.TaskType.EnhancementItems, "/my/enhancement_items", "GET")
             },
             {
                 typeof(EventItemsEntity),
-                new Config("/my/event_items", "GET")
+                new RouteConfig(TransferProgress.TaskType.EventItems, "/my/event_items", "GET")
             },
             {
                 typeof(EvolutionItemsEntity),
-                new Config("/my/evolution_items", "GET")
+                new RouteConfig(TransferProgress.TaskType.EvolutionItems, "/my/evolution_items", "GET")
             },
             {
                 typeof(StaminaItemsEntity),
-                new Config("/my/stamina_items", "GET")
+                new RouteConfig(TransferProgress.TaskType.StaminaItems, "/my/stamina_items", "GET")
             },
             {
                 typeof(TitleItemsEntity),
-                new Config("/my/title_items", "GET")
+                new RouteConfig(TransferProgress.TaskType.TitleItems, "/my/title_items", "GET")
             },
             {
                 typeof(CharacterFamiliarityEntity),
-                new Config("/my/character_familiarities", "GET")
+                new RouteConfig(TransferProgress.TaskType.CharacterFamiliarities, "/my/character_familiarities", "GET")
             },
         };
     }
 
-    public struct Config
+    public struct RouteConfig
     {
-        public Config(string apiPath, params string[] httpMethods)
+        public RouteConfig(TransferProgress.TaskType transferTask, string apiPath, params string[] httpMethods)
         {
+            this.transferTask = transferTask;
             this.apiPath = apiPath;
             this.httpMethods = httpMethods;
         }
 
+        public readonly TransferProgress.TaskType transferTask;
         public readonly string apiPath;
         public readonly string[] httpMethods;
     }

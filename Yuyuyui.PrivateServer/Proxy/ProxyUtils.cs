@@ -1,4 +1,9 @@
-﻿using Titanium.Web.Proxy.EventArguments;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Exceptions;
 using Titanium.Web.Proxy.Models;
 
@@ -8,6 +13,10 @@ namespace Yuyuyui.PrivateServer
     {
         private const string CERT_HOST = "download.cert";
         private const string CERT_PATH = "/cert/pem";
+        private const string CERT_RESPONSE_FILE_NAME = "yuyuyui-private-server.pem";
+
+        public static string LOCAL_CERT_FILE => Path.Combine(PrivateServer.BASE_DIR, "ca.cer");
+        public static string LOCAL_PFX_FILE => Path.Combine(PrivateServer.BASE_DIR, "ca.pfx");
 
         public static bool EchoService(SessionEventArgs e)
         {
@@ -21,9 +30,9 @@ namespace Yuyuyui.PrivateServer
                     var headers = new Dictionary<string, HttpHeader>
                     {
                         ["Content-Type"] = new("Content-Type", "application/x-x509-ca-cert"),
-                        ["Content-Disposition"] = new("Content-Disposition", "inline; filename=titanium-ca-cert.pem")
+                        ["Content-Disposition"] = new("Content-Disposition", $"inline; filename={CERT_RESPONSE_FILE_NAME}")
                     };
-                    e.Ok(File.ReadAllBytes("ca.cer"), headers, true);
+                    e.Ok(File.ReadAllBytes(LOCAL_CERT_FILE), headers, true);
                 }
                 else
                 {
@@ -68,6 +77,17 @@ namespace Yuyuyui.PrivateServer
             }
 
             return new Tuple<Dictionary<string, string>, byte[]>(headers, requestBodyBytes);
+        }
+
+        public static void ReissueCert()
+        {
+            if (File.Exists(LOCAL_PFX_FILE)) File.Delete(LOCAL_PFX_FILE);
+            if (File.Exists(LOCAL_CERT_FILE)) File.Delete(LOCAL_CERT_FILE);
+        }
+
+        public static bool CertExists()
+        {
+            return File.Exists(LOCAL_PFX_FILE) && File.Exists(LOCAL_CERT_FILE);
         }
     }
 }

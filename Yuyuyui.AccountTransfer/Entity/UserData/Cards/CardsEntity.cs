@@ -1,4 +1,6 @@
-﻿using Titanium.Web.Proxy.Http;
+﻿using System;
+using System.Linq;
+using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
 using Yuyuyui.PrivateServer.DataModel;
 using Card = Yuyuyui.PrivateServer.Card;
@@ -10,7 +12,7 @@ namespace Yuyuyui.AccountTransfer
         public CardsEntity(
             Uri requestUri,
             string httpMethod,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, config)
         {
         }
@@ -33,7 +35,7 @@ namespace Yuyuyui.AccountTransfer
                         .Where(card => card.Id == c.Value.master_id)
                         .Select(card => c.Value.support_point - card.SupportPoint)
                         .ToList()
-                        .FirstOrDefault(0);
+                        .FirstOrDefault(i => i == 0);
                     
                     Card card = new()
                     {
@@ -56,8 +58,6 @@ namespace Yuyuyui.AccountTransfer
             playerSession.player!.Save();
             
             Utils.LogTrace($"Got cards, {response.cards.Count} in total.");
-            
-            TransferProgress.Completed(TransferProgress.TaskType.Cards);
         }
     }
 }

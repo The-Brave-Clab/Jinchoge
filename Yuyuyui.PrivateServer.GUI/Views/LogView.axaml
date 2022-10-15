@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:c="clr-namespace:Yuyuyui.PrivateServer.GUI.Controls"
+             xmlns:vm="clr-namespace:Yuyuyui.PrivateServer.GUI.ViewModels"
+             x:Class="Yuyuyui.PrivateServer.GUI.Views.LogView">
+
+    <Design.DataContext>
+        <vm:LogViewModel />
+    </Design.DataContext>
+
+    <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+        <ScrollViewer AllowAutoHide="True" ScrollChanged="ScrollViewerOnScrollChanged">
+
+            <ItemsControl Items="{Binding Logs}">
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <c:LogEntryControl LogContent="{Binding LogContent}" LogLevel="{Binding LogType}" CreatedTime="{Binding CreatedTime}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Name="LogStackPanel" Orientation="Vertical" Spacing="0" Margin="0 0 10 50" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+            </ItemsControl>
+
+        </ScrollViewer>
+
+    </Panel>
+
+</UserControl>

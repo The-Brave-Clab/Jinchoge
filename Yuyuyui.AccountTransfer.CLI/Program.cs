@@ -1,7 +1,13 @@
-﻿using System.Net;
+﻿using System;
+using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using Yuyuyui.PrivateServer;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.AccountTransfer.CLI
 {
@@ -11,33 +17,49 @@ namespace Yuyuyui.AccountTransfer.CLI
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
+            Config.Load();
+
             object logLock = new();
-            Utils.SetLogCallbacks(
-                o =>
+            Utils.SetLogCallback(
+                (o, t) =>
                 {
-                    lock (logLock) 
-                        ColoredOutput.WriteLine(o, ConsoleColor.Green);
-                },
-                o =>
-                {
-                    lock (logLock) 
-                        Console.WriteLine(o);
-                },
-                o =>
-                {
-                    lock (logLock) 
-                        ColoredOutput.WriteLine(o, ConsoleColor.Yellow);
-                },
-                o =>
-                {
-                    lock (logLock) 
-                        ColoredOutput.WriteLine(o, ConsoleColor.Red);
+                    lock (logLock)
+                    {
+                        switch (t)
+                        {
+                            case Utils.LogType.Trace:
+                                ColoredOutput.WriteLine(o, ConsoleColor.Green);
+                                break;
+                            case Utils.LogType.Info:
+                                Console.WriteLine(o);
+                                break;
+                            case Utils.LogType.Warning:
+                                ColoredOutput.WriteLine(o, ConsoleColor.Yellow);
+                                break;
+                            case Utils.LogType.Error:
+                                ColoredOutput.WriteLine(o, ConsoleColor.Red);
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(t), t, null);
+                        }
+                    }
                 }
             );
 
+            Utils.Log($"Version {Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion}");
+
             await LocalData.Update();
 
-            var endpoint = Proxy<AccountTransferProxyCallbacks>.StartProxy();
+            EventWaitHandle waitHandle = new AutoResetEvent(false);
+
+            TransferProgress.RegisterTaskCompleteCallback((type, progress) =>
+                Utils.LogTrace(string.Format(Resources.LOG_AT_TRANSFER_SUCCESS, TransferProgress.TaskName[type]) + 
+                               $" ({progress.Count(b => b)}/{progress.Length})")
+            );
+            
+            TransferProgress.RegisterAllTaskCompleteCallback(() => waitHandle.Set());
+
+            var endpoint = Proxy<AccountTransferProxyCallbacks>.Start();
 
             //foreach (var endPoint in proxyServer.ProxyEndPoints)
             Console.Write("Listening at ");
@@ -72,12 +94,12 @@ namespace Yuyuyui.AccountTransfer.CLI
 
             Console.WriteLine();
 
-            TransferProgress.WaitForCompletion();
+            waitHandle.WaitOne();
+
+            Proxy<AccountTransferProxyCallbacks>.Stop();
             
             ColoredOutput.Write("All transfer tasks have completed. Program will exit in 10 seconds.", ConsoleColor.Green);
             Thread.Sleep(10000);
-
-            Proxy<AccountTransferProxyCallbacks>.Stop();
         }
     }
 }

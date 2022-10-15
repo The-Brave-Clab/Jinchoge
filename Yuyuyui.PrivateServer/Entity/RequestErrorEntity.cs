@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -15,7 +18,7 @@ namespace Yuyuyui.PrivateServer
             string message,
             Uri requestedUri,
             string httpMethod,
-            Config requestConfig,
+            RouteConfig requestConfig,
             Dictionary<string, string> requestHeaders,
             byte[] requestBody,
             string? logMessage = null
@@ -48,7 +51,7 @@ namespace Yuyuyui.PrivateServer
             // A0120: Input Error
             // A4101: HTTP 422, Login Failed, ログインに失敗しました。 このメッセージが繰り返し表示される場合、 お問い合わせフォームよりご連絡ください。
             // U0401: HTTP 401, Unauthorized Error
-            string messageBody = string.IsNullOrEmpty(logMessage) ? responseObj.error.message : logMessage;
+            string messageBody = string.IsNullOrEmpty(logMessage) ? responseObj.error.message : logMessage!;
             
             Utils.LogError($"<APIError> {responseObj.error.code}: {messageBody}");
             

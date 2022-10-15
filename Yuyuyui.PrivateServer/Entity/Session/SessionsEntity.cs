@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -9,7 +11,7 @@ namespace Yuyuyui.PrivateServer
             string httpMethod,
             Dictionary<string, string> requestHeaders,
             byte[] requestBody,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, requestHeaders, requestBody, config)
         {
         }
@@ -17,6 +19,8 @@ namespace Yuyuyui.PrivateServer
         protected override Task ProcessRequest()
         {
             var requestObj = Deserialize<Request>(requestBody);
+            Utils.Log($"Got connection from UUID {requestObj!.uuid}");
+            
             PrivateServer.PlayerSession sessionDetail = PrivateServer.CreateSessionForPlayer(requestObj!.uuid, this);
 
             Response responseObj = new()

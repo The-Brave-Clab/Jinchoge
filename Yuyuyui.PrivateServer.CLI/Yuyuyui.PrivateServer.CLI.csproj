@@ -2,13 +2,23 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Company>YuyuyuiPrivateServer</Company>
+    <Product>PrivateServer</Product>
+    <AssemblyName>Jinchoge.CLI</AssemblyName>
+    <VersionPrefix>0.9.0</VersionPrefix>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <FileVersion>$(Version)</FileVersion>
+    <DebugType>embedded</DebugType>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net472;net6.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">net6.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Yuyuyui.PrivateServer\Yuyuyui.PrivateServer.csproj" />
+    <ProjectReference Include="..\Yuyuyui.PrivateServer.Localization\Yuyuyui.PrivateServer.Localization.csproj" />
   </ItemGroup>
 
 </Project>

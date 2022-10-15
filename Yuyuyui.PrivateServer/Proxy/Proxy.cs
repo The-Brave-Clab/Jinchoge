@@ -1,6 +1,11 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using Titanium.Web.Proxy;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Exceptions;
@@ -17,7 +22,7 @@ namespace Yuyuyui.PrivateServer
         private static ExplicitProxyEndPoint? explicitEndPoint = null;
         private static TCallbacks? callbacks = null;
 
-        public static ExplicitProxyEndPoint StartProxy(int port = DEFAULT_PORT)
+        public static ExplicitProxyEndPoint Start(int port = DEFAULT_PORT)
         {
             callbacks = new TCallbacks();
 
@@ -40,8 +45,20 @@ namespace Yuyuyui.PrivateServer
             proxyServer.CertificateManager.RootCertificateIssuerName = "Yuyuyui Private Server";
             proxyServer.CertificateManager.RootCertificateName = "Yuyuyui Private Server Root CA";
 
-            proxyServer.CertificateManager.EnsureRootCertificate();
-            File.WriteAllBytes("ca.cer", proxyServer.CertificateManager.RootCertificate!.Export(X509ContentType.Cert));
+            proxyServer.CertificateManager.PfxFilePath = ProxyUtils.LOCAL_PFX_FILE;
+            if (ProxyUtils.CertExists())
+            {
+                proxyServer.CertificateManager.RootCertificate = proxyServer.CertificateManager.LoadRootCertificate();
+            }
+            else
+            {
+                proxyServer.CertificateManager.EnsureRootCertificate();
+                File.WriteAllBytes(ProxyUtils.LOCAL_PFX_FILE, 
+                    proxyServer.CertificateManager.RootCertificate!.Export(X509ContentType.Pfx));
+            }
+            File.WriteAllBytes(ProxyUtils.LOCAL_CERT_FILE,
+                proxyServer.CertificateManager.RootCertificate!.Export(X509ContentType.Cert));
+            
 
             proxyServer.BeforeRequest += callbacks.OnRequest;
             proxyServer.BeforeResponse += callbacks.OnResponse;

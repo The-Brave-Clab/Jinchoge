@@ -1,4 +1,8 @@
-﻿using Yuyuyui.PrivateServer.DataModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -9,7 +13,7 @@ namespace Yuyuyui.PrivateServer
             string httpMethod,
             Dictionary<string, string> requestHeaders,
             byte[] requestBody,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, requestHeaders, requestBody, config)
         {
         }
@@ -97,8 +101,8 @@ namespace Yuyuyui.PrivateServer
             if (gacha.PickupType == null || gacha.PickupId == null) 
                 return new List<GachaProductData.PickupContent>();
 
-            var pickupTypes = gacha.PickupType.Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-            var pickupIds = gacha.PickupId.Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            var pickupTypes = gacha.PickupType.Split(new [] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            var pickupIds = gacha.PickupId.Split(new [] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 
             if (pickupTypes.Length != pickupIds.Length) 
                 return new List<GachaProductData.PickupContent>();

@@ -1,4 +1,9 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Yuyuyui.PrivateServer
 {
     public class StaminaItemsEntity : BaseEntity<StaminaItemsEntity>
     {
@@ -7,7 +12,7 @@
             string httpMethod,
             Dictionary<string, string> requestHeaders,
             byte[] requestBody,
-            Config config)
+            RouteConfig config)
             : base(requestUri, httpMethod, requestHeaders, requestBody, config)
         {
         }

@@ -1,4 +1,11 @@
-﻿namespace Yuyuyui.PrivateServer;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace Yuyuyui.PrivateServer;
 
 public class ScenarioResourceVersionEntity : GameResourceVersionEntity
 {
@@ -7,39 +14,29 @@ public class ScenarioResourceVersionEntity : GameResourceVersionEntity
         string httpMethod,
         Dictionary<string, string> requestHeaders,
         byte[] requestBody,
-        Config config)
+        RouteConfig config)
         : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
     }
 
     protected override async Task ProcessRequest()
     {
-        // For now, we route this api call to the official server
-        Utils.Log("Path parameters:");
-        foreach (var pathParameter in pathParameters)
-        {
-            Utils.Log($"\t{pathParameter.Key} = {pathParameter.Value}");
-        }
-
-        Utils.Log("Redirected to the unofficial public API Server!");
-
         string languageOption = "";
-        var player = GetPlayerFromCookies();
-        if (player.friends.Contains(ConfigPlayer.All[ConfigPlayer.Language][ConfigPlayer.English].id.code))
+
+        var scenarioLanguage = Config.Get().InGame.ScenarioLanguage;
+        if (Config.SupportedInGameScenarioLanguage.Contains(scenarioLanguage))
         {
-            Utils.Log("Player language is English");
-            languageOption = "/en";
-        }
-        else if (player.friends.Contains(ConfigPlayer.All[ConfigPlayer.Language][ConfigPlayer.Chinese].id.code))
-        {
-            Utils.Log("Player language is Chinese");
-            languageOption = "/zh";
+            Utils.Log($"Scenario language is {CultureInfo.GetCultureInfo(scenarioLanguage).EnglishName}");
+            if (scenarioLanguage != Config.SupportedInGameScenarioLanguage[0])
+            {
+                languageOption = $"/{scenarioLanguage}";
+            }
         }
 
         HttpRequestMessage requestMessage = new HttpRequestMessage(System.Net.Http.HttpMethod.Get,
             new Uri($"https://{PrivateServer.PRIVATE_PUBLIC_API_SERVER}/test{RequestUri.AbsolutePath}{languageOption}"));
 
-        requestMessage.Content = new ByteArrayContent(Array.Empty<byte>());
+        //requestMessage.Content = new ByteArrayContent(Array.Empty<byte>());
         //requestMessage.Headers.Accept.Add(gk_json);
         //requestMessage.Content.Headers.ContentType = gk_json;  // The official server requires this.
         //requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", BASIC_AUTH_TOKEN);
