@@ -265,4 +265,121 @@ Transfer</value>
     <data name="SETTINGS_SECURITY_ONLINE_DECRYPTION" xml:space="preserve">
         <value>Use Online Decryption</value>
     </data>
+    <data name="SETTINGS_DIALOG_SAVE_TITLE" xml:space="preserve">
+        <value>Save Update File As...</value>
+    </data>
+    <data name="SETTINGS_DIALOG_SAVE_FILE_TYPE" xml:space="preserve">
+        <value>Update File</value>
+    </data>
+    <data name="LOG_UPDATE_DOWNLOADED" xml:space="preserve">
+        <value>Downloaded new update file at {0}</value>
+    </data>
+    <data name="LOG_UPDATE_FOUND" xml:space="preserve">
+        <value>Found new version: commit {0} on branch {1}</value>
+    </data>
+    <data name="LOG_UPDATE_CHECKING" xml:space="preserve">
+        <value>Checking for application update on branch {0}...</value>
+    </data>
+    <data name="LOG_UPDATE_NOT_FOUND" xml:space="preserve">
+        <value>No new version found.</value>
+    </data>
+    <data name="LOG_AT_GOT_UUID" xml:space="preserve">
+        <value>Got User UUID: {0}</value>
+    </data>
+    <data name="LOG_AT_GOT_CODE" xml:space="preserve">
+        <value>Got User Code: {0}</value>
+    </data>
+    <data name="LOG_AT_GOT_ACCESSORIES" xml:space="preserve">
+        <value>Got Accessories, {0} in Total</value>
+    </data>
+    <data name="LOG_AT_GOT_CARDS" xml:space="preserve">
+        <value>Got Cards, {0} in Total</value>
+    </data>
+    <data name="LOG_AT_GOT_DECKS" xml:space="preserve">
+        <value>Got Decks</value>
+    </data>
+    <data name="LOG_AT_GOT_ITEMS" xml:space="preserve">
+        <value>Got {0}</value>
+    </data>
+    <data name="LOG_AT_GET_TITLES" xml:space="preserve">
+        <value>Got Titles, {0} in Total</value>
+    </data>
+    <data name="LOG_AT_GOT_CHARACTER_FAMILIARITIES" xml:space="preserve">
+        <value>Got Character Affinities</value>
+    </data>
+    <data name="LOG_AT_GOT_HEADER" xml:space="preserve">
+        <value>Got User Data: Level {0}, EXP: {1}, Money: {2}</value>
+    </data>
+    <data name="LOG_AT_GOT_USER_INFO" xml:space="preserve">
+        <value>Got User Profile: Nickname: {0}, Comment: {1}</value>
+    </data>
+    <data name="LOG_VERSION" xml:space="preserve">
+        <value>Version {0}</value>
+    </data>
+    <data name="LOG_LISTENING_AT" xml:space="preserve">
+        <value>Listening at </value>
+    </data>
+    <data name="LOG_AT_FINISH_EXIT" xml:space="preserve">
+        <value>All transfer tasks have completed. Program will exit in 10 seconds.</value>
+    </data>
+    <data name="LOG_PS_ENTER_TO_EXIT" xml:space="preserve">
+        <value>Press Enter key to exit the program at any time.</value>
+    </data>
+    <data name="LOG_PS_REGISTER_NEW_PLAYER" xml:space="preserve">
+        <value>Registered new player {0}</value>
+    </data>
+    <data name="LOG_PS_CREATE_SESSION" xml:space="preserve">
+        <value>Created session for player {0} with Session ID = {1}, Session Key = {2}</value>
+    </data>
+    <data name="LOG_LIBGK_LAMBDA_FAILED" xml:space="preserve">
+        <value>LibGK Lambda Call Failed! </value>
+    </data>
+    <data name="LOG_PS_ACCOUNT_BANNING" xml:space="preserve">
+        <value>Banning Account {0}</value>
+    </data>
+    <data name="LOG_PS_ACCOUNT_BANNED" xml:space="preserve">
+        <value>Account {0} Banned</value>
+    </data>
+    <data name="LOG_PS_ACCESSORY_ASSIGN_NEW" xml:space="preserve">
+        <value>Assigned new accessory with master_id = {0}</value>
+    </data>
+    <data name="LOG_PS_CARD_ASSIGN_NEW" xml:space="preserve">
+        <value>Assigned new card with master_id = {0}</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_FOUND" xml:space="preserve">
+        <value>Found an existed friend request {0} ({1}=&gt;{2})</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_CREATED" xml:space="preserve">
+        <value>Created friend request {0} ({1}=&gt;{2})</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_SENT" xml:space="preserve">
+        <value>Friend request {0} sent to player {1}</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_REMOVED" xml:space="preserve">
+        <value>Friend request {0} removed from player {1}</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_DELETED" xml:space="preserve">
+        <value>Friend request {0} ({1}=&gt;{2}) deleted!</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_UNKNOWN" xml:space="preserve">
+        <value>Unknown status, shouldn't be here!</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_ACCEPTED" xml:space="preserve">
+        <value>Player {0} and {1} are friends now!</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_REJECTED" xml:space="preserve">
+        <value>Player {0} rejected the friend request from {1}</value>
+    </data>
+    <data name="LOG_PS_LOCAL_DATA_UPDATING" xml:space="preserve">
+        <value>Updating required local resources...</value>
+    </data>
+    <data name="LOG_PS_LOCAL_DATA_DOWNLOADING" xml:space="preserve">
+        <value>Downloading {0}...</value>
+    </data>
+    <data name="LOG_PS_LOCAL_DATA_UP_TO_DATE" xml:space="preserve">
+        <value>All data files are up to date</value>
+    </data>
+    <data name="LOG_PS_LOCAL_DATA_UPDATED" xml:space="preserve">
+        <value>Updated {0} file(s)</value>
+    </data>
 </root>

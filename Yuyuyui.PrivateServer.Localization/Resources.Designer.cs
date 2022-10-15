@@ -244,6 +244,105 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All transfer tasks have completed. Program will exit in 10 seconds..
+        /// </summary>
+        internal static string LOG_AT_FINISH_EXIT {
+            get {
+                return ResourceManager.GetString("LOG_AT_FINISH_EXIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got Titles, {0} in Total.
+        /// </summary>
+        internal static string LOG_AT_GET_TITLES {
+            get {
+                return ResourceManager.GetString("LOG_AT_GET_TITLES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got Accessories, {0} in Total.
+        /// </summary>
+        internal static string LOG_AT_GOT_ACCESSORIES {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_ACCESSORIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got Cards, {0} in Total.
+        /// </summary>
+        internal static string LOG_AT_GOT_CARDS {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_CARDS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got Character Affinities.
+        /// </summary>
+        internal static string LOG_AT_GOT_CHARACTER_FAMILIARITIES {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_CHARACTER_FAMILIARITIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got User Code: {0}.
+        /// </summary>
+        internal static string LOG_AT_GOT_CODE {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_CODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got Decks.
+        /// </summary>
+        internal static string LOG_AT_GOT_DECKS {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_DECKS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got User Data: Level {0}, EXP: {1}, Money: {2}.
+        /// </summary>
+        internal static string LOG_AT_GOT_HEADER {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got {0}.
+        /// </summary>
+        internal static string LOG_AT_GOT_ITEMS {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_ITEMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got User Profile: Nickname: {0}, Comment: {1}.
+        /// </summary>
+        internal static string LOG_AT_GOT_USER_INFO {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_USER_INFO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got User UUID: {0}.
+        /// </summary>
+        internal static string LOG_AT_GOT_UUID {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_UUID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Transfer Started!.
         /// </summary>
         internal static string LOG_AT_START {
@@ -280,6 +379,195 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to LibGK Lambda Call Failed! .
+        /// </summary>
+        internal static string LOG_LIBGK_LAMBDA_FAILED {
+            get {
+                return ResourceManager.GetString("LOG_LIBGK_LAMBDA_FAILED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Listening at .
+        /// </summary>
+        internal static string LOG_LISTENING_AT {
+            get {
+                return ResourceManager.GetString("LOG_LISTENING_AT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assigned new accessory with master_id = {0}.
+        /// </summary>
+        internal static string LOG_PS_ACCESSORY_ASSIGN_NEW {
+            get {
+                return ResourceManager.GetString("LOG_PS_ACCESSORY_ASSIGN_NEW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account {0} Banned.
+        /// </summary>
+        internal static string LOG_PS_ACCOUNT_BANNED {
+            get {
+                return ResourceManager.GetString("LOG_PS_ACCOUNT_BANNED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Banning Account {0}.
+        /// </summary>
+        internal static string LOG_PS_ACCOUNT_BANNING {
+            get {
+                return ResourceManager.GetString("LOG_PS_ACCOUNT_BANNING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assigned new card with master_id = {0}.
+        /// </summary>
+        internal static string LOG_PS_CARD_ASSIGN_NEW {
+            get {
+                return ResourceManager.GetString("LOG_PS_CARD_ASSIGN_NEW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created session for player {0} with Session ID = {1}, Session Key = {2}.
+        /// </summary>
+        internal static string LOG_PS_CREATE_SESSION {
+            get {
+                return ResourceManager.GetString("LOG_PS_CREATE_SESSION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press Enter key to exit the program at any time..
+        /// </summary>
+        internal static string LOG_PS_ENTER_TO_EXIT {
+            get {
+                return ResourceManager.GetString("LOG_PS_ENTER_TO_EXIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Player {0} and {1} are friends now!.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_ACCEPTED {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_ACCEPTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created friend request {0} ({1}=&gt;{2}).
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_CREATED {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_CREATED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Friend request {0} ({1}=&gt;{2}) deleted!.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_DELETED {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_DELETED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Found an existed friend request {0} ({1}=&gt;{2}).
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_FOUND {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Player {0} rejected the friend request from {1}.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_REJECTED {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_REJECTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Friend request {0} removed from player {1}.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_REMOVED {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_REMOVED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Friend request {0} sent to player {1}.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_SENT {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_SENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown status, shouldn&apos;t be here!.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_UNKNOWN {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_UNKNOWN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading {0}....
+        /// </summary>
+        internal static string LOG_PS_LOCAL_DATA_DOWNLOADING {
+            get {
+                return ResourceManager.GetString("LOG_PS_LOCAL_DATA_DOWNLOADING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All data files are up to date.
+        /// </summary>
+        internal static string LOG_PS_LOCAL_DATA_UP_TO_DATE {
+            get {
+                return ResourceManager.GetString("LOG_PS_LOCAL_DATA_UP_TO_DATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updated {0} file(s).
+        /// </summary>
+        internal static string LOG_PS_LOCAL_DATA_UPDATED {
+            get {
+                return ResourceManager.GetString("LOG_PS_LOCAL_DATA_UPDATED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updating required local resources....
+        /// </summary>
+        internal static string LOG_PS_LOCAL_DATA_UPDATING {
+            get {
+                return ResourceManager.GetString("LOG_PS_LOCAL_DATA_UPDATING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registered new player {0}.
+        /// </summary>
+        internal static string LOG_PS_REGISTER_NEW_PLAYER {
+            get {
+                return ResourceManager.GetString("LOG_PS_REGISTER_NEW_PLAYER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Private Server Started!.
         /// </summary>
         internal static string LOG_PS_START {
@@ -294,6 +582,51 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string LOG_PS_STOP {
             get {
                 return ResourceManager.GetString("LOG_PS_STOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Checking for application update on branch {0}....
+        /// </summary>
+        internal static string LOG_UPDATE_CHECKING {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_CHECKING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloaded new update file at {0}.
+        /// </summary>
+        internal static string LOG_UPDATE_DOWNLOADED {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_DOWNLOADED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Found new version: commit {0} on branch {1}.
+        /// </summary>
+        internal static string LOG_UPDATE_FOUND {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No new version found..
+        /// </summary>
+        internal static string LOG_UPDATE_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version {0}.
+        /// </summary>
+        internal static string LOG_VERSION {
+            get {
+                return ResourceManager.GetString("LOG_VERSION", resourceCulture);
             }
         }
         
@@ -645,6 +978,24 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_CATEGORY_SECURITY {
             get {
                 return ResourceManager.GetString("SETTINGS_CATEGORY_SECURITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update File.
+        /// </summary>
+        internal static string SETTINGS_DIALOG_SAVE_FILE_TYPE {
+            get {
+                return ResourceManager.GetString("SETTINGS_DIALOG_SAVE_FILE_TYPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Update File As....
+        /// </summary>
+        internal static string SETTINGS_DIALOG_SAVE_TITLE {
+            get {
+                return ResourceManager.GetString("SETTINGS_DIALOG_SAVE_TITLE", resourceCulture);
             }
         }
         

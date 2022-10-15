@@ -2,6 +2,7 @@
 using System.Linq;
 using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.AccountTransfer
 {
@@ -32,7 +33,7 @@ namespace Yuyuyui.AccountTransfer
                 .ToList();
             playerSession.player!.Save();
             
-            Utils.LogTrace($"Got titles, {playerSession.player!.items.titleItems.Count} in total.");
+            Utils.LogTrace(string.Format(Resources.LOG_AT_GET_TITLES, playerSession.player!.items.titleItems.Count));
         }
     }
 }

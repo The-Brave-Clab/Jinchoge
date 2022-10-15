@@ -142,7 +142,7 @@
 
                             <StackPanel Orientation="Vertical" Spacing="0" Margin="0">
                                 <StackPanel.Styles>
-                                    <StyleInclude Source="/Assets/Styles/NavigationButton.axaml" />
+                                    <StyleInclude Source="/Styles/NavigationButton.axaml" />
 
                                     <Style Selector="uc|NavigationButton">
                                         <Setter Property="GroupName" Value="0"></Setter>

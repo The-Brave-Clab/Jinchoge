@@ -1,6 +1,7 @@
 ﻿using System;
 using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.AccountTransfer;
 
@@ -38,10 +39,9 @@ public class HeaderEntity : BaseEntity<HeaderEntity>
 
         playerSession.player.Save();
 
-        Utils.LogTrace("Got user data:");
-        Utils.LogTrace($"\tLevel: {playerSession.player!.data.level}");
-        Utils.LogTrace($"\tEXP: {playerSession.player!.data.exp}");
-        Utils.LogTrace($"\tMoney: {playerSession.player!.data.money}");
-        Utils.LogTrace($"\tStamina: {playerSession.player!.data.stamina}");
+        Utils.LogTrace(string.Format(Resources.LOG_AT_GOT_HEADER,
+            playerSession.player!.data.level,
+            playerSession.player!.data.exp,
+            playerSession.player!.data.money));
     }
 }

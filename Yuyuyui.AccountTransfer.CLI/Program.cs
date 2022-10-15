@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -18,6 +19,9 @@ namespace Yuyuyui.AccountTransfer.CLI
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             Config.Load();
+            var cultureInfo = CultureInfo.GetCultureInfo(Config.Get().General.Language);
+            if (!cultureInfo.Equals(CultureInfo.InvariantCulture))
+                Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
             object logLock = new();
             Utils.SetLogCallback(
@@ -46,7 +50,9 @@ namespace Yuyuyui.AccountTransfer.CLI
                 }
             );
 
-            Utils.Log($"Version {Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion}");
+            Utils.Log(string.Format(Resources.LOG_VERSION,
+                Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()!
+                    .InformationalVersion));
 
             await LocalData.Update();
 
@@ -62,12 +68,12 @@ namespace Yuyuyui.AccountTransfer.CLI
             var endpoint = Proxy<AccountTransferProxyCallbacks>.Start();
 
             //foreach (var endPoint in proxyServer.ProxyEndPoints)
-            Console.Write("Listening at ");
+            Console.Write(Resources.LOG_LISTENING_AT);
             ColoredOutput.WriteLine($"{endpoint.IpAddress}:{endpoint.Port}", ConsoleColor.Cyan);
 
             Console.WriteLine();
 
-            ColoredOutput.WriteLine("Please use one of the following addresses as your proxy:", ConsoleColor.Yellow);
+            ColoredOutput.WriteLine(Resources.PS_STATUS_CHOOSE_MULTIPLE, ConsoleColor.Yellow);
 
             foreach (NetworkInterface netInterface in NetworkInterface.GetAllNetworkInterfaces())
             {
@@ -85,9 +91,9 @@ namespace Yuyuyui.AccountTransfer.CLI
                         continue;
 
                     ColoredOutput.Write($"{addr.Address}:{endpoint.Port}", ConsoleColor.Green);
-                    Console.Write("\t");
+                    Console.Write(@"	");
                     ColoredOutput.Write(netInterface.Name, ConsoleColor.DarkMagenta);
-                    Console.Write(", ");
+                    Console.Write(@", ");
                     ColoredOutput.WriteLine(netInterface.Description, ConsoleColor.DarkBlue);
                 }
             }
@@ -98,7 +104,7 @@ namespace Yuyuyui.AccountTransfer.CLI
 
             Proxy<AccountTransferProxyCallbacks>.Stop();
             
-            ColoredOutput.Write("All transfer tasks have completed. Program will exit in 10 seconds.", ConsoleColor.Green);
+            ColoredOutput.Write(Resources.LOG_AT_FINISH_EXIT, ConsoleColor.Green);
             Thread.Sleep(10000);
         }
     }

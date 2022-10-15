@@ -3,6 +3,7 @@ using System.Linq;
 using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
 using Yuyuyui.PrivateServer.DataModel;
+using Yuyuyui.PrivateServer.Localization;
 using Card = Yuyuyui.PrivateServer.Card;
 
 namespace Yuyuyui.AccountTransfer
@@ -57,7 +58,7 @@ namespace Yuyuyui.AccountTransfer
 
             playerSession.player!.Save();
             
-            Utils.LogTrace($"Got cards, {response.cards.Count} in total.");
+            Utils.LogTrace(string.Format(Resources.LOG_AT_GOT_CARDS, response.cards.Count));
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.AccountTransfer
 {
@@ -36,7 +37,7 @@ namespace Yuyuyui.AccountTransfer
                 .ToDictionary(p => p.master_id, p => p.id);
             playerSession.player!.Save();
             
-            Utils.LogTrace("Got event items.");
+            Utils.LogTrace(string.Format(Resources.LOG_AT_GOT_ITEMS, Resources.AT_TASK_ITEMS_EVENT));
         }
     }
 }

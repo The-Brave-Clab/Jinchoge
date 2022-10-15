@@ -1,6 +1,7 @@
 ﻿using System;
 using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.AccountTransfer;
 
@@ -47,8 +48,8 @@ public class SessionsEntity : BaseEntity<SessionsEntity>
         }
         playerSession.player.Save();
 
-        Utils.LogTrace($"Got user UUID: {playerSession.player.id.uuid}");
-        Utils.LogTrace($"Got user code: {playerSession.player.id.code}");
+        Utils.LogTrace(string.Format(Resources.LOG_AT_GOT_UUID, playerSession.player.id.uuid));
+        Utils.LogTrace(string.Format(Resources.LOG_AT_GOT_CODE, playerSession.player.id.code));
 
         playerSession.sessionID = response.session_id;
         playerSession.sessionKey = response.gk_key;

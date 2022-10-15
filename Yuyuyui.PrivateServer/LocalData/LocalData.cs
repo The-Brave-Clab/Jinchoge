@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -16,7 +17,7 @@ namespace Yuyuyui.PrivateServer
         {
             string url = $"{URL}/jp"; // language option here
 
-            Utils.Log("Updating required local resources...");
+            Utils.Log(Resources.LOG_PS_LOCAL_DATA_UPDATING);
 
             // Get remote data
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, new Uri(url));
@@ -71,7 +72,7 @@ namespace Yuyuyui.PrivateServer
                 var fileUrl = data.url;
                 var fileName = Path.GetFileName(filePath);
 
-                Utils.Log($"Downloading {fileName}...");
+                Utils.Log(string.Format(Resources.LOG_PS_LOCAL_DATA_DOWNLOADING, fileName));
 
                 using FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
                 await PrivateServer.HttpClient.DownloadAsync(fileUrl, fs, new Progress<float>(
@@ -86,11 +87,11 @@ namespace Yuyuyui.PrivateServer
 
             if (count == 0)
             {
-                Utils.Log("All data files are up to date.");
+                Utils.Log(Resources.LOG_PS_LOCAL_DATA_UP_TO_DATE);
             }
             else
             {
-                Utils.Log($"Updated {count} file(s).");
+                Utils.Log(string.Format(Resources.LOG_PS_LOCAL_DATA_UPDATED, count));
 
                 // Save the new version list to local storage
                 LocalDataVersionList newVersionList = new LocalDataVersionList

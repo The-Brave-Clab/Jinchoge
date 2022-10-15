@@ -244,6 +244,105 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 已完成全部转移任务。程序将在10秒后退出。.
+        /// </summary>
+        internal static string LOG_AT_FINISH_EXIT {
+            get {
+                return ResourceManager.GetString("LOG_AT_FINISH_EXIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取称号，共{0}个.
+        /// </summary>
+        internal static string LOG_AT_GET_TITLES {
+            get {
+                return ResourceManager.GetString("LOG_AT_GET_TITLES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取精灵，共{0}个.
+        /// </summary>
+        internal static string LOG_AT_GOT_ACCESSORIES {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_ACCESSORIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取卡牌，共{0}个.
+        /// </summary>
+        internal static string LOG_AT_GOT_CARDS {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_CARDS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取角色亲密度.
+        /// </summary>
+        internal static string LOG_AT_GOT_CHARACTER_FAMILIARITIES {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_CHARACTER_FAMILIARITIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取账号代码：{0}.
+        /// </summary>
+        internal static string LOG_AT_GOT_CODE {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_CODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取队伍信息.
+        /// </summary>
+        internal static string LOG_AT_GOT_DECKS {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_DECKS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取玩家信息：等级：{0}，经验：{1}，硬币：{2}.
+        /// </summary>
+        internal static string LOG_AT_GOT_HEADER {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取{0}.
+        /// </summary>
+        internal static string LOG_AT_GOT_ITEMS {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_ITEMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取玩家资料：昵称：{0}，签名：{1}.
+        /// </summary>
+        internal static string LOG_AT_GOT_USER_INFO {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_USER_INFO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已获取账号UUID：{0}.
+        /// </summary>
+        internal static string LOG_AT_GOT_UUID {
+            get {
+                return ResourceManager.GetString("LOG_AT_GOT_UUID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 开始账号转移！.
         /// </summary>
         internal static string LOG_AT_START {
@@ -280,6 +379,195 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to LibGK Lambda调用失败！.
+        /// </summary>
+        internal static string LOG_LIBGK_LAMBDA_FAILED {
+            get {
+                return ResourceManager.GetString("LOG_LIBGK_LAMBDA_FAILED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 正在监听.
+        /// </summary>
+        internal static string LOG_LISTENING_AT {
+            get {
+                return ResourceManager.GetString("LOG_LISTENING_AT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 获得新精灵，master_id = {0}.
+        /// </summary>
+        internal static string LOG_PS_ACCESSORY_ASSIGN_NEW {
+            get {
+                return ResourceManager.GetString("LOG_PS_ACCESSORY_ASSIGN_NEW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已禁用账号{0}.
+        /// </summary>
+        internal static string LOG_PS_ACCOUNT_BANNED {
+            get {
+                return ResourceManager.GetString("LOG_PS_ACCOUNT_BANNED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 正在禁用账号{0}.
+        /// </summary>
+        internal static string LOG_PS_ACCOUNT_BANNING {
+            get {
+                return ResourceManager.GetString("LOG_PS_ACCOUNT_BANNING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 获得新卡牌，master_id = {0}.
+        /// </summary>
+        internal static string LOG_PS_CARD_ASSIGN_NEW {
+            get {
+                return ResourceManager.GetString("LOG_PS_CARD_ASSIGN_NEW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 玩家{0}已创建会话，会话ID：{1}，会话密钥：{2}.
+        /// </summary>
+        internal static string LOG_PS_CREATE_SESSION {
+            get {
+                return ResourceManager.GetString("LOG_PS_CREATE_SESSION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 若要在任何时刻退出程序，请按回车键。.
+        /// </summary>
+        internal static string LOG_PS_ENTER_TO_EXIT {
+            get {
+                return ResourceManager.GetString("LOG_PS_ENTER_TO_EXIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 玩家{0}和{1}已成为好友！.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_ACCEPTED {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_ACCEPTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已创建好友申请{0} ({1}=&gt;{2}).
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_CREATED {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_CREATED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已删除好友申请{0} ({1}=&gt;{2})！.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_DELETED {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_DELETED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 发现已存在的好友申请{0} ({1}=&gt;{2}).
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_FOUND {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 玩家{0}拒绝了来自玩家{1}的好友申请.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_REJECTED {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_REJECTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 玩家{1}移除了好友申请{0}.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_REMOVED {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_REMOVED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已向玩家{1}发送好友申请{0}.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_SENT {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_SENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 未知状态，不应到达此处！.
+        /// </summary>
+        internal static string LOG_PS_FRIEND_REQUEST_UNKNOWN {
+            get {
+                return ResourceManager.GetString("LOG_PS_FRIEND_REQUEST_UNKNOWN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 正在下载{0}…….
+        /// </summary>
+        internal static string LOG_PS_LOCAL_DATA_DOWNLOADING {
+            get {
+                return ResourceManager.GetString("LOG_PS_LOCAL_DATA_DOWNLOADING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 所有资源均为最新.
+        /// </summary>
+        internal static string LOG_PS_LOCAL_DATA_UP_TO_DATE {
+            get {
+                return ResourceManager.GetString("LOG_PS_LOCAL_DATA_UP_TO_DATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已更新{0}个文件.
+        /// </summary>
+        internal static string LOG_PS_LOCAL_DATA_UPDATED {
+            get {
+                return ResourceManager.GetString("LOG_PS_LOCAL_DATA_UPDATED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 正在更新所需本地资源…….
+        /// </summary>
+        internal static string LOG_PS_LOCAL_DATA_UPDATING {
+            get {
+                return ResourceManager.GetString("LOG_PS_LOCAL_DATA_UPDATING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 新玩家{0}已注册.
+        /// </summary>
+        internal static string LOG_PS_REGISTER_NEW_PLAYER {
+            get {
+                return ResourceManager.GetString("LOG_PS_REGISTER_NEW_PLAYER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 私服已启动！.
         /// </summary>
         internal static string LOG_PS_START {
@@ -294,6 +582,51 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string LOG_PS_STOP {
             get {
                 return ResourceManager.GetString("LOG_PS_STOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 正在检查{0}分支上的更新…….
+        /// </summary>
+        internal static string LOG_UPDATE_CHECKING {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_CHECKING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 已将更新文件下载至{0}.
+        /// </summary>
+        internal static string LOG_UPDATE_DOWNLOADED {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_DOWNLOADED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 发现更新：位于{1}分支上的提交{0}.
+        /// </summary>
+        internal static string LOG_UPDATE_FOUND {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 没有发现更新。.
+        /// </summary>
+        internal static string LOG_UPDATE_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 当前版本：{0}.
+        /// </summary>
+        internal static string LOG_VERSION {
+            get {
+                return ResourceManager.GetString("LOG_VERSION", resourceCulture);
             }
         }
         
@@ -645,6 +978,24 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_CATEGORY_SECURITY {
             get {
                 return ResourceManager.GetString("SETTINGS_CATEGORY_SECURITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 更新文件.
+        /// </summary>
+        internal static string SETTINGS_DIALOG_SAVE_FILE_TYPE {
+            get {
+                return ResourceManager.GetString("SETTINGS_DIALOG_SAVE_FILE_TYPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 将更新文件保存为…….
+        /// </summary>
+        internal static string SETTINGS_DIALOG_SAVE_TITLE {
+            get {
+                return ResourceManager.GetString("SETTINGS_DIALOG_SAVE_TITLE", resourceCulture);
             }
         }
         

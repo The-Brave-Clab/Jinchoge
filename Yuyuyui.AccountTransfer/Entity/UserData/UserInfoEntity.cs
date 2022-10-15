@@ -1,6 +1,7 @@
 ﻿using System;
 using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.AccountTransfer;
 
@@ -31,8 +32,8 @@ public class UserInfoEntity : BaseEntity<UserInfoEntity>
 
         playerSession.player.Save();
 
-        Utils.LogTrace("Got user profile:");
-        Utils.LogTrace($"\tNickname: {playerSession.player!.profile.nickname}");
-        Utils.LogTrace($"\tComment: {playerSession.player!.profile.comment}");
+        Utils.LogTrace(string.Format(Resources.LOG_AT_GOT_USER_INFO,
+            playerSession.player!.profile.nickname,
+            playerSession.player!.profile.comment));
     }
 }

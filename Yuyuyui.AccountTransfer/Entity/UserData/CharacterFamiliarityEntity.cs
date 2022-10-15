@@ -1,6 +1,7 @@
 ﻿using System;
 using Titanium.Web.Proxy.Http;
 using Yuyuyui.PrivateServer;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.AccountTransfer
 {
@@ -27,7 +28,7 @@ namespace Yuyuyui.AccountTransfer
             playerSession.player!.characterFamiliarities = response.character_familiarities;
             playerSession.player!.Save();
             
-            Utils.LogTrace($"Got character familiarities.");
+            Utils.LogTrace(string.Format(Resources.LOG_AT_GOT_CHARACTER_FAMILIARITIES));
         }
     }
 }

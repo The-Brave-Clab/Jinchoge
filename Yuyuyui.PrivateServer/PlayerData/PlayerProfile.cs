@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Yuyuyui.PrivateServer.DataModel;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -63,7 +64,7 @@ namespace Yuyuyui.PrivateServer
         {
             // Delete all BasePlayerData.Identifier related entries
             
-            Utils.LogWarning($"Banning Account {id.code}");
+            Utils.LogWarning(string.Format(Resources.LOG_PS_ACCOUNT_BANNING, id.code));
             
             accessories.Values.ForEach(Accessory.Delete);
             clubOrders.ForEach(ClubOrder.Delete);
@@ -96,7 +97,7 @@ namespace Yuyuyui.PrivateServer
             PrivateServer.RemovePlayerProfile(this);
             Delete();
             
-            Utils.LogWarning($"Account {id.code} Banned");
+            Utils.LogWarning(string.Format(Resources.LOG_PS_ACCOUNT_BANNED, id.code));
         }
 
         // Accessory only, skip the gift acceptance progress
@@ -133,7 +134,7 @@ namespace Yuyuyui.PrivateServer
                 accessory.Save();
                 Save();
 
-                Utils.Log($"Assigned new Accessory master_id = {(long) accessoryId} to player.");
+                Utils.Log(string.Format(Resources.LOG_PS_ACCESSORY_ASSIGN_NEW, (long) accessoryId));
                 return;
             }
 
@@ -141,7 +142,6 @@ namespace Yuyuyui.PrivateServer
             accessory.quantity += quantity;
 
             accessory.Save();
-            Utils.Log("Accessory quantity increased");
         }
 
         public void GrantCard(long masterCardId, int potentialCount, CardsContext cardsDb, ItemsContext itemsDb)
@@ -156,7 +156,7 @@ namespace Yuyuyui.PrivateServer
                 card.Save();
                 Save();
                 potentialCount -= 1;
-                Utils.Log("Assigned new card master_id = " + masterCardId + " to player.");
+                Utils.Log(string.Format(Resources.LOG_PS_CARD_ASSIGN_NEW, masterCardId));
             }
             else
             {

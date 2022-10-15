@@ -207,7 +207,7 @@ internal class SettingsViewModel : ViewModelBase
     {
         if (Update.LocalVersion.is_local_build) return;
         
-        Utils.Log($"Checking for application update on branch {Config.Get().General.UpdateBranch}...");
+        Utils.Log(string.Format(Resources.LOG_UPDATE_CHECKING, Config.Get().General.UpdateBranch));
         UpdateStatus = Resources.SETTINGS_GENERAL_CHECK_UPDATE_TEXT_CHECKING;
         AllowCheckUpdate = false;
         AllowDownloadUpdate = false;
@@ -219,12 +219,13 @@ internal class SettingsViewModel : ViewModelBase
                 if (hasNewUpdate)
                 {
                     Utils.Log(
-                        $"Found new version: commit {newVersionInfo.commit_sha[..7]} on branch {newVersionInfo.branch}");
+                        string.Format(Resources.LOG_UPDATE_FOUND, newVersionInfo.commit_sha[..7],
+                            newVersionInfo.branch));
                     UpdateStatus = Resources.SETTINGS_GENERAL_CHECK_UPDATE_TEXT_FOUND;
                 }
                 else
                 {
-                    Utils.Log($"No new version found.");
+                    Utils.Log(Resources.LOG_UPDATE_NOT_FOUND);
                     UpdateStatus = Resources.SETTINGS_GENERAL_CHECK_UPDATE_TEXT_NOT_FOUND;
                 }
 
@@ -245,7 +246,7 @@ internal class SettingsViewModel : ViewModelBase
         
         SaveFileDialog saveFileBox = new SaveFileDialog
         {
-            Title = "Save Update File As...",
+            Title = Resources.SETTINGS_DIALOG_SAVE_TITLE,
             InitialFileName = fileName,
             Directory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
             Filters = new List<FileDialogFilter>
@@ -253,7 +254,7 @@ internal class SettingsViewModel : ViewModelBase
                 new()
                 {
                     Extensions = new List<string> { "zip" },
-                    Name = "Update File"
+                    Name = Resources.SETTINGS_DIALOG_SAVE_FILE_TYPE
                 }
             },
             DefaultExtension = "zip",
@@ -286,7 +287,7 @@ internal class SettingsViewModel : ViewModelBase
             await PrivateServer.HttpClient.DownloadAsync(url, fs, new Progress<float>(
                 progress => { toolbarVM.ToolbarProgress = progress * 100; }));
 
-            Utils.Log($"Downloaded new update file at {localFileName}");
+            Utils.Log(string.Format(Resources.LOG_UPDATE_DOWNLOADED, localFileName));
         }
         catch (Exception e)
         {
