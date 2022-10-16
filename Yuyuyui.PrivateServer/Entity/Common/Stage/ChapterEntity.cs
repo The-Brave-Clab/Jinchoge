@@ -35,7 +35,7 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
             
-            Utils.LogWarning("Locked status not filled!");
+            // Utils.LogWarning("Locked status not filled!");
                 
             Response response = new()
             {

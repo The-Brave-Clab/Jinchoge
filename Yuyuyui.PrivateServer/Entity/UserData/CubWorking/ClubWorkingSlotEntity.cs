@@ -33,7 +33,7 @@ namespace Yuyuyui.PrivateServer
                 player.Save();
             }
 
-            Utils.LogWarning("Stub API! Process finished club working here!");
+            // Utils.LogWarning("Stub API! Process finished club working here!");
 
             Response responseObj = new()
             {

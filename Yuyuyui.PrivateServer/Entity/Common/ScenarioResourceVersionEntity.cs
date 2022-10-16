@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer;
 
@@ -21,12 +22,14 @@ public class ScenarioResourceVersionEntity : GameResourceVersionEntity
 
     protected override async Task ProcessRequest()
     {
+        Utils.Log(Resources.LOG_PS_REDIRECT_API);
+
         string languageOption = "";
 
         var scenarioLanguage = Config.Get().InGame.ScenarioLanguage;
         if (Config.SupportedInGameScenarioLanguage.Contains(scenarioLanguage))
         {
-            Utils.Log($"Scenario language is {CultureInfo.GetCultureInfo(scenarioLanguage).EnglishName}");
+            Utils.Log(string.Format(Resources.LOG_PS_SCENARIO_LANGUAGE, CultureInfo.GetCultureInfo(scenarioLanguage).DisplayName));
             if (scenarioLanguage != Config.SupportedInGameScenarioLanguage[0])
             {
                 languageOption = $"/{scenarioLanguage}";

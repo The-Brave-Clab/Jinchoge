@@ -21,7 +21,7 @@ namespace Yuyuyui.PrivateServer
             var player = GetPlayerFromCookies();
 
             // Looks like the request body is always "{}". Ignored for now.
-            Utils.LogWarning("Stub API! Returns nothing for now.");
+            // Utils.LogWarning("Stub API! Returns nothing for now.");
 
             Response responseObj = new()
             {

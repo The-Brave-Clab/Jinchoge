@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -28,7 +29,7 @@ namespace Yuyuyui.PrivateServer
                 player.accessories.Add(newGyuuki.master_id, newGyuuki.id);
                 newGyuuki.Save();
                 player.Save();
-                Utils.Log("Assigned default accessory to player.");
+                Utils.Log(Resources.LOG_PS_ACCESSORY_ASSIGN_DEFAULT);
             }
 
             using var accessoriesDb = new AccessoriesContext();

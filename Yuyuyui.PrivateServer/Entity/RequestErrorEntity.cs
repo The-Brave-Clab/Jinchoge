@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -53,18 +54,19 @@ namespace Yuyuyui.PrivateServer
             // U0401: HTTP 401, Unauthorized Error
             string messageBody = string.IsNullOrEmpty(logMessage) ? responseObj.error.message : logMessage!;
             
-            Utils.LogError($"<APIError> {responseObj.error.code}: {messageBody}");
+            Utils.LogError(Resources.LOG_PS_API_ERROR_TEMPLATE + $"{responseObj.error.code}: {messageBody}");
             
             if (HasRequestBody())
             {
                 string requestBodyStr = Encoding.UTF8.GetString(requestBody);
-                Utils.LogError($"Request Body:\n{requestBodyStr}");
+                Utils.LogError($"Request Body:");
+                Utils.LogError(requestBodyStr);
             }
 
             Utils.LogError("Request Headers:");
             foreach (var header in requestHeaders)
             {
-                Utils.LogError($"\t{header.Key}: {header.Value}");
+                Utils.LogError($"{header.Key}: {header.Value}");
             }
 
             responseBody = Serialize(responseObj);
@@ -91,7 +93,7 @@ namespace Yuyuyui.PrivateServer
         public object body;
 
         public APIErrorException(string errorCode, object body)
-            : base($"<APIError> {errorCode}: {body}")
+            : base(Resources.LOG_PS_API_ERROR_TEMPLATE + $"{errorCode}: {body}")
         {
             this.errorCode = errorCode;
             this.body = body;
@@ -99,7 +101,7 @@ namespace Yuyuyui.PrivateServer
 
         public override string ToString()
         {
-            return $"<APIError> {errorCode}: {body}";
+            return Resources.LOG_PS_API_ERROR_TEMPLATE + $"{errorCode}: {body}";
         }
     }
 }

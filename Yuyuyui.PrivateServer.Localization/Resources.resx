@@ -382,4 +382,88 @@ Transfer</value>
     <data name="LOG_PS_LOCAL_DATA_UPDATED" xml:space="preserve">
         <value>Updated {0} file(s)</value>
     </data>
+    <data name="LOG_PS_REDIRECT_API" xml:space="preserve">
+        <value>Redirected to the unofficial public API Server</value>
+    </data>
+    <data name="LOG_PS_SCENARIO_LANGUAGE" xml:space="preserve">
+        <value>Scenario language is {0}</value>
+    </data>
+    <data name="LOG_PS_GOT_CONNECTION" xml:space="preserve">
+        <value>Got connection from UUID {0}</value>
+    </data>
+    <data name="LOG_PS_API_NOT_IMPLEMENTED" xml:space="preserve">
+        <value>API Not Implemented: </value>
+    </data>
+    <data name="LOG_PS_API_ERROR_TEMPLATE" xml:space="preserve">
+        <value>&lt;APIError&gt; </value>
+    </data>
+    <data name="LOG_PS_ACCESSORY_ENHANCEMENT_LEVEL" xml:space="preserve">
+        <value>Player accessory {0} level is {1}</value>
+    </data>
+    <data name="LOG_PS_ACCESSORY_QUANTITY_DECREASED" xml:space="preserve">
+        <value>Player accessory {0} quantity decerased by {1}</value>
+    </data>
+    <data name="LOG_PS_BRAVE_COIN_INCREASE" xml:space="preserve">
+        <value>Player {0} brave coins +{1}</value>
+    </data>
+    <data name="LOG_PS_MONEY_DECREASED" xml:space="preserve">
+        <value>Player {0} money decreased by {1}</value>
+    </data>
+    <data name="LOG_PS_ACCESSORY_ASSIGN_DEFAULT" xml:space="preserve">
+        <value>Assigned default accessory to player</value>
+    </data>
+    <data name="LOG_PS_CARD_ASSIGN_DEFAULT" xml:space="preserve">
+        <value>Assigned default cards to player</value>
+    </data>
+    <data name="LOG_PS_DECK_SET_DEFAULT" xml:space="preserve">
+        <value>Set default decks to player</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCMENT_COOKING_CHARACTER" xml:space="preserve">
+        <value>Cooking character {0} -&gt; Target character {1}</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCEMENT_BIG_HIT" xml:space="preserve">
+        <value>Big hit triggered</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCEMENT_ACTIVE_SKILL_LEVEL_UP_PROBABILITY" xml:space="preserve">
+        <value>Active skill level up probability is {0}%</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCEMENT_ACTIVE_SKILL_LEVEL_UP" xml:space="preserve">
+        <value>Active skill leveled up</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCEMENT_SUPPORT_SKILL_LEVEL_UP_PROBABILITY" xml:space="preserve">
+        <value>Support skill level up probability is {0}%</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCEMENT_SUPPORT_SKILL_LEVEL_UP" xml:space="preserve">
+        <value>Active skill leveled up</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCEMENT_AFFINITY_INCREASE" xml:space="preserve">
+        <value>Affinity {0} value increased by {1}</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCEMENT_AFFINITY_ASSIST_LEVEL_INCREASE" xml:space="preserve">
+        <value>Affinity {0} assist level increased by {1}</value>
+    </data>
+    <data name="LOG_PS_ACCESSORY_QUANTITY_INCREASED" xml:space="preserve">
+        <value>Player accessory {0} quantity increased by {1}</value>
+    </data>
+    <data name="LOG_PS_CARD_EVOLUTION_MASTER_ID_CHANGE" xml:space="preserve">
+        <value>Player card {0} Master ID changed from {1} to {2}</value>
+    </data>
+    <data name="LOG_PS_CARD_EVOLUTION_LEVEL_CHANGE" xml:space="preserve">
+        <value>Player card {0} evolution level changed from {1} to {2}</value>
+    </data>
+    <data name="LOG_PS_ITEM_QUANTITY_DECREASED" xml:space="preserve">
+        <value>Player item {0} quantity decreased by {1}</value>
+    </data>
+    <data name="LOG_PS_FRIEND_DELETED" xml:space="preserve">
+        <value>Player {0} removed player {1} from their friend list</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_FOUND_SYMMETRIC" xml:space="preserve">
+        <value>Found symmetric friend request {0} ({1}=&gt;{2}) and accepted automatically</value>
+    </data>
+    <data name="LOG_PS_PROFILE_UPDATED" xml:space="preserve">
+        <value>Updated User Profile: Nickname: {0}, Comment: {1}</value>
+    </data>
+    <data name="PS_LOG_REGULATION_AGREED" xml:space="preserve">
+        <value>Player agreed to regulation version {0}</value>
+    </data>
 </root>

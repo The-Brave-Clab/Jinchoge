@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -37,10 +38,10 @@ namespace Yuyuyui.PrivateServer
                 fuu.Save();
                 itsuki.Save();
                 player.Save();
-                Utils.Log("Assigned default cards to player.");
+                Utils.Log(Resources.LOG_PS_CARD_ASSIGN_DEFAULT);
             }
 
-            Utils.LogWarning("Taisha point bonus not applied!");
+            // Utils.LogWarning("Taisha point bonus not applied!");
 
             using var cardsDb = new CardsContext();
             Response responseObj = new()

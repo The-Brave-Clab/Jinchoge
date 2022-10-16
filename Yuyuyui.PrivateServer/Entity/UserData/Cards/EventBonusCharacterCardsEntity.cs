@@ -18,7 +18,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override Task ProcessRequest()
         {
-            Utils.LogError("Not documented! Stubbed for now.");
+            // Utils.LogError("Not documented! Stubbed for now.");
             
             Response responseObj = new()
             {

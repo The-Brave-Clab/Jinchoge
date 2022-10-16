@@ -20,7 +20,7 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            Utils.LogWarning("Stub API, package_items is empty for now");
+            // Utils.LogWarning("Stub API, package_items is empty for now");
 
             Response responseObj = new()
             {

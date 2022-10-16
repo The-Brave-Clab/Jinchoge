@@ -142,6 +142,8 @@ namespace Yuyuyui.PrivateServer
             accessory.quantity += quantity;
 
             accessory.Save();
+
+            Utils.Log(string.Format(Resources.LOG_PS_ACCESSORY_QUANTITY_INCREASED, accessoryId, quantity));
         }
 
         public void GrantCard(long masterCardId, int potentialCount, CardsContext cardsDb, ItemsContext itemsDb)

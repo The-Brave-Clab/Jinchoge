@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
 using Yuyuyui.GK;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -127,7 +128,7 @@ namespace Yuyuyui.PrivateServer
                     }
                     catch (Exception exception)
                     {
-                        Utils.LogError(exception);
+                        Utils.LogError(exception.Message);
                         throw;
                     }
                 }
@@ -141,7 +142,7 @@ namespace Yuyuyui.PrivateServer
                 new RouteConfig(apiPath, e.HttpClient.Request.Method),
                 headersAndBody.Item1,
                 headersAndBody.Item2,
-                $"API Not Implemented: {e.HttpClient.Request.Method} {apiPath}"
+                Resources.LOG_PS_API_NOT_IMPLEMENTED + $"{e.HttpClient.Request.Method} {apiPath}"
             ); // error type
         }
 
@@ -183,7 +184,7 @@ namespace Yuyuyui.PrivateServer
             }
             catch (Exception e)
             {
-                Utils.LogError(e.ToString());
+                Utils.LogError(e.Message);
                 throw;
             }
         }

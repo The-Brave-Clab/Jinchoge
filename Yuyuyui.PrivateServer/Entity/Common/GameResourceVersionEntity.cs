@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -24,14 +25,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            // For now, we route this api call to the official server
-            Utils.Log("Path parameters:");
-            foreach (var pathParameter in pathParameters)
-            {
-                Utils.Log($"\t{pathParameter.Key} = {pathParameter.Value}");
-            }
-
-            Utils.Log("Redirected to the unofficial public API Server.");
+            Utils.Log(Resources.LOG_PS_REDIRECT_API);
 
             HttpRequestMessage requestMessage = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, 
                 new Uri($"https://{PrivateServer.PRIVATE_PUBLIC_API_SERVER}/test{RequestUri.AbsolutePath}"));

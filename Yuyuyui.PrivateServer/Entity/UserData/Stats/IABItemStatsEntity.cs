@@ -20,7 +20,7 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            Utils.LogWarning("Fixed number of 1,000,000 paid blessings");
+            // Utils.LogWarning("Fixed number of 1,000,000 paid blessings");
 
             Response responseObj = new()
             {

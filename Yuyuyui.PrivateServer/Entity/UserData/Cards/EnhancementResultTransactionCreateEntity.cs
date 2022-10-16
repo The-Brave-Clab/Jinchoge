@@ -21,11 +21,6 @@ namespace Yuyuyui.PrivateServer
             //var player = GetPlayerFromCookies();
             
             // path parameters are ignored
-            Utils.Log("Path parameters:");
-            foreach (var pathParameter in pathParameters)
-            {
-                Utils.Log($"\t{pathParameter.Key} = {pathParameter.Value}");
-            }
 
             EnhancementTransaction.TransactionCreateData request =
                 Deserialize<EnhancementTransaction.TransactionCreateData>(requestBody)!;

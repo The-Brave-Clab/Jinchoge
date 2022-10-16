@@ -20,7 +20,7 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            Utils.LogWarning("Many data is stub");
+            // Utils.LogWarning("Many data is stub");
 
             Response responseObj = new()
             {
@@ -42,7 +42,7 @@ namespace Yuyuyui.PrivateServer
                     billing_point = player.data.paidBlessing + player.data.freeBlessing,
                     brave_coin = player.data.braveCoin,
                     enhancement_item_capacity = 590, // database + player bought
-                    has_complete_mission = false, // ?
+                    has_complete_mission = false, // club order prompt
                     has_present = false,
                     weekday_stamina = player.data.weekdayStamina,
                     max_weekday_stamina = 6, // brave system?

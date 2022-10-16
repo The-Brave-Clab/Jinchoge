@@ -21,12 +21,6 @@ namespace Yuyuyui.PrivateServer
         protected override Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
-            
-            Utils.Log("Path parameters:");
-            foreach (var pathParameter in pathParameters)
-            {
-                Utils.Log($"\t{pathParameter.Key} = {pathParameter.Value}");
-            }
 
             long stageId = long.Parse(GetPathParameter("stage_id"));
             long transactionId = long.Parse(GetPathParameter("transaction_id"));

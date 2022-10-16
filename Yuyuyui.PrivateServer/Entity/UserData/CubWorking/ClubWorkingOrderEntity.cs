@@ -21,7 +21,7 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            Utils.LogWarning("Reward boxes of club orders not filled!");
+            // Utils.LogWarning("Reward boxes of club orders not filled!");
 
             Response responseObj = new()
             {
