@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -72,10 +73,8 @@ namespace Yuyuyui.PrivateServer
                 }
 
                 player.Save();
-                Utils.Log("Assigned default decks to player.");
+                Utils.Log(Resources.LOG_PS_DECK_SET_DEFAULT);
             }
-
-            Utils.LogWarning("Unit calculation is not finished yet!");
 
             Response responseObj;
             using (var cardsDb = new CardsContext())

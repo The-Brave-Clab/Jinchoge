@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -24,7 +25,7 @@ namespace Yuyuyui.PrivateServer
             {
                 Request request = Deserialize<Request>(requestBody)!;
                 int checkVersion = request.regulation_version.current_version;
-                Utils.Log($"Player agreed to regulation version {checkVersion}");
+                Utils.Log(string.Format(Resources.PS_LOG_REGULATION_AGREED, checkVersion));
                 player.data.regulationVersion = checkVersion;
                 player.Save();
             }

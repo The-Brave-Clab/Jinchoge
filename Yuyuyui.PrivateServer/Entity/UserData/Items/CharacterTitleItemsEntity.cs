@@ -19,7 +19,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override Task ProcessRequest()
         {
-            Utils.LogError("Request is {}, response is {}, WTF IS THIS ONE");
+            // Utils.LogError("Request is {}, response is {}, WTF IS THIS ONE");
 
             responseBody = Encoding.UTF8.GetBytes("{}");
             SetBasicResponseHeaders();

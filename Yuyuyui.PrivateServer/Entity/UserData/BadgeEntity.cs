@@ -24,21 +24,21 @@ namespace Yuyuyui.PrivateServer
 
             if (requestBody.Length > 0)
             {
-                Utils.LogWarning("PUT Method, Needs more tests!");
+                // Utils.LogWarning("PUT Method, Needs more tests!");
                 Request request = Deserialize<Request>(requestBody)!;
                 if (request.sub_category_id == -1)
                 {
                     player.newAlbum.Remove(request.category_id);
-                    Utils.Log(
-                        $"Updated user new album status:\n\tCategory\t{request.category_id}");
+                    // Utils.Log(
+                    //     $"Updated user new album status:\n\tCategory\t{request.category_id}");
                 }
                 else
                 {
                     player.newAlbum[request.category_id].Remove(request.sub_category_id);
                     if (player.newAlbum[request.category_id].Count == 0)
                         player.newAlbum.Remove(request.category_id);
-                    Utils.Log(
-                        $"Updated user new album status:\n\tCategory\t{request.category_id}\n\tSubcategory\t{request.sub_category_id}");
+                    // Utils.Log(
+                    //     $"Updated user new album status:\n\tCategory\t{request.category_id}\n\tSubcategory\t{request.sub_category_id}");
                 }
                 player.Save();
                 
@@ -46,7 +46,7 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
-                Utils.LogWarning("Stub API!");
+                // Utils.LogWarning("Stub API!");
                 
                 Response responseObj = new()
                 {

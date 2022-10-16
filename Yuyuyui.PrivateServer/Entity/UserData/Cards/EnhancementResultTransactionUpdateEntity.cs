@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -21,12 +22,6 @@ namespace Yuyuyui.PrivateServer
         protected override Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
-
-            Utils.Log("Path parameters:");
-            foreach (var pathParameter in pathParameters)
-            {
-                Utils.Log($"\t{pathParameter.Key} = {pathParameter.Value}");
-            }
 
             long cardId = long.Parse(GetPathParameter("card_id"));
             long transactionId = long.Parse(GetPathParameter("transaction_id"));
@@ -76,8 +71,8 @@ namespace Yuyuyui.PrivateServer
                 cookingCharacterId = cookingCharacterData.CookingCharacterId;
             }
 
-            Utils.Log($"cooking character {cookingCharacterData.CookingCharacterId}" +
-                      $" -> target character {cookingCharacterData.TargetCharacterId}");
+            Utils.Log(string.Format(Resources.LOG_PS_CARD_ENHANCMENT_COOKING_CHARACTER,
+                cookingCharacterData.CookingCharacterId, cookingCharacterData.TargetCharacterId));
 
             // this is the result cooking data
             NoodleCooking cookingData =
@@ -93,7 +88,8 @@ namespace Yuyuyui.PrivateServer
             // next, we check if this is a big hit
             bool bigHit = Utils.ProbabilityCheck(cookingData.SpecialHitPercent / 100.0f);
 
-            Utils.Log($"bigHit is {bigHit}");
+            if (bigHit)
+                Utils.Log(Resources.LOG_PS_CARD_ENHANCEMENT_BIG_HIT);
 
             // get the used udon pack
             long noodleId = bigHit ? cookingData.SpecialNoodleId : cookingData.NoodleId;
@@ -119,9 +115,11 @@ namespace Yuyuyui.PrivateServer
                 masterCard.ActiveSkillId ?? 0,
                 userCard.active_skill_level,
                 transaction.createdWith.enhancement_item.quantity);
-            Utils.Log($"active skill level up probability is {activeSkillLevelUpProbability * 100.0f}%");
+            Utils.Log(string.Format(Resources.LOG_PS_CARD_ENHANCEMENT_ACTIVE_SKILL_LEVEL_UP_PROBABILITY,
+                activeSkillLevelUpProbability * 100.0f));
             bool activeSkillLevelUp = Utils.ProbabilityCheck(activeSkillLevelUpProbability);
-            Utils.Log($"active skill level up {activeSkillLevelUp}");
+            if (activeSkillLevelUp)
+                Utils.Log(Resources.LOG_PS_CARD_ENHANCEMENT_ACTIVE_SKILL_LEVEL_UP);
             
             // Overall Support Skill
             float supportSkillLevelUpProbability = CalcUtil.CalcSupportEnhancementChance(
@@ -131,9 +129,11 @@ namespace Yuyuyui.PrivateServer
                 usedItem.SupportSkillLevelCategory,
                 userCard.support_skill_level,
                 transaction.createdWith.enhancement_item.quantity);
-            Utils.Log($"support skill level up probability is {supportSkillLevelUpProbability * 100.0f}%");
+            Utils.Log(string.Format(Resources.LOG_PS_CARD_ENHANCEMENT_SUPPORT_SKILL_LEVEL_UP_PROBABILITY,
+                supportSkillLevelUpProbability * 100.0f));
             bool supportSkillLevelUp = Utils.ProbabilityCheck(supportSkillLevelUpProbability);
-            Utils.Log($"support skill level up {supportSkillLevelUp}");
+            if (supportSkillLevelUp)
+                Utils.Log(Resources.LOG_PS_CARD_ENHANCEMENT_SUPPORT_SKILL_LEVEL_UP);
           
             // character familiarity
             CharacterFamiliarity familiarity = player.GetCharacterFamiliarity(cookingCharacterData.CookingCharacterId,
@@ -176,8 +176,10 @@ namespace Yuyuyui.PrivateServer
             familiarity.rank = newRank;
             familiarity.familiarity = newFamiliarity;
             familiarity.assist_level = newAssistLevel;
-            Utils.Log($"familiarity {familiarity.character_group} value +{newFamiliarity - beforeFamiliarity}");
-            Utils.Log($"familiarity {familiarity.character_group} assist level +{gotAssistLevel}");
+            Utils.Log(string.Format(Resources.LOG_PS_CARD_ENHANCEMENT_AFFINITY_INCREASE,
+                familiarity.character_group, newFamiliarity - beforeFamiliarity));
+            Utils.Log(string.Format(Resources.LOG_PS_CARD_ENHANCEMENT_AFFINITY_ASSIST_LEVEL_INCREASE,
+                familiarity.character_group, gotAssistLevel));
             player.Save();
 
             long costMoney =

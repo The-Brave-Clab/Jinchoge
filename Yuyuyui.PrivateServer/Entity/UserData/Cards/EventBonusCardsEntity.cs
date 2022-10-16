@@ -18,7 +18,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override Task ProcessRequest()
         {
-            Utils.LogWarning("Stub API!");
+            // Utils.LogWarning("Stub API!");
             
             Response responseObj = new()
             {

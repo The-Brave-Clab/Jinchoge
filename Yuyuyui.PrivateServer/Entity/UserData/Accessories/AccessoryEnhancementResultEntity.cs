@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -39,18 +40,18 @@ namespace Yuyuyui.PrivateServer
             playerAccessory.level = requestObj.accessory.level;
             playerAccessory.quantity -= accessoryTargetLevel.NeedAmount; // don't need to clamp here
             playerAccessory.Save();
-            Utils.Log($"player accessory {playerAccessory.id} level is {playerAccessory.level}");
-            Utils.Log($"player accessory {playerAccessory.id} quantity -{accessoryTargetLevel.NeedAmount}");
+            Utils.Log(string.Format(Resources.LOG_PS_ACCESSORY_ENHANCEMENT_LEVEL, playerAccessory.id, playerAccessory.level));
+            Utils.Log(string.Format(Resources.LOG_PS_ACCESSORY_QUANTITY_DECREASED, playerAccessory.id, accessoryTargetLevel.NeedAmount));
             
             // brave coins
             if (accessoryTargetLevel.BraveCoin > 0)
             {
                 player.data.braveCoin += accessoryTargetLevel.BraveCoin;
-                Utils.Log($"player {player.id.code} brave coins +{accessoryTargetLevel.BraveCoin}");
+                Utils.Log(string.Format(Resources.LOG_PS_BRAVE_COIN_INCREASE, player.id.code, accessoryTargetLevel.BraveCoin));
             }
             // money
             player.data.money -= accessoryTargetLevel.Money;
-            Utils.Log($"player {player.id.code} money -{accessoryTargetLevel.Money}");
+            Utils.Log(string.Format(Resources.LOG_PS_MONEY_DECREASED, player.id.code, accessoryTargetLevel.Money));
             player.Save();
 
             Response responseObj = new()

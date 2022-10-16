@@ -22,8 +22,8 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
             
-            Utils.LogWarning("All adventure books are unlocked and watchable for now!");
-            Utils.LogWarning("Player adventure books ticket count is fixed!");
+            // Utils.LogWarning("All adventure books are unlocked and watchable for now!");
+            // Utils.LogWarning("Player adventure books ticket count is fixed!");
 
             if (HasRequestBody())
             {

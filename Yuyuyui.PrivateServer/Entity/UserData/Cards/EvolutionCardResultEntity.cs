@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -36,8 +37,10 @@ namespace Yuyuyui.PrivateServer
             // change stats of the card
             // default value will be used if it's a limit break
             long newMasterId = masterCard.EvolutionCardId ?? userCard.master_id;
-            Utils.Log($"user card {userCard.id} master_id {userCard.master_id}->{newMasterId}");
-            Utils.Log($"user card {userCard.id} evolution_level {userCard.evolution_level}->{targetEvolutionLevel}");
+            Utils.Log(string.Format(Resources.LOG_PS_CARD_EVOLUTION_MASTER_ID_CHANGE,
+                userCard.id, userCard.master_id, newMasterId));
+            Utils.Log(string.Format(Resources.LOG_PS_CARD_EVOLUTION_LEVEL_CHANGE,
+                userCard.id, userCard.evolution_level, targetEvolutionLevel));
             userCard.master_id = newMasterId;
             userCard.evolution_level = targetEvolutionLevel;
             userCard.Save();
@@ -62,7 +65,7 @@ namespace Yuyuyui.PrivateServer
                 // we don't need to validate for the same reason
                 recipeItem.quantity -= resource.Value;
                 recipeItem.Save();
-                Utils.Log($"player item {recipeItem.master_id} quantity -{resource.Value}");
+                Utils.Log(string.Format(Resources.LOG_PS_ITEM_QUANTITY_DECREASED, recipeItem.master_id, resource.Value));
             }
 
             // consume the player's money
@@ -70,35 +73,12 @@ namespace Yuyuyui.PrivateServer
 
             // grant the accessory rewards to the player
             long? evolutionRewardAccessoryId = newMasterCard.GetEvolutionRewardAccessoryId();
-            if (evolutionRewardAccessoryId != null)
-            {
-                long accessoryId = evolutionRewardAccessoryId ?? 0;
-                Accessory playerAccessory;
-                if (!player.accessories.ContainsKey(accessoryId))
-                {
-                    playerAccessory = new()
-                    {
-                        id = Accessory.GetID(),
-                        master_id = accessoryId,
-                        level = 1,
-                        quantity = 0
-                    };
-                    player.accessories.Add(accessoryId, playerAccessory.id);
-                }
-                else
-                {
-                    playerAccessory = Accessory.Load(player.accessories[accessoryId]);
-                }
+            int rewardQuantity = userCard.potential + 1;
+            player.GrantAccessory(evolutionRewardAccessoryId, rewardQuantity);
 
-                int rewardQuantity = userCard.potential + 1;
-                playerAccessory.quantity += rewardQuantity;
-                playerAccessory.Save();
-                
-                Utils.Log($"reward accessory {accessoryId} quantity +{rewardQuantity}");
-            }
             // grant the brave coin rewards to the player
             player.data.braveCoin += gotBraveCoin;
-            Utils.Log($"player got {gotBraveCoin} brave coins");
+            Utils.Log(string.Format(Resources.LOG_PS_BRAVE_COIN_INCREASE, player.id.code, gotBraveCoin));
             // TODO: <GIFT_SYSTEM> give the limit break gift to the player
 
 

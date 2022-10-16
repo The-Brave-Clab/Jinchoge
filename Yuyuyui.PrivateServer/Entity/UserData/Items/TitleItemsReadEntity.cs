@@ -21,7 +21,7 @@ namespace Yuyuyui.PrivateServer
         {
             //var player = GetPlayerFromCookies();
             
-            Utils.LogWarning("Stub API");
+            // Utils.LogWarning("Stub API");
 
             //Request requestObj = Deserialize<Request>(requestBody)!;
 

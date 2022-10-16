@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -23,7 +24,8 @@ namespace Yuyuyui.PrivateServer
             if (requestBody.Length > 0)
             {
                 RequestResponse request = Deserialize<RequestResponse>(requestBody)!;
-                Utils.Log($"Updated user profile:\n\tNickname\t{request.profile.nickname}\n\t Comment\t{request.profile.comment}");
+                Utils.Log(string.Format(Resources.LOG_PS_PROFILE_UPDATED,
+                    request.profile.nickname, request.profile.comment));
                 player.profile = request.profile;
                 player.Save();
             }

@@ -128,7 +128,7 @@ namespace Yuyuyui.PrivateServer
                     }
                     catch (Exception exception)
                     {
-                        Utils.LogError(exception);
+                        Utils.LogError(exception.Message);
                         throw;
                     }
                 }
@@ -184,7 +184,7 @@ namespace Yuyuyui.PrivateServer
             }
             catch (Exception e)
             {
-                Utils.LogError(e.ToString());
+                Utils.LogError(e.Message);
                 throw;
             }
         }

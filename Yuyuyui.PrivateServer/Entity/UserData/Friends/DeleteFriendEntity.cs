@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -36,7 +37,7 @@ namespace Yuyuyui.PrivateServer
             friend.friends.Remove(player.id.code); // Same as above
             friend.Save();
             
-            Utils.Log($"Player {player.id.code} removed player {friend.id.code} from their friend list.");
+            Utils.Log(string.Format(Resources.LOG_PS_FRIEND_DELETED, player.id.code, friend.id.code));
             
             responseBody = Encoding.UTF8.GetBytes("{}");
             SetBasicResponseHeaders();

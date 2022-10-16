@@ -397,4 +397,73 @@
     <data name="LOG_PS_API_ERROR_TEMPLATE" xml:space="preserve">
         <value>&lt;API错误&gt; </value>
     </data>
+    <data name="LOG_PS_ACCESSORY_ENHANCEMENT_LEVEL" xml:space="preserve">
+        <value>玩家精灵{0}等级为{1}</value>
+    </data>
+    <data name="LOG_PS_ACCESSORY_QUANTITY_DECREASED" xml:space="preserve">
+        <value>玩家精灵{0}数量减少{1}</value>
+    </data>
+    <data name="LOG_PS_BRAVE_COIN_INCREASE" xml:space="preserve">
+        <value>玩家{0}勇者勋章+{1}</value>
+    </data>
+    <data name="LOG_PS_MONEY_DECREASED" xml:space="preserve">
+        <value>玩家{0}硬币数量减少{1}</value>
+    </data>
+    <data name="LOG_PS_ACCESSORY_ASSIGN_DEFAULT" xml:space="preserve">
+        <value>已向玩家分发默认精灵</value>
+    </data>
+    <data name="LOG_PS_CARD_ASSIGN_DEFAULT" xml:space="preserve">
+        <value>已向玩家分发默认卡牌</value>
+    </data>
+    <data name="LOG_PS_DECK_SET_DEFAULT" xml:space="preserve">
+        <value>已为玩家设置默认队伍</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCMENT_COOKING_CHARACTER" xml:space="preserve">
+        <value>料理角色{0} -&gt; 目标角色{1}</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCEMENT_BIG_HIT" xml:space="preserve">
+        <value>成功出发料理大成功</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCEMENT_ACTIVE_SKILL_LEVEL_UP_PROBABILITY" xml:space="preserve">
+        <value>必杀技升级概率为{0}%</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCEMENT_ACTIVE_SKILL_LEVEL_UP" xml:space="preserve">
+        <value>必杀技升级</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCEMENT_SUPPORT_SKILL_LEVEL_UP_PROBABILITY" xml:space="preserve">
+        <value>被动技能升级概率为{0}%</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCEMENT_SUPPORT_SKILL_LEVEL_UP" xml:space="preserve">
+        <value>被动技能升级</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCEMENT_AFFINITY_INCREASE" xml:space="preserve">
+        <value>亲密度{0}增加{1}</value>
+    </data>
+    <data name="LOG_PS_CARD_ENHANCEMENT_AFFINITY_ASSIST_LEVEL_INCREASE" xml:space="preserve">
+        <value>亲密度{0}协作等级增加{1}</value>
+    </data>
+    <data name="LOG_PS_ACCESSORY_QUANTITY_INCREASED" xml:space="preserve">
+        <value>玩家精灵{0}数量增加{1}</value>
+    </data>
+    <data name="LOG_PS_CARD_EVOLUTION_MASTER_ID_CHANGE" xml:space="preserve">
+        <value>玩家卡牌{0}主ID由{1}变为{2}</value>
+    </data>
+    <data name="LOG_PS_CARD_EVOLUTION_LEVEL_CHANGE" xml:space="preserve">
+        <value>玩家卡牌{0}神花解放等级由{1}变为{2}</value>
+    </data>
+    <data name="LOG_PS_ITEM_QUANTITY_DECREASED" xml:space="preserve">
+        <value>玩家道具{0}数量减少{1}</value>
+    </data>
+    <data name="LOG_PS_FRIEND_DELETED" xml:space="preserve">
+        <value>玩家{0}将玩家{1}从好友列表中删除</value>
+    </data>
+    <data name="LOG_PS_FRIEND_REQUEST_FOUND_SYMMETRIC" xml:space="preserve">
+        <value>已找到对称的好友申请{0}（{1}=&gt;{2}）并已自动接受</value>
+    </data>
+    <data name="LOG_PS_PROFILE_UPDATED" xml:space="preserve">
+        <value>已更新玩家资料：昵称：{0}，签名：{1}</value>
+    </data>
+    <data name="PS_LOG_REGULATION_AGREED" xml:space="preserve">
+        <value>玩家已同意用户协议版本{0}</value>
+    </data>
 </root>

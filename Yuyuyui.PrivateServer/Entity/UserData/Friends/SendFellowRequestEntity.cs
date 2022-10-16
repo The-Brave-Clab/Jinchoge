@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -45,8 +46,8 @@ namespace Yuyuyui.PrivateServer
                     player.friendRequests
                         .Select(FriendRequest.Load)
                         .First(fr => fr.fromUser == friend.id.code);
-                Utils.Log(
-                    $"Found symmetric friend request {friendRequest.id} ({friendRequest.fromUser}=>{friendRequest.toUser})!");
+                Utils.Log(string.Format(Resources.LOG_PS_FRIEND_REQUEST_FOUND_SYMMETRIC,
+                    friendRequest.id, friendRequest.fromUser, friendRequest.toUser));
                 friendRequest.status = 1; // Accept
                 friendRequest.ProcessStatus();
             }
