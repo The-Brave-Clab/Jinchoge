@@ -2,7 +2,7 @@ name: Build & Deploy Project
 
 on:
   push:
-    branches: [ "master", "release", "app-bundle" ]
+    branches: [ "master", "release" ]
 
 jobs:
   get_time:

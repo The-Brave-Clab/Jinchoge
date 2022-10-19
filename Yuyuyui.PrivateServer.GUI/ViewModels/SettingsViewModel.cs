@@ -241,7 +241,7 @@ internal class SettingsViewModel : ViewModelBase
         AllowDownloadUpdate = false;
         AllowCheckUpdate = false;
 
-        string defaultFile = $"{Update.LocalVersion.framework}-{Update.LocalVersion.runtime_id}";
+        string defaultFile = $"{Update.LocalVersion.runtime_id}";
         string fileName = $"{defaultFile}.zip";
         if (newVersionInfo.artifacts != null && newVersionInfo.artifacts.ContainsKey(defaultFile))
             fileName = newVersionInfo.artifacts[defaultFile];
