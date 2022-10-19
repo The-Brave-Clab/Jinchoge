@@ -14,6 +14,10 @@ on:
         required: false
         default: ''
         type: string
+      publish_singlefile:
+        required: false
+        default: true
+        type: boolean
       use_tar:
         required: true
         type: boolean
@@ -63,7 +67,7 @@ jobs:
     - name: Set .NET Publish Configuration
       shell: pwsh
       run: |
-        echo "publish_config=-r ${{ inputs.rid }} -c Release -f ${{ inputs.tfm }} --sc false -o ${{ env.output_folder }} --version-suffix ${{ env.version_suffix }} -p:PublishReadyToRun=false -p:PublishSingleFile=true -p:UseAppHost=true --no-restore" >> $env:GITHUB_ENV
+        echo "publish_config=-r ${{ inputs.rid }} -c Release -f ${{ inputs.tfm }} --sc false -o ${{ env.output_folder }} --version-suffix ${{ env.version_suffix }} -p:PublishReadyToRun=false -p:PublishSingleFile=${{ env.publish_singlefile }} -p:UseAppHost=true --no-restore" >> $env:GITHUB_ENV
     - name: Update "is_local_build"
       uses: jossef/action-set-json-field@v1
       with:
@@ -116,7 +120,7 @@ jobs:
       run: dotnet publish Yuyuyui.AccountTransfer.CLI/Yuyuyui.AccountTransfer.CLI.csproj ${{ env.publish_config }}
     - name: Archive Production Artifacts as Tar
       if: ${{ inputs.use_tar }}
-      run: tar zcf ${{ inputs.rid }}.tar.gz -C ${{ env.publish_folder }} .
+      run: tar zcf ${{ inputs.rid }}.tgz -C ${{ env.publish_folder }} .
     - name: Archive Production Artifacts as Zip
       if: ${{ ! inputs.use_tar }}
       run: 7z a -tzip ${{ inputs.rid }}.zip ./${{ env.publish_folder }}/*
@@ -125,7 +129,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: ${{ inputs.rid }}
-        path: ${{ inputs.rid }}.tar.gz
+        path: ${{ inputs.rid }}.tgz
         retention-days: 1
     - name: Upload Production Artifacts
       if: ${{ !inputs.use_tar }}

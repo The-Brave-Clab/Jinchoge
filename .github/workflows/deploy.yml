@@ -61,6 +61,7 @@ jobs:
       tfm: ${{ matrix.tfm }}
       build_host: macos-latest
       publish_subfolder: '/Jinchoge.app/Contents/MacOS'
+      publish_singlefile: false
       use_tar: true
     secrets: inherit
 
@@ -158,21 +159,21 @@ jobs:
         with:
           file: version.json
           field: version_info.${{ github.ref_name }}.artifacts.osx-x64
-          value: osx-x64.tar.gz
+          value: osx-x64.tgz
 
       - name: Update Artifacts (osx-arm64)
         uses: jossef/action-set-json-field@v1
         with:
           file: version.json
           field: version_info.${{ github.ref_name }}.artifacts.osx-arm64
-          value: osx-arm64.tar.gz
+          value: osx-arm64.tgz
 
       - name: Update Artifacts (linux-x64)
         uses: jossef/action-set-json-field@v1
         with:
           file: version.json
           field: version_info.${{ github.ref_name }}.artifacts.linux-x64
-          value: linux-x64.tar.gz
+          value: linux-x64.tgz
 
 
 
