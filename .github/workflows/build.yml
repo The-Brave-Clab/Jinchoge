@@ -107,21 +107,20 @@ jobs:
     - name: Build Account Transfer CLI
       run: dotnet publish Yuyuyui.AccountTransfer.CLI/Yuyuyui.AccountTransfer.CLI.csproj ${{ env.publish_config }}
     - name: Archive Production Artifacts as Tar
-      if: ${{ inputs.use_tar }} == ${{ true }}
-      run: tar zcf ${{ inputs.rid }}.tar.gz -C ./${{ env.output_folder }} ./${{ env.output_folder }}
+      if: ${{ inputs.use_tar }}
+      run: tar zcf ${{ inputs.rid }}.tar.gz -C ${{ env.output_folder }} .
     - name: Archive Production Artifacts as Zip
-      if: ${{ inputs.use_tar }} == ${{ false }}
-      shell: pwsh
+      if: ${{ ! inputs.use_tar }}
       run: 7za a ${{ inputs.rid }}.zip ./${{ env.output_folder }}/*
     - name: Upload Production Artifacts
-      if: ${{ inputs.use_tar }} == ${{ true }}
+      if: ${{ inputs.use_tar }}
       uses: actions/upload-artifact@v3
       with:
         name: ${{ inputs.rid }}
         path: ${{ inputs.rid }}.tar.gz
         retention-days: 1
     - name: Upload Production Artifacts
-      if: ${{ inputs.use_tar }} == ${{ false }}
+      if: ${{ !inputs.use_tar }}
       uses: actions/upload-artifact@v3
       with:
         name: ${{ inputs.rid }}
