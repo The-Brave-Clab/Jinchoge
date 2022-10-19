@@ -106,6 +106,6 @@ jobs:
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ inputs.tfm }}-${{ inputs.rid }}
+        name: ${{ inputs.rid }}
         path: ${{ env.output_folder }}
         retention-days: 1

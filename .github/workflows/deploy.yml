@@ -83,11 +83,11 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v3
         with:
-          name: ${{ matrix.tfm }}-${{ matrix.rid }}
+          name: ${{ matrix.rid }}
       - name: Archive Artifact
-        run: zip ${{ matrix.tfm }}-${{ matrix.rid }}.zip ./* -r
+        run: zip ${{ matrix.rid }}.zip ./* -r
       - name: Upload to AWS S3
-        run: aws s3 cp ${{ matrix.tfm }}-${{ matrix.rid }}.zip s3://y3ps-publish/${{ github.ref_name }}/${{ github.run_number }}/${{ matrix.tfm }}-${{ matrix.rid }}.zip
+        run: aws s3 cp ${{ matrix.rid }}.zip s3://y3ps-publish/${{ github.ref_name }}/${{ github.run_number }}/${{ matrix.rid }}.zip
 
 
   deploy:
@@ -144,33 +144,33 @@ jobs:
 
 
 
-      - name: Update Artifacts (net6.0-win10-x64)
+      - name: Update Artifacts (win10-x64)
         uses: jossef/action-set-json-field@v1
         with:
           file: version.json
-          field: version_info.${{ github.ref_name }}.artifacts.net6\.0-win10-x64
-          value: net6.0-win10-x64.zip
+          field: version_info.${{ github.ref_name }}.artifacts.win10-x64
+          value: win10-x64.zip
 
-      - name: Update Artifacts (net6.0-osx-x64)
+      - name: Update Artifacts (osx-x64)
         uses: jossef/action-set-json-field@v1
         with:
           file: version.json
-          field: version_info.${{ github.ref_name }}.artifacts.net6\.0-osx-x64
-          value: net6.0-osx-x64.zip
+          field: version_info.${{ github.ref_name }}.artifacts.osx-x64
+          value: osx-x64.zip
 
-      - name: Update Artifacts (net6.0-osx-arm64)
+      - name: Update Artifacts (osx-arm64)
         uses: jossef/action-set-json-field@v1
         with:
           file: version.json
-          field: version_info.${{ github.ref_name }}.artifacts.net6\.0-osx-arm64
-          value: net6.0-osx-arm64.zip
+          field: version_info.${{ github.ref_name }}.artifacts.osx-arm64
+          value: osx-arm64.zip
 
-      - name: Update Artifacts (net6.0-linux-x64)
+      - name: Update Artifacts (linux-x64)
         uses: jossef/action-set-json-field@v1
         with:
           file: version.json
-          field: version_info.${{ github.ref_name }}.artifacts.net6\.0-linux-x64
-          value: net6.0-linux-x64.zip
+          field: version_info.${{ github.ref_name }}.artifacts.linux-x64
+          value: linux-x64.zip
 
 
 
