@@ -148,28 +148,28 @@ jobs:
         uses: jossef/action-set-json-field@v1
         with:
           file: version.json
-          field: version_info.${{ github.ref_name }}.artifacts."net6.0-win10-x64"
+          field: version_info.${{ github.ref_name }}.artifacts.net6\.0-win10-x64
           value: net6.0-win10-x64.zip
 
       - name: Update Artifacts (net6.0-osx-x64)
         uses: jossef/action-set-json-field@v1
         with:
           file: version.json
-          field: version_info.${{ github.ref_name }}.artifacts."net6.0-osx-x64"
+          field: version_info.${{ github.ref_name }}.artifacts.net6\.0-osx-x64
           value: net6.0-osx-x64.zip
 
       - name: Update Artifacts (net6.0-osx-arm64)
         uses: jossef/action-set-json-field@v1
         with:
           file: version.json
-          field: version_info.${{ github.ref_name }}.artifacts."net6.0-osx-arm64"
+          field: version_info.${{ github.ref_name }}.artifacts.net6\.0-osx-arm64
           value: net6.0-osx-arm64.zip
 
       - name: Update Artifacts (net6.0-linux-x64)
         uses: jossef/action-set-json-field@v1
         with:
           file: version.json
-          field: version_info.${{ github.ref_name }}.artifacts."net6.0-linux-x64"
+          field: version_info.${{ github.ref_name }}.artifacts.net6\.0-linux-x64
           value: net6.0-linux-x64.zip
 
 
