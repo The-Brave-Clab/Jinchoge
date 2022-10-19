@@ -111,7 +111,7 @@ jobs:
       run: tar zcf ${{ inputs.rid }}.tar.gz -C ${{ env.output_folder }} .
     - name: Archive Production Artifacts as Zip
       if: ${{ ! inputs.use_tar }}
-      run: 7za a ${{ inputs.rid }}.zip ./${{ env.output_folder }}/*
+      run: 7z a -tzip ${{ inputs.rid }}.zip ./${{ env.output_folder }}/*
     - name: Upload Production Artifacts
       if: ${{ inputs.use_tar }}
       uses: actions/upload-artifact@v3
