@@ -31,6 +31,7 @@ jobs:
       rid: win10-x64
       tfm: ${{ matrix.tfm }}
       build_host: windows-latest
+      use_tar: false
     secrets: inherit
 
   build_linux:
@@ -44,6 +45,7 @@ jobs:
       rid: linux-x64
       tfm: ${{ matrix.tfm }}
       build_host: ubuntu-latest
+      use_tar: true
     secrets: inherit
 
   build_mac:
@@ -58,6 +60,7 @@ jobs:
       rid: ${{ matrix.rid }}
       tfm: ${{ matrix.tfm }}
       build_host: macos-latest
+      use_tar: true
     secrets: inherit
 
     
