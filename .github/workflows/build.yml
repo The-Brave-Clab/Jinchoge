@@ -16,8 +16,8 @@ on:
         type: string
       publish_singlefile:
         required: false
-        default: true
-        type: boolean
+        default: 'true'
+        type: string
       use_tar:
         required: true
         type: boolean

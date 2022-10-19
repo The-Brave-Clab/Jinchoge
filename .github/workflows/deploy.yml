@@ -61,7 +61,7 @@ jobs:
       tfm: ${{ matrix.tfm }}
       build_host: macos-latest
       publish_subfolder: '/Jinchoge.app/Contents/MacOS'
-      publish_singlefile: false
+      publish_singlefile: 'false'
       use_tar: true
     secrets: inherit
 
