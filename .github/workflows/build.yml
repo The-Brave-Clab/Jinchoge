@@ -10,6 +10,10 @@ on:
       build_host:
         required: true
         type: string
+      publish_subfolder:
+        required: false
+        default: ''
+        type: string
       use_tar:
         required: true
         type: boolean
@@ -48,10 +52,14 @@ jobs:
       shell: pwsh
       run: |
         echo "version_suffix=${{ github.ref_name }}.${{ env.sha_short }}.${{ github.run_number }}" >> $env:GITHUB_ENV
+    - name: Set Publish Folder
+      shell: pwsh
+      run: |
+        echo "publish_folder=publish/${{ inputs.tfm }}/${{ inputs.rid }}" >> $env:GITHUB_ENV
     - name: Set Output Folder
       shell: pwsh
       run: |
-        echo "output_folder=publish/${{ inputs.tfm }}/${{ inputs.rid }}" >> $env:GITHUB_ENV
+        echo "output_folder=${{ env.publish_folder }}${{ inputs.publish_subfolder }}" >> $env:GITHUB_ENV
     - name: Set .NET Publish Configuration
       shell: pwsh
       run: |
@@ -108,10 +116,10 @@ jobs:
       run: dotnet publish Yuyuyui.AccountTransfer.CLI/Yuyuyui.AccountTransfer.CLI.csproj ${{ env.publish_config }}
     - name: Archive Production Artifacts as Tar
       if: ${{ inputs.use_tar }}
-      run: tar zcf ${{ inputs.rid }}.tar.gz -C ${{ env.output_folder }} .
+      run: tar zcf ${{ inputs.rid }}.tar.gz -C ${{ env.publish_folder }} .
     - name: Archive Production Artifacts as Zip
       if: ${{ ! inputs.use_tar }}
-      run: 7z a -tzip ${{ inputs.rid }}.zip ./${{ env.output_folder }}/*
+      run: 7z a -tzip ${{ inputs.rid }}.zip ./${{ env.publish_folder }}/*
     - name: Upload Production Artifacts
       if: ${{ inputs.use_tar }}
       uses: actions/upload-artifact@v3

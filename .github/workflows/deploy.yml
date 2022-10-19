@@ -60,6 +60,7 @@ jobs:
       rid: ${{ matrix.rid }}
       tfm: ${{ matrix.tfm }}
       build_host: macos-latest
+      publish_subfolder: '/Jinchoge.app/Contents/MacOS'
       use_tar: true
     secrets: inherit
 
