@@ -10,6 +10,9 @@ on:
       build_host:
         required: true
         type: string
+      use_tar:
+        required: true
+        type: boolean
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -103,9 +106,24 @@ jobs:
       run: dotnet publish Yuyuyui.PrivateServer.CLI/Yuyuyui.PrivateServer.CLI.csproj ${{ env.publish_config }}
     - name: Build Account Transfer CLI
       run: dotnet publish Yuyuyui.AccountTransfer.CLI/Yuyuyui.AccountTransfer.CLI.csproj ${{ env.publish_config }}
-    - name: Archive production artifacts
+    - name: Archive Production Artifacts as Tar
+      if: ${{ inputs.use_tar }} == ${{ true }}
+      run: tar zcf ${{ inputs.rid }}.tar.gz -C ${{ env.output_folder }} ${{ env.output_folder }}
+    - name: Archive Production Artifacts as Zip
+      if: ${{ inputs.use_tar }} == ${{ false }}
+      shell: pwsh
+      run: 7za a ${{ inputs.rid }}.zip ${{ env.output_folder }}/*
+    - name: Upload Production Artifacts
+      if: ${{ inputs.use_tar }} == ${{ true }}
       uses: actions/upload-artifact@v3
       with:
         name: ${{ inputs.rid }}
-        path: ${{ env.output_folder }}
+        path: ${{ inputs.rid }}.tar.gz
+        retention-days: 1
+    - name: Upload Production Artifacts
+      if: ${{ inputs.use_tar }} == ${{ false }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ inputs.rid }}
+        path: ${{ inputs.rid }}.zip
         retention-days: 1
