@@ -127,7 +127,7 @@ jobs:
 
     - name: Bundle macOS App
       if: ${{ inputs.bundle_mac }}
-      run: cp -r ./Resources/macOS/* ${{ env.output_folder }}/Contents
+      run: cp -R ./Resources/macOS/* ./${{ env.publish_folder }}/Jinchoge.app/Contents
 
     - name: Archive Production Artifacts as Tar
       if: ${{ inputs.use_tar }}
