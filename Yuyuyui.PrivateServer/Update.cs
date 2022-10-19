@@ -77,6 +77,7 @@ public static class Update
         public string commit_sha { get; set; } = "";
         public int ci_run { get; set; } = 0;
         public string branch { get; set; } = "";
+        public IDictionary<string, string>? artifacts { get; set; } = null;
 
         private DateTime CreatedAt => DateTime.ParseExact(created_at, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
 

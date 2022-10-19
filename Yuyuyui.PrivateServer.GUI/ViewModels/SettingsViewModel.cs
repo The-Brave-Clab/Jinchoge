@@ -241,8 +241,14 @@ internal class SettingsViewModel : ViewModelBase
         AllowDownloadUpdate = false;
         AllowCheckUpdate = false;
 
-        string fileName = $"{Update.LocalVersion.framework}-{Update.LocalVersion.runtime_id}.zip";
+        string defaultFile = $"{Update.LocalVersion.framework}-{Update.LocalVersion.runtime_id}";
+        string fileName = $"{defaultFile}.zip";
+        if (newVersionInfo.artifacts != null && newVersionInfo.artifacts.ContainsKey(defaultFile))
+            fileName = newVersionInfo.artifacts[defaultFile];
+            
         string url = $"{Update.BASE_URL}/{newVersionInfo.branch}/{newVersionInfo.ci_run}/{fileName}";
+
+        string extension = Path.GetExtension(fileName).Replace(".", "");
         
         SaveFileDialog saveFileBox = new SaveFileDialog
         {
@@ -253,11 +259,11 @@ internal class SettingsViewModel : ViewModelBase
             {
                 new()
                 {
-                    Extensions = new List<string> { "zip" },
+                    Extensions = new List<string> { extension },
                     Name = Resources.SETTINGS_DIALOG_SAVE_FILE_TYPE
                 }
             },
-            DefaultExtension = "zip",
+            DefaultExtension = extension,
         };
 
         mainWindowVM.TryGetTarget(out var mainWindowViewModel);
