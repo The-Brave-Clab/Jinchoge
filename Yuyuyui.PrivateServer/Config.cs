@@ -19,7 +19,9 @@ public static class Config
     {
         public string Language { get; set; } = "";
         public bool AutoCheckUpdate { get; set; } = true;
-        public string UpdateBranch { get; set; } = "master";
+        public string UpdateBranch { get; set; } = 
+            SupportedUpdateChannel.Contains(Update.LocalVersion.version_info.branch) ?
+                Update.LocalVersion.version_info.branch : "master";
     }
 
     public class InGame
