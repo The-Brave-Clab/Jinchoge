@@ -35,3 +35,4 @@ The following features are not implemented yet:
 * Gacha
 * Battle system
 * Club working
+* CLI tools
