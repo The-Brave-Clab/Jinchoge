@@ -25,10 +25,12 @@ public class ExchangeItemUpdateEntity : BaseEntity<ExchangeItemUpdateEntity>
         Request exchangeBoothRequest = Deserialize<Request>(requestBody)!;
         long exchangeItemId = exchangeBoothRequest.exchange_booth_item_id;
 
-        ExchangeProductData? cardProduct =
-            ExchangeItemListEntity.InitExchangeItemResponse.exchange.products.Values
-                .Where(product => product.item_category == 1) // cards
-                .FirstOrDefault(product => product.id == exchangeItemId);
+        ExchangeProductData? cardProduct;
+        using (var cardsDb = new CardsContext())
+            cardProduct =
+                ExchangeItemListEntity.GetInitExchangeItemResponse(cardsDb).exchange.products.Values
+                    .Where(product => product.item_category == 1) // cards
+                    .FirstOrDefault(product => product.id == exchangeItemId);
 
         if (cardProduct == null)
         {
