@@ -466,4 +466,7 @@ Transfer</value>
     <data name="PS_LOG_REGULATION_AGREED" xml:space="preserve">
         <value>Player agreed to regulation version {0}</value>
     </data>
+    <data name="SETTINGS_INFO_COMING_SOON" xml:space="preserve">
+        <value>Coming Soon</value>
+    </data>
 </root>

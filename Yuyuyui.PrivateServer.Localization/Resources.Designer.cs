@@ -932,5 +932,11 @@ namespace Yuyuyui.PrivateServer.Localization {
                 return ResourceManager.GetString("PS_LOG_REGULATION_AGREED", resourceCulture);
             }
         }
+        
+        internal static string SETTINGS_INFO_COMING_SOON {
+            get {
+                return ResourceManager.GetString("SETTINGS_INFO_COMING_SOON", resourceCulture);
+            }
+        }
     }
 }
