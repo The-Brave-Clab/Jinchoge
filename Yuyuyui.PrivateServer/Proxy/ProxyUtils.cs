@@ -29,8 +29,7 @@ namespace Yuyuyui.PrivateServer
         {
             // Create a local echo service for downloading the cert file
             var request = e.HttpClient.Request;
-            if (!e.IsHttps &&
-                request.Host == PrivateServer.PRIVATE_LOCAL_API_SERVER &&
+            if (request.Host == PrivateServer.PRIVATE_LOCAL_API_SERVER &&
                 !e.HttpClient.Request.RequestUri.AbsolutePath.StartsWith(EntityBase.BASE_API_PATH))
             {
                 if (request.RequestUri.AbsolutePath.Equals(CERT_PATH, StringComparison.OrdinalIgnoreCase))
