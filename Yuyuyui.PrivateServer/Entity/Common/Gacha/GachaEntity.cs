@@ -62,15 +62,38 @@ namespace Yuyuyui.PrivateServer
 
         public static IEnumerable<Gacha> GetCurrentActiveGachas(GachasContext gachasDb, PlayerProfile player)
         {
-            var currentTime = DateTime.UtcNow;
+            // var currentTime = DateTime.UtcNow;
+            //
+            // return gachasDb.Gachas.ToList()
+            //     .Where(g => g.StartAt.ToDateTime() < currentTime && g.EndAt.ToDateTime() > currentTime)
+            //     .Where(g => g.MaxUserLevel == null || player.data.level <= g.MaxUserLevel)
+            //     .Where(g => g.StepupGroup == null || g.Id == g.StepupGroup); // TODO: process step up
 
-            var gachaList = gachasDb.Gachas.ToList();
-            var currentGachas = gachaList
-                .Where(g => g.StartAt.ToDateTime() < currentTime && g.EndAt.ToDateTime() > currentTime)
-                .Where(g => g.MaxUserLevel == null || player.data.level <= g.MaxUserLevel)
-                .Where(g => g.StepupGroup == null || g.Id == g.StepupGroup); // TODO: process step up
+            return new List<Gacha>
+            {
+                GetCommonGacha(gachasDb),
+                GetFriendGacha(gachasDb)
+            };
+        }
 
-            return currentGachas;
+        private static Gacha GetCommonGacha(GachasContext gachasDb)
+        {
+            var commonGacha = gachasDb.Gachas.ToList()
+                .Where(g => g.Kind == 0) // common gacha
+                .MaxBy(g => g.EndAt.ToDateTime());
+            commonGacha!.Name = "Private Server 勇者ガチャ";
+            commonGacha!.EndAt = "2028/12/31 18:59:59";
+            commonGacha!.NoDisplayEndAt = "1";
+            return commonGacha;
+        }
+
+        private static Gacha GetFriendGacha(GachasContext gachasDb)
+        {
+            var friendGacha = gachasDb.Gachas.ToList()
+                .Where(g => g.Kind == 1) // friend gacha
+                .MaxBy(g => g.EndAt.ToDateTime());
+            friendGacha!.Name = "Private Server " + friendGacha.Name;
+            return friendGacha;
         }
 
         private List<GachaProductData.Lineup> GetGachaLineups(GachasContext gachasDb, Gacha gacha)
