@@ -36,7 +36,7 @@ namespace Yuyuyui.PrivateServer
                 {
                     current_version = 1,
                     checked_version = player.data.regulationVersion,
-                    regulation_url = "http://download.cert"
+                    regulation_url = "http://private.yuyuyui.org/cert"
                 }
             };
 

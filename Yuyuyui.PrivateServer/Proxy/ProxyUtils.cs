@@ -2,27 +2,36 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Exceptions;
+using Titanium.Web.Proxy.Http;
 using Titanium.Web.Proxy.Models;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
     public static class ProxyUtils
     {
-        private const string CERT_HOST = "download.cert";
         private const string CERT_PATH = "/cert/pem";
         private const string CERT_RESPONSE_FILE_NAME = "yuyuyui-private-server.pem";
 
         public static string LOCAL_CERT_FILE => Path.Combine(PrivateServer.BASE_DIR, "ca.cer");
         public static string LOCAL_PFX_FILE => Path.Combine(PrivateServer.BASE_DIR, "ca.pfx");
 
+        private static readonly Assembly assembly = typeof(ProxyUtils).Assembly;
+        private static readonly string[] assemblyResources = assembly.GetManifestResourceNames();
+
         public static bool EchoService(SessionEventArgs e)
         {
             // Create a local echo service for downloading the cert file
             var request = e.HttpClient.Request;
-            if (!e.IsHttps && request.Host == CERT_HOST)
+            if (!e.IsHttps &&
+                request.Host == PrivateServer.PRIVATE_LOCAL_API_SERVER &&
+                !e.HttpClient.Request.RequestUri.AbsolutePath.StartsWith(EntityBase.BASE_API_PATH))
             {
                 if (request.RequestUri.AbsolutePath.Equals(CERT_PATH, StringComparison.OrdinalIgnoreCase))
                 {
@@ -33,15 +42,34 @@ namespace Yuyuyui.PrivateServer
                         ["Content-Disposition"] = new("Content-Disposition", $"inline; filename={CERT_RESPONSE_FILE_NAME}")
                     };
                     e.Ok(File.ReadAllBytes(LOCAL_CERT_FILE), headers, true);
+                    return true;
+                }
+
+                var expectedFile = $"webpages.{Resources.LAN_CODE}{request.RequestUri.AbsolutePath.Replace('/', '.')}";
+                var htmlHeaders = new Dictionary<string, HttpHeader>
+                {
+                    ["Content-Type"] = new("Content-Type", "text/html; charset=utf-8"),
+                };
+                if (assemblyResources.Any(r => r.Contains(expectedFile, StringComparison.InvariantCultureIgnoreCase)))
+                {
+                    var embeddedResource = assemblyResources.First(r =>
+                        r.Contains(expectedFile, StringComparison.InvariantCultureIgnoreCase));
+                    using Stream stream = assembly.GetManifestResourceStream(embeddedResource)!;
+                    using StreamReader reader = new StreamReader(stream);
+                    var content = reader.ReadToEnd();
+                    e.Ok(content, htmlHeaders);
                 }
                 else
                 {
-                    var headers = new Dictionary<string, HttpHeader>
-                    {
-                        ["Content-Type"] = new("Content-Type", "text/html"),
-                    };
-                    e.Ok($"<html><body><h1><a href=\"{CERT_PATH}\">Download CA Certificate</a></h1></body></html>",
-                        headers);
+                    var embeddedResource = assemblyResources.First(r =>
+                        r.Contains("404.html", StringComparison.InvariantCultureIgnoreCase));
+                    using Stream stream = assembly.GetManifestResourceStream(embeddedResource)!;
+                    using StreamReader reader = new StreamReader(stream);
+                    var content = reader.ReadToEnd();
+                    var response = new Response(Encoding.UTF8.GetBytes(content))
+                        { StatusCode = 404, HttpVersion = HttpVersion.Version11 };
+                    response.Headers.AddHeaders(htmlHeaders);
+                    e.Respond(response);
                 }
 
                 return true;

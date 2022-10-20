@@ -24,37 +24,37 @@ namespace Yuyuyui.PrivateServer
                 {
                     new()
                     {
-                        url = "http://download.cert",
+                        url = "http://private.yuyuyui.org/cert",
                         kind = 0,
                         label = "topics"
                     },
                     new()
                     {
-                        url = "http://download.cert",
+                        url = "http://private.yuyuyui.org/cert",
                         kind = 0,
                         label = "defect_topics"
                     },
                     new()
                     {
-                        url = "http://download.cert",
+                        url = "http://private.yuyuyui.org/cert",
                         kind = 0,
                         label = "inquiry"
                     },
                     new()
                     {
-                        url = "http://download.cert",
+                        url = "http://private.yuyuyui.org/cert",
                         kind = 0,
                         label = "terms"
                     },
                     new()
                     {
-                        url = "http://download.cert",
+                        url = "http://private.yuyuyui.org/cert",
                         kind = 0,
                         label = "helps"
                     },
                     new()
                     {
-                        url = "http://download.cert",
+                        url = "http://private.yuyuyui.org/cert",
                         kind = 0,
                         label = "official_links"
                     }
