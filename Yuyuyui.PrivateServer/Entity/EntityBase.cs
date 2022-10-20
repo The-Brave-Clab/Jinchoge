@@ -346,6 +346,10 @@ namespace Yuyuyui.PrivateServer
                 new RouteConfig("/my/bingo_sheets", "GET")
             },
             {
+                typeof(BingoSheetsExchangeEntity),
+                new RouteConfig("/my/bingo_sheets/{bingo_sheet_id}/exchanges", "POST")
+            },
+            {
                 typeof(CardsEntity),
                 new RouteConfig("/my/cards", "GET")
             },

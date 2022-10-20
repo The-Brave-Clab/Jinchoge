@@ -23,7 +23,7 @@ namespace Yuyuyui.PrivateServer
             var player = GetPlayerFromCookies();
 
             using var questsDb = new QuestsContext();
-            Response responseObj = GetChapters(questsDb);
+            Response responseObj = GetBingoSheets();
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
@@ -31,11 +31,9 @@ namespace Yuyuyui.PrivateServer
             return Task.CompletedTask;
         }
 
-        protected virtual Response GetChapters(QuestsContext questsDb)
+        private Response GetBingoSheets()
         {
-            var player = GetPlayerFromCookies();
-            
-            // Utils.LogWarning("Locked status not filled!");
+            // var player = GetPlayerFromCookies();
 
             using var cartoonsDb = new CartoonsContext();
                 
