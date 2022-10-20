@@ -24,39 +24,46 @@ namespace Yuyuyui.PrivateServer
             {
                 banners = new List<Banner>
                 {
+                    // new()
+                    // {
+                    //     image_id = 37930,
+                    //     transition_screen_kind = "gacha/limited",
+                    //     transition_url = "",
+                    //     available_user_level = 0
+                    // },
+                    // new()
+                    // {
+                    //     image_id = 1529,
+                    //     transition_screen_kind = "topics",
+                    //     transition_url = "4522",
+                    //     available_user_level = 0
+                    // },
+                    // new()
+                    // {
+                    //     image_id = 1441,
+                    //     transition_screen_kind = "story",
+                    //     transition_url = "",
+                    //     available_user_level = 0
+                    // },
+                    // new()
+                    // {
+                    //     image_id = 71970,
+                    //     transition_screen_kind = "shop/package",
+                    //     transition_url = "",
+                    //     available_user_level = 0
+                    // },
+                    // new()
+                    // {
+                    //     image_id = 90020,
+                    //     transition_screen_kind = "",
+                    //     transition_url = "https://yuyuyu.tv/churutto/",
+                    //     available_user_level = 0
+                    // },
                     new()
                     {
-                        image_id = 37930,
-                        transition_screen_kind = "gacha/limited",
-                        transition_url = "",
-                        available_user_level = 0
-                    },
-                    new()
-                    {
-                        image_id = 1529,
-                        transition_screen_kind = "topics",
-                        transition_url = "4522",
-                        available_user_level = 0
-                    },
-                    new()
-                    {
-                        image_id = 1441,
-                        transition_screen_kind = "story",
-                        transition_url = "",
-                        available_user_level = 0
-                    },
-                    new()
-                    {
-                        image_id = 71970,
-                        transition_screen_kind = "shop/package",
-                        transition_url = "",
-                        available_user_level = 0
-                    },
-                    new()
-                    {
-                        image_id = 90020,
+                        image_id = 9000,
                         transition_screen_kind = "",
-                        transition_url = "https://yuyuyu.tv/churutto/",
+                        transition_url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/",
                         available_user_level = 0
                     },
                 }
