@@ -342,6 +342,10 @@ namespace Yuyuyui.PrivateServer
             //	new Config("/special/chapters/{0}/episodes/{1}/stages", string.Empty, 0)
             //},
             {
+                typeof(BingoSheetsEntity),
+                new RouteConfig("/my/bingo_sheets", "GET")
+            },
+            {
                 typeof(CardsEntity),
                 new RouteConfig("/my/cards", "GET")
             },
