@@ -113,6 +113,7 @@ public static class Config
     public static readonly List<string> SupportedUpdateChannel = new()
     {
         "master",
+        "release"
     };
 
     public static readonly List<string> SupportedInGameScenarioLanguage = new()
