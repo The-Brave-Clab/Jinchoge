@@ -52,18 +52,18 @@ namespace Yuyuyui.PrivateServer
                 {
                     badge = new()
                     {
-                        has_complete_mission = true, // update automatically?
-                        has_complete_daily_mission = true, // update automatically?
+                        has_complete_mission = false, // update automatically?
+                        has_complete_daily_mission = false, // update automatically?
                         has_present = player.receivedGifts.Count > 0,
                         has_fellow_request = player.friendRequests.Count > 0,
-                        has_complete_club_working = true, // update automatically?
-                        end_at_exchange = Utils.CurrentUnixTime() + 120, // ?
-                        has_exchangeable_bingo = true, // update automatically?
-                        end_at_event = Utils.CurrentUnixTime() + 180, // ?
-                        end_at_playback_event = Utils.CurrentUnixTime() + 240, // ?
-                        new_title = 1, // ?
+                        has_complete_club_working = false, // update automatically?
+                        end_at_exchange = Utils.CurrentUnixTime() - 1, // taisha shop rewards end at this timestamp
+                        has_exchangeable_bingo = false, // update automatically?
+                        end_at_event = Utils.CurrentUnixTime() + 86400, // event items in taisha shop end at this timestamp
+                        end_at_playback_event = Utils.CurrentUnixTime() - 1, // remastered event items ...
+                        new_title = 0, // if the player has new title
                         new_album_categories = player.newAlbum, // album { category_id : [ sub_category_id ] }
-                        end_at_collab_event = Utils.CurrentUnixTime() + 320 // ?
+                        end_at_collab_event = Utils.CurrentUnixTime() - 1 // collaboration event items ...
                     }
                 };
 
