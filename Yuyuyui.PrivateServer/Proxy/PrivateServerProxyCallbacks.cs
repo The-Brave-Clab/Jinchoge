@@ -13,7 +13,7 @@ namespace Yuyuyui.PrivateServer
     {
         public async Task OnRequest(object sender, SessionEventArgs e)
         {
-            if (ProxyUtils.EchoService(e)) return;
+            if (ProxyUtils.WebService(e)) return;
 
             if (e.HttpClient.Request.RequestUri.Host.Contains("perf-events.cloud.unity3d.com"))
             {

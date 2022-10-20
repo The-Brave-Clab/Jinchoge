@@ -24,37 +24,37 @@ namespace Yuyuyui.PrivateServer
                 {
                     new()
                     {
-                        url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/cert",
+                        url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/",
                         kind = 0,
                         label = "topics"
                     },
                     new()
                     {
-                        url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/cert",
+                        url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/",
                         kind = 0,
                         label = "defect_topics"
                     },
                     new()
                     {
-                        url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/cert",
+                        url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/",
                         kind = 0,
                         label = "inquiry"
                     },
                     new()
                     {
-                        url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/cert",
+                        url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/",
                         kind = 0,
                         label = "terms"
                     },
                     new()
                     {
-                        url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/cert",
+                        url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/",
                         kind = 0,
                         label = "helps"
                     },
                     new()
                     {
-                        url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/cert",
+                        url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/",
                         kind = 0,
                         label = "official_links"
                     }

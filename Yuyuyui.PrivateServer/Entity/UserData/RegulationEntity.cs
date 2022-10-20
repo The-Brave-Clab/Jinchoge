@@ -36,7 +36,7 @@ namespace Yuyuyui.PrivateServer
                 {
                     current_version = 1,
                     checked_version = player.data.regulationVersion,
-                    regulation_url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/cert"
+                    regulation_url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/"
                 }
             };
 
