@@ -18,6 +18,7 @@ internal class SettingsViewModel : ViewModelBase
         mainWindowVM.SetTarget(mainWindowViewModel);
 
         interfaceLanguageSelected = Config.SupportedInterfaceLocale.IndexOf(Config.Get().General.Language);
+        updateChannelSelected = Config.SupportedUpdateChannel.IndexOf(Config.Get().General.UpdateBranch);
         scenarioLanguageSelected = Config.SupportedInGameScenarioLanguage.IndexOf(Config.Get().InGame.ScenarioLanguage);
         
         canReissueCert = ProxyUtils.CertExists();
@@ -37,6 +38,7 @@ internal class SettingsViewModel : ViewModelBase
             throw new NotImplementedException();
 
         interfaceLanguageSelected = 0;
+        updateChannelSelected = 0;
         scenarioLanguageSelected = 0;
         
         canReissueCert = false;
@@ -89,14 +91,14 @@ internal class SettingsViewModel : ViewModelBase
         }
     }
 
-    private int availableBranchSelected;
-    public int AvailableBranchSelected
+    private int updateChannelSelected;
+    public int UpdateChannelSelected
     {
-        get => availableBranchSelected;
+        get => updateChannelSelected;
         set
         {
-            this.RaiseAndSetIfChanged(ref availableBranchSelected, value);
-            Config.Get().General.UpdateBranch = AvailableBranches[availableBranchSelected];
+            this.RaiseAndSetIfChanged(ref updateChannelSelected, value);
+            Config.Get().General.UpdateBranch = AvailableBranches[updateChannelSelected];
             Config.Save();
         }
     }

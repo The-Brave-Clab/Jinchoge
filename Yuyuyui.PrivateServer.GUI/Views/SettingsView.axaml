@@ -106,7 +106,7 @@
                     </StackPanel>
                     <ComboBox Classes="value" 
                               Items="{Binding AvailableBranches}" 
-                              SelectedIndex="{Binding AvailableBranchSelected}"
+                              SelectedIndex="{Binding UpdateChannelSelected}"
                               IsEnabled="{Binding AllowCheckUpdate}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
