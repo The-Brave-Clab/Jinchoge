@@ -143,9 +143,13 @@ namespace Yuyuyui.PrivateServer
 
         #region DateTime
 
+        private static readonly DateTime ServiceEndTime = new(2022, 10, 28, 7, 0, 0, DateTimeKind.Utc);
+
         public static long CurrentUnixTime()
         {
-            return FromDateTime(DateTime.UtcNow);
+            DateTime now = DateTime.UtcNow;
+            if (now > ServiceEndTime) now = ServiceEndTime - new TimeSpan(0, 0, 0, 1);
+            return FromDateTime(now);
         }
 
         public static DateTime FromUnixTime(long unixTime)
@@ -153,7 +157,7 @@ namespace Yuyuyui.PrivateServer
             return UNIX_EPOCH.AddSeconds(unixTime).ToLocalTime();
         }
 
-        private static long FromDateTime(DateTime dateTime)
+        public static long FromDateTime(DateTime dateTime)
         {
             double totalSeconds = (dateTime.ToUniversalTime() - UNIX_EPOCH).TotalSeconds;
             return (long)totalSeconds;
