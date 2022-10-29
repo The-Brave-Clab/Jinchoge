@@ -33,7 +33,6 @@ public class HelpViewModel : ViewModelBase
     {
         { typeof(IntroductionView),              Localization.Resources.PS_HELP_INTRO },
         { typeof(PrivateServerView),             Localization.Resources.PS_HELP_PS },
-        { typeof(AccountTransferView),           Localization.Resources.PS_HELP_AT },
         { typeof(ConnectToProxyView),            Localization.Resources.PS_HELP_PROXY },
         { typeof(InstallCertificateIosView),     Localization.Resources.PS_HELP_CERT_IOS },
         { typeof(InstallCertificateAndroidView), Localization.Resources.PS_HELP_CERT_ANDROID },

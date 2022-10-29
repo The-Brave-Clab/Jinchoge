@@ -13,7 +13,6 @@ public class HelpSubViewModelBase : ViewModelBase
     {
         IntroductionButtonText = HelpViewModel.ButtonInfo[typeof(IntroductionView)];
         PrivateServerButtonText = HelpViewModel.ButtonInfo[typeof(PrivateServerView)];
-        AccountTransferButtonText = HelpViewModel.ButtonInfo[typeof(AccountTransferView)];
         ConnectProxyButtonText = HelpViewModel.ButtonInfo[typeof(ConnectToProxyView)];
         InstallCertIosButtonText = HelpViewModel.ButtonInfo[typeof(InstallCertificateIosView)];
         InstallCertAndroidButtonText = HelpViewModel.ButtonInfo[typeof(InstallCertificateAndroidView)];
@@ -51,11 +50,6 @@ public class HelpSubViewModelBase : ViewModelBase
     {
         get => accountTransferButtonText;
         set => this.RaiseAndSetIfChanged(ref accountTransferButtonText, value);
-    }
-
-    public void AccountTransferButtonCommand()
-    {
-        HelpViewModel!.PushPage(typeof(AccountTransferView));
     }
     
     private string connectProxyButtonText = "";
