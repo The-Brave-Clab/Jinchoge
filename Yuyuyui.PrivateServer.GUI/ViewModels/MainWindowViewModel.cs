@@ -17,7 +17,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         private WeakReference<MainWindow?> window = new(null);
 
         internal LogViewModel logVM;
-        internal TransferViewModel transferVM;
         internal StatusViewModel statusVM;
         internal SettingsViewModel settingsVM;
         internal HelpViewModel helpVM;
@@ -41,7 +40,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             Status = ServerStatus.Stopped;
 
             logVM = new LogViewModel();
-            transferVM = new TransferViewModel(this);
             statusVM = new StatusViewModel();
             settingsVM = new SettingsViewModel(this);
             helpVM = new HelpViewModel();
@@ -59,7 +57,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             Status = ServerStatus.Stopped;
 
             logVM = new LogViewModel();
-            transferVM = new TransferViewModel(this);
             statusVM = new StatusViewModel();
             settingsVM = new SettingsViewModel(this);
             helpVM = new HelpViewModel();
@@ -79,19 +76,12 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                 IsStopped = status == ServerStatus.Stopped;
                 IsStarted = status == ServerStatus.Started;
                 CanStart = (status != ServerStatus.Transfer && status != ServerStatus.Updating);
-                IsTransferPageEnabled = (status != ServerStatus.Started && status != ServerStatus.Updating);
                 ButtonContent = GetButtonContent(status);
                 ButtonDescription = GetButtonDescription(status);
 
                 statusVM?.SetServerStatus(value);
-                transferVM?.SetServerStatus(value);
                 
                 window.TryGetTarget(out var mainWindow);
-                if (!IsTransferPageEnabled && (bool)mainWindow!.TransferButton.IsChecked!)
-                {
-                    // we are on transfer page when transfer is disabled, fall back to log
-                    mainWindow.LogButton.IsChecked = true;
-                }
             }
         }
 
@@ -172,13 +162,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         {
             get => canStart;
             set => this.RaiseAndSetIfChanged(ref canStart, value);
-        }
-
-        private bool isTransferPageEnabled;
-        public bool IsTransferPageEnabled
-        {
-            get => isTransferPageEnabled;
-            set => this.RaiseAndSetIfChanged(ref isTransferPageEnabled, value);
         }
         
         private string projectDescription = "";

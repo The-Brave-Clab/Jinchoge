@@ -43,9 +43,6 @@
             <c:HelpTopicButton ButtonText="{Binding IntroductionButtonText}"
                                Command="{Binding IntroductionButtonCommand}" />
             <md:MarkdownScrollViewer Source="{Binding MdP2}" />
-            <c:HelpTopicButton ButtonText="{Binding AccountTransferButtonText}"
-                               Command="{Binding AccountTransferButtonCommand}" />
-            <md:MarkdownScrollViewer Source="{Binding MdP3}" />
 
             <Button HorizontalAlignment="Center" VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"

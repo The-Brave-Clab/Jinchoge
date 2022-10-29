@@ -18,7 +18,6 @@ namespace Yuyuyui.PrivateServer.GUI.Views
     public partial class MainWindow : Window
     {
         private LogView logView;
-        private TransferView transferView;
         private StatusView statusView;
         private SettingsView settingsView;
         private HelpView helpView;
@@ -61,13 +60,6 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
                 DataContext = mainWindowVM.logVM
-            };
-
-            transferView = new TransferView
-            {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch,
-                DataContext = mainWindowVM.transferVM
             };
 
             statusView = new StatusView
@@ -138,7 +130,6 @@ namespace Yuyuyui.PrivateServer.GUI.Views
         private void WindowOnClosing(object? sender, CancelEventArgs e)
         {
             mainWindowVM.StopPrivateServer();
-            mainWindowVM.transferVM.StopTransfer();
         }
 
         private void OnPointerEnterNavigation(object? sender, PointerEventArgs e)
@@ -171,7 +162,6 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                 MainPageContentControl.Content = button.Name switch
                 {
                     nameof(LogButton) => logView,
-                    nameof(TransferButton) => transferView,
                     nameof(StatusButton) => statusView,
                     nameof(SettingsButton) => settingsView,
                     nameof(HelpButton) => helpView,
@@ -180,16 +170,8 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                 };
             }
 
-            if (button.Name == nameof(TransferButton))
-            {
-                mainWindowVM.ProjectName = "EUCALYPTUS";
-                mainWindowVM.ProjectDescription = Localization.Resources.PROJ_DESC_EUCALYPTUS;
-            }
-            else
-            {
-                mainWindowVM.ProjectName = "JINCHŌGE";
-                mainWindowVM.ProjectDescription = Localization.Resources.PROJ_DESC_JINCHOGE;
-            }
+            mainWindowVM.ProjectName = "JINCHŌGE";
+            mainWindowVM.ProjectDescription = Localization.Resources.PROJ_DESC_JINCHOGE;
 
             if (button.Name == nameof(SettingsButton))
             {

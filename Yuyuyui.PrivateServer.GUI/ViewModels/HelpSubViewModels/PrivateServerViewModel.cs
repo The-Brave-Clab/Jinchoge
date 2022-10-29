@@ -66,7 +66,6 @@ public class PrivateServerViewModel : HelpSubViewModelBase
     
     public Uri MdP1 => MarkdownDocuments("private-server", 1);
     public Uri MdP2 => MarkdownDocuments("private-server", 2);
-    public Uri MdP3 => MarkdownDocuments("private-server", 3);
     public Uri MdP4 => MarkdownDocuments("private-server", 4);
     public Uri MdP5 => MarkdownDocuments("private-server", 5);
     public Uri MdP6 => MarkdownDocuments("private-server", 6);
