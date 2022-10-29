@@ -69,73 +69,6 @@
     <data name="PROJ_DESC_JINCHOGE" xml:space="preserve">
         <value>《结城友奈是勇者 闪光的花结》私服</value>
     </data>
-    <data name="AT_BUTTON_START" xml:space="preserve">
-        <value>开始
-账号
-转移</value>
-    </data>
-    <data name="AT_BUTTON_STOP" xml:space="preserve">
-        <value>停止
-账号
-转移</value>
-    </data>
-    <data name="AT_NOTE" xml:space="preserve">
-        <value>注意：</value>
-    </data>
-    <data name="AT_NOTE_MORE_INFO" xml:space="preserve">
-        <value>更多帮助信息请参考帮助页面。</value>
-    </data>
-    <data name="AT_NOTE_ONE_ACCOUNT" xml:space="preserve">
-        <value>一次仅可转移一个账号。</value>
-    </data>
-    <data name="AT_NOTE_RESTART" xml:space="preserve">
-        <value>转移完成后，必须完全重新启动游戏。</value>
-    </data>
-    <data name="AT_TASK_ACCESSORIES" xml:space="preserve">
-        <value>精灵</value>
-    </data>
-    <data name="AT_TASK_CARDS" xml:space="preserve">
-        <value>卡牌</value>
-    </data>
-    <data name="AT_TASK_CHARACTER_FAMILIARITIES" xml:space="preserve">
-        <value>角色亲密度</value>
-    </data>
-    <data name="AT_TASK_DECKS" xml:space="preserve">
-        <value>队伍</value>
-    </data>
-    <data name="AT_TASK_HEADER" xml:space="preserve">
-        <value>账号信息</value>
-    </data>
-    <data name="AT_TASK_ID" xml:space="preserve">
-        <value>账号身份</value>
-    </data>
-    <data name="AT_TASK_PROFILE" xml:space="preserve">
-        <value>玩家信息</value>
-    </data>
-    <data name="AT_TASK_ITEMS_ENHANCEMENT" xml:space="preserve">
-        <value>强化道具</value>
-    </data>
-    <data name="AT_TASK_ITEMS_EVENT" xml:space="preserve">
-        <value>活动道具</value>
-    </data>
-    <data name="AT_TASK_ITEMS_STAMINA" xml:space="preserve">
-        <value>体力道具</value>
-    </data>
-    <data name="AT_TASK_ITEMS_EVOLUTION" xml:space="preserve">
-        <value>神花解放道具</value>
-    </data>
-    <data name="AT_TASK_ITEMS_TITLE" xml:space="preserve">
-        <value>称号</value>
-    </data>
-    <data name="LOG_AT_START" xml:space="preserve">
-        <value>开始账号转移！</value>
-    </data>
-    <data name="LOG_AT_STOP" xml:space="preserve">
-        <value>停止账号转移！</value>
-    </data>
-    <data name="LOG_AT_TRANSFER_SUCCESS" xml:space="preserve">
-        <value>{0}转移成功</value>
-    </data>
     <data name="PS_STATUS_STARTED" xml:space="preserve">
         <value>私服正在运行。</value>
     </data>
@@ -178,9 +111,6 @@
     <data name="LOG_GUI_INITIALIZED" xml:space="preserve">
         <value>初始化用户界面</value>
     </data>
-    <data name="PS_HELP_AT" xml:space="preserve">
-        <value>如何使用Eucalyptus（账号转移）</value>
-    </data>
     <data name="PS_HELP_INTRO" xml:space="preserve">
         <value>这个项目是什么</value>
     </data>
@@ -222,9 +152,6 @@
     </data>
     <data name="SETTINGS_INFO_TRANSLATION_PROVIDER" xml:space="preserve">
         <value>翻译由社区贡献</value>
-    </data>
-    <data name="PROJ_DESC_EUCALYPTUS" xml:space="preserve">
-        <value>《结城友奈是勇者 闪光的花结》账号转移工具</value>
     </data>
     <data name="SETTINGS_CATEGORY_SECURITY" xml:space="preserve">
         <value>安全设置</value>
@@ -283,44 +210,11 @@
     <data name="LOG_UPDATE_NOT_FOUND" xml:space="preserve">
         <value>没有发现更新。</value>
     </data>
-    <data name="LOG_AT_GOT_UUID" xml:space="preserve">
-        <value>已获取账号UUID：{0}</value>
-    </data>
-    <data name="LOG_AT_GOT_CODE" xml:space="preserve">
-        <value>已获取账号代码：{0}</value>
-    </data>
-    <data name="LOG_AT_GOT_ACCESSORIES" xml:space="preserve">
-        <value>已获取精灵，共{0}个</value>
-    </data>
-    <data name="LOG_AT_GOT_CARDS" xml:space="preserve">
-        <value>已获取卡牌，共{0}个</value>
-    </data>
-    <data name="LOG_AT_GOT_DECKS" xml:space="preserve">
-        <value>已获取队伍信息</value>
-    </data>
-    <data name="LOG_AT_GOT_ITEMS" xml:space="preserve">
-        <value>已获取{0}</value>
-    </data>
-    <data name="LOG_AT_GET_TITLES" xml:space="preserve">
-        <value>已获取称号，共{0}个</value>
-    </data>
-    <data name="LOG_AT_GOT_CHARACTER_FAMILIARITIES" xml:space="preserve">
-        <value>已获取角色亲密度</value>
-    </data>
-    <data name="LOG_AT_GOT_HEADER" xml:space="preserve">
-        <value>已获取玩家信息：等级：{0}，经验：{1}，硬币：{2}</value>
-    </data>
-    <data name="LOG_AT_GOT_USER_INFO" xml:space="preserve">
-        <value>已获取玩家资料：昵称：{0}，签名：{1}</value>
-    </data>
     <data name="LOG_VERSION" xml:space="preserve">
         <value>当前版本：{0}</value>
     </data>
     <data name="LOG_LISTENING_AT" xml:space="preserve">
         <value>正在监听</value>
-    </data>
-    <data name="LOG_AT_FINISH_EXIT" xml:space="preserve">
-        <value>已完成全部转移任务。程序将在10秒后退出。</value>
     </data>
     <data name="LOG_PS_ENTER_TO_EXIT" xml:space="preserve">
         <value>若要在任何时刻退出程序，请按回车键。</value>

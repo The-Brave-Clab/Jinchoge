@@ -69,73 +69,6 @@
     <data name="PROJ_DESC_JINCHOGE" xml:space="preserve">
         <value>Private Server for Mobile Game YUYUYUI</value>
     </data>
-    <data name="AT_BUTTON_START" xml:space="preserve">
-        <value>Start
-Account
-Transfer</value>
-    </data>
-    <data name="AT_BUTTON_STOP" xml:space="preserve">
-        <value>Stop
-Account
-Transfer</value>
-    </data>
-    <data name="AT_NOTE" xml:space="preserve">
-        <value>Note: </value>
-    </data>
-    <data name="AT_NOTE_ONE_ACCOUNT" xml:space="preserve">
-        <value>You can only transfer one account at a time.</value>
-    </data>
-    <data name="AT_NOTE_RESTART" xml:space="preserve">
-        <value>The game must be restarted completely after each transfer.</value>
-    </data>
-    <data name="AT_NOTE_MORE_INFO" xml:space="preserve">
-        <value>See the help page for more information.</value>
-    </data>
-    <data name="AT_TASK_ID" xml:space="preserve">
-        <value>ID</value>
-    </data>
-    <data name="AT_TASK_HEADER" xml:space="preserve">
-        <value>Common Data</value>
-    </data>
-    <data name="AT_TASK_PROFILE" xml:space="preserve">
-        <value>Profile</value>
-    </data>
-    <data name="AT_TASK_ACCESSORIES" xml:space="preserve">
-        <value>Spirits</value>
-    </data>
-    <data name="AT_TASK_CARDS" xml:space="preserve">
-        <value>Cards</value>
-    </data>
-    <data name="AT_TASK_DECKS" xml:space="preserve">
-        <value>Teams</value>
-    </data>
-    <data name="AT_TASK_ITEMS_ENHANCEMENT" xml:space="preserve">
-        <value>Enhancement Items</value>
-    </data>
-    <data name="AT_TASK_ITEMS_EVOLUTION" xml:space="preserve">
-        <value>Evolution Items</value>
-    </data>
-    <data name="AT_TASK_ITEMS_EVENT" xml:space="preserve">
-        <value>Event Items</value>
-    </data>
-    <data name="AT_TASK_ITEMS_STAMINA" xml:space="preserve">
-        <value>Stamina Items</value>
-    </data>
-    <data name="AT_TASK_ITEMS_TITLE" xml:space="preserve">
-        <value>Titles</value>
-    </data>
-    <data name="AT_TASK_CHARACTER_FAMILIARITIES" xml:space="preserve">
-        <value>Affinities</value>
-    </data>
-    <data name="LOG_AT_START" xml:space="preserve">
-        <value>Account Transfer Started!</value>
-    </data>
-    <data name="LOG_AT_STOP" xml:space="preserve">
-        <value>Account Transfer Stopped!</value>
-    </data>
-    <data name="LOG_AT_TRANSFER_SUCCESS" xml:space="preserve">
-        <value>Successfully transferred {0}</value>
-    </data>
     <data name="PS_STATUS_STOPPED" xml:space="preserve">
         <value>Private Server is not running.</value>
     </data>
@@ -184,9 +117,6 @@ Transfer</value>
     <data name="PS_HELP_PS" xml:space="preserve">
         <value>How to Use Jinchōge (Private Server)</value>
     </data>
-    <data name="PS_HELP_AT" xml:space="preserve">
-        <value>How to Use Eucalyptus (Account Transfer)</value>
-    </data>
     <data name="PS_HELP_PROXY" xml:space="preserve">
         <value>How to Connect to the Proxy</value>
     </data>
@@ -222,9 +152,6 @@ Transfer</value>
     </data>
     <data name="SETTINGS_INFO_TRANSLATION_PROVIDER" xml:space="preserve">
         <value>Translations Provided by Community Contributions</value>
-    </data>
-    <data name="PROJ_DESC_EUCALYPTUS" xml:space="preserve">
-        <value>Account Transfer Tool for Mobile Game YUYUYUI</value>
     </data>
     <data name="SETTINGS_CATEGORY_SECURITY" xml:space="preserve">
         <value>Security Settings</value>
@@ -283,44 +210,11 @@ Transfer</value>
     <data name="LOG_UPDATE_NOT_FOUND" xml:space="preserve">
         <value>No new version found.</value>
     </data>
-    <data name="LOG_AT_GOT_UUID" xml:space="preserve">
-        <value>Got User UUID: {0}</value>
-    </data>
-    <data name="LOG_AT_GOT_CODE" xml:space="preserve">
-        <value>Got User Code: {0}</value>
-    </data>
-    <data name="LOG_AT_GOT_ACCESSORIES" xml:space="preserve">
-        <value>Got Accessories, {0} in Total</value>
-    </data>
-    <data name="LOG_AT_GOT_CARDS" xml:space="preserve">
-        <value>Got Cards, {0} in Total</value>
-    </data>
-    <data name="LOG_AT_GOT_DECKS" xml:space="preserve">
-        <value>Got Decks</value>
-    </data>
-    <data name="LOG_AT_GOT_ITEMS" xml:space="preserve">
-        <value>Got {0}</value>
-    </data>
-    <data name="LOG_AT_GET_TITLES" xml:space="preserve">
-        <value>Got Titles, {0} in Total</value>
-    </data>
-    <data name="LOG_AT_GOT_CHARACTER_FAMILIARITIES" xml:space="preserve">
-        <value>Got Character Affinities</value>
-    </data>
-    <data name="LOG_AT_GOT_HEADER" xml:space="preserve">
-        <value>Got User Data: Level {0}, EXP: {1}, Money: {2}</value>
-    </data>
-    <data name="LOG_AT_GOT_USER_INFO" xml:space="preserve">
-        <value>Got User Profile: Nickname: {0}, Comment: {1}</value>
-    </data>
     <data name="LOG_VERSION" xml:space="preserve">
         <value>Version {0}</value>
     </data>
     <data name="LOG_LISTENING_AT" xml:space="preserve">
         <value>Listening at </value>
-    </data>
-    <data name="LOG_AT_FINISH_EXIT" xml:space="preserve">
-        <value>All transfer tasks have completed. Program will exit in 10 seconds.</value>
     </data>
     <data name="LOG_PS_ENTER_TO_EXIT" xml:space="preserve">
         <value>Press Enter key to exit the program at any time.</value>
