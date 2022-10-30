@@ -1,9 +1,14 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Yuyuyui.PrivateServer.DataModel;
 using Yuyuyui.PrivateServer.DataModel.Data;
 
-namespace Yuyuyui.PrivateServer.Events;
+namespace Yuyuyui.PrivateServer.Entity.Events;
 
 public class SpecialStageTransactionUpdateEntity : BaseEntity<SpecialStageTransactionUpdateEntity>
 {
@@ -15,7 +20,7 @@ public class SpecialStageTransactionUpdateEntity : BaseEntity<SpecialStageTransa
         string httpMethod,
         Dictionary<string, string> requestHeaders,
         byte[] requestBody,
-        Config config)
+        RouteConfig config)
         : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
     }

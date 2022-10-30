@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
 using Yuyuyui.GK;
+using Yuyuyui.PrivateServer.Entity.Common.Stage;
+using Yuyuyui.PrivateServer.Entity.Events;
 using Yuyuyui.PrivateServer.Localization;
-using Yuyuyui.PrivateServer.Events;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -336,23 +337,23 @@ namespace Yuyuyui.PrivateServer
             },
             {
             	typeof(EventEpisodeEntity),
-            	new Config("/special/chapters/{specialChapterId}/episodes", "GET")
+            	new RouteConfig("/special/chapters/{specialChapterId}/episodes", "GET")
             },
             {
             	typeof(EventStageEntity),
-            	new Config("/special/chapters/{specialChapterId}/episodes/{specialEpisodeId}/stages", "GET")
+            	new RouteConfig("/special/chapters/{specialChapterId}/episodes/{specialEpisodeId}/stages", "GET")
             },
             {
                 typeof(SpecialStageTransactionCreateEntity),
-                new Config("/special/stages/{specialStageId}/transactions", "POST")
+                new RouteConfig("/special/stages/{specialStageId}/transactions", "POST")
             },
             {
                 typeof(SpecialStageTransactionUpdateEntity),
-                new Config("/special/stages/{specialStageId}/transactions/{transactionId}", "PUT")
+                new RouteConfig("/special/stages/{specialStageId}/transactions/{transactionId}", "PUT")
             },
             {
                 typeof(SpecialStageTransactionRetireEntity),
-                new Config("/special/stages/{specialStageId}/transactions/{transactionId}/retire", "PUT")
+                new RouteConfig("/special/stages/{specialStageId}/transactions/{transactionId}/retire", "PUT")
             },
             {
                 typeof(BingoSheetsEntity),

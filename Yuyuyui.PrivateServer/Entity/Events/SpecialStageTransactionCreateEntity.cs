@@ -1,6 +1,9 @@
-﻿using Yuyuyui.PrivateServer.Requests;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.Events;
 
-namespace Yuyuyui.PrivateServer.Events;
+namespace Yuyuyui.PrivateServer.Entity.Events;
 
 public class SpecialStageTransactionCreateEntity : BaseEntity<SpecialStageTransactionCreateEntity>
 {
@@ -9,7 +12,7 @@ public class SpecialStageTransactionCreateEntity : BaseEntity<SpecialStageTransa
         string httpMethod,
         Dictionary<string, string> requestHeaders,
         byte[] requestBody,
-        Config config)
+        RouteConfig config)
         : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
     }

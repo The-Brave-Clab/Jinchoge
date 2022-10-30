@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer.DataModel.Data;
+﻿using System;
+
+namespace Yuyuyui.PrivateServer.DataModel.Data;
 
 public class BattleCardData
 {

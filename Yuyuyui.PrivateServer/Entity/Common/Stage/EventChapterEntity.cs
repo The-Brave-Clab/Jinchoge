@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Yuyuyui.PrivateServer.DataModel;
 
-namespace Yuyuyui.PrivateServer;
+namespace Yuyuyui.PrivateServer.Entity.Common.Stage;
 
 public class EventChapterEntity : ChapterEntity
 {
