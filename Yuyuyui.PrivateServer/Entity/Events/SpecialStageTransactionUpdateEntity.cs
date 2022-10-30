@@ -104,7 +104,7 @@ public class SpecialStageTransactionUpdateEntity : BaseEntity<SpecialStageTransa
         /* UR Slot */
         if (leaderUnit.supportCard2ID != null)
         {
-            var supportCard2 = Card.Load(leaderUnit.supportCardID.GetValueOrDefault(0));
+            var supportCard2 = Card.Load(leaderUnit.supportCard2ID.GetValueOrDefault(0));
             var supportCard2BaseInfo = CreateBattleCardBaseInfo(supportCard2, cardsDb);
 
             leaderBattleCardData.supporter_2 = CreateSupporterCardData(supportCard2BaseInfo, supportCard2, cardsDb);
