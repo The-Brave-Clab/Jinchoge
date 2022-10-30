@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Titanium.Web.Proxy.EventArguments;
 using Yuyuyui.GK;
 using Yuyuyui.PrivateServer.Localization;
+using Yuyuyui.PrivateServer.Events;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -333,14 +334,26 @@ namespace Yuyuyui.PrivateServer
                 typeof(EventChapterEntity),
                 new RouteConfig("/special/chapters", "GET")
             },
-            //{
-            //	typeof(EventEpisodeEntity),
-            //	new Config("/special/chapters/{0}/episodes", string.Empty, 0)
-            //},
-            //{
-            //	typeof(EventStageEntity),
-            //	new Config("/special/chapters/{0}/episodes/{1}/stages", string.Empty, 0)
-            //},
+            {
+            	typeof(EventEpisodeEntity),
+            	new Config("/special/chapters/{specialChapterId}/episodes", "GET")
+            },
+            {
+            	typeof(EventStageEntity),
+            	new Config("/special/chapters/{specialChapterId}/episodes/{specialEpisodeId}/stages", "GET")
+            },
+            {
+                typeof(SpecialStageTransactionCreateEntity),
+                new Config("/special/stages/{specialStageId}/transactions", "POST")
+            },
+            {
+                typeof(SpecialStageTransactionUpdateEntity),
+                new Config("/special/stages/{specialStageId}/transactions/{transactionId}", "PUT")
+            },
+            {
+                typeof(SpecialStageTransactionRetireEntity),
+                new Config("/special/stages/{specialStageId}/transactions/{transactionId}/retire", "PUT")
+            },
             {
                 typeof(BingoSheetsEntity),
                 new RouteConfig("/my/bingo_sheets", "GET")
