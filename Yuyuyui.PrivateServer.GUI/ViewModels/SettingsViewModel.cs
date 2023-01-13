@@ -26,6 +26,7 @@ internal class SettingsViewModel : ViewModelBase
         allowCheckUpdate = !Update.LocalVersion.is_local_build;
         allowDownloadUpdate = false;
         updateStatus = "";
+        infiniteItems = Config.Get().InGame.InfiniteItems;
         useOnlineDecryption = Config.Get().Security.UseOnlineDecryption;
 
         hasNewUpdate = false;
@@ -45,6 +46,7 @@ internal class SettingsViewModel : ViewModelBase
         autoCheckUpdate = true;
         allowCheckUpdate = false;
         updateStatus = "";
+        infiniteItems = false;
         useOnlineDecryption = false;
 
         hasNewUpdate = false;
@@ -104,7 +106,7 @@ internal class SettingsViewModel : ViewModelBase
         }
     }
 
-    public bool autoCheckUpdate;
+    private bool autoCheckUpdate;
     public bool AutoCheckUpdate
     {
         get => autoCheckUpdate;
@@ -116,7 +118,7 @@ internal class SettingsViewModel : ViewModelBase
         }
     }
 
-    public bool infiniteItems;
+    private bool infiniteItems;
     public bool InfiniteItems
     {
         get => infiniteItems;
