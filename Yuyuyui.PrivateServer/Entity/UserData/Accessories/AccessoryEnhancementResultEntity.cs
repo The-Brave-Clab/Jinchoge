@@ -44,15 +44,18 @@ namespace Yuyuyui.PrivateServer
             Utils.Log(string.Format(Resources.LOG_PS_ACCESSORY_QUANTITY_DECREASED, playerAccessory.id, accessoryTargetLevel.NeedAmount));
             
             // brave coins
-            if (accessoryTargetLevel.BraveCoin > 0)
+            if (!Config.Get().InGame.InfiniteItems)
             {
-                player.data.braveCoin += accessoryTargetLevel.BraveCoin;
-                Utils.Log(string.Format(Resources.LOG_PS_BRAVE_COIN_INCREASE, player.id.code, accessoryTargetLevel.BraveCoin));
+                if (accessoryTargetLevel.BraveCoin > 0)
+                {
+                    player.data.braveCoin += accessoryTargetLevel.BraveCoin;
+                    Utils.Log(string.Format(Resources.LOG_PS_BRAVE_COIN_INCREASE, player.id.code, accessoryTargetLevel.BraveCoin));
+                }
+                // money
+                player.data.money -= accessoryTargetLevel.Money;
+                Utils.Log(string.Format(Resources.LOG_PS_MONEY_DECREASED, player.id.code, accessoryTargetLevel.Money));
+                player.Save();
             }
-            // money
-            player.data.money -= accessoryTargetLevel.Money;
-            Utils.Log(string.Format(Resources.LOG_PS_MONEY_DECREASED, player.id.code, accessoryTargetLevel.Money));
-            player.Save();
 
             Response responseObj = new()
             {

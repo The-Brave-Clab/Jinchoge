@@ -27,6 +27,7 @@ public static class Config
     public class InGame
     {
         public string ScenarioLanguage { get; set; } = SupportedInGameScenarioLanguage[0];
+        public bool InfiniteItems { get; set; } = true;
     }
 
     public class Security

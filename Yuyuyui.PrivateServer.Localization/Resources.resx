@@ -363,4 +363,7 @@
     <data name="SETTINGS_INFO_COMING_SOON" xml:space="preserve">
         <value>Coming Soon</value>
     </data>
+    <data name="SETTINGS_IN_GAME_INFINITE_ITEMS" xml:space="preserve">
+        <value>Infinite Items</value>
+    </data>
 </root>

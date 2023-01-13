@@ -1023,6 +1023,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Infinite Items.
+        /// </summary>
+        internal static string SETTINGS_IN_GAME_INFINITE_ITEMS {
+            get {
+                return ResourceManager.GetString("SETTINGS_IN_GAME_INFINITE_ITEMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scenario Language.
         /// </summary>
         internal static string SETTINGS_IN_GAME_LANGUAGE {

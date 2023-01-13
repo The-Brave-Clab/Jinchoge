@@ -24,19 +24,18 @@ namespace Yuyuyui.PrivateServer
 
             using var itemsDb = new ItemsContext();
 
-            Response responseObj = new()
+            Response responseObj;
+
+            if (Config.Get().InGame.InfiniteItems)
             {
-                enhancement_items = player.items.enhancement
-                    .Select(p =>
-                    {
-                        EnhancementItem masterData = 
-                            itemsDb.EnhancementItems.First(m => m.Id == p.Key);
-                        Item userItem = Item.Load(p.Value);
-                        return new Response.EnhancementItem
+                responseObj = new()
+                {
+                    enhancement_items = itemsDb.EnhancementItems
+                        .Select(masterData => new Response.EnhancementItem
                         {
-                            id = p.Value,
+                            id = masterData.Id,
                             master_id = masterData.Id,
-                            quantity = userItem.quantity,
+                            quantity = 999,
                             active_skill_level_potential = masterData.ActiveSkillLevelPotential,
                             rarity = masterData.Rarity,
                             available_character_1_id = masterData.AvailableCharacterId1,
@@ -46,11 +45,40 @@ namespace Yuyuyui.PrivateServer
                             priority = masterData.Priority,
                             support_skill_level_potential = masterData.SupportSkillLevelPotential,
                             support_skill_level_category = masterData.SupportSkillLevelCategory
-                        };
-                    })
-                    .Where(ei => ei.quantity > 0) // don't show consumed items
-                    .ToList()
-            };
+                        })
+                        .ToList()
+                };
+            }
+            else
+            {
+                responseObj = new()
+                {
+                    enhancement_items = player.items.enhancement
+                        .Select(p =>
+                        {
+                            EnhancementItem masterData = 
+                                itemsDb.EnhancementItems.First(m => m.Id == p.Key);
+                            Item userItem = Item.Load(p.Value);
+                            return new Response.EnhancementItem
+                            {
+                                id = p.Value,
+                                master_id = masterData.Id,
+                                quantity = userItem.quantity,
+                                active_skill_level_potential = masterData.ActiveSkillLevelPotential,
+                                rarity = masterData.Rarity,
+                                available_character_1_id = masterData.AvailableCharacterId1,
+                                available_character_2_id = masterData.AvailableCharacterId2,
+                                pair_limited = masterData.AvailableCharacterId1 != null &&
+                                               masterData.AvailableCharacterId2 != null,
+                                priority = masterData.Priority,
+                                support_skill_level_potential = masterData.SupportSkillLevelPotential,
+                                support_skill_level_category = masterData.SupportSkillLevelCategory
+                            };
+                        })
+                        .Where(ei => ei.quantity > 0) // don't show consumed items
+                        .ToList()
+                };
+            }
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();

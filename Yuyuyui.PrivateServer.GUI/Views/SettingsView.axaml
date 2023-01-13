@@ -159,7 +159,12 @@
                     </ComboBox>
                 </Panel>
                 
-                
+                <Panel Classes="entry">
+                    <StackPanel Classes="name">
+                        <TextBlock Classes="nameText" Text="{Binding SETTINGS_IN_GAME_INFINITE_ITEMS}" />
+                    </StackPanel>
+                    <ToggleSwitch Classes="switch" IsChecked="{Binding InfiniteItems}" />
+                </Panel>
                 
                 <TextBlock Classes="category" Text="{Binding SETTINGS_CATEGORY_SECURITY}" />
                 

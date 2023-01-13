@@ -249,7 +249,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 成功出发料理大成功.
+        ///   Looks up a localized string similar to 成功触发料理大成功.
         /// </summary>
         internal static string LOG_PS_CARD_ENHANCEMENT_BIG_HIT {
             get {
@@ -1019,6 +1019,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_GENERAL_UPDATE_NOW_BUTTON {
             get {
                 return ResourceManager.GetString("SETTINGS_GENERAL_UPDATE_NOW_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 无限道具.
+        /// </summary>
+        internal static string SETTINGS_IN_GAME_INFINITE_ITEMS {
+            get {
+                return ResourceManager.GetString("SETTINGS_IN_GAME_INFINITE_ITEMS", resourceCulture);
             }
         }
         

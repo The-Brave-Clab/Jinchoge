@@ -31,6 +31,8 @@ namespace Yuyuyui.PrivateServer
 
             EnhancementTransaction transaction = EnhancementTransaction.Load(transactionId);
 
+            bool infiniteItems = Config.Get().InGame.InfiniteItems;
+
             // Validate here?
 
             using var enhancementDb = new EnhancementContext();
@@ -40,9 +42,22 @@ namespace Yuyuyui.PrivateServer
             // the target card data
             Card userCard = Card.Load(cardId);
             // the use item data
-            Item userItem = Item.Load(transaction.createdWith.enhancement_item.id);
-            EnhancementItem usedItem = itemsDb.EnhancementItems
-                .First(i => i.Id == userItem.master_id);
+            EnhancementItem usedItem;
+            if (infiniteItems)
+            {
+                // in infinite items mode, the id and the master_id are the same
+                usedItem = itemsDb.EnhancementItems
+                    .First(i => i.Id == transaction.createdWith.enhancement_item.id);
+            }
+            else
+            {
+                Item userItem = Item.Load(transaction.createdWith.enhancement_item.id);
+                // cost the item
+                userItem.quantity -= transaction.createdWith.enhancement_item.quantity;
+                userItem.Save();
+                usedItem = itemsDb.EnhancementItems
+                    .First(i => i.Id == userItem.master_id);
+            }
 
             // first, we pick a cooking character
             var masterCard = userCard.MasterData(cardsDb);
@@ -161,7 +176,7 @@ namespace Yuyuyui.PrivateServer
 
             int newAssistLevel = beforeAssistLevel + gotAssistLevel; // will this overflow?
 
-            // finally, update the user data for item, card and character familiarity
+            // finally, update the user data for card and character familiarity
             userCard.exp = newExp;
             userCard.level = newLevel;
             if (activeSkillLevelUp)
@@ -182,18 +197,17 @@ namespace Yuyuyui.PrivateServer
                 familiarity.character_group, gotAssistLevel));
             player.Save();
 
-            long costMoney =
-                CalcUtil.CalcRequiredEnhancementMoney(transaction.createdWith.enhancement_item.quantity,
-                    usedItem.CostCoefficient);
-            player.data.money -= costMoney;
-            player.Save();
+            if (!infiniteItems)
+            {
+                long costMoney =
+                    CalcUtil.CalcRequiredEnhancementMoney(transaction.createdWith.enhancement_item.quantity,
+                        usedItem.CostCoefficient);
+                player.data.money -= costMoney;
+                player.Save();
+            }
 
             IList<int> resultTitleItems = player.EnsureEligibleCardTitle(cardsDb, itemsDb);
             player.Save();
-            
-
-            userItem.quantity -= transaction.createdWith.enhancement_item.quantity;
-            userItem.Save();
 
             Response responseObj = new()
             {
