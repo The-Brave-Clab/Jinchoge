@@ -363,4 +363,7 @@
     <data name="SETTINGS_INFO_COMING_SOON" xml:space="preserve">
         <value>敬请期待</value>
     </data>
+    <data name="SETTINGS_IN_GAME_INFINITE_ITEMS" xml:space="preserve">
+        <value>无限道具</value>
+    </data>
 </root>

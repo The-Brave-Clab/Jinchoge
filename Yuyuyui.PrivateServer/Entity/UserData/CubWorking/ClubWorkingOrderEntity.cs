@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -23,21 +24,57 @@ namespace Yuyuyui.PrivateServer
 
             // Utils.LogWarning("Reward boxes of club orders not filled!");
 
-            Response responseObj = new()
+            Response responseObj;
+            if (Config.Get().InGame.InfiniteItems)
             {
-                club_orders = player.clubOrders
-                    .Select(l =>
-                    {
-                        ClubOrder order = ClubOrder.Load(l);
-                        return new Response.ClubOrderWithReward
+                using var clubWorkingsDb = new ClubWorkingsContext();
+                responseObj = new()
+                {
+                    club_orders = clubWorkingsDb.ClubOrders
+                        .ToList()
+                        .Select(o => new Response.ClubOrderWithReward
+                            {
+                                id = o.Id,
+                                master_id = o.Id,
+                                quantity = 999,
+                                reward_boxes = new List<long?>
+                                    {
+                                        o.RewardBox1Id,
+                                        o.RewardBox2Id,
+                                        o.RewardBox3Id
+                                    }
+                                    .Where(id => id != null)
+                                    .Select(id => (long)id!)
+                                    .Select(id => clubWorkingsDb.ClubOrderRewardBoxes.ToList().FirstOrDefault(box => box.Id == id))
+                                    .Where(box => box != null)
+                                    .Select(box => new ClubOrder.RewardBox
+                                    {
+                                        id = box!.Id,
+                                        title = box!.Title
+                                    })
+                                    .ToList()
+                            })
+                        .ToList()
+                };
+            }
+            else
+            {
+                responseObj = new()
+                {
+                    club_orders = player.clubOrders
+                        .Select(l =>
                         {
-                            id = order.id,
-                            master_id = order.master_id,
-                            quantity = order.quantity,
-                            reward_boxes = new List<ClubOrder.RewardBox>()
-                        };
-                    }).ToList()
-            };
+                            ClubOrder order = ClubOrder.Load(l);
+                            return new Response.ClubOrderWithReward
+                            {
+                                id = order.id,
+                                master_id = order.master_id,
+                                quantity = order.quantity,
+                                reward_boxes = new List<ClubOrder.RewardBox>()
+                            };
+                        }).ToList()
+                };
+            }
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();

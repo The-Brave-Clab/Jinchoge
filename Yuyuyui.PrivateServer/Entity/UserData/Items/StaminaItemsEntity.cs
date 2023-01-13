@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -21,14 +22,33 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            Response responseObj = new()
+            Response responseObj;
+            if (Config.Get().InGame.InfiniteItems)
             {
-                stamina_items = player.items.stamina
-                    .Select(p => p.Value)
-                    .Select(Item.Load)
-                    .Where(si => si.quantity > 0)
-                    .ToDictionary(si => si.id, si => si)
-            };
+                using var itemsDb = new ItemsContext();
+                responseObj = new()
+                {
+                    stamina_items = itemsDb.StaminaItems
+                        .Select(t => new Item
+                        {
+                            id = t.Id,
+                            master_id = t.Id,
+                            quantity = 999
+                        })
+                        .ToDictionary(i => i.id, i => i)
+                };
+            }
+            else
+            {
+                responseObj = new()
+                {
+                    stamina_items = player.items.stamina
+                        .Select(p => p.Value)
+                        .Select(Item.Load)
+                        .Where(si => si.quantity > 0)
+                        .ToDictionary(si => si.id, si => si)
+                };
+            }
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();

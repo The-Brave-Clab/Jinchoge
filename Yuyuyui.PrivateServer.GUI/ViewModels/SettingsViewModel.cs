@@ -62,6 +62,7 @@ internal class SettingsViewModel : ViewModelBase
     public string SETTINGS_GENERAL_CHECK_UPDATE_BUTTON => Resources.SETTINGS_GENERAL_CHECK_UPDATE_BUTTON;
     public string SETTINGS_GENERAL_UPDATE_NOW_BUTTON => Resources.SETTINGS_GENERAL_UPDATE_NOW_BUTTON;
     public string SETTINGS_IN_GAME_LANGUAGE => Resources.SETTINGS_IN_GAME_LANGUAGE;
+    public string SETTINGS_IN_GAME_INFINITE_ITEMS => Resources.SETTINGS_IN_GAME_INFINITE_ITEMS;
     public string SETTINGS_SECURITY_REISSUE_CERT => Resources.SETTINGS_SECURITY_REISSUE_CERT;
     public string SETTINGS_SECURITY_REISSUE_BUTTON => Resources.SETTINGS_SECURITY_REISSUE_BUTTON;
     public string SETTINGS_SECURITY_ONLINE_DECRYPTION => Resources.SETTINGS_SECURITY_ONLINE_DECRYPTION;
@@ -111,6 +112,18 @@ internal class SettingsViewModel : ViewModelBase
         {
             this.RaiseAndSetIfChanged(ref autoCheckUpdate, value);
             Config.Get().General.AutoCheckUpdate = value;
+            Config.Save();
+        }
+    }
+
+    public bool infiniteItems;
+    public bool InfiniteItems
+    {
+        get => infiniteItems;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref infiniteItems, value);
+            Config.Get().InGame.InfiniteItems = value;
             Config.Save();
         }
     }
