@@ -316,7 +316,7 @@
         <value>料理角色{0} -&gt; 目标角色{1}</value>
     </data>
     <data name="LOG_PS_CARD_ENHANCEMENT_BIG_HIT" xml:space="preserve">
-        <value>成功出发料理大成功</value>
+        <value>成功触发料理大成功</value>
     </data>
     <data name="LOG_PS_CARD_ENHANCEMENT_ACTIVE_SKILL_LEVEL_UP_PROBABILITY" xml:space="preserve">
         <value>必杀技升级概率为{0}%</value>

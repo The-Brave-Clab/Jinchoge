@@ -249,7 +249,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 成功出发料理大成功.
+        ///   Looks up a localized string similar to 成功触发料理大成功.
         /// </summary>
         internal static string LOG_PS_CARD_ENHANCEMENT_BIG_HIT {
             get {
