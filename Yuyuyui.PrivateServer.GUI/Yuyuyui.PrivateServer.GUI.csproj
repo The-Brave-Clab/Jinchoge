@@ -9,7 +9,7 @@
     <Company>YuyuyuiPrivateServer</Company>
     <AssemblyName>Jinchoge</AssemblyName>
     <Product>PrivateServer</Product>
-    <VersionPrefix>1.2.2</VersionPrefix>
+    <VersionPrefix>1.2.3</VersionPrefix>
     <AssemblyVersion>$(Version)</AssemblyVersion>
     <FileVersion>$(Version)</FileVersion>
     <DebugType>embedded</DebugType>

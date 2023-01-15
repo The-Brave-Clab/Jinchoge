@@ -11,7 +11,7 @@ namespace Yuyuyui.PrivateServer;
 public static class Update
 {
 
-    public const string BASE_URL = "https://y3ps-publish.s3.ap-northeast-1.amazonaws.com";
+    public const string BASE_URL = "https://dblk8ymnxb1f2.cloudfront.net";
 
     private static VersionInfo latestVersionInfo;
 
