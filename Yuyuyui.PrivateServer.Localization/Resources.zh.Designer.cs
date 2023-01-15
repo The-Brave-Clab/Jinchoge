@@ -681,24 +681,6 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 转移中.
-        /// </summary>
-        internal static string PS_BUTTON_TRANSFER {
-            get {
-                return ResourceManager.GetString("PS_BUTTON_TRANSFER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 正在转移账号…….
-        /// </summary>
-        internal static string PS_BUTTON_TRANSFER_DESC {
-            get {
-                return ResourceManager.GetString("PS_BUTTON_TRANSFER_DESC", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 更新中.
         /// </summary>
         internal static string PS_BUTTON_UPDATE {
@@ -875,15 +857,6 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string PS_STATUS_TEXT_SUBNET_MASK {
             get {
                 return ResourceManager.GetString("PS_STATUS_TEXT_SUBNET_MASK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 正在转移账号。.
-        /// </summary>
-        internal static string PS_STATUS_TRANSFERRING {
-            get {
-                return ResourceManager.GetString("PS_STATUS_TRANSFERRING", resourceCulture);
             }
         }
         

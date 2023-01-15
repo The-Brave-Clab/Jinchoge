@@ -36,12 +36,6 @@
     <data name="PS_BUTTON_STOP_DESC" xml:space="preserve">
         <value>停止私服</value>
     </data>
-    <data name="PS_BUTTON_TRANSFER" xml:space="preserve">
-        <value>转移中</value>
-    </data>
-    <data name="PS_BUTTON_TRANSFER_DESC" xml:space="preserve">
-        <value>正在转移账号……</value>
-    </data>
     <data name="PS_BUTTON_UPDATE" xml:space="preserve">
         <value>更新中</value>
     </data>
@@ -74,9 +68,6 @@
     </data>
     <data name="PS_STATUS_STOPPED" xml:space="preserve">
         <value>私服已停止。</value>
-    </data>
-    <data name="PS_STATUS_TRANSFERRING" xml:space="preserve">
-        <value>正在转移账号。</value>
     </data>
     <data name="PS_STATUS_UPDATING" xml:space="preserve">
         <value>正在更新所需文件……</value>

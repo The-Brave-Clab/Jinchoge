@@ -174,15 +174,12 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         {
             UpdatingMessageVisible = status == MainWindowViewModel.ServerStatus.Updating;
             NotStartedMessageVisible = status == MainWindowViewModel.ServerStatus.Stopped;
-            StartedPanelVisible = status is
-                MainWindowViewModel.ServerStatus.Started or
-                MainWindowViewModel.ServerStatus.Transfer;
+            StartedPanelVisible = status == MainWindowViewModel.ServerStatus.Started;
             CurrentProcess = status switch
             {
                 MainWindowViewModel.ServerStatus.Updating => "",
                 MainWindowViewModel.ServerStatus.Stopped => "",
                 MainWindowViewModel.ServerStatus.Started => PS_STATUS_STARTED,
-                MainWindowViewModel.ServerStatus.Transfer => PS_STATUS_TRANSFERRING,
                 _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
             };
         }
@@ -190,7 +187,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         public string PS_STATUS_STOPPED => Localization.Resources.PS_STATUS_STOPPED;
         public string PS_STATUS_STARTED => Localization.Resources.PS_STATUS_STARTED;
         public string PS_STATUS_UPDATING => Localization.Resources.PS_STATUS_UPDATING;
-        public string PS_STATUS_TRANSFERRING => Localization.Resources.PS_STATUS_TRANSFERRING;
         public string PS_STATUS_PORT_LISTEN => Localization.Resources.PS_STATUS_PORT_LISTEN;
         public string PS_STATUS_CHOOSE_IP => Localization.Resources.PS_STATUS_CHOOSE_IP;
         public string PS_STATUS_FILTER_IP_BUTTON => Localization.Resources.PS_STATUS_FILTER_IP_BUTTON;

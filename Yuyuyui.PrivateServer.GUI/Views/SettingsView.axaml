@@ -163,7 +163,8 @@
                     <StackPanel Classes="name">
                         <TextBlock Classes="nameText" Text="{Binding SETTINGS_IN_GAME_INFINITE_ITEMS}" />
                     </StackPanel>
-                    <ToggleSwitch Classes="switch" IsChecked="{Binding InfiniteItems}" />
+                    <ToggleSwitch Classes="switch" IsChecked="{Binding InfiniteItems}"
+                                  IsEnabled="{Binding !PrivateServerRunning}"/>
                 </Panel>
                 
                 <TextBlock Classes="category" Text="{Binding SETTINGS_CATEGORY_SECURITY}" />

@@ -26,8 +26,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         {
             Updating,
             Stopped,
-            Started,
-            Transfer
+            Started
         }
 
         public MainWindowViewModel(MainWindow window)
@@ -75,7 +74,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
                 IsStopped = status == ServerStatus.Stopped;
                 IsStarted = status == ServerStatus.Started;
-                CanStart = (status != ServerStatus.Transfer && status != ServerStatus.Updating);
+                CanStart = status != ServerStatus.Updating;
                 ButtonContent = GetButtonContent(status);
                 ButtonDescription = GetButtonDescription(status);
 
@@ -92,7 +91,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                 ServerStatus.Updating => Localization.Resources.PS_BUTTON_UPDATE,
                 ServerStatus.Stopped => Localization.Resources.PS_BUTTON_START,
                 ServerStatus.Started => Localization.Resources.PS_BUTTON_STOP,
-                ServerStatus.Transfer => Localization.Resources.PS_BUTTON_TRANSFER,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -104,7 +102,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                 ServerStatus.Updating => Localization.Resources.PS_BUTTON_UPDATE_DESC,
                 ServerStatus.Stopped => Localization.Resources.PS_BUTTON_START_DESC,
                 ServerStatus.Started => Localization.Resources.PS_BUTTON_STOP_DESC,
-                ServerStatus.Transfer => Localization.Resources.PS_BUTTON_TRANSFER_DESC,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

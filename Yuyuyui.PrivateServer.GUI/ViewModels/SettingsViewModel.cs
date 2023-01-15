@@ -25,6 +25,7 @@ internal class SettingsViewModel : ViewModelBase
         autoCheckUpdate = Config.Get().General.AutoCheckUpdate;
         allowCheckUpdate = !Update.LocalVersion.is_local_build;
         allowDownloadUpdate = false;
+        privateServerRunning = false;
         updateStatus = "";
         infiniteItems = Config.Get().InGame.InfiniteItems;
         useOnlineDecryption = Config.Get().Security.UseOnlineDecryption;
@@ -45,6 +46,8 @@ internal class SettingsViewModel : ViewModelBase
         canReissueCert = false;
         autoCheckUpdate = true;
         allowCheckUpdate = false;
+        allowDownloadUpdate = false;
+        privateServerRunning = false;
         updateStatus = "";
         infiniteItems = false;
         useOnlineDecryption = false;
@@ -154,6 +157,13 @@ internal class SettingsViewModel : ViewModelBase
         }
     }
 
+    private bool privateServerRunning;
+    public bool PrivateServerRunning
+    {
+        get => privateServerRunning;
+        set => this.RaiseAndSetIfChanged(ref privateServerRunning, value);
+    }
+
     private bool canReissueCert;
     public bool CanReissueCert
     {
@@ -214,6 +224,7 @@ internal class SettingsViewModel : ViewModelBase
     public void Refresh()
     {
         mainWindowVM.TryGetTarget(out var mainWindowViewModel);
+        PrivateServerRunning = mainWindowViewModel!.Status == MainWindowViewModel.ServerStatus.Started;
         CanReissueCert = ProxyUtils.CertExists() &&
                          mainWindowViewModel!.Status is
                              MainWindowViewModel.ServerStatus.Stopped or

@@ -681,24 +681,6 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TRANSFER.
-        /// </summary>
-        internal static string PS_BUTTON_TRANSFER {
-            get {
-                return ResourceManager.GetString("PS_BUTTON_TRANSFER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Transferring Account....
-        /// </summary>
-        internal static string PS_BUTTON_TRANSFER_DESC {
-            get {
-                return ResourceManager.GetString("PS_BUTTON_TRANSFER_DESC", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to UPDATING.
         /// </summary>
         internal static string PS_BUTTON_UPDATE {
@@ -875,15 +857,6 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string PS_STATUS_TEXT_SUBNET_MASK {
             get {
                 return ResourceManager.GetString("PS_STATUS_TEXT_SUBNET_MASK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Account Transfer is in progress..
-        /// </summary>
-        internal static string PS_STATUS_TRANSFERRING {
-            get {
-                return ResourceManager.GetString("PS_STATUS_TRANSFERRING", resourceCulture);
             }
         }
         

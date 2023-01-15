@@ -11,8 +11,6 @@ public class PrivateServerViewModel : HelpSubViewModelBase
         ButtonStartDescription = MainWindowViewModel.GetButtonDescription(MainWindowViewModel.ServerStatus.Stopped);
         ButtonUpdateContent = MainWindowViewModel.GetButtonContent(MainWindowViewModel.ServerStatus.Updating);
         ButtonUpdateDescription = MainWindowViewModel.GetButtonDescription(MainWindowViewModel.ServerStatus.Updating);
-        ButtonTransferContent = MainWindowViewModel.GetButtonContent(MainWindowViewModel.ServerStatus.Transfer);
-        ButtonTransferDescription = MainWindowViewModel.GetButtonDescription(MainWindowViewModel.ServerStatus.Transfer);
     }
     
     private string buttonStartContent = "";

@@ -27,17 +27,11 @@
     <data name="PS_BUTTON_STOP" xml:space="preserve">
         <value>STOP</value>
     </data>
-    <data name="PS_BUTTON_TRANSFER" xml:space="preserve">
-        <value>TRANSFER</value>
-    </data>
     <data name="PS_BUTTON_START_DESC" xml:space="preserve">
         <value>Start the Private Server</value>
     </data>
     <data name="PS_BUTTON_STOP_DESC" xml:space="preserve">
         <value>Private Server is running</value>
-    </data>
-    <data name="PS_BUTTON_TRANSFER_DESC" xml:space="preserve">
-        <value>Transferring Account...</value>
     </data>
     <data name="PS_BUTTON_UPDATE_DESC" xml:space="preserve">
         <value>Updating Required Files...</value>
@@ -74,9 +68,6 @@
     </data>
     <data name="PS_STATUS_STARTED" xml:space="preserve">
         <value>Private Server is currently running.</value>
-    </data>
-    <data name="PS_STATUS_TRANSFERRING" xml:space="preserve">
-        <value>Account Transfer is in progress.</value>
     </data>
     <data name="PS_STATUS_UPDATING" xml:space="preserve">
         <value>Private Server is updating required files...</value>
