@@ -7,7 +7,7 @@
     <Company>YuyuyuiPrivateServer</Company>
     <Product>PrivateServer</Product>
     <AssemblyName>Jinchoge.CLI</AssemblyName>
-    <VersionPrefix>1.2.1</VersionPrefix>
+    <VersionPrefix>1.2.3</VersionPrefix>
     <AssemblyVersion>$(Version)</AssemblyVersion>
     <FileVersion>$(Version)</FileVersion>
     <DebugType>embedded</DebugType>
