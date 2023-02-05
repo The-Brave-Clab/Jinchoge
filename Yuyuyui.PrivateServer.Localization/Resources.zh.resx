@@ -357,4 +357,7 @@
     <data name="NAV_BUTTON_RELEASE" xml:space="preserve">
         <value>更新日志</value>
     </data>
+    <data name="HTML_RELEASE_NOTES_TITLE" xml:space="preserve">
+        <value>更新日志</value>
+    </data>
 </root>

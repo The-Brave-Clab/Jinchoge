@@ -7,16 +7,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels;
 
 public class ReleaseViewModel : ViewModelBase
 {
-    public string ReleaseNotesMd
-    {
-        get
-        {
-            var expectedFile = $"documents.{Resources.LAN_CODE}.release-notes.md";
-            var embeddedResource = ProxyUtils.AssemblyResources.First(r =>
-                r.Contains(expectedFile, StringComparison.InvariantCultureIgnoreCase));
-            using Stream stream = typeof(ProxyUtils).Assembly.GetManifestResourceStream(embeddedResource)!;
-            using StreamReader reader = new StreamReader(stream);
-            return reader.ReadToEnd();
-        }   
-    }
+    public string ReleaseNotesMd =>
+        ProxyUtils.ReadAllTextFromAssemblyResources($"documents.{Resources.LAN_CODE}.{ProxyUtils.RELEASE_NOTES_PATH}.md");
 }

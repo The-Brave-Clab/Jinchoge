@@ -60,6 +60,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 更新日志.
+        /// </summary>
+        internal static string HTML_RELEASE_NOTES_TITLE {
+            get {
+                return ResourceManager.GetString("HTML_RELEASE_NOTES_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to zh.
         /// </summary>
         internal static string LAN_CODE {
