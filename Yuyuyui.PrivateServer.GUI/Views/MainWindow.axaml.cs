@@ -17,6 +17,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
 {
     public partial class MainWindow : Window
     {
+        private ReleaseView releaseView;
         private LogView logView;
         private StatusView statusView;
         private SettingsView settingsView;
@@ -54,6 +55,13 @@ namespace Yuyuyui.PrivateServer.GUI.Views
                 ProgressBarText = ""
             };
             BottomToolBar.DataContext = toolbarVM;
+
+            releaseView = new ReleaseView
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+                DataContext = mainWindowVM.releaseVM
+            };
 
             logView = new LogView
             {
@@ -161,6 +169,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             {
                 MainPageContentControl.Content = button.Name switch
                 {
+                    nameof(ReleaseButton) => releaseView,
                     nameof(LogButton) => logView,
                     nameof(StatusButton) => statusView,
                     nameof(SettingsButton) => settingsView,

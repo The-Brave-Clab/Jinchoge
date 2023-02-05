@@ -165,6 +165,13 @@
                                     </Style>
                                 </StackPanel.Styles>
 
+                                <uc:NavigationButton Name="ReleaseButton" Checked="OnNavigationButtonChecked">
+                                    <Grid ColumnDefinitions="40,*">
+                                        <Image Source="/Assets/Icons/Navigation/release-note.png" Grid.Column="0" />
+                                        <TextBlock Text="{Binding NAV_RELEASE}" Grid.Column="1" />
+                                    </Grid>
+                                </uc:NavigationButton>
+
                                 <uc:NavigationButton Name="LogButton" Checked="OnNavigationButtonChecked" IsChecked="True">
                                     <Grid ColumnDefinitions="40,*">
                                         <Image Source="/Assets/Icons/Navigation/console.png" Grid.Column="0" />

@@ -16,6 +16,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
     {
         private WeakReference<MainWindow?> window = new(null);
 
+        internal ReleaseViewModel releaseVM;
         internal LogViewModel logVM;
         internal StatusViewModel statusVM;
         internal SettingsViewModel settingsVM;
@@ -38,6 +39,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             buttonDescription = "";
             Status = ServerStatus.Stopped;
 
+            releaseVM = new ReleaseViewModel();
             logVM = new LogViewModel();
             statusVM = new StatusViewModel();
             settingsVM = new SettingsViewModel(this);
@@ -55,6 +57,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             buttonDescription = "";
             Status = ServerStatus.Stopped;
 
+            releaseVM = new ReleaseViewModel();
             logVM = new LogViewModel();
             statusVM = new StatusViewModel();
             settingsVM = new SettingsViewModel(this);
@@ -175,8 +178,8 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref projectName, value);
         }
 
+        public string NAV_RELEASE => Localization.Resources.NAV_BUTTON_RELEASE;
         public string NAV_LOG => Localization.Resources.NAV_BUTTON_LOG;
-        public string NAV_TRANSFER => Localization.Resources.NAV_BUTTON_TRANSFER;
         public string NAV_STATUS => Localization.Resources.NAV_BUTTON_STATUS;
         public string NAV_SETTINGS => Localization.Resources.NAV_BUTTON_SETTINGS;
         public string NAV_HELP => Localization.Resources.NAV_BUTTON_HELP;

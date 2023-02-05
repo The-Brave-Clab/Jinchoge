@@ -45,9 +45,6 @@
     <data name="NAV_BUTTON_LOG" xml:space="preserve">
         <value>LOG</value>
     </data>
-    <data name="NAV_BUTTON_TRANSFER" xml:space="preserve">
-        <value>TRANSFER</value>
-    </data>
     <data name="NAV_BUTTON_STATUS" xml:space="preserve">
         <value>STATUS</value>
     </data>
@@ -356,5 +353,8 @@
     </data>
     <data name="SETTINGS_IN_GAME_INFINITE_ITEMS" xml:space="preserve">
         <value>Infinite Items</value>
+    </data>
+    <data name="NAV_BUTTON_RELEASE" xml:space="preserve">
+        <value>RELEASE NOTES</value>
     </data>
 </root>

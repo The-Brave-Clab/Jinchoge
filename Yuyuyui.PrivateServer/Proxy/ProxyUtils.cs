@@ -23,7 +23,7 @@ namespace Yuyuyui.PrivateServer
         public static string LOCAL_PFX_FILE => Path.Combine(PrivateServer.BASE_DIR, "ca.pfx");
 
         private static readonly Assembly assembly = typeof(ProxyUtils).Assembly;
-        private static readonly string[] assemblyResources = assembly.GetManifestResourceNames();
+        public static readonly string[] AssemblyResources = assembly.GetManifestResourceNames();
 
         public static bool WebService(SessionEventArgs e)
         {
@@ -51,9 +51,9 @@ namespace Yuyuyui.PrivateServer
             {
                 ["Content-Type"] = new("Content-Type", "text/html; charset=utf-8"),
             };
-            if (assemblyResources.Any(r => r.Contains(expectedFile, StringComparison.InvariantCultureIgnoreCase)))
+            if (AssemblyResources.Any(r => r.Contains(expectedFile, StringComparison.InvariantCultureIgnoreCase)))
             {
-                var embeddedResource = assemblyResources.First(r =>
+                var embeddedResource = AssemblyResources.First(r =>
                     r.Contains(expectedFile, StringComparison.InvariantCultureIgnoreCase));
                 using Stream stream = assembly.GetManifestResourceStream(embeddedResource)!;
                 using StreamReader reader = new StreamReader(stream);
@@ -62,7 +62,7 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
-                var embeddedResource = assemblyResources.First(r =>
+                var embeddedResource = AssemblyResources.First(r =>
                     r.Contains("404.html", StringComparison.InvariantCultureIgnoreCase));
                 using Stream stream = assembly.GetManifestResourceStream(embeddedResource)!;
                 using StreamReader reader = new StreamReader(stream);

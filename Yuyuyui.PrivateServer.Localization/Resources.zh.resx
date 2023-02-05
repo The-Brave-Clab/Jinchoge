@@ -57,9 +57,6 @@
     <data name="NAV_BUTTON_STATUS" xml:space="preserve">
         <value>运行状态</value>
     </data>
-    <data name="NAV_BUTTON_TRANSFER" xml:space="preserve">
-        <value>账号转移</value>
-    </data>
     <data name="PROJ_DESC_JINCHOGE" xml:space="preserve">
         <value>《结城友奈是勇者 闪光的花结》私服</value>
     </data>
@@ -356,5 +353,8 @@
     </data>
     <data name="SETTINGS_IN_GAME_INFINITE_ITEMS" xml:space="preserve">
         <value>无限道具</value>
+    </data>
+    <data name="NAV_BUTTON_RELEASE" xml:space="preserve">
+        <value>更新日志</value>
     </data>
 </root>
