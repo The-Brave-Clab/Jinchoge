@@ -13,6 +13,7 @@ February 14, 2023
         * zh - Chinese
         * en - English
     * Each language has a different translation progress. The game will automatically fall back to the default language (jp - Japanese) when no translation is found.
+* Updated the help page about how to create a new account.
 
 ## 1.2.3
 
