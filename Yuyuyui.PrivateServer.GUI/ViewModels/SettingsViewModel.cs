@@ -246,9 +246,10 @@ internal class SettingsViewModel : ViewModelBase
                 hasNewUpdate = Update.TryGetNewerVersion(out newVersionInfo);
                 if (hasNewUpdate)
                 {
-                    Utils.Log(
+                    Utils.LogWarning(
                         string.Format(Resources.LOG_UPDATE_FOUND, newVersionInfo.commit_sha[..7],
-                            newVersionInfo.branch));
+                            newVersionInfo.branch, Resources.NAV_BUTTON_SETTINGS));
+                    Utils.LogWarning(Resources.LOG_UPDATE_RESTRICTION);
                     UpdateStatus = Resources.SETTINGS_GENERAL_CHECK_UPDATE_TEXT_FOUND;
                 }
                 else

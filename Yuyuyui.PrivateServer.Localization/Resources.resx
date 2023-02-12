@@ -190,7 +190,7 @@
         <value>Downloaded new update file at {0}</value>
     </data>
     <data name="LOG_UPDATE_FOUND" xml:space="preserve">
-        <value>Found new version: commit {0} on branch {1}</value>
+        <value>Found new version: commit {0} on branch {1}. Please go to {2} page to download the update.</value>
     </data>
     <data name="LOG_UPDATE_CHECKING" xml:space="preserve">
         <value>Checking for application update on branch {0}...</value>
@@ -359,5 +359,8 @@
     </data>
     <data name="HTML_RELEASE_NOTES_TITLE" xml:space="preserve">
         <value>Release Notes</value>
+    </data>
+    <data name="LOG_UPDATE_RESTRICTION" xml:space="preserve">
+        <value>You won't be able to start the Private Server with an old version.</value>
     </data>
 </root>

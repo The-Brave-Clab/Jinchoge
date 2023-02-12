@@ -564,7 +564,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Found new version: commit {0} on branch {1}.
+        ///   Looks up a localized string similar to Found new version: commit {0} on branch {1}. Please go to {2} page to download the update..
         /// </summary>
         internal static string LOG_UPDATE_FOUND {
             get {
@@ -578,6 +578,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string LOG_UPDATE_NOT_FOUND {
             get {
                 return ResourceManager.GetString("LOG_UPDATE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You won&apos;t be able to start the Private Server with an old version..
+        /// </summary>
+        internal static string LOG_UPDATE_RESTRICTION {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_RESTRICTION", resourceCulture);
             }
         }
         

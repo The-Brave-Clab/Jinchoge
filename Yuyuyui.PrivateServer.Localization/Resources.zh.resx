@@ -190,7 +190,7 @@
         <value>已将更新文件下载至{0}</value>
     </data>
     <data name="LOG_UPDATE_FOUND" xml:space="preserve">
-        <value>发现更新：位于{1}分支上的提交{0}</value>
+        <value>发现更新：位于{1}分支上的提交{0}。请前往{2}页面下载更新。</value>
     </data>
     <data name="LOG_UPDATE_CHECKING" xml:space="preserve">
         <value>正在检查{0}分支上的更新……</value>
@@ -359,5 +359,8 @@
     </data>
     <data name="HTML_RELEASE_NOTES_TITLE" xml:space="preserve">
         <value>更新日志</value>
+    </data>
+    <data name="LOG_UPDATE_RESTRICTION" xml:space="preserve">
+        <value>使用旧版本将无法启动私服。</value>
     </data>
 </root>

@@ -19,6 +19,8 @@ public static class Update
 
     public static LocalVersionInfo LocalVersion => localVersionInfo;
 
+    public static bool HasNewVersion;
+
     static Update()
     {
         latestVersionInfo = new();
@@ -54,8 +56,8 @@ public static class Update
         if (!latestVersionInfo.version_info.ContainsKey(Config.Get().General.UpdateBranch)) return false;
 
         newVersionInfo = latestVersionInfo.version_info[Config.Get().General.UpdateBranch];
-
-        return newVersionInfo.IsNewerThan(localVersionInfo.version_info);
+        HasNewVersion = newVersionInfo.IsNewerThan(localVersionInfo.version_info);
+        return HasNewVersion;
     }
 
     public class LocalVersionInfo

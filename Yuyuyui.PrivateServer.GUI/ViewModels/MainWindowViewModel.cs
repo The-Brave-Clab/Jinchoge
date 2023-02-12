@@ -77,7 +77,8 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
                 IsStopped = status == ServerStatus.Stopped;
                 IsStarted = status == ServerStatus.Started;
-                CanStart = status != ServerStatus.Updating;
+                IsUpdating = status == ServerStatus.Updating;
+                CanStart = !IsUpdating && !Update.HasNewVersion;
                 ButtonContent = GetButtonContent(status);
                 ButtonDescription = GetButtonDescription(status);
 
@@ -155,6 +156,14 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         {
             get => isStarted;
             set => this.RaiseAndSetIfChanged(ref isStarted, value);
+        }
+
+        private bool isUpdating;
+
+        public bool IsUpdating
+        {
+            get => isUpdating;
+            set => this.RaiseAndSetIfChanged(ref isUpdating, value);
         }
 
         private bool canStart;

@@ -14,6 +14,8 @@ February 14, 2023
         * en - English
     * Each language has a different translation progress. The game will automatically fall back to the default language (jp - Japanese) when no translation is found.
 * Updated the help page about how to create a new account.
+* When new version is found, the Private Server will now refuse to start.
+    * The log message when new version is found is now highlighted.
 
 ## 1.2.3
 

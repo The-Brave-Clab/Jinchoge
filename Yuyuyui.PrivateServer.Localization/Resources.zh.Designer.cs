@@ -564,7 +564,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 发现更新：位于{1}分支上的提交{0}.
+        ///   Looks up a localized string similar to 发现更新：位于{1}分支上的提交{0}。请前往{2}页面下载更新。.
         /// </summary>
         internal static string LOG_UPDATE_FOUND {
             get {
@@ -578,6 +578,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string LOG_UPDATE_NOT_FOUND {
             get {
                 return ResourceManager.GetString("LOG_UPDATE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 使用旧版本将无法启动私服。.
+        /// </summary>
+        internal static string LOG_UPDATE_RESTRICTION {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_RESTRICTION", resourceCulture);
             }
         }
         
