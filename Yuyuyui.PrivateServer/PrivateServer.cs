@@ -49,7 +49,7 @@ namespace Yuyuyui.PrivateServer
 
         public const string OFFICIAL_API_SERVER = "app.yuyuyui.jp";
         public const string PRIVATE_LOCAL_API_SERVER = "private.yuyuyui.org";
-        public const string PRIVATE_PUBLIC_API_SERVER = "936fkiz1v2.execute-api.ap-northeast-1.amazonaws.com";
+        public const string PRIVATE_PUBLIC_API_SERVER = "d1d69gx8fhl536.cloudfront.net";
 
         public static string BASE_DIR => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YuyuyuiPrivateServer");

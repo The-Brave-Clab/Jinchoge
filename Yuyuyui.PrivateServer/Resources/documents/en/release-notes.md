@@ -16,6 +16,7 @@ February 14, 2023
 * Updated the help page about how to create a new account.
 * When new version is found, the Private Server will now refuse to start.
     * The log message when new version is found is now highlighted.
+* Introduced CDN for speeding up access to the API server.
 
 ## 1.2.3
 
