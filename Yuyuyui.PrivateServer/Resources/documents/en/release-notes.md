@@ -1,5 +1,13 @@
 # Release Notes
 
+## 2.0.0
+
+February 14, 2023
+
+**What's New**
+
+* Added Release Note page (this page).
+
 ## 1.2.3
 
 January 15, 2023
