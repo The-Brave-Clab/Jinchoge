@@ -7,6 +7,12 @@ February 14, 2023
 **What's New**
 
 * Added Release Note page (this page).
+* Added multi-language support for in-game scenarios.
+    * These translations are provided through joint efforts and contributions from the community.
+    * The currently supported languages include:
+        * zh - Chinese
+        * en - English
+    * Each language has a different translation progress. The game will automatically fall back to the default language (jp - Japanese) when no translation is found.
 
 ## 1.2.3
 

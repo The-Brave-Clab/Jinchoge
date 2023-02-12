@@ -142,7 +142,7 @@
 
                 <TextBlock Classes="category" Text="{Binding SETTINGS_CATEGORY_IN_GAME}" />
                 
-                <Panel Classes="entry" IsEnabled="False">
+                <Panel Classes="entry">
                     <StackPanel Classes="name">
                         <TextBlock Classes="nameText" Text="{Binding SETTINGS_IN_GAME_LANGUAGE}" />
                         <TextBlock Classes="comment" Text="{Binding SETTINGS_INFO_TRANSLATION_PROVIDER}" />
