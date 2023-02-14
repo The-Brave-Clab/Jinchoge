@@ -16,6 +16,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
     {
         private WeakReference<MainWindow?> window = new(null);
 
+        internal ReleaseViewModel releaseVM;
         internal LogViewModel logVM;
         internal StatusViewModel statusVM;
         internal SettingsViewModel settingsVM;
@@ -26,8 +27,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         {
             Updating,
             Stopped,
-            Started,
-            Transfer
+            Started
         }
 
         public MainWindowViewModel(MainWindow window)
@@ -39,6 +39,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             buttonDescription = "";
             Status = ServerStatus.Stopped;
 
+            releaseVM = new ReleaseViewModel();
             logVM = new LogViewModel();
             statusVM = new StatusViewModel();
             settingsVM = new SettingsViewModel(this);
@@ -56,6 +57,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             buttonDescription = "";
             Status = ServerStatus.Stopped;
 
+            releaseVM = new ReleaseViewModel();
             logVM = new LogViewModel();
             statusVM = new StatusViewModel();
             settingsVM = new SettingsViewModel(this);
@@ -75,7 +77,8 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
                 IsStopped = status == ServerStatus.Stopped;
                 IsStarted = status == ServerStatus.Started;
-                CanStart = (status != ServerStatus.Transfer && status != ServerStatus.Updating);
+                IsUpdating = status == ServerStatus.Updating;
+                CanStart = !IsUpdating && !Update.HasNewVersion;
                 ButtonContent = GetButtonContent(status);
                 ButtonDescription = GetButtonDescription(status);
 
@@ -92,7 +95,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                 ServerStatus.Updating => Localization.Resources.PS_BUTTON_UPDATE,
                 ServerStatus.Stopped => Localization.Resources.PS_BUTTON_START,
                 ServerStatus.Started => Localization.Resources.PS_BUTTON_STOP,
-                ServerStatus.Transfer => Localization.Resources.PS_BUTTON_TRANSFER,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -104,7 +106,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                 ServerStatus.Updating => Localization.Resources.PS_BUTTON_UPDATE_DESC,
                 ServerStatus.Stopped => Localization.Resources.PS_BUTTON_START_DESC,
                 ServerStatus.Started => Localization.Resources.PS_BUTTON_STOP_DESC,
-                ServerStatus.Transfer => Localization.Resources.PS_BUTTON_TRANSFER_DESC,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -157,6 +158,14 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref isStarted, value);
         }
 
+        private bool isUpdating;
+
+        public bool IsUpdating
+        {
+            get => isUpdating;
+            set => this.RaiseAndSetIfChanged(ref isUpdating, value);
+        }
+
         private bool canStart;
         public bool CanStart
         {
@@ -178,8 +187,8 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref projectName, value);
         }
 
+        public string NAV_RELEASE => Localization.Resources.NAV_BUTTON_RELEASE;
         public string NAV_LOG => Localization.Resources.NAV_BUTTON_LOG;
-        public string NAV_TRANSFER => Localization.Resources.NAV_BUTTON_TRANSFER;
         public string NAV_STATUS => Localization.Resources.NAV_BUTTON_STATUS;
         public string NAV_SETTINGS => Localization.Resources.NAV_BUTTON_SETTINGS;
         public string NAV_HELP => Localization.Resources.NAV_BUTTON_HELP;

@@ -27,17 +27,11 @@
     <data name="PS_BUTTON_STOP" xml:space="preserve">
         <value>STOP</value>
     </data>
-    <data name="PS_BUTTON_TRANSFER" xml:space="preserve">
-        <value>TRANSFER</value>
-    </data>
     <data name="PS_BUTTON_START_DESC" xml:space="preserve">
         <value>Start the Private Server</value>
     </data>
     <data name="PS_BUTTON_STOP_DESC" xml:space="preserve">
         <value>Private Server is running</value>
-    </data>
-    <data name="PS_BUTTON_TRANSFER_DESC" xml:space="preserve">
-        <value>Transferring Account...</value>
     </data>
     <data name="PS_BUTTON_UPDATE_DESC" xml:space="preserve">
         <value>Updating Required Files...</value>
@@ -50,9 +44,6 @@
     </data>
     <data name="NAV_BUTTON_LOG" xml:space="preserve">
         <value>LOG</value>
-    </data>
-    <data name="NAV_BUTTON_TRANSFER" xml:space="preserve">
-        <value>TRANSFER</value>
     </data>
     <data name="NAV_BUTTON_STATUS" xml:space="preserve">
         <value>STATUS</value>
@@ -74,9 +65,6 @@
     </data>
     <data name="PS_STATUS_STARTED" xml:space="preserve">
         <value>Private Server is currently running.</value>
-    </data>
-    <data name="PS_STATUS_TRANSFERRING" xml:space="preserve">
-        <value>Account Transfer is in progress.</value>
     </data>
     <data name="PS_STATUS_UPDATING" xml:space="preserve">
         <value>Private Server is updating required files...</value>
@@ -202,7 +190,7 @@
         <value>Downloaded new update file at {0}</value>
     </data>
     <data name="LOG_UPDATE_FOUND" xml:space="preserve">
-        <value>Found new version: commit {0} on branch {1}</value>
+        <value>Found new version: commit {0} on branch {1}. Please go to {2} page to download the update.</value>
     </data>
     <data name="LOG_UPDATE_CHECKING" xml:space="preserve">
         <value>Checking for application update on branch {0}...</value>
@@ -362,5 +350,17 @@
     </data>
     <data name="SETTINGS_INFO_COMING_SOON" xml:space="preserve">
         <value>Coming Soon</value>
+    </data>
+    <data name="SETTINGS_IN_GAME_INFINITE_ITEMS" xml:space="preserve">
+        <value>Infinite Items</value>
+    </data>
+    <data name="NAV_BUTTON_RELEASE" xml:space="preserve">
+        <value>RELEASE NOTES</value>
+    </data>
+    <data name="HTML_RELEASE_NOTES_TITLE" xml:space="preserve">
+        <value>Release Notes</value>
+    </data>
+    <data name="LOG_UPDATE_RESTRICTION" xml:space="preserve">
+        <value>You won't be able to start the Private Server with an old version.</value>
     </data>
 </root>

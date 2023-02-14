@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -21,14 +22,33 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            Response responseObj = new()
+            Response responseObj;
+            if (Config.Get().InGame.InfiniteItems)
             {
-                evolution_items = player.items.evolution
-                    .Select(p => p.Value)
-                    .Select(Item.Load)
-                    .Where(ei => ei.quantity > 0) // don't show consumed items
-                    .ToDictionary(ei => ei.id, ei => ei)
-            };
+                using var itemsDb = new ItemsContext();
+                responseObj = new()
+                {
+                    evolution_items = itemsDb.EvolutionItems
+                        .Select(t => new Item
+                        {
+                            id = t.Id,
+                            master_id = t.Id,
+                            quantity = 999
+                        })
+                        .ToDictionary(i => i.id, i => i)
+                };
+            }
+            else
+            {
+                responseObj = new()
+                {
+                    evolution_items = player.items.evolution
+                        .Select(p => p.Value)
+                        .Select(Item.Load)
+                        .Where(ei => ei.quantity > 0) // don't show consumed items
+                        .ToDictionary(ei => ei.id, ei => ei)
+                };
+            }
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();

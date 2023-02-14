@@ -10,6 +10,7 @@ using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Exceptions;
 using Titanium.Web.Proxy.Http;
 using Titanium.Web.Proxy.Models;
+using Markdig;
 using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
@@ -18,6 +19,8 @@ namespace Yuyuyui.PrivateServer
     {
         private const string CERT_PATH = "/cert/pem";
         private const string CERT_RESPONSE_FILE_NAME = "yuyuyui-private-server.pem";
+
+        public const string RELEASE_NOTES_PATH = "release-notes";
 
         public static string LOCAL_CERT_FILE => Path.Combine(PrivateServer.BASE_DIR, "ca.cer");
         public static string LOCAL_PFX_FILE => Path.Combine(PrivateServer.BASE_DIR, "ca.pfx");
@@ -51,13 +54,23 @@ namespace Yuyuyui.PrivateServer
             {
                 ["Content-Type"] = new("Content-Type", "text/html; charset=utf-8"),
             };
-            if (assemblyResources.Any(r => r.Contains(expectedFile, StringComparison.InvariantCultureIgnoreCase)))
+
+            if (path.Equals(RELEASE_NOTES_PATH, StringComparison.OrdinalIgnoreCase))
             {
-                var embeddedResource = assemblyResources.First(r =>
-                    r.Contains(expectedFile, StringComparison.InvariantCultureIgnoreCase));
-                using Stream stream = assembly.GetManifestResourceStream(embeddedResource)!;
-                using StreamReader reader = new StreamReader(stream);
-                var content = reader.ReadToEnd();
+                var markdownFile = $"documents.{Resources.LAN_CODE}.{RELEASE_NOTES_PATH}.md";
+                var markdown = ReadAllTextFromAssemblyResources(markdownFile);
+                var htmlTemplateFile = $"documents.release-notes-template.html";
+                var htmlTemplate = ReadAllTextFromAssemblyResources(htmlTemplateFile);
+
+                var body = Markdown.ToHtml(markdown);
+                var title = Resources.HTML_RELEASE_NOTES_TITLE;
+
+                var html = htmlTemplate.Replace("{{ title }}", title).Replace("{{ body }}", body);
+                e.Ok(html, htmlHeaders);
+            }
+            else if (assemblyResources.Any(r => r.Contains(expectedFile, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                var content = ReadAllTextFromAssemblyResources(expectedFile);
                 e.Ok(content, htmlHeaders);
             }
             else
@@ -103,6 +116,15 @@ namespace Yuyuyui.PrivateServer
             }
 
             return new Tuple<Dictionary<string, string>, byte[]>(headers, requestBodyBytes);
+        }
+
+        public static string ReadAllTextFromAssemblyResources(string resourceName)
+        {
+            var embeddedResource = assemblyResources.First(r =>
+                r.Contains(resourceName, StringComparison.InvariantCultureIgnoreCase));
+            using Stream stream = assembly.GetManifestResourceStream(embeddedResource)!;
+            using StreamReader reader = new StreamReader(stream);
+            return reader.ReadToEnd();
         }
 
         public static void ReissueCert()

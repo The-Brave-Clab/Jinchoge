@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <Company>YuyuyuiPrivateServer</Company>
     <Product>PrivateServer</Product>
-    <VersionPrefix>1.1.1</VersionPrefix>
+    <VersionPrefix>2.0.0</VersionPrefix>
     <AssemblyVersion>$(Version)</AssemblyVersion>
     <FileVersion>$(Version)</FileVersion>
     <DebugType>embedded</DebugType>
@@ -18,6 +18,7 @@
     <PackageReference Include="Titanium.Web.Proxy" Version="3.1.1397" />
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
+    <PackageReference Include="Markdig" Version="0.30.4" />
     <ProjectReference Include="..\Yuyuyui.GoalKeeper\Yuyuyui.GoalKeeper.csproj" />
     <ProjectReference Include="..\Yuyuyui.PrivateServer.DataModel\Yuyuyui.PrivateServer.DataModel.csproj" />
     <ProjectReference Include="..\Yuyuyui.PrivateServer.Localization\Yuyuyui.PrivateServer.Localization.csproj" />

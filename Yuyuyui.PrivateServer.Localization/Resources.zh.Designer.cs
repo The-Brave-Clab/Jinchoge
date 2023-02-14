@@ -60,6 +60,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 更新日志.
+        /// </summary>
+        internal static string HTML_RELEASE_NOTES_TITLE {
+            get {
+                return ResourceManager.GetString("HTML_RELEASE_NOTES_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to zh.
         /// </summary>
         internal static string LAN_CODE {
@@ -249,7 +258,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 成功出发料理大成功.
+        ///   Looks up a localized string similar to 成功触发料理大成功.
         /// </summary>
         internal static string LOG_PS_CARD_ENHANCEMENT_BIG_HIT {
             get {
@@ -555,7 +564,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 发现更新：位于{1}分支上的提交{0}.
+        ///   Looks up a localized string similar to 发现更新：位于{1}分支上的提交{0}。请前往{2}页面下载更新。.
         /// </summary>
         internal static string LOG_UPDATE_FOUND {
             get {
@@ -569,6 +578,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string LOG_UPDATE_NOT_FOUND {
             get {
                 return ResourceManager.GetString("LOG_UPDATE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 使用旧版本将无法启动私服。.
+        /// </summary>
+        internal static string LOG_UPDATE_RESTRICTION {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_RESTRICTION", resourceCulture);
             }
         }
         
@@ -609,6 +627,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 更新日志.
+        /// </summary>
+        internal static string NAV_BUTTON_RELEASE {
+            get {
+                return ResourceManager.GetString("NAV_BUTTON_RELEASE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 设置.
         /// </summary>
         internal static string NAV_BUTTON_SETTINGS {
@@ -623,15 +650,6 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string NAV_BUTTON_STATUS {
             get {
                 return ResourceManager.GetString("NAV_BUTTON_STATUS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 账号转移.
-        /// </summary>
-        internal static string NAV_BUTTON_TRANSFER {
-            get {
-                return ResourceManager.GetString("NAV_BUTTON_TRANSFER", resourceCulture);
             }
         }
         
@@ -677,24 +695,6 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string PS_BUTTON_STOP_DESC {
             get {
                 return ResourceManager.GetString("PS_BUTTON_STOP_DESC", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 转移中.
-        /// </summary>
-        internal static string PS_BUTTON_TRANSFER {
-            get {
-                return ResourceManager.GetString("PS_BUTTON_TRANSFER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 正在转移账号…….
-        /// </summary>
-        internal static string PS_BUTTON_TRANSFER_DESC {
-            get {
-                return ResourceManager.GetString("PS_BUTTON_TRANSFER_DESC", resourceCulture);
             }
         }
         
@@ -879,15 +879,6 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 正在转移账号。.
-        /// </summary>
-        internal static string PS_STATUS_TRANSFERRING {
-            get {
-                return ResourceManager.GetString("PS_STATUS_TRANSFERRING", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 正在更新所需文件…….
         /// </summary>
         internal static string PS_STATUS_UPDATING {
@@ -1019,6 +1010,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_GENERAL_UPDATE_NOW_BUTTON {
             get {
                 return ResourceManager.GetString("SETTINGS_GENERAL_UPDATE_NOW_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 无限道具.
+        /// </summary>
+        internal static string SETTINGS_IN_GAME_INFINITE_ITEMS {
+            get {
+                return ResourceManager.GetString("SETTINGS_IN_GAME_INFINITE_ITEMS", resourceCulture);
             }
         }
         

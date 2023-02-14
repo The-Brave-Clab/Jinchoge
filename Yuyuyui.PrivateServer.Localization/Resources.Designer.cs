@@ -60,6 +60,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Release Notes.
+        /// </summary>
+        internal static string HTML_RELEASE_NOTES_TITLE {
+            get {
+                return ResourceManager.GetString("HTML_RELEASE_NOTES_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to en.
         /// </summary>
         internal static string LAN_CODE {
@@ -555,7 +564,7 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Found new version: commit {0} on branch {1}.
+        ///   Looks up a localized string similar to Found new version: commit {0} on branch {1}. Please go to {2} page to download the update..
         /// </summary>
         internal static string LOG_UPDATE_FOUND {
             get {
@@ -569,6 +578,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string LOG_UPDATE_NOT_FOUND {
             get {
                 return ResourceManager.GetString("LOG_UPDATE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You won&apos;t be able to start the Private Server with an old version..
+        /// </summary>
+        internal static string LOG_UPDATE_RESTRICTION {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_RESTRICTION", resourceCulture);
             }
         }
         
@@ -609,6 +627,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RELEASE NOTES.
+        /// </summary>
+        internal static string NAV_BUTTON_RELEASE {
+            get {
+                return ResourceManager.GetString("NAV_BUTTON_RELEASE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SETTINGS.
         /// </summary>
         internal static string NAV_BUTTON_SETTINGS {
@@ -623,15 +650,6 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string NAV_BUTTON_STATUS {
             get {
                 return ResourceManager.GetString("NAV_BUTTON_STATUS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to TRANSFER.
-        /// </summary>
-        internal static string NAV_BUTTON_TRANSFER {
-            get {
-                return ResourceManager.GetString("NAV_BUTTON_TRANSFER", resourceCulture);
             }
         }
         
@@ -677,24 +695,6 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string PS_BUTTON_STOP_DESC {
             get {
                 return ResourceManager.GetString("PS_BUTTON_STOP_DESC", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to TRANSFER.
-        /// </summary>
-        internal static string PS_BUTTON_TRANSFER {
-            get {
-                return ResourceManager.GetString("PS_BUTTON_TRANSFER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Transferring Account....
-        /// </summary>
-        internal static string PS_BUTTON_TRANSFER_DESC {
-            get {
-                return ResourceManager.GetString("PS_BUTTON_TRANSFER_DESC", resourceCulture);
             }
         }
         
@@ -879,15 +879,6 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Account Transfer is in progress..
-        /// </summary>
-        internal static string PS_STATUS_TRANSFERRING {
-            get {
-                return ResourceManager.GetString("PS_STATUS_TRANSFERRING", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Private Server is updating required files....
         /// </summary>
         internal static string PS_STATUS_UPDATING {
@@ -1019,6 +1010,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_GENERAL_UPDATE_NOW_BUTTON {
             get {
                 return ResourceManager.GetString("SETTINGS_GENERAL_UPDATE_NOW_BUTTON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Infinite Items.
+        /// </summary>
+        internal static string SETTINGS_IN_GAME_INFINITE_ITEMS {
+            get {
+                return ResourceManager.GetString("SETTINGS_IN_GAME_INFINITE_ITEMS", resourceCulture);
             }
         }
         

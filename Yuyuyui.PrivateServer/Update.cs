@@ -11,13 +11,15 @@ namespace Yuyuyui.PrivateServer;
 public static class Update
 {
 
-    public const string BASE_URL = "https://y3ps-publish.s3.ap-northeast-1.amazonaws.com";
+    public const string BASE_URL = "https://dblk8ymnxb1f2.cloudfront.net";
 
     private static VersionInfo latestVersionInfo;
 
     private static LocalVersionInfo localVersionInfo;
 
     public static LocalVersionInfo LocalVersion => localVersionInfo;
+
+    public static bool HasNewVersion;
 
     static Update()
     {
@@ -54,8 +56,8 @@ public static class Update
         if (!latestVersionInfo.version_info.ContainsKey(Config.Get().General.UpdateBranch)) return false;
 
         newVersionInfo = latestVersionInfo.version_info[Config.Get().General.UpdateBranch];
-
-        return newVersionInfo.IsNewerThan(localVersionInfo.version_info);
+        HasNewVersion = newVersionInfo.IsNewerThan(localVersionInfo.version_info);
+        return HasNewVersion;
     }
 
     public class LocalVersionInfo

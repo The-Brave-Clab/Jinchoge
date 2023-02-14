@@ -78,7 +78,7 @@
                                         Orientation="Horizontal" Width="280" Height="80" Spacing="5" Margin="0 3 0 0">
                                 <Panel DockPanel.Dock="Left" Width="80" VerticalAlignment="Center"
                                        HorizontalAlignment="Stretch">
-                                    <Image IsVisible="{Binding !CanStart}" Classes="MainButtonIcon" Width="50"
+                                    <Image IsVisible="{Binding IsUpdating}" Classes="MainButtonIcon" Width="50"
                                            Height="50" VerticalAlignment="Center" HorizontalAlignment="Right"
                                            Source="/Assets/Icons/General/Loading.png" />
                                     <Image IsVisible="{Binding IsStopped}" Width="50" Height="50"
@@ -164,6 +164,13 @@
                                         <Setter Property="FontSize" Value="20"></Setter>
                                     </Style>
                                 </StackPanel.Styles>
+
+                                <uc:NavigationButton Name="ReleaseButton" Checked="OnNavigationButtonChecked">
+                                    <Grid ColumnDefinitions="40,*">
+                                        <Image Source="/Assets/Icons/Navigation/release-note.png" Grid.Column="0" />
+                                        <TextBlock Text="{Binding NAV_RELEASE}" Grid.Column="1" />
+                                    </Grid>
+                                </uc:NavigationButton>
 
                                 <uc:NavigationButton Name="LogButton" Checked="OnNavigationButtonChecked" IsChecked="True">
                                     <Grid ColumnDefinitions="40,*">

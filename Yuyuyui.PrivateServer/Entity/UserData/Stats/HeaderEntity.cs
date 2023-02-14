@@ -22,6 +22,8 @@ namespace Yuyuyui.PrivateServer
 
             // Utils.LogWarning("Many data is stub");
 
+            bool infiniteItems = Config.Get().InGame.InfiniteItems;
+
             Response responseObj = new()
             {
                 is_sancho = false, // We all know this
@@ -37,10 +39,10 @@ namespace Yuyuyui.PrivateServer
                     exceeded_stamina = 0, // do the math!
                     stamina_full_recover_at = 0, // unixtime
                     stamina_recovery_second = 300, // fixed?
-                    money = player.data.money,
-                    friend_point = player.data.friendPoint,
-                    billing_point = player.data.paidBlessing + player.data.freeBlessing,
-                    brave_coin = player.data.braveCoin,
+                    money = infiniteItems ? 99999999 : player.data.money,
+                    friend_point = infiniteItems ? 99999999 : player.data.friendPoint,
+                    billing_point = infiniteItems ? 999999 : player.data.paidBlessing + player.data.freeBlessing,
+                    brave_coin = infiniteItems ? 999 : player.data.braveCoin,
                     enhancement_item_capacity = 590, // database + player bought
                     has_complete_mission = false, // club order prompt
                     has_present = false,
@@ -49,7 +51,7 @@ namespace Yuyuyui.PrivateServer
                     exceeded_weekday_stamina = 0, // do the math!
                     weekday_stamina_full_recover_at = 0, // unixtime
                     weekday_stamina_recovery_second = 3600, // fixed?
-                    exchange_point = player.data.exchangePoint,
+                    exchange_point = infiniteItems ? 99999999 : player.data.exchangePoint,
                     exchange_point_capacity = 99999999 // fixed?
                 }
                 

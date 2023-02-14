@@ -36,12 +36,6 @@
     <data name="PS_BUTTON_STOP_DESC" xml:space="preserve">
         <value>停止私服</value>
     </data>
-    <data name="PS_BUTTON_TRANSFER" xml:space="preserve">
-        <value>转移中</value>
-    </data>
-    <data name="PS_BUTTON_TRANSFER_DESC" xml:space="preserve">
-        <value>正在转移账号……</value>
-    </data>
     <data name="PS_BUTTON_UPDATE" xml:space="preserve">
         <value>更新中</value>
     </data>
@@ -63,9 +57,6 @@
     <data name="NAV_BUTTON_STATUS" xml:space="preserve">
         <value>运行状态</value>
     </data>
-    <data name="NAV_BUTTON_TRANSFER" xml:space="preserve">
-        <value>账号转移</value>
-    </data>
     <data name="PROJ_DESC_JINCHOGE" xml:space="preserve">
         <value>《结城友奈是勇者 闪光的花结》私服</value>
     </data>
@@ -74,9 +65,6 @@
     </data>
     <data name="PS_STATUS_STOPPED" xml:space="preserve">
         <value>私服已停止。</value>
-    </data>
-    <data name="PS_STATUS_TRANSFERRING" xml:space="preserve">
-        <value>正在转移账号。</value>
     </data>
     <data name="PS_STATUS_UPDATING" xml:space="preserve">
         <value>正在更新所需文件……</value>
@@ -202,7 +190,7 @@
         <value>已将更新文件下载至{0}</value>
     </data>
     <data name="LOG_UPDATE_FOUND" xml:space="preserve">
-        <value>发现更新：位于{1}分支上的提交{0}</value>
+        <value>发现更新：位于{1}分支上的提交{0}。请前往{2}页面下载更新。</value>
     </data>
     <data name="LOG_UPDATE_CHECKING" xml:space="preserve">
         <value>正在检查{0}分支上的更新……</value>
@@ -316,7 +304,7 @@
         <value>料理角色{0} -&gt; 目标角色{1}</value>
     </data>
     <data name="LOG_PS_CARD_ENHANCEMENT_BIG_HIT" xml:space="preserve">
-        <value>成功出发料理大成功</value>
+        <value>成功触发料理大成功</value>
     </data>
     <data name="LOG_PS_CARD_ENHANCEMENT_ACTIVE_SKILL_LEVEL_UP_PROBABILITY" xml:space="preserve">
         <value>必杀技升级概率为{0}%</value>
@@ -362,5 +350,17 @@
     </data>
     <data name="SETTINGS_INFO_COMING_SOON" xml:space="preserve">
         <value>敬请期待</value>
+    </data>
+    <data name="SETTINGS_IN_GAME_INFINITE_ITEMS" xml:space="preserve">
+        <value>无限道具</value>
+    </data>
+    <data name="NAV_BUTTON_RELEASE" xml:space="preserve">
+        <value>更新日志</value>
+    </data>
+    <data name="HTML_RELEASE_NOTES_TITLE" xml:space="preserve">
+        <value>更新日志</value>
+    </data>
+    <data name="LOG_UPDATE_RESTRICTION" xml:space="preserve">
+        <value>使用旧版本将无法启动私服。</value>
     </data>
 </root>

@@ -25,7 +25,9 @@ internal class SettingsViewModel : ViewModelBase
         autoCheckUpdate = Config.Get().General.AutoCheckUpdate;
         allowCheckUpdate = !Update.LocalVersion.is_local_build;
         allowDownloadUpdate = false;
+        privateServerRunning = false;
         updateStatus = "";
+        infiniteItems = Config.Get().InGame.InfiniteItems;
         useOnlineDecryption = Config.Get().Security.UseOnlineDecryption;
 
         hasNewUpdate = false;
@@ -44,7 +46,10 @@ internal class SettingsViewModel : ViewModelBase
         canReissueCert = false;
         autoCheckUpdate = true;
         allowCheckUpdate = false;
+        allowDownloadUpdate = false;
+        privateServerRunning = false;
         updateStatus = "";
+        infiniteItems = false;
         useOnlineDecryption = false;
 
         hasNewUpdate = false;
@@ -62,11 +67,12 @@ internal class SettingsViewModel : ViewModelBase
     public string SETTINGS_GENERAL_CHECK_UPDATE_BUTTON => Resources.SETTINGS_GENERAL_CHECK_UPDATE_BUTTON;
     public string SETTINGS_GENERAL_UPDATE_NOW_BUTTON => Resources.SETTINGS_GENERAL_UPDATE_NOW_BUTTON;
     public string SETTINGS_IN_GAME_LANGUAGE => Resources.SETTINGS_IN_GAME_LANGUAGE;
+    public string SETTINGS_IN_GAME_INFINITE_ITEMS => Resources.SETTINGS_IN_GAME_INFINITE_ITEMS;
     public string SETTINGS_SECURITY_REISSUE_CERT => Resources.SETTINGS_SECURITY_REISSUE_CERT;
     public string SETTINGS_SECURITY_REISSUE_BUTTON => Resources.SETTINGS_SECURITY_REISSUE_BUTTON;
     public string SETTINGS_SECURITY_ONLINE_DECRYPTION => Resources.SETTINGS_SECURITY_ONLINE_DECRYPTION;
     public string SETTINGS_INFO_REQUIRE_RESTART => Resources.SETTINGS_INFO_REQUIRE_RESTART;
-    public string SETTINGS_INFO_TRANSLATION_PROVIDER => Resources.SETTINGS_INFO_COMING_SOON; // Resources.SETTINGS_INFO_TRANSLATION_PROVIDER;
+    public string SETTINGS_INFO_TRANSLATION_PROVIDER => Resources.SETTINGS_INFO_TRANSLATION_PROVIDER;
     public string SETTINGS_INFO_REISSUE_CERT => Resources.SETTINGS_INFO_REISSUE_CERT;
 
     public List<LanguageDisplay> InterfaceLanguages => Config.SupportedInterfaceLocale
@@ -103,7 +109,7 @@ internal class SettingsViewModel : ViewModelBase
         }
     }
 
-    public bool autoCheckUpdate;
+    private bool autoCheckUpdate;
     public bool AutoCheckUpdate
     {
         get => autoCheckUpdate;
@@ -111,6 +117,18 @@ internal class SettingsViewModel : ViewModelBase
         {
             this.RaiseAndSetIfChanged(ref autoCheckUpdate, value);
             Config.Get().General.AutoCheckUpdate = value;
+            Config.Save();
+        }
+    }
+
+    private bool infiniteItems;
+    public bool InfiniteItems
+    {
+        get => infiniteItems;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref infiniteItems, value);
+            Config.Get().InGame.InfiniteItems = value;
             Config.Save();
         }
     }
@@ -137,6 +155,13 @@ internal class SettingsViewModel : ViewModelBase
             Config.Get().InGame.ScenarioLanguage = Config.SupportedInGameScenarioLanguage[scenarioLanguageSelected];
             Config.Save();
         }
+    }
+
+    private bool privateServerRunning;
+    public bool PrivateServerRunning
+    {
+        get => privateServerRunning;
+        set => this.RaiseAndSetIfChanged(ref privateServerRunning, value);
     }
 
     private bool canReissueCert;
@@ -199,6 +224,7 @@ internal class SettingsViewModel : ViewModelBase
     public void Refresh()
     {
         mainWindowVM.TryGetTarget(out var mainWindowViewModel);
+        PrivateServerRunning = mainWindowViewModel!.Status == MainWindowViewModel.ServerStatus.Started;
         CanReissueCert = ProxyUtils.CertExists() &&
                          mainWindowViewModel!.Status is
                              MainWindowViewModel.ServerStatus.Stopped or
@@ -220,9 +246,10 @@ internal class SettingsViewModel : ViewModelBase
                 hasNewUpdate = Update.TryGetNewerVersion(out newVersionInfo);
                 if (hasNewUpdate)
                 {
-                    Utils.Log(
+                    Utils.LogWarning(
                         string.Format(Resources.LOG_UPDATE_FOUND, newVersionInfo.commit_sha[..7],
-                            newVersionInfo.branch));
+                            newVersionInfo.branch, Resources.NAV_BUTTON_SETTINGS));
+                    Utils.LogWarning(Resources.LOG_UPDATE_RESTRICTION);
                     UpdateStatus = Resources.SETTINGS_GENERAL_CHECK_UPDATE_TEXT_FOUND;
                 }
                 else
