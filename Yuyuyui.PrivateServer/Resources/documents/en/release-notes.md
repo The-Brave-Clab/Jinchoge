@@ -1,5 +1,13 @@
 # Release Notes
 
+## 2.0.1
+
+February 17, 2023
+
+**Bug Fixes**
+
+* Fixed errors caused by API access through CDN.
+
 ## 2.0.0
 
 February 14, 2023
