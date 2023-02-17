@@ -11,7 +11,7 @@ namespace Yuyuyui.PrivateServer
 {
     public static class LocalData
     {
-        public const string URL = "https://d9q4vpe6pdns9.cloudfront.net/test/master_data";
+        public const string URL = "https://tqdc60uiqc.execute-api.ap-northeast-1.amazonaws.com/test/master_data";
 
         public static async Task Update(Action<string, float>? singleFileProgress = null, Action<int, int>? totalProgress = null)
         {
