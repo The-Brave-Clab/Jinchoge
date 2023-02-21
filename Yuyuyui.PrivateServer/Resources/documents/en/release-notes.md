@@ -1,5 +1,13 @@
 # Release Notes
 
+## 2.0.2
+
+February 21, 2023
+
+**What's New**
+
+* Renamed the HELP page to TUTORIAL page.
+
 ## 2.0.1
 
 February 17, 2023
