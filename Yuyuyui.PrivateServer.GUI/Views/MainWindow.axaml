@@ -195,8 +195,8 @@
 
                                 <uc:NavigationButton Name="HelpButton" Checked="OnNavigationButtonChecked">
                                     <Grid ColumnDefinitions="40,*">
-                                        <Image Source="/Assets/Icons/Navigation/help.png" Grid.Column="0"/>
-                                        <TextBlock Text="{Binding NAV_HELP}" Grid.Column="1" />
+                                        <Image Source="/Assets/Icons/Navigation/tutorial.png" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding NAV_TUTORIAL}" Grid.Column="1" />
                                     </Grid>
                                 </uc:NavigationButton>
 
