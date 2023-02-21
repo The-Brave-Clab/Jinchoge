@@ -191,7 +191,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         public string NAV_LOG => Localization.Resources.NAV_BUTTON_LOG;
         public string NAV_STATUS => Localization.Resources.NAV_BUTTON_STATUS;
         public string NAV_SETTINGS => Localization.Resources.NAV_BUTTON_SETTINGS;
-        public string NAV_HELP => Localization.Resources.NAV_BUTTON_HELP;
+        public string NAV_TUTORIAL => Localization.Resources.NAV_BUTTON_TUTORIAL;
         public string NAV_ABOUT => Localization.Resources.NAV_BUTTON_ABOUT;
         public string WINDOW_TITLE => "Jinchōge";
 

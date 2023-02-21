@@ -51,8 +51,8 @@
     <data name="NAV_BUTTON_SETTINGS" xml:space="preserve">
         <value>SETTINGS</value>
     </data>
-    <data name="NAV_BUTTON_HELP" xml:space="preserve">
-        <value>HELP</value>
+    <data name="NAV_BUTTON_TUTORIAL" xml:space="preserve">
+        <value>TUTORIAL</value>
     </data>
     <data name="NAV_BUTTON_ABOUT" xml:space="preserve">
         <value>ABOUT</value>

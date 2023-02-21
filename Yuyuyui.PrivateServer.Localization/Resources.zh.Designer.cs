@@ -609,15 +609,6 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 帮助.
-        /// </summary>
-        internal static string NAV_BUTTON_HELP {
-            get {
-                return ResourceManager.GetString("NAV_BUTTON_HELP", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 日志.
         /// </summary>
         internal static string NAV_BUTTON_LOG {
@@ -650,6 +641,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string NAV_BUTTON_STATUS {
             get {
                 return ResourceManager.GetString("NAV_BUTTON_STATUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 使用教程.
+        /// </summary>
+        internal static string NAV_BUTTON_TUTORIAL {
+            get {
+                return ResourceManager.GetString("NAV_BUTTON_TUTORIAL", resourceCulture);
             }
         }
         
