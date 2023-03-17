@@ -55,7 +55,7 @@ namespace Yuyuyui.PrivateServer
 
             Response responseObj = new()
             {
-                chapter = Chapter.GetFromDatabase(dbChapter, player),
+                chapter = ChapterEntity.Response.Chapter.GetFromDatabase(dbChapter, player),
                 episode = EpisodeEntity.Response.Episode.GetFromDatabase(dbEpisode, player),
                 stage = StageEntity.Response.Stage.GetFromDatabase(dbStage, player),
                 battle_result = new(), // TODO
@@ -95,7 +95,7 @@ namespace Yuyuyui.PrivateServer
 
         public class Response
         {
-            public Chapter chapter { get; set; } = new();
+            public ChapterEntity.Response.Chapter chapter { get; set; } = new();
             public EpisodeEntity.Response.Episode episode { get; set; } = new();
             public StageEntity.Response.Stage stage { get; set; } = new();
             public Dictionary<int, int> battle_result { get; set; } = new(); // TODO

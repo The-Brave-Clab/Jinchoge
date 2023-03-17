@@ -57,7 +57,7 @@ namespace Yuyuyui.PrivateServer
             Response responseObj = new()
             {
                 boss = new(), // TODO
-                chapter = Chapter.GetFromDatabase(dbChapter, player),
+                chapter = ChapterEntity.Response.Chapter.GetFromDatabase(dbChapter, player),
                 episode = EpisodeEntity.Response.Episode.GetFromDatabase(dbEpisode, player),
                 stage = StageEntity.Response.Stage.GetFromDatabase(dbStage, player),
                 battle_info = new(), // TODO
@@ -89,7 +89,7 @@ namespace Yuyuyui.PrivateServer
         {
             public Boss? boss { get; set; } = null; // TODO
             public List<Boss>? multiple_bosses { get; set; } = null; // TODO
-            public Chapter chapter { get; set; } = new();
+            public ChapterEntity.Response.Chapter chapter { get; set; } = new();
             public EpisodeEntity.Response.Episode episode { get; set; } = new();
             public StageEntity.Response.Stage stage { get; set; } = new();
             public BattleInfo battle_info { get; set; } = new();
