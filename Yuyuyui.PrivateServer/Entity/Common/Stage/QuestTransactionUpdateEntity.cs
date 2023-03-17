@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using YamlDotNet.Serialization;
 using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
@@ -54,20 +56,26 @@ namespace Yuyuyui.PrivateServer
                 chapterProgress.Save();
             }
 
-            Response responseObj = new()
+            Response responseObj = new();
+
+            if (dbStage.Kind != 0) // not scenario, means battle stage
             {
-                boss = new(), // TODO
-                chapter = ChapterEntity.Response.Chapter.GetFromDatabase(dbChapter, player),
-                episode = EpisodeEntity.Response.Episode.GetFromDatabase(dbEpisode, player),
-                stage = StageEntity.Response.Stage.GetFromDatabase(dbStage, player),
-                battle_info = new(), // TODO
-                deck = new(), // TODO
-                tree_hp = 3,
-                brave_systems = new(), // TODO
-                enemies = new(), // TODO
-                wave_timelines = new(), // TODO
-                game_mode_rule = new()
-            };
+                var stageData = ProxyUtils.ReadAllTextFromAssemblyResources($"data.stages.{stageId}.yaml");
+                var deserializer = new DeserializerBuilder()
+                    .IgnoreUnmatchedProperties()
+                    .Build();
+                responseObj = deserializer.Deserialize<Response>(stageData);
+                
+                using var cardsDb = new CardsContext();
+                using var accessoriesDb = new AccessoriesContext();
+                using var charactersDb = new CharactersContext();
+                // TODO: fill in the guest
+                responseObj.deck = Response.BattleDeck.FromTransaction(cardsDb, accessoriesDb, charactersDb, transaction, player, null);
+            }
+
+            responseObj.chapter = ChapterEntity.Response.Chapter.GetFromDatabase(dbChapter, player);
+            responseObj.episode = EpisodeEntity.Response.Episode.GetFromDatabase(dbEpisode, player);
+            responseObj.stage = StageEntity.Response.Stage.GetFromDatabase(dbStage, player);
             
             responseObj.chapter.id = chapterProgress.id;
             responseObj.episode.id = episodeProgress.id;
@@ -87,7 +95,9 @@ namespace Yuyuyui.PrivateServer
 
         public class Response
         {
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
             public Boss? boss { get; set; } = null; // TODO
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
             public List<Boss>? multiple_bosses { get; set; } = null; // TODO
             public ChapterEntity.Response.Chapter chapter { get; set; } = new();
             public EpisodeEntity.Response.Episode episode { get; set; } = new();
@@ -167,7 +177,7 @@ namespace Yuyuyui.PrivateServer
                 public float as_first_interval { get; set; } // only saw 0
                 public float hit_effect_height { get; set; }
                 public List<ActiveSkill> active_skills { get; set; } = new();
-                public List<PassiveSkill> passive_skills { get; set; } = new();
+                public List<SkillInfo> passive_skills { get; set; } = new();
                 public int? character_type { get; set; } = null;
                 public long? master_id { get; set; } = null;
                 public SizeType? summon_size_type { get; set; } = null;
@@ -251,28 +261,96 @@ namespace Yuyuyui.PrivateServer
             {
                 public LeaderSkillInfo friend_leader_skill { get; set; } = new();
                 public LeaderSkillInfo leader_skill { get; set; } = new();
-                public List<PassiveSkill> stage_leader_skills { get; set; } = new();
-                public List<BattleCardData> cards { get; set; } = new();
+                public IList<SkillInfo> stage_leader_skills { get; set; } = new List<SkillInfo>();
+                public IList<BattleCardData> cards { get; set; } = new List<BattleCardData>();
+
+                public static BattleDeck FromTransaction(CardsContext cardsDb, AccessoriesContext accessoriesDb,
+                    CharactersContext charactersDb, QuestTransaction transaction, PlayerProfile player, PlayerProfile? guest)
+                {
+                    var deck = Deck.Load(transaction.createdWith.using_deck_id!.Value);
+
+                    var leaderUnit = Unit.Load(deck.leaderUnitID);
+                    var friendUnit = transaction.createdWith.supporting_deck_card_id == null
+                        ? null
+                        : Unit.Load(transaction.createdWith.supporting_deck_card_id.Value);
+
+                    var result = new BattleDeck
+                    {
+                        leader_skill = LeaderSkillInfo.FromUnit(cardsDb, leaderUnit),
+                        friend_leader_skill = LeaderSkillInfo.FromUnit(cardsDb, friendUnit),
+                        stage_leader_skills = new List<SkillInfo>(), // This seems to be always empty?
+                    };
+
+                    int order = 1;
+                    foreach (var unitId in deck.units)
+                    {
+                        var unit = Unit.Load(unitId);
+                        if (unit.baseCardID == null) continue;
+                        
+                        result.cards.Add(BattleCardData.GetFromUnit(cardsDb, accessoriesDb, charactersDb, player, unit, order, unitId == deck.leaderUnitID, FriendType.OWNER));
+                        ++order;
+                    }
+
+                    // TODO: For now we don't do friend units. Make sure to fill this when we do.
+                    if (friendUnit != null)
+                    {
+                        
+                    }
+
+                    return result;
+                }
             }
-            public class BattleCardData
+
+            public class BattleCardData : SubCardData
             {
                 public long id { get; set; }
-                public CardBaseInfo base_info { get; set; } = new ();
-                public SupporterCardData supporter { get; set; } = new ();
+                public object supporter { get; set; } = new();
+                public object supporter_2 { get; set; } = new();
+                public object assist { get; set; } = new();
                 public int order { get; set; }
-                public ActiveSkill active_skill { get; set; } = new ();
-                public List<Accessory> accessories { get; set; } = new ();
-                public List<PassiveSkill> passive_skills { get; set; } = new ();
+                public SkillInfo active_skill { get; set; } = new();
+                public List<Accessory> accessories { get; set; } = new();
                 public int hp { get; set; }
                 public bool leader { get; set; }
                 public FriendType friend_type { get; set; }
-                public AssistCardData assist { get; set; } = new();
+
+                public static BattleCardData GetFromUnit(CardsContext cardsDb, AccessoriesContext accessoriesDb, CharactersContext charactersDb,
+                    PlayerProfile player, Unit unit, int order, bool leader, FriendType friendType)
+                {
+                    Card baseCard = Card.Load(unit.baseCardID!.Value);
+                    var masterCard = baseCard.MasterData(cardsDb);
+                    Card? support = unit.supportCardID == null ? null : Card.Load(unit.supportCardID.Value);
+                    Card? support2 = unit.supportCard2ID == null ? null : Card.Load(unit.supportCard2ID.Value);
+                    Card? assist = unit.assistCardID == null ? null : Card.Load(unit.assistCardID.Value);
+
+                    var result = new BattleCardData
+                    {
+                        id = unit.id,
+                        base_info = CardBaseInfo.GetFromCard(cardsDb, baseCard),
+                        supporter = GetFromCard(cardsDb, support),
+                        supporter_2 = GetFromCard(cardsDb, support2),
+                        assist = GetFromCard(cardsDb, assist),
+                        order = order,
+                        active_skill = new() { id = masterCard.ActiveSkillId!.Value, level = baseCard.active_skill_level },
+                        accessories = unit.accessories
+                            .Select(id => Accessory.GetFromUserAccessoryId(accessoriesDb, id))
+                            .ToList(),
+                        hp = unit.GetHP(cardsDb, charactersDb, player),
+                        leader = leader,
+                        friend_type = friendType
+                    };
+                    
+                    result.FillFromCard(cardsDb, baseCard);
+
+                    return result;
+                }
             }
+
             public class CardBaseInfo
             {
                 public AttributeType element { get; set; }
-                public int character_type { get; set; }
-                public int character_voice_type { get; set; }
+                public long character_type { get; set; }
+                public long character_voice_type { get; set; }
                 public float radius { get; set; }
                 public int attack { get; set; }
                 public int hp { get; set; }
@@ -287,35 +365,99 @@ namespace Yuyuyui.PrivateServer
                 public bool different_line_attack { get; set; }
                 public long master_id { get; set; }
                 public AttackType attack_type { get; set; }
+
+                public static CardBaseInfo GetFromCard(CardsContext cardDb, Card card)
+                {
+                    var masterCard = card.MasterData(cardDb);
+
+                    float growthValue = GrowthKind.GetValue(masterCard.GrowthKind);
+
+                    return new()
+                    {
+                        element = (AttributeType)masterCard.Element,
+                        character_type = masterCard.CharacterId,
+                        character_voice_type = masterCard.CharacterId,
+                        attack_radius = (AttackType)masterCard.AttackType == AttackType.LONG ? 10000 : 1,
+                        defense = 1,
+                        radius = 0.6f,
+                        attack_type = (AttackType)masterCard.AttackType,
+                        master_id = card.master_id,
+                        avoid_rate = 0,
+                        different_line_attack = (AttackType)masterCard.AttackType == AttackType.MIDDLE,
+                        hit_rate = 1.0f,
+                        attack_pace = masterCard.AttackPace,
+
+                        hp = CalcUtil.CalcHitPointByLevel(
+                            card.level, masterCard.MinLevel, masterCard.MaxLevel,
+                            masterCard.MinHitPoint, masterCard.MaxHitPoint, growthValue,
+                            card.potential, masterCard.LevelMaxHitPointBonus, masterCard.PotentialHitPointArgument),
+                        attack = CalcUtil.CalcAttackByLevel(
+                            card.level, masterCard.MinLevel, masterCard.MaxLevel,
+                            masterCard.MinAttack, masterCard.MaxAttack, growthValue,
+                            card.potential, masterCard.LevelMaxAttackBonus, masterCard.PotentialAttackArgument) / 8,
+                        move_speed = CalcUtil.CalcParamByLevel(
+                            card.level, masterCard.MinLevel, masterCard.MaxLevel,
+                            masterCard.MinAgility, masterCard.MaxAgility, growthValue) / 40.0f,
+                        critical_point = CalcUtil.CalcParamByLevel(
+                            card.level, masterCard.MinLevel, masterCard.MaxLevel,
+                            masterCard.MinCritical, masterCard.MaxCritical, growthValue),
+                        footing_point = CalcUtil.CalcParamByLevel(
+                            card.level, masterCard.MinLevel, masterCard.MaxLevel,
+                            masterCard.MinWeight, masterCard.MaxWeight, growthValue),
+                    };
+                }
             }
 
-            public class SupporterCardData
+            public class SubCardData
             {
                 public CardBaseInfo base_info { get; set; } = new();
-                public List<PassiveSkill> passive_skills { get; set; } = new();
-            }
-            
-            public class AssistCardData
-            {
-                public CardBaseInfo base_info { get; set; } = new();
-                public List<PassiveSkill> passive_skills { get; set; } = new();
+                public List<SkillInfo> passive_skills { get; set; } = new();
+
+                public void FillFromCard(CardsContext cardDb, Card card)
+                {
+                    var masterCard = card.MasterData(cardDb);
+
+                    base_info = CardBaseInfo.GetFromCard(cardDb, card);
+                    passive_skills = new List<long?> { masterCard.SupportSkill1Id, masterCard.SupportSkill2Id }
+                        .Where(id => id != null)
+                        .Select(id => id!.Value)
+                        .Select(id => new SkillInfo { id = id, level = card.support_skill_level })
+                        .ToList();
+                }
+
+                public static object GetFromCard(CardsContext cardDb, Card? card)
+                {
+                    if (card == null) return new();
+
+                    var result = new SubCardData();
+                    result.FillFromCard(cardDb, card);
+                    return result;
+                }
             }
             
             public class Accessory
             {
                 public long master_id { get; set; }
-                public PassiveSkill passive_skill { get; set; } = new();
+                public SkillInfo passive_skill { get; set; } = new();
+
+                public static Accessory GetFromUserAccessoryId(AccessoriesContext accessoriesDb, long id)
+                {
+                    var accessory = Yuyuyui.PrivateServer.Accessory.Load(id);
+                    var masterData = accessory.MasterData(accessoriesDb);
+
+                    return new()
+                    {
+                        master_id = accessory.master_id,
+                        passive_skill = new()
+                        {
+                            id = masterData.SkillId,
+                            level = accessory.level
+                        }
+                    };
+                }
             }
 
-            public class ActiveSkill
-            {
-                public long id { get; set; }
-                public int level { get; set; }
-                public float interval { get; set; }
-                public float weight { get; set; }
-            }
-
-            public class PassiveSkill
+            public class SkillInfo
             {
                 public long id { get; set; }
                 public int level { get; set; }
@@ -323,7 +465,20 @@ namespace Yuyuyui.PrivateServer
 
             public class LeaderSkillInfo
             {
-                public int id { get; set; }
+                [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+                public long? id { get; set; } = null;
+
+                public static LeaderSkillInfo FromUnit(CardsContext cardDb, Unit? unit)
+                {
+                    if (unit == null) return new();
+                    var baseCard = unit.GetCard();
+                    var masterCard = baseCard!.MasterData(cardDb);
+
+                    return new()
+                    {
+                        id = masterCard.LeaderSkillId
+                    };
+                }
             }
             
             public enum AttributeType

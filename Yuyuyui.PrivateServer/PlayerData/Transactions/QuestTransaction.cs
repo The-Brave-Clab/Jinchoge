@@ -4,7 +4,7 @@
     {
         public long id { get; set; }
         public long stageId { get; set; }
-        public TransactionCreateData? createdWith { get; set; } = null;
+        public TransactionCreateData createdWith { get; set; } = new();
 
         protected override long Identifier => id;
         

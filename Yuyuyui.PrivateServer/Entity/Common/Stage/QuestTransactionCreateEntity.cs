@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Yuyuyui.PrivateServer
@@ -20,10 +21,25 @@ namespace Yuyuyui.PrivateServer
         {
             long stageId = long.Parse(GetPathParameter("stage_id"));
 
-            QuestTransaction.TransactionCreateData request =
-                Deserialize<QuestTransaction.TransactionCreateData>(requestBody)!;
+            QuestTransaction.TransactionCreateData transactionCreateData;
 
-            QuestTransaction createdTransaction = QuestTransaction.Create(stageId, request);
+            // hardcoded string from client, which I believe is a bug
+            if (Encoding.UTF8.GetString(requestBody) == "{\"supporting_deck_card_id\":null, \"using_deck_id\":null}")
+            {
+                transactionCreateData = Deserialize<QuestTransaction.TransactionCreateData>(requestBody)!;
+            }
+            else
+            {
+                var requestObj = Deserialize<Request>(requestBody)!;
+                transactionCreateData = new()
+                {
+                    using_deck_id = requestObj.transaction.using_deck_id,
+                    // TODO: This is for now ignored since we don't really have a working friend system
+                    supporting_deck_card_id = null //requestObj.transaction.supporting_deck_card_id
+                };
+            }
+
+            QuestTransaction createdTransaction = QuestTransaction.Create(stageId, transactionCreateData);
 
             Response responseObj = new()
             {
