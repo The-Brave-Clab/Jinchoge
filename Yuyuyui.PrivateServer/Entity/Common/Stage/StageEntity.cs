@@ -48,18 +48,16 @@ namespace Yuyuyui.PrivateServer
 
             public class Stage
             {
-                public long
-                    id { get; set; } // When dealing with transaction, this should be the id of the player progress
-
-                public long master_id { get; set; } // Don't know the difference
+                public long id { get; set; } // When dealing with transaction, this should be the id of the player progress
+                public long master_id { get; set; }
                 public bool finish { get; set; }
-                public int score_finished_count { get; set; } // star count?
+                public int score_finished_count { get; set; } // star count
                 public bool locked { get; set; }
-                public float campaign_exchange_point_rate { get; set; } // ?
-                public int campaign_stamina_rate { get; set; } // ?
-                public long? end_at_stamina_campaign { get; set; } = null; // ? unixtime?
-                public long stage_by_level_end_at { get; set; } // unixtime
-                public bool play_auto_clear { get; set; } // flag for enabling auto play?
+                public float campaign_exchange_point_rate { get; set; }
+                public float campaign_stamina_rate { get; set; }
+                public long? end_at_stamina_campaign { get; set; } = null; // unixtime
+                public long? stage_by_level_end_at { get; set; } // unixtime
+                public bool play_auto_clear { get; set; } // flag for enabling auto play
                 public int? no_friend { get; set; } = null; // variable type unknown, only saw null
 
                 public static Stage GetFromDatabase(Yuyuyui.PrivateServer.DataModel.Stage dbStage, PlayerProfile player)
