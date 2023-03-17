@@ -363,4 +363,7 @@
     <data name="LOG_UPDATE_RESTRICTION" xml:space="preserve">
         <value>You won't be able to start the Private Server with an old version.</value>
     </data>
+    <data name="LOG_PS_CREATED_DUMMY_PLAYER" xml:space="preserve">
+        <value>Created a placeholder player.</value>
+    </data>
 </root>

@@ -39,6 +39,21 @@ namespace Yuyuyui.PrivateServer
 
             return Task.CompletedTask;
         }
+        
+        public class Request
+        {
+            public int stage_id { get; set; }
+            public Transaction transaction { get; set; } = new();
+
+            public class Transaction
+            {
+                public long id { get; set; }
+                public long? stage_id { get; set; } = null;
+                public long? using_deck_id { get; set; } = null;
+                public long? supporting_deck_card_id { get; set; } = null;
+                public bool no_friend { get; set; }
+            }
+        }
 
         public class Response
         {

@@ -363,4 +363,7 @@
     <data name="LOG_UPDATE_RESTRICTION" xml:space="preserve">
         <value>使用旧版本将无法启动私服。</value>
     </data>
+    <data name="LOG_PS_CREATED_DUMMY_PLAYER" xml:space="preserve">
+        <value>已创建占位符玩家。</value>
+    </data>
 </root>

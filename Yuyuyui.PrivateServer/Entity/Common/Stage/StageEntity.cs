@@ -33,11 +33,7 @@ namespace Yuyuyui.PrivateServer
                 // Checking for chapter id might not be necessary
                 stages = questsDb.Stages.Where(s => s.ChapterId == chapterId && s.EpisodeId == episodeId)
                     .Select(s => Response.Stage.GetFromDatabase(s, player))
-                    .ToDictionary(s => s.id, s =>
-                    {
-                        s.no_friend = true; // TODO
-                        return s;
-                    })
+                    .ToDictionary(s => s.id, s =>s)
             };
 
             responseBody = Serialize(responseObj);

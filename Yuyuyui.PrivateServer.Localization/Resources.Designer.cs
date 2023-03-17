@@ -321,6 +321,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created a placeholder player..
+        /// </summary>
+        internal static string LOG_PS_CREATED_DUMMY_PLAYER {
+            get {
+                return ResourceManager.GetString("LOG_PS_CREATED_DUMMY_PLAYER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set default decks to player.
         /// </summary>
         internal static string LOG_PS_DECK_SET_DEFAULT {

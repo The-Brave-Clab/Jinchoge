@@ -321,6 +321,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 已创建占位符玩家。.
+        /// </summary>
+        internal static string LOG_PS_CREATED_DUMMY_PLAYER {
+            get {
+                return ResourceManager.GetString("LOG_PS_CREATED_DUMMY_PLAYER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 已为玩家设置默认队伍.
         /// </summary>
         internal static string LOG_PS_DECK_SET_DEFAULT {
