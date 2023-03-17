@@ -321,10 +321,10 @@ namespace Yuyuyui.PrivateServer
                 typeof(StageEntity),
                 new RouteConfig("/my/chapters/{chapter_id}/episodes/{episode_id}/stages", "GET")
             },
-            //{
-            //	typeof(GuestEntity),
-            //	new Config("/my/supporters", "Json/Story/guest", 0)
-            //},
+            {
+            	typeof(GuestEntity),
+            	new RouteConfig("/my/supporters", "GET")
+            },
             {
             	typeof(CheckBattleTokensEntity),
             	new RouteConfig("/check_battle_tokens", "GET")

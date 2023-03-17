@@ -33,7 +33,11 @@ namespace Yuyuyui.PrivateServer
                 // Checking for chapter id might not be necessary
                 stages = questsDb.Stages.Where(s => s.ChapterId == chapterId && s.EpisodeId == episodeId)
                     .Select(s => Response.Stage.GetFromDatabase(s, player))
-                    .ToDictionary(s => s.id, s => s)
+                    .ToDictionary(s => s.id, s =>
+                    {
+                        s.no_friend = true; // TODO
+                        return s;
+                    })
             };
 
             responseBody = Serialize(responseObj);
@@ -58,7 +62,7 @@ namespace Yuyuyui.PrivateServer
                 public long? end_at_stamina_campaign { get; set; } = null; // unixtime
                 public long? stage_by_level_end_at { get; set; } // unixtime
                 public bool play_auto_clear { get; set; } // flag for enabling auto play
-                public int? no_friend { get; set; } = null; // variable type unknown, only saw null
+                public bool? no_friend { get; set; } = null; // only saw null
 
                 public static Stage GetFromDatabase(Yuyuyui.PrivateServer.DataModel.Stage dbStage, PlayerProfile player)
                 {
@@ -74,7 +78,7 @@ namespace Yuyuyui.PrivateServer
                         end_at_stamina_campaign = null, // ?
                         stage_by_level_end_at = 1869663600,
                         play_auto_clear = false,
-                        no_friend = dbStage.NoFriend
+                        no_friend = dbStage.NoFriend == 1
                     };
 
                     if (player.progress.stages.ContainsKey(dbStage.Id))
