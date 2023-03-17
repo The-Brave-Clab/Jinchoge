@@ -1,0 +1,248 @@
+battle_info:
+  enemy_limit: 9
+  loop_start_time: 116
+  score_speed_expedition_second: 125
+enemies: []
+multiple_bosses:
+- drop_box_type: 1
+  enemy_id: B10871
+  id: B10871
+  line_num: 0
+  pop_cond_type: 0
+  pop_cond_value: 2
+  pop_type: 2
+  pop_value: 1
+  statuses:
+  - atk_level: 3
+    battle_level: 6
+    element: 3
+    enemy:
+      active_skills:
+      - id: 211104280
+        interval: 10
+        level: 3
+        weight: 100
+      as_first_interval: 0
+      attack: 599
+      attack_effect_size: 3
+      attack_pace: 0
+      attack_radius: 1
+      avoid_rate: 0
+      battle_item_drop_rate: 0
+      battle_item_id: 0
+      character_type: 25
+      critical_point: 661
+      defense: 0
+      enemy_type: 9999
+      exp: 160
+      exp_per_attack: 2
+      footing_point: 103090
+      hit_effect_height: 0.4
+      hit_rate: 1
+      hp: 50000
+      hp_gauge_type: 3
+      id: B10871
+      image_scale: 1.024
+      lc_interval: 2
+      lc_max_count: 3
+      lc_move_type: 3
+      lc_trigger_type: 2
+      master_id: 100240
+      move_speed: 3
+      move_time: 0
+      move_to_x: 0
+      move_type: 3
+      name: 山伏しずく
+      notice: true
+      passive_skills:
+      - id: 800001000
+        level: 1
+      radius: 1
+      size_type: 0
+      summon_size_type: null
+      vertex: false
+      wait_time: 0
+    hp_level: 3
+- drop_box_type: 1
+  enemy_id: B
+  id: B
+  line_num: 2
+  pop_cond_type: 1
+  pop_cond_value: 2
+  pop_type: 2
+  pop_value: 1
+  statuses:
+  - atk_level: 3
+    battle_level: 6
+    element: 3
+    enemy:
+      active_skills:
+      - id: 211104279
+        interval: 10
+        level: 3
+        weight: 20
+      - id: 211104261
+        interval: 10
+        level: 3
+        weight: 80
+      as_first_interval: 0
+      attack: 599
+      attack_effect_size: 3
+      attack_pace: 1
+      attack_radius: 1
+      avoid_rate: 0
+      battle_item_drop_rate: 0
+      battle_item_id: 0
+      character_type: 24
+      critical_point: 661
+      defense: 0
+      enemy_type: 9999
+      exp: 160
+      exp_per_attack: 2
+      footing_point: 103090
+      hit_effect_height: 0.4
+      hit_rate: 1
+      hp: 50000
+      hp_gauge_type: 3
+      id: B
+      image_scale: 1.024
+      lc_interval: 2
+      lc_max_count: 3
+      lc_move_type: 3
+      lc_trigger_type: 2
+      master_id: 100230
+      move_speed: 0.75
+      move_time: 0
+      move_to_x: 0
+      move_type: 3
+      name: 弥勒夕海子
+      notice: true
+      passive_skills:
+      - id: 800001000
+        level: 1
+      radius: 1
+      size_type: 0
+      summon_size_type: null
+      vertex: false
+      wait_time: 0
+    hp_level: 3
+- drop_box_type: 1
+  enemy_id: B
+  id: B
+  line_num: 0
+  pop_cond_type: 1
+  pop_cond_value: 2
+  pop_type: 2
+  pop_value: 1
+  statuses:
+  - atk_level: 3
+    battle_level: 6
+    element: 3
+    enemy:
+      active_skills:
+      - id: 211104278
+        interval: 10
+        level: 3
+        weight: 100
+      as_first_interval: 0
+      attack: 599
+      attack_effect_size: 3
+      attack_pace: 1
+      attack_radius: 1
+      avoid_rate: 0
+      battle_item_drop_rate: 0
+      battle_item_id: 0
+      character_type: 23
+      critical_point: 661
+      defense: 0
+      enemy_type: 9999
+      exp: 160
+      exp_per_attack: 2
+      footing_point: 103090
+      hit_effect_height: 0.4
+      hit_rate: 1
+      hp: 50000
+      hp_gauge_type: 3
+      id: B
+      image_scale: 1.024
+      lc_interval: 2
+      lc_max_count: 3
+      lc_move_type: 3
+      lc_trigger_type: 2
+      master_id: 100220
+      move_speed: 5
+      move_time: 0
+      move_to_x: 0
+      move_type: 3
+      name: 加賀城雀
+      notice: true
+      passive_skills:
+      - id: 800001000
+        level: 1
+      radius: 1
+      size_type: 0
+      summon_size_type: null
+      vertex: false
+      wait_time: 0
+    hp_level: 3
+- drop_box_type: 1
+  enemy_id: B
+  id: B
+  line_num: 1
+  pop_cond_type: 1
+  pop_cond_value: 2
+  pop_type: 2
+  pop_value: 1
+  statuses:
+  - atk_level: 3
+    battle_level: 6
+    element: 3
+    enemy:
+      active_skills:
+      - id: 211104277
+        interval: 10
+        level: 3
+        weight: 100
+      as_first_interval: 0
+      attack: 599
+      attack_effect_size: 3
+      attack_pace: 1
+      attack_radius: 1
+      avoid_rate: 0
+      battle_item_drop_rate: 0
+      battle_item_id: 0
+      character_type: 22
+      critical_point: 661
+      defense: 0
+      enemy_type: 9999
+      exp: 160
+      exp_per_attack: 2
+      footing_point: 103090
+      hit_effect_height: 0.4
+      hit_rate: 1
+      hp: 50000
+      hp_gauge_type: 3
+      id: B
+      image_scale: 1.024
+      lc_interval: 2
+      lc_max_count: 3
+      lc_move_type: 3
+      lc_trigger_type: 2
+      master_id: 100210
+      move_speed: 1.5
+      move_time: 0
+      move_to_x: 0
+      move_type: 3
+      name: 楠芽吹
+      notice: true
+      passive_skills:
+      - id: 800001000
+        level: 1
+      radius: 1
+      size_type: 0
+      summon_size_type: null
+      vertex: false
+      wait_time: 0
+    hp_level: 3
+tree_hp: 3
+wave_timelines: []
