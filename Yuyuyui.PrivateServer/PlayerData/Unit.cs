@@ -43,7 +43,7 @@ public class Unit : BasePlayerData<Unit, long>
         };
     }
 
-    public int GetHP(CardsContext cardsDb, CharactersContext charactersContext, PlayerProfile belongTo)
+    public int GetHP(CardsContext cardsDb, CharactersContext charactersDb, PlayerProfile belongTo)
     {
         // TODO: not finished yet!
         if (baseCardID == null) return 0;
@@ -59,10 +59,10 @@ public class Unit : BasePlayerData<Unit, long>
             hp += supportCard.GetHitPoint(cardsDb);
             
             // get bonus
-            CharacterFamiliarity familiarity =
+            CharacterFamiliarityWithAssist familiarity =
                 belongTo.GetCharacterFamiliarity(masterCard.CharacterId, masterSupport.CharacterId);
             int bonus = CalcUtil.AssistLevelHitPointBonus(familiarity.assist_level);
-            float coefficient = familiarity.GetLevelData(charactersContext).HitPointCoefficient;
+            float coefficient = familiarity.GetLevelData(charactersDb).HitPointCoefficient;
 
             hp = CalcUtil.CalcAddedFamiliarityAndAssist(hp, bonus, coefficient);
         }
@@ -92,7 +92,7 @@ public class Unit : BasePlayerData<Unit, long>
             atk += supportCard.GetAttack(cardsDb);
             
             // get bonus
-            CharacterFamiliarity familiarity =
+            CharacterFamiliarityWithAssist familiarity =
                 belongTo.GetCharacterFamiliarity(masterCard.CharacterId, masterSupport.CharacterId);
             int bonus = CalcUtil.AssistLevelAttackBonus(familiarity.assist_level);
             float coefficient = familiarity.GetLevelData(charactersContext).AttackCoefficient;

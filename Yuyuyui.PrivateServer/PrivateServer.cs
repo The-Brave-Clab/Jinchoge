@@ -127,6 +127,46 @@ namespace Yuyuyui.PrivateServer
             return player;
         }
 
+        public static PlayerProfile EnsureDummyPlayer()
+        {
+            const string DUMMY_CODE = "0000000001";
+            const string DUMMY_UUID = "0000000000000000000000000000000000000000000000000000000000000001";
+
+            if (PlayerProfile.Exists(DUMMY_CODE))
+                return PlayerProfile.Load(DUMMY_CODE);
+
+            var dummyPlayer = RegisterNewPlayer(DUMMY_UUID, DUMMY_CODE);
+            dummyPlayer.profile.nickname = "無名な勇者さん";
+            dummyPlayer.profile.comment = "無名な勇者さん";
+            
+            var yuuna = Card.DefaultYuuna();
+            yuuna.id = 1;
+
+            dummyPlayer.cards.Add(100010, yuuna.id);
+            yuuna.Save();
+
+            var yuunaUnit = yuuna.CreateUnit();
+            yuunaUnit.id = 1;
+            
+            yuunaUnit.Save();
+            
+            var firstDeck = new Deck
+            {
+                id = 1,
+                leaderUnitID = yuunaUnit.id,
+                name = null,
+                units = new List<long> {yuunaUnit.id}
+            };
+            dummyPlayer.decks.Add(firstDeck.id);
+            firstDeck.Save();
+            
+            dummyPlayer.Save();
+
+            Utils.Log(Resources.LOG_PS_CREATED_DUMMY_PLAYER);
+
+            return dummyPlayer;
+        }
+
         public static PlayerSession CreateSessionForPlayer(string uuid, EntityBase entity)
         {
             PlayerSession session;

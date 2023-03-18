@@ -167,6 +167,14 @@
                                   IsEnabled="{Binding !PrivateServerRunning}"/>
                 </Panel>
                 
+                <Panel Classes="entry">
+                    <StackPanel Classes="name">
+                        <TextBlock Classes="nameText" Text="{Binding SETTINGS_IN_GAME_UNLOCK_ALL_DIFFICULTIES}" />
+                        <TextBlock Classes="comment" Text="{Binding SETTINGS_INFO_UNLOCK_ALL_DIFFICULTIES}" />
+                    </StackPanel>
+                    <ToggleSwitch Classes="switch" IsChecked="{Binding UnlockAllDifficulties}"/>
+                </Panel>
+                
                 <TextBlock Classes="category" Text="{Binding SETTINGS_CATEGORY_SECURITY}" />
                 
                 <Panel Classes="entry">

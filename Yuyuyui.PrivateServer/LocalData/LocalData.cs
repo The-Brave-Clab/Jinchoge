@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Yuyuyui.PrivateServer.Localization;
@@ -12,6 +13,11 @@ namespace Yuyuyui.PrivateServer
     public static class LocalData
     {
         public const string URL = "https://tqdc60uiqc.execute-api.ap-northeast-1.amazonaws.com/test/master_data";
+
+        private static string GetAssemblyVersion()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version!.ToString();
+        }
 
         public static async Task Update(Action<string, float>? singleFileProgress = null, Action<int, int>? totalProgress = null)
         {
@@ -34,14 +40,21 @@ namespace Yuyuyui.PrivateServer
 
             List<LocalDataDownload> needUpdate;
 
-            if (File.Exists(localDataVersionFile))
+            bool versionMatch = false;
+            bool localDataVersionFileExists = File.Exists(localDataVersionFile);
+            LocalDataVersionList versionList = new();
+            if (localDataVersionFileExists)
+            {
+                string versionContent = File.ReadAllText(localDataVersionFile);
+                versionList = JsonConvert.DeserializeObject<LocalDataVersionList>(versionContent)!;
+                versionMatch = versionList.app_version == GetAssemblyVersion();
+            }
+
+            if (versionMatch && localDataVersionFileExists)
             {
                 // If we already have a local version file,
                 // compare it with the remote result and 
                 // update the ones with different etag
-
-                string versionContent = File.ReadAllText(localDataVersionFile);
-                LocalDataVersionList versionList = JsonConvert.DeserializeObject<LocalDataVersionList>(versionContent)!;
 
                 IEnumerable<LocalDataDownload> needUpdateEnumerable =
                     from version in versionList.results
@@ -96,6 +109,7 @@ namespace Yuyuyui.PrivateServer
                 // Save the new version list to local storage
                 LocalDataVersionList newVersionList = new LocalDataVersionList
                 {
+                    app_version = GetAssemblyVersion(),
                     results = localDataResult.results.Select(
                         r => new LocalDataVersion
                         {
@@ -127,6 +141,8 @@ namespace Yuyuyui.PrivateServer
 
         private class LocalDataVersionList
         {
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+            public string app_version { get; set; } = "";
             public IList<LocalDataVersion> results { get; set; } = new List<LocalDataVersion>();
         }
 

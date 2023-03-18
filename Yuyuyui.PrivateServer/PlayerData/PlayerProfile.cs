@@ -24,8 +24,8 @@ namespace Yuyuyui.PrivateServer
 
         public Items items { get; set; } = new();
 
-        public IDictionary<string, CharacterFamiliarity> characterFamiliarities { get; set; } 
-            = new Dictionary<string, CharacterFamiliarity>();
+        public IDictionary<string, CharacterFamiliarityWithAssist> characterFamiliarities { get; set; } 
+            = new Dictionary<string, CharacterFamiliarityWithAssist>();
 
         public IList<string> friends { get; set; } = new List<string>(); // friend user id
         public IList<long> friendRequests { get; set; } = new List<long>(); // request id
@@ -38,14 +38,16 @@ namespace Yuyuyui.PrivateServer
         public IDictionary<long, IList<int>> gachaSelections { get; set; } 
             = new Dictionary<long, IList<int>>();
 
+        public Transactions transactions { get; set; } = new();
+
         protected override string Identifier => id.code;
         
         
 
 
-        public CharacterFamiliarity GetCharacterFamiliarity(long characterId1, long characterId2)
+        public CharacterFamiliarityWithAssist GetCharacterFamiliarity(long characterId1, long characterId2)
         {
-            string groupName = CharacterFamiliarity.GetGroupName(characterId1, characterId2);
+            string groupName = CharacterFamiliarityWithAssist.GetGroupName(characterId1, characterId2);
             if (!characterFamiliarities.ContainsKey(groupName))
                 characterFamiliarities.Add(groupName, new()
                 {
@@ -294,6 +296,11 @@ namespace Yuyuyui.PrivateServer
             public IDictionary<long, long> evolution { get; set; } = new Dictionary<long, long>(); // master_id, id
             public IDictionary<long, long> stamina { get; set; } = new Dictionary<long, long>(); // master_id, id
             public IList<long> titleItems { get; set; } = new List<long>(); // master_id
+        }
+
+        public class Transactions
+        {
+            public IDictionary<long, long> questTransactions { get; set; } = new Dictionary<long, long>(); // stage_id, id
         }
     }
 }

@@ -48,7 +48,7 @@ namespace Yuyuyui.PrivateServer
             public class Episode
             {
                 public long id { get; set; } // When dealing with transaction, this should be the id of the player progress
-                public long master_id { get; set; } // Don't know the difference
+                public long master_id { get; set; }
                 public bool finish { get; set; }
                 public string detail_url { get; set; } = "";
 

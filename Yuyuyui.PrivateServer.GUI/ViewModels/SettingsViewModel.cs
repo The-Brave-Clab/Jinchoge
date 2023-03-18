@@ -68,12 +68,14 @@ internal class SettingsViewModel : ViewModelBase
     public string SETTINGS_GENERAL_UPDATE_NOW_BUTTON => Resources.SETTINGS_GENERAL_UPDATE_NOW_BUTTON;
     public string SETTINGS_IN_GAME_LANGUAGE => Resources.SETTINGS_IN_GAME_LANGUAGE;
     public string SETTINGS_IN_GAME_INFINITE_ITEMS => Resources.SETTINGS_IN_GAME_INFINITE_ITEMS;
+    public string SETTINGS_IN_GAME_UNLOCK_ALL_DIFFICULTIES => Resources.SETTINGS_IN_GAME_UNLOCK_ALL_DIFFICULTIES;
     public string SETTINGS_SECURITY_REISSUE_CERT => Resources.SETTINGS_SECURITY_REISSUE_CERT;
     public string SETTINGS_SECURITY_REISSUE_BUTTON => Resources.SETTINGS_SECURITY_REISSUE_BUTTON;
     public string SETTINGS_SECURITY_ONLINE_DECRYPTION => Resources.SETTINGS_SECURITY_ONLINE_DECRYPTION;
     public string SETTINGS_INFO_REQUIRE_RESTART => Resources.SETTINGS_INFO_REQUIRE_RESTART;
     public string SETTINGS_INFO_TRANSLATION_PROVIDER => Resources.SETTINGS_INFO_TRANSLATION_PROVIDER;
     public string SETTINGS_INFO_REISSUE_CERT => Resources.SETTINGS_INFO_REISSUE_CERT;
+    public string SETTINGS_INFO_UNLOCK_ALL_DIFFICULTIES => Resources.SETTINGS_INFO_UNLOCK_ALL_DIFFICULTIES;
 
     public List<LanguageDisplay> InterfaceLanguages => Config.SupportedInterfaceLocale
         .Select(CultureInfo.GetCultureInfo)
@@ -129,6 +131,18 @@ internal class SettingsViewModel : ViewModelBase
         {
             this.RaiseAndSetIfChanged(ref infiniteItems, value);
             Config.Get().InGame.InfiniteItems = value;
+            Config.Save();
+        }
+    }
+
+    private bool unlockAllDifficulties;
+    public bool UnlockAllDifficulties
+    {
+        get => unlockAllDifficulties;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref unlockAllDifficulties, value);
+            Config.Get().InGame.UnlockAllDifficulties = value;
             Config.Save();
         }
     }
