@@ -321,6 +321,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 已创建占位符玩家。.
+        /// </summary>
+        internal static string LOG_PS_CREATED_DUMMY_PLAYER {
+            get {
+                return ResourceManager.GetString("LOG_PS_CREATED_DUMMY_PLAYER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 已为玩家设置默认队伍.
         /// </summary>
         internal static string LOG_PS_DECK_SET_DEFAULT {
@@ -1032,6 +1041,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 解锁所有难度等级.
+        /// </summary>
+        internal static string SETTINGS_IN_GAME_UNLOCK_ALL_DIFFICULTIES {
+            get {
+                return ResourceManager.GetString("SETTINGS_IN_GAME_UNLOCK_ALL_DIFFICULTIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 敬请期待.
         /// </summary>
         internal static string SETTINGS_INFO_COMING_SOON {
@@ -1064,6 +1082,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_INFO_TRANSLATION_PROVIDER {
             get {
                 return ResourceManager.GetString("SETTINGS_INFO_TRANSLATION_PROVIDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 所有战斗关卡将显示为三星通过.
+        /// </summary>
+        internal static string SETTINGS_INFO_UNLOCK_ALL_DIFFICULTIES {
+            get {
+                return ResourceManager.GetString("SETTINGS_INFO_UNLOCK_ALL_DIFFICULTIES", resourceCulture);
             }
         }
         

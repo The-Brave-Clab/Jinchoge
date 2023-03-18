@@ -321,6 +321,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created a placeholder player..
+        /// </summary>
+        internal static string LOG_PS_CREATED_DUMMY_PLAYER {
+            get {
+                return ResourceManager.GetString("LOG_PS_CREATED_DUMMY_PLAYER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set default decks to player.
         /// </summary>
         internal static string LOG_PS_DECK_SET_DEFAULT {
@@ -1032,6 +1041,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unlock All Difficulties.
+        /// </summary>
+        internal static string SETTINGS_IN_GAME_UNLOCK_ALL_DIFFICULTIES {
+            get {
+                return ResourceManager.GetString("SETTINGS_IN_GAME_UNLOCK_ALL_DIFFICULTIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Coming Soon.
         /// </summary>
         internal static string SETTINGS_INFO_COMING_SOON {
@@ -1064,6 +1082,15 @@ namespace Yuyuyui.PrivateServer.Localization {
         internal static string SETTINGS_INFO_TRANSLATION_PROVIDER {
             get {
                 return ResourceManager.GetString("SETTINGS_INFO_TRANSLATION_PROVIDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All battle stages will be shown as perfectly finished.
+        /// </summary>
+        internal static string SETTINGS_INFO_UNLOCK_ALL_DIFFICULTIES {
+            get {
+                return ResourceManager.GetString("SETTINGS_INFO_UNLOCK_ALL_DIFFICULTIES", resourceCulture);
             }
         }
         

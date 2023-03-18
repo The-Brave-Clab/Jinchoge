@@ -1,0 +1,249 @@
+battle_info:
+  enemy_limit: 0
+  loop_start_time: 245
+  score_speed_expedition_second: 400
+boss:
+  drop_box_type: 1
+  enemy_id: B10769
+  id: B10769
+  line_num: 1
+  pop_cond_type: 0
+  pop_cond_value: 0
+  pop_type: 1
+  pop_value: null
+  statuses:
+  - atk_level: 3
+    battle_level: 6
+    element: 3
+    enemy:
+      active_skills:
+      - id: 211104241
+        interval: 10
+        level: 3
+        weight: 100
+      as_first_interval: 0
+      attack: 400
+      attack_effect_size: 3
+      attack_pace: 1
+      attack_radius: 1
+      avoid_rate: 0
+      battle_item_drop_rate: 0
+      battle_item_id: 0
+      character_type: 20
+      critical_point: 661
+      defense: 0
+      enemy_type: 9999
+      exp: 160
+      exp_per_attack: 2
+      footing_point: 103090
+      hit_effect_height: 0.4
+      hit_rate: 1
+      hp: 125000
+      hp_gauge_type: 3
+      id: B10769
+      image_scale: 1.024
+      lc_interval: 2
+      lc_max_count: 3
+      lc_move_type: 3
+      lc_trigger_type: 2
+      master_id: 700010
+      move_speed: 0.75
+      move_time: 0
+      move_to_x: 0
+      move_type: 3
+      name: 赤嶺友奈
+      notice: true
+      passive_skills:
+      - id: 800001000
+        level: 1
+      - id: 501000111
+        level: 1
+      radius: 1
+      size_type: 0
+      summon_size_type: null
+      vertex: false
+      wait_time: 0
+    hp_level: 5
+  - atk_level: 3
+    battle_level: 6
+    element: 3
+    enemy:
+      active_skills:
+      - id: 211104241
+        interval: 10
+        level: 3
+        weight: 100
+      - id: 211104239
+        interval: 10
+        level: 1
+        weight: 100
+      as_first_interval: 0
+      attack: 400
+      attack_effect_size: 3
+      attack_pace: 1
+      attack_radius: 1
+      avoid_rate: 0
+      battle_item_drop_rate: 0
+      battle_item_id: 0
+      character_type: 20
+      critical_point: 661
+      defense: 0
+      enemy_type: 9999
+      exp: 160
+      exp_per_attack: 2
+      footing_point: 103090
+      hit_effect_height: 0.4
+      hit_rate: 1
+      hp: 125000
+      hp_gauge_type: 3
+      id: B10769
+      image_scale: 1.024
+      lc_interval: 2
+      lc_max_count: 3
+      lc_move_type: 3
+      lc_trigger_type: 2
+      master_id: 700010
+      move_speed: 0.75
+      move_time: 0
+      move_to_x: 0
+      move_type: 3
+      name: 赤嶺友奈
+      notice: true
+      passive_skills:
+      - id: 800001000
+        level: 1
+      - id: 501000113
+        level: 1
+      radius: 1
+      size_type: 0
+      summon_size_type: null
+      vertex: false
+      wait_time: 0
+    hp_level: 5
+  - atk_level: 3
+    battle_level: 6
+    element: 3
+    enemy:
+      active_skills:
+      - id: 211104241
+        interval: 10
+        level: 3
+        weight: 100
+      - id: 211104239
+        interval: 10
+        level: 1
+        weight: 100
+      - id: 211104240
+        interval: 10
+        level: 3
+        weight: 100
+      as_first_interval: 0
+      attack: 400
+      attack_effect_size: 3
+      attack_pace: 1
+      attack_radius: 1
+      avoid_rate: 0
+      battle_item_drop_rate: 0
+      battle_item_id: 0
+      character_type: 20
+      critical_point: 661
+      defense: 0
+      enemy_type: 9999
+      exp: 160
+      exp_per_attack: 2
+      footing_point: 103090
+      hit_effect_height: 0.4
+      hit_rate: 1
+      hp: 125000
+      hp_gauge_type: 3
+      id: B10769
+      image_scale: 1.024
+      lc_interval: 2
+      lc_max_count: 3
+      lc_move_type: 3
+      lc_trigger_type: 2
+      master_id: 700010
+      move_speed: 0.75
+      move_time: 0
+      move_to_x: 0
+      move_type: 3
+      name: 赤嶺友奈
+      notice: true
+      passive_skills:
+      - id: 800001000
+        level: 1
+      - id: 501000115
+        level: 1
+      - id: 501000413
+        level: 1
+      radius: 1
+      size_type: 0
+      summon_size_type: null
+      vertex: false
+      wait_time: 0
+    hp_level: 5
+  - atk_level: 3
+    battle_level: 6
+    element: 3
+    enemy:
+      active_skills:
+      - id: 211104241
+        interval: 10
+        level: 3
+        weight: 100
+      - id: 211104239
+        interval: 10
+        level: 1
+        weight: 100
+      - id: 211104240
+        interval: 10
+        level: 3
+        weight: 100
+      as_first_interval: 0
+      attack: 450
+      attack_effect_size: 3
+      attack_pace: 1
+      attack_radius: 1
+      avoid_rate: 0
+      battle_item_drop_rate: 0
+      battle_item_id: 0
+      character_type: 20
+      critical_point: 661
+      defense: 0
+      enemy_type: 9999
+      exp: 160
+      exp_per_attack: 2
+      footing_point: 103090
+      hit_effect_height: 0.4
+      hit_rate: 1
+      hp: 125000
+      hp_gauge_type: 3
+      id: B10769
+      image_scale: 1.024
+      lc_interval: 2
+      lc_max_count: 3
+      lc_move_type: 3
+      lc_trigger_type: 2
+      master_id: 700010
+      move_speed: 0.75
+      move_time: 0
+      move_to_x: 0
+      move_type: 3
+      name: 赤嶺友奈
+      notice: true
+      passive_skills:
+      - id: 800001000
+        level: 1
+      - id: 501000118
+        level: 1
+      - id: 501000414
+        level: 1
+      radius: 1
+      size_type: 0
+      summon_size_type: null
+      vertex: false
+      wait_time: 0
+    hp_level: 5
+enemies: []
+tree_hp: 3
+wave_timelines: []

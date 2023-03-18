@@ -123,7 +123,7 @@ namespace Yuyuyui.PrivateServer
             var embeddedResource = assemblyResources.First(r =>
                 r.Contains(resourceName, StringComparison.InvariantCultureIgnoreCase));
             using Stream stream = assembly.GetManifestResourceStream(embeddedResource)!;
-            using StreamReader reader = new StreamReader(stream);
+            using StreamReader reader = new StreamReader(stream, Encoding.UTF8);
             return reader.ReadToEnd();
         }
 
