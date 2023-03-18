@@ -366,4 +366,10 @@
     <data name="LOG_PS_CREATED_DUMMY_PLAYER" xml:space="preserve">
         <value>已创建占位符玩家。</value>
     </data>
+    <data name="SETTINGS_IN_GAME_UNLOCK_ALL_DIFFICULTIES" xml:space="preserve">
+        <value>解锁所有难度等级</value>
+    </data>
+    <data name="SETTINGS_INFO_UNLOCK_ALL_DIFFICULTIES" xml:space="preserve">
+        <value>所有战斗关卡将显示为三星通过</value>
+    </data>
 </root>
