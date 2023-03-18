@@ -641,10 +641,10 @@ namespace Yuyuyui.PrivateServer
             	typeof(QuestTransactionResultEntity),
             	new RouteConfig("/stages/{stage_id}/transactions/{transaction_id}/result", "PUT")
             },
-            //{
-            //	typeof(QuestTransactionRetireEntity),
-            //	new Config("/stages/{0}/transactions/{1}/retire", string.Empty, 0)
-            //},
+            {
+            	typeof(QuestTransactionRetireEntity),
+            	new RouteConfig("/stages/{stage_id}/transactions/{transaction_id}/retire", "PUT")
+            },
             //{
             //	typeof(QuestTransactionDefeatEntity),
             //	new Config("/stages/{0}/transactions/{1}/defeat", string.Empty, 0)

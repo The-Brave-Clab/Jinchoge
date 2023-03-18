@@ -80,6 +80,8 @@ namespace Yuyuyui.PrivateServer
             responseObj.chapter.id = chapterProgress.id;
             responseObj.episode.id = episodeProgress.id;
             responseObj.stage.id = stageProgress.id;
+            
+            // TODO: if the stage costs stamina, do it here
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
