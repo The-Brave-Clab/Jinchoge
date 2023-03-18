@@ -7,7 +7,7 @@ March 19, 2023
 **What's New**
 
 * Added Battle system.
-    * The Battle system includes all main story battle stages (*The Chapter of Hanayui*, *The Chapter of Yuuki Yuuna*, *The Chapter of Washio Sumi*, *The Chapter of Nogi Wakaba*, *The Chapter of Shiratori Utano*, *The Chapter of Akihara Sekka*, *The Chapter of Kohagura Natsume*, *The Chapter of Ishitsumugi*, *The Chapter of Kirameki*).
+    * The Battle system includes all main story battle stages (*The Chapter of Hanayui*, *The Chapter of Yuuki Yuuna*, *The Chapter of Washio Sumi*, *The Chapter of Nogi Wakaba*, *The Chapter of Shiratori Utano*, *The Chapter of Akihara Sekka*, *The Chapter of Kohagura Natsume*, *The Chapter of Ishitsumugi*, and *The Chapter of Kirameki*).
     * Choosing guest players is not supported for now.
         * However, to work around a bug on the client side, the server will generate a placeholder player for selection before entering the battle. However, this placeholder will not be reflected inside the battle.
     * The Battle system is only for experiencing the main story battle stages.
