@@ -96,9 +96,9 @@ namespace Yuyuyui.PrivateServer
         public class Response
         {
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-            public Boss? boss { get; set; } = null; // TODO
+            public Boss? boss { get; set; } = null;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-            public List<Boss>? multiple_bosses { get; set; } = null; // TODO
+            public List<Boss>? multiple_bosses { get; set; } = null;
             public ChapterEntity.Response.Chapter chapter { get; set; } = new();
             public EpisodeEntity.Response.Episode episode { get; set; } = new();
             public StageEntity.Response.Stage stage { get; set; } = new();

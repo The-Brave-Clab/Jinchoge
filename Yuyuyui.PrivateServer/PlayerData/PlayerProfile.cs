@@ -38,6 +38,8 @@ namespace Yuyuyui.PrivateServer
         public IDictionary<long, IList<int>> gachaSelections { get; set; } 
             = new Dictionary<long, IList<int>>();
 
+        public Transactions transactions { get; set; } = new();
+
         protected override string Identifier => id.code;
         
         
@@ -294,6 +296,11 @@ namespace Yuyuyui.PrivateServer
             public IDictionary<long, long> evolution { get; set; } = new Dictionary<long, long>(); // master_id, id
             public IDictionary<long, long> stamina { get; set; } = new Dictionary<long, long>(); // master_id, id
             public IList<long> titleItems { get; set; } = new List<long>(); // master_id
+        }
+
+        public class Transactions
+        {
+            public IDictionary<long, long> questTransactions { get; set; } = new Dictionary<long, long>(); // stage_id, id
         }
     }
 }

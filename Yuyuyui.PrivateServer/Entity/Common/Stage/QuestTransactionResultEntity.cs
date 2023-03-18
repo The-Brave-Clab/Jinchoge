@@ -70,6 +70,9 @@ namespace Yuyuyui.PrivateServer
             SetBasicResponseHeaders();
             
             // Finished transaction, remove it
+            player.transactions.questTransactions.Remove(transaction.stageId);
+            player.Save();
+
             transaction.Delete();
 
             return Task.CompletedTask;

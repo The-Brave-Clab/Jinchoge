@@ -19,6 +19,8 @@ namespace Yuyuyui.PrivateServer
 
         protected override Task ProcessRequest()
         {
+            var player = GetPlayerFromCookies();
+
             long stageId = long.Parse(GetPathParameter("stage_id"));
 
             QuestTransaction.TransactionCreateData transactionCreateData;
@@ -39,7 +41,17 @@ namespace Yuyuyui.PrivateServer
                 };
             }
 
-            QuestTransaction createdTransaction = QuestTransaction.Create(stageId, transactionCreateData);
+            // Delete duplicate/unfinished quests
+            // TODO: we do this here because we have not yet implemented continue feature.
+            if (player.transactions.questTransactions.ContainsKey(stageId))
+            {
+                var existedTransaction = QuestTransaction.Load(player.transactions.questTransactions[stageId]);
+                existedTransaction.Delete();
+                player.transactions.questTransactions.Remove(stageId);
+            }
+            var createdTransaction = QuestTransaction.Create(stageId, transactionCreateData);
+            player.transactions.questTransactions.Add(stageId, createdTransaction.id);
+            player.Save();
 
             Response responseObj = new()
             {
