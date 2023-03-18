@@ -42,7 +42,6 @@ namespace Yuyuyui.PrivateServer
             }
 
             // Delete duplicate/unfinished quests
-            // TODO: we do this here because we have not yet implemented continue feature.
             if (player.transactions.questTransactions.ContainsKey(stageId))
             {
                 var existedTransaction = QuestTransaction.Load(player.transactions.questTransactions[stageId]);

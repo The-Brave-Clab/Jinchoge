@@ -645,10 +645,10 @@ namespace Yuyuyui.PrivateServer
             	typeof(QuestTransactionRetireEntity),
             	new RouteConfig("/stages/{stage_id}/transactions/{transaction_id}/retire", "PUT")
             },
-            //{
-            //	typeof(QuestTransactionDefeatEntity),
-            //	new Config("/stages/{0}/transactions/{1}/defeat", string.Empty, 0)
-            //},
+            {
+            	typeof(QuestTransactionDefeatEntity),
+            	new RouteConfig("/stages/{stage_id}/transactions/{transaction_id}/defeat", "PUT")
+            },
             //{
             //	typeof(EventTransactionCreateEntity),
             //	new Config("/special/stages/{0}/transactions", string.Empty, 0)
@@ -717,18 +717,18 @@ namespace Yuyuyui.PrivateServer
             //	typeof(ResponseErrorEntity),
             //	new Config("http://toybox.kaeru-the-frog.xyz/404.html", string.Empty, 0)
             //},
-            //{
-            //	typeof(BattleContinueConfirmEntity),
-            //	new Config("/battle/transaction/validate", string.Empty, 0)
-            //},
-            //{
-            //	typeof(BattleContinueEntity),
-            //	new Config("/battle/continue/transactions", string.Empty, 0)
-            //},
-            //{
-            //	typeof(BattleContinueInfoEntity),
-            //	new Config("/battle/continue/transactions/{0}", string.Empty, 0)
-            //},
+            {
+            	typeof(BattleContinueConfirmEntity),
+            	new RouteConfig("/battle/transaction/validate", "POST")
+            },
+            {
+            	typeof(BattleContinueEntity),
+            	new RouteConfig("/battle/continue/transactions", "POST")
+            },
+            {
+            	typeof(BattleContinueInfoEntity),
+            	new RouteConfig("/battle/continue/transactions/{transaction_id}", "GET", "PUT")
+            },
 
             // The following entities don't have mono code!
             {
