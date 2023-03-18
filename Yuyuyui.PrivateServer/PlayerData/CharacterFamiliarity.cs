@@ -45,6 +45,8 @@ public class CharacterFamiliarity
 
     public CharacterFamiliarityChange UpdateAndGetChange(CharactersContext charactersDb, int gotFamiliarity)
     {
+        var maxLevel = charactersDb.FamiliarityLevels.OrderBy(l => l.Level).Last();
+        var maxExp = charactersDb.FamiliarityLevels.First(l => l.Level == maxLevel.Level - 1).MaxExp!.Value + 1;
         CharacterFamiliarityChange change = new();
         change.character_group = character_group;
         change.before_familiarity = familiarity;
@@ -52,10 +54,10 @@ public class CharacterFamiliarity
 
         var newFamiliarityUncapped = change.before_familiarity + gotFamiliarity;
         FamiliarityLevel newRankUncapped = CalcUtil.GetFamiliarityRankFromExp(charactersDb, newFamiliarityUncapped);
-        bool familiarityOverflow = newRankUncapped.Level >= 25;
-        int newRank = familiarityOverflow ? 25 : newRankUncapped.Level;
+        bool familiarityOverflow = newRankUncapped.Level >= maxLevel.Level;
+        int newRank = familiarityOverflow ? maxLevel.Level : newRankUncapped.Level;
         int newFamiliarity = familiarityOverflow
-            ? newRankUncapped.MaxExp!.Value
+            ? maxExp
             : newFamiliarityUncapped;
 
         rank = newRank;
