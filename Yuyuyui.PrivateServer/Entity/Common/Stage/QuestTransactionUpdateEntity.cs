@@ -160,13 +160,13 @@ namespace Yuyuyui.PrivateServer
                 public long footing_point { get; set; }
                 public int exp { get; set; }
                 public int exp_per_attack { get; set; }
-                public SizeType size_type { get; set; } // only saw SMALL
-                public MoveType move_type { get; set; }
+                public EnemySizeTye size_type { get; set; } // only saw SMALL
+                public EnemyMoveType move_type { get; set; }
                 public float move_to_x { get; set; }
                 public float wait_time { get; set; }
                 public float move_time { get; set; }
-                public LineChangeMoveType lc_move_type { get; set; }
-                public LineChangeTriggerType lc_trigger_type { get; set; }
+                public EnemyLineChangeMoveType lc_move_type { get; set; }
+                public EnemyLineChangeTriggerType lc_trigger_type { get; set; }
                 public int lc_max_count { get; set; }
                 public float lc_interval { get; set; }
                 public int battle_item_id { get; set; }
@@ -175,55 +175,14 @@ namespace Yuyuyui.PrivateServer
                 public string name { get; set; } = "";
                 public bool vertex { get; set; }
                 public int attack_effect_size { get; set; }
-                public HpGaugeType hp_gauge_type { get; set; }
+                public EnemyHpGaugeType hp_gauge_type { get; set; }
                 public float as_first_interval { get; set; } // only saw 0
                 public float hit_effect_height { get; set; }
                 public List<ActiveSkill> active_skills { get; set; } = new();
                 public List<SkillInfo> passive_skills { get; set; } = new();
                 public int? character_type { get; set; } = null;
                 public long? master_id { get; set; } = null;
-                public SizeType? summon_size_type { get; set; } = null;
-
-                public enum SizeType
-                {
-                    SMALL,
-                    MEDIUM,
-                    LARGE
-                }
-
-                public enum MoveType
-                {
-                    NORMAL,
-                    ACTIVE_MOVE_STOP,
-                    WAIT_AND_MOVE,
-                    HATE,
-                    HATE_ACTIVE_MOVE_STOP,
-                    HATE_WAIT_AND_MOVE,
-                    HATE_ACTIVESTOP_AND_WAITMOVE
-                }
-
-                public enum LineChangeMoveType
-                {
-                    NONE,
-                    BLANK,
-                    LOW_HP,
-                    RANDOM
-                }
-
-                public enum LineChangeTriggerType
-                {
-                    NONE,
-                    TIME,
-                    ATTACK
-                }
-
-                public enum HpGaugeType
-                {
-                    NONE,
-                    SHORT,
-                    NOMAL,
-                    BOSS
-                }
+                public EnemySizeTye? summon_size_type { get; set; } = null;
             }
 
             public class WaveTimeline
@@ -481,32 +440,6 @@ namespace Yuyuyui.PrivateServer
                         id = masterCard.LeaderSkillId
                     };
                 }
-            }
-            
-            public enum AttributeType
-            {
-                NONE,
-                RED,
-                BLUE,
-                GREEN,
-                YELLOW,
-                PURPLE
-            }
-
-            public enum AttackType
-            {
-                NONE,
-                SHORT,
-                MIDDLE,
-                LONG,
-                ASSIST
-            }
-            
-            public enum FriendType
-            {
-                OWNER = 1,
-                FRIEND,
-                GUEST
             }
         }
     }

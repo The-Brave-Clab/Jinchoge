@@ -139,12 +139,6 @@ namespace Yuyuyui.PrivateServer
             }
             return source.Last(); // if not found, return the highest level in current category
         }
-        
-        public static FamiliarityLevel GetExpFromFamiliarityRank(CharactersContext charactersDb, int level)
-        {
-            IEnumerable<FamiliarityLevel> source = charactersDb.FamiliarityLevels;
-            return source.First(i => i.Level == level);
-        }
 
         #endregion
 

@@ -59,7 +59,7 @@ public class Unit : BasePlayerData<Unit, long>
             hp += supportCard.GetHitPoint(cardsDb);
             
             // get bonus
-            CharacterFamiliarity familiarity =
+            CharacterFamiliarityWithAssist familiarity =
                 belongTo.GetCharacterFamiliarity(masterCard.CharacterId, masterSupport.CharacterId);
             int bonus = CalcUtil.AssistLevelHitPointBonus(familiarity.assist_level);
             float coefficient = familiarity.GetLevelData(charactersDb).HitPointCoefficient;
@@ -92,7 +92,7 @@ public class Unit : BasePlayerData<Unit, long>
             atk += supportCard.GetAttack(cardsDb);
             
             // get bonus
-            CharacterFamiliarity familiarity =
+            CharacterFamiliarityWithAssist familiarity =
                 belongTo.GetCharacterFamiliarity(masterCard.CharacterId, masterSupport.CharacterId);
             int bonus = CalcUtil.AssistLevelAttackBonus(familiarity.assist_level);
             float coefficient = familiarity.GetLevelData(charactersContext).AttackCoefficient;

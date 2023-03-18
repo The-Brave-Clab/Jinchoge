@@ -114,14 +114,8 @@ namespace Yuyuyui.PrivateServer
             // calculate the stats
             // exp & level
             long gotExp = usedItem.Exp * noodleData.ExpCoefficient * transaction.createdWith.enhancement_item.quantity;
-            long newExpUncapped = userCard.exp + gotExp;
-            CardLevel newLevelUncapped = CalcUtil.GetLevelFromExp(cardsDb, masterCard.LevelCategory, newExpUncapped);
-            bool expOverflow = newLevelUncapped.Level >= masterCard.MaxLevel;
-            int newLevel = expOverflow ? masterCard.MaxLevel : newLevelUncapped.Level;
-            long newExp = expOverflow
-                // default value only for casting from nullable, won't be used at all by theory
-                ? CalcUtil.GetExpFromLevel(cardsDb, masterCard.LevelCategory, newLevel - 1).MaxExp + 1 ?? 0
-                : newExpUncapped;
+            userCard.GainExp(cardsDb, gotExp);
+
             // active skill
             using var skillsDb = new SkillsContext();
             float activeSkillLevelUpProbability = CalcUtil.CalcActiveEnhancementChance(
@@ -151,34 +145,21 @@ namespace Yuyuyui.PrivateServer
                 Utils.Log(Resources.LOG_PS_CARD_ENHANCEMENT_SUPPORT_SKILL_LEVEL_UP);
           
             // character familiarity
-            CharacterFamiliarity familiarity = player.GetCharacterFamiliarity(cookingCharacterData.CookingCharacterId,
+            CharacterFamiliarityWithAssist familiarity = player.GetCharacterFamiliarity(cookingCharacterData.CookingCharacterId,
                 cookingCharacterData.TargetCharacterId);
-            var beforeRank = familiarity.rank;
-            var beforeFamiliarity = familiarity.familiarity;
-            var beforeAssistLevel = familiarity.assist_level;
 
-            var gotFamiliarity = CharacterFamiliarity.GetEnhancement(usedItem.Id) *
+            var gotFamiliarity = CharacterFamiliarityWithAssist.GetEnhancement(usedItem.Id) *
                                  noodleData.ExpCoefficient *
                                  transaction.createdWith.enhancement_item.quantity;
             var gotAssistLevel = usedItem.AssistLevelPotential *
                                  noodleData.ExpCoefficient *
                                  transaction.createdWith.enhancement_item.quantity;
 
-            var newFamiliarityUncapped = beforeFamiliarity + gotFamiliarity;
-
-            using var charactersDb = new CharactersContext();
-            FamiliarityLevel newRankUncapped = CalcUtil.GetFamiliarityRankFromExp(charactersDb, newFamiliarityUncapped);
-            bool familiarityOverflow = newRankUncapped.Level >= 25;
-            int newRank = familiarityOverflow ? 25 : newRankUncapped.Level;
-            int newFamiliarity = familiarityOverflow
-                ? CalcUtil.GetExpFromFamiliarityRank(charactersDb, newRank - 1).MaxExp + 1 ?? 0
-                : newFamiliarityUncapped;
-
-            int newAssistLevel = beforeAssistLevel + gotAssistLevel; // will this overflow?
+            CharacterFamiliarityChangeWithAssist familiarityChange;
+            using (var charactersDb = new CharactersContext())
+                familiarityChange = familiarity.UpdateAndGetChange(charactersDb, gotFamiliarity, gotAssistLevel);
 
             // finally, update the user data for card and character familiarity
-            userCard.exp = newExp;
-            userCard.level = newLevel;
             if (activeSkillLevelUp)
                 // We don't need to validate this since the client won't let us use a skill udon if level is maxed out
                 userCard.active_skill_level += 1;
@@ -188,13 +169,10 @@ namespace Yuyuyui.PrivateServer
 
             userCard.Save();
 
-            familiarity.rank = newRank;
-            familiarity.familiarity = newFamiliarity;
-            familiarity.assist_level = newAssistLevel;
             Utils.Log(string.Format(Resources.LOG_PS_CARD_ENHANCEMENT_AFFINITY_INCREASE,
-                familiarity.character_group, newFamiliarity - beforeFamiliarity));
+                familiarity.character_group, familiarityChange.familiarity - familiarityChange.before_familiarity));
             Utils.Log(string.Format(Resources.LOG_PS_CARD_ENHANCEMENT_AFFINITY_ASSIST_LEVEL_INCREASE,
-                familiarity.character_group, gotAssistLevel));
+                familiarity.character_group, familiarityChange.assist_level - familiarityChange.before_assist_level));
             player.Save();
 
             if (!infiniteItems)
@@ -218,16 +196,7 @@ namespace Yuyuyui.PrivateServer
                     noodle_master_id = noodleId,
                     cooking_character_master_id = cookingCharacterData.CookingCharacterId,
                     target_character_master_id = cookingCharacterData.TargetCharacterId,
-                    character_familiarity = new()
-                    {
-                        character_group = familiarity.character_group,
-                        familiarity = newFamiliarity,
-                        rank = newRank,
-                        before_familiarity = beforeFamiliarity,
-                        before_rank = beforeRank,
-                        assist_level = newAssistLevel,
-                        before_assist_level = beforeAssistLevel
-                    },
+                    character_familiarity = familiarityChange,
                     cooking_message =
                         bigHit ? cookingCharacterData.CookingSpecialMessage : cookingCharacterData.CookingMessage,
                     target_message =
@@ -271,7 +240,7 @@ namespace Yuyuyui.PrivateServer
                 public long noodle_master_id { get; set; }
                 public long cooking_character_master_id { get; set; }
                 public long target_character_master_id { get; set; }
-                public CharacterFamiliarityChange character_familiarity { get; set; } = new();
+                public CharacterFamiliarityChangeWithAssist character_familiarity { get; set; } = new();
                 public string cooking_message { get; set; } = "";
                 public string target_message { get; set; } = "";
                 public string target_message_voice_id { get; set; } = "";

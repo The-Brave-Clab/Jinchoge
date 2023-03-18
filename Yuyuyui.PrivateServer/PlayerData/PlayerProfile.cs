@@ -24,8 +24,8 @@ namespace Yuyuyui.PrivateServer
 
         public Items items { get; set; } = new();
 
-        public IDictionary<string, CharacterFamiliarity> characterFamiliarities { get; set; } 
-            = new Dictionary<string, CharacterFamiliarity>();
+        public IDictionary<string, CharacterFamiliarityWithAssist> characterFamiliarities { get; set; } 
+            = new Dictionary<string, CharacterFamiliarityWithAssist>();
 
         public IList<string> friends { get; set; } = new List<string>(); // friend user id
         public IList<long> friendRequests { get; set; } = new List<long>(); // request id
@@ -45,9 +45,9 @@ namespace Yuyuyui.PrivateServer
         
 
 
-        public CharacterFamiliarity GetCharacterFamiliarity(long characterId1, long characterId2)
+        public CharacterFamiliarityWithAssist GetCharacterFamiliarity(long characterId1, long characterId2)
         {
-            string groupName = CharacterFamiliarity.GetGroupName(characterId1, characterId2);
+            string groupName = CharacterFamiliarityWithAssist.GetGroupName(characterId1, characterId2);
             if (!characterFamiliarities.ContainsKey(groupName))
                 characterFamiliarities.Add(groupName, new()
                 {

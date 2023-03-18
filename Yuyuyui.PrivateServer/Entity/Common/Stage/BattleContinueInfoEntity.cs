@@ -23,6 +23,8 @@ namespace Yuyuyui.PrivateServer
             
             // ignore request body
 
+            // TODO: distinguish PUT and GET requests
+
             var responseObj = new Response
             {
                 // TODO: check for "story" or "special"
