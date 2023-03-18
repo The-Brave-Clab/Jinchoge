@@ -1,3 +1,6 @@
+using System.Linq;
+using Yuyuyui.PrivateServer.DataModel;
+
 namespace Yuyuyui.PrivateServer
 {
     public class Accessory : BasePlayerData<Accessory, long>
@@ -32,6 +35,11 @@ namespace Yuyuyui.PrivateServer
                 level = 1,
                 quantity = 0,
             };
+        }
+
+        public DataModel.Accessory MasterData(AccessoriesContext accessoriesDb)
+        {
+            return accessoriesDb.Accessories.First(c => c.Id == master_id);
         }
 
         protected override long Identifier => id;

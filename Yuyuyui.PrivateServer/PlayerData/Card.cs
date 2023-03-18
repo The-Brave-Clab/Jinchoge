@@ -72,6 +72,21 @@ namespace Yuyuyui.PrivateServer
             };
         }
 
+        public void GainExp(CardsContext cardsDb, long gotExp)
+        {
+            var masterCard = MasterData(cardsDb);
+            long newExpUncapped = exp + gotExp;
+            CardLevel newLevelUncapped = CalcUtil.GetLevelFromExp(cardsDb, masterCard.LevelCategory, newExpUncapped);
+            bool expOverflow = newLevelUncapped.Level >= masterCard.MaxLevel;
+            int newLevel = expOverflow ? masterCard.MaxLevel : newLevelUncapped.Level;
+            long newExp = expOverflow
+                // default value only for casting from nullable, won't be used at all by theory
+                ? CalcUtil.GetExpFromLevel(cardsDb, masterCard.LevelCategory, newLevel - 1).MaxExp + 1 ?? 0
+                : newExpUncapped;
+            exp = newExp;
+            level = newLevel;
+        }
+
         protected override long Identifier => id;
 
         public SupportCard AsSupport()

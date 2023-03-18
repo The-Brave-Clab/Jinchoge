@@ -33,8 +33,8 @@ namespace Yuyuyui.PrivateServer
 
         public class Response
         {
-            public IDictionary<string, CharacterFamiliarity> character_familiarities { get; set; } =
-                new Dictionary<string, CharacterFamiliarity>();
+            public IDictionary<string, CharacterFamiliarityWithAssist> character_familiarities { get; set; } =
+                new Dictionary<string, CharacterFamiliarityWithAssist>();
         }
     }
 }

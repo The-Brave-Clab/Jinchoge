@@ -363,4 +363,13 @@
     <data name="LOG_UPDATE_RESTRICTION" xml:space="preserve">
         <value>You won't be able to start the Private Server with an old version.</value>
     </data>
+    <data name="LOG_PS_CREATED_DUMMY_PLAYER" xml:space="preserve">
+        <value>Created a placeholder player.</value>
+    </data>
+    <data name="SETTINGS_IN_GAME_UNLOCK_ALL_DIFFICULTIES" xml:space="preserve">
+        <value>Unlock All Difficulties</value>
+    </data>
+    <data name="SETTINGS_INFO_UNLOCK_ALL_DIFFICULTIES" xml:space="preserve">
+        <value>All battle stages will be shown as perfectly finished</value>
+    </data>
 </root>

@@ -1,5 +1,27 @@
 # Release Notes
 
+## 3.0.0
+
+March 19, 2023
+
+**What's New**
+
+* Added Battle system.
+    * The Battle system includes all main story battle stages (*The Chapter of Hanayui*, *The Chapter of Yuuki Yuuna*, *The Chapter of Washio Sumi*, *The Chapter of Nogi Wakaba*, *The Chapter of Shiratori Utano*, *The Chapter of Akihara Sekka*, *The Chapter of Kohagura Natsume*, *The Chapter of Ishitsumugi*, and *The Chapter of Kirameki*).
+    * Choosing guest players is not supported for now.
+        * However, to work around a bug on the client side, the server will generate a placeholder player for selection before entering the battle. However, this placeholder will not be reflected inside the battle.
+    * The Battle system is only for experiencing the main story battle stages.
+        * Battle stages will not consume player stamina.
+        * Winning a battle will not increase the player's money, experience, etc.
+        * The calculation of the experience and character affinity of the card is not the same as that of the official server. The calculation results in much lower values.
+        * After winning a battle, the player will not receive any item rewards, including scenario rewards and drop rewards.
+* Added a new config option for unlocking all difficulties.
+    * When turned on, all battle stages will be shown as perfectly finished with three stars, tricking the client into unlocking higher difficulties.
+
+**Bug Fixes**
+
+* Fixed a problem caused by the character familiarity keep leveling up even when the level is maxed out.
+
 ## 2.0.2
 
 February 21, 2023
