@@ -1,5 +1,13 @@
 # Release Notes
 
+## 3.0.1
+
+June 17, 2024
+
+**Bug Fixes**
+
+* Due to a technical issue, the online decryption service is temporarily disabled. The offline decryption is still available.
+
 ## 3.0.0
 
 March 19, 2023

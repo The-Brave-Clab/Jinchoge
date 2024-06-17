@@ -177,12 +177,12 @@
                 
                 <TextBlock Classes="category" Text="{Binding SETTINGS_CATEGORY_SECURITY}" />
                 
-                <Panel Classes="entry">
-                    <StackPanel Classes="name">
-                        <TextBlock Classes="nameText" Text="{Binding SETTINGS_SECURITY_ONLINE_DECRYPTION}" />
-                    </StackPanel>
-                    <ToggleSwitch Classes="switch" IsChecked="{Binding UseOnlineDecryption}" />
-                </Panel>
+                <!-- <Panel Classes="entry"> -->
+                <!--     <StackPanel Classes="name"> -->
+                <!--         <TextBlock Classes="nameText" Text="{Binding SETTINGS_SECURITY_ONLINE_DECRYPTION}" /> -->
+                <!--     </StackPanel> -->
+                <!--     <ToggleSwitch Classes="switch" IsChecked="{Binding UseOnlineDecryption}" /> -->
+                <!-- </Panel> -->
                 
                 <Panel Classes="entry">
                     <StackPanel Classes="name">

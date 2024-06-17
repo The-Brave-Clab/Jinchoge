@@ -150,11 +150,11 @@ internal class SettingsViewModel : ViewModelBase
     public bool useOnlineDecryption;
     public bool UseOnlineDecryption
     {
-        get => useOnlineDecryption;
+        get => false;
         set
         {
-            this.RaiseAndSetIfChanged(ref useOnlineDecryption, value);
-            Config.Get().Security.UseOnlineDecryption = value;
+            this.RaiseAndSetIfChanged(ref useOnlineDecryption, false);
+            Config.Get().Security.UseOnlineDecryption = false;
             Config.Save();
         }
     }

@@ -16,23 +16,23 @@ Currently, this project has implemented these features of the original game:
 
 * Story Albums (fully unlocked)
   * 4koma Sheets (fully unlocked)
-  * Story Translations (WIP)
+  * Story Translations
 * Cards
   * Enhancement & evoluion
   * Spirits (Seirei)
     * Enhancement
   * Team forming 
   * Character affinities
+* Battle system
+  * Main story only
 * Account
   * Nickname & comments
   * Add/delete friends
   * Delete account
-  * Transfer account from the official server (provided by the tool *Eucalyptus*)
   * Create new account
 
 The following features are not implemented yet:
 
 * Gacha
-* Battle system
 * Club working
 * CLI tools
