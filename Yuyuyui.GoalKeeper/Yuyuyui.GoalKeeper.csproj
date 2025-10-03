@@ -14,18 +14,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <!-- DEV build (no RID): copy ALL runtimes to bin/ preserving structure -->
-        <Content Include="runtimes/**" Condition="'$(RuntimeIdentifier)' == ''">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-        </Content>
-
-        <!-- Publish with a RID: include ONLY that RID -->
-        <Content Include="runtimes/$(RuntimeIdentifier)/native/**" Condition="'$(RuntimeIdentifier)' != ''">
-            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-            <TargetPath>runtimes/$(RuntimeIdentifier)/native/%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
-        </Content>
+        <PackageReference Include="Yuyuyui.GoalKeeper.Native" Version="1.0.6" />
     </ItemGroup>
 
 </Project>
