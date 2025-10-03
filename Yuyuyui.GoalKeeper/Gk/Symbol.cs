@@ -1,4 +1,4 @@
-namespace Gk;
+﻿namespace Gk;
 
 internal static class Symbol
 {

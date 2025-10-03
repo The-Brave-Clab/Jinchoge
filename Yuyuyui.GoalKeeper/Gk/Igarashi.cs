@@ -161,50 +161,50 @@ public class Igarashi : IDisposable
     private static class NativeMethods
     {
         [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto,
-            EntryPoint = Gk.Symbol.gk_crypto_new, ThrowOnUnmappableChar = true)]
+            EntryPoint = Symbol.gk_crypto_new, ThrowOnUnmappableChar = true)]
         internal static extern CryptoResult gk_crypto_new(ref IntPtr ret,
             [MarshalAs(UnmanagedType.LPArray)] [In]
             byte[] _Key, int _Len, KEY_REQUEST _Request);
 
         [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto,
-            EntryPoint = Gk.Symbol.gk_crypto_duplicate_context, ThrowOnUnmappableChar = true)]
+            EntryPoint = Symbol.gk_crypto_duplicate_context, ThrowOnUnmappableChar = true)]
         internal static extern CryptoResult gk_crypto_duplicate_context([In] IntPtr src, ref IntPtr dest);
 
-        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.gk_crypto_delete)]
+        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Symbol.gk_crypto_delete)]
         internal static extern void gk_crypto_delete(ref IntPtr key);
 
-        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.gk_crypto_set_iv)]
+        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Symbol.gk_crypto_set_iv)]
         internal static extern CryptoResult gk_crypto_set_iv([In] IntPtr _Ctx,
             [MarshalAs(UnmanagedType.LPArray)] [In]
             byte[] _IV, int _Len);
 
-        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.gk_crypto_get_iv)]
+        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Symbol.gk_crypto_get_iv)]
         internal static extern IntPtr gk_crypto_get_iv([In] IntPtr _Ctx);
 
-        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.gk_crypto_get_iv_length)]
+        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Symbol.gk_crypto_get_iv_length)]
         internal static extern int gk_crypto_get_iv_length([In] IntPtr _Ctx);
 
-        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.gk_crypto_get_caps)]
+        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Symbol.gk_crypto_get_caps)]
         internal static extern CAPS gk_crypto_get_caps([In] IntPtr _Ctx);
 
-        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.gk_crypto_encrypt)]
+        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Symbol.gk_crypto_encrypt)]
         internal static extern CryptoResult gk_crypto_encrypt([In] IntPtr _Ctx, ENCODE _Encode,
             [MarshalAs(UnmanagedType.LPArray)] [In]
             byte[] _Input,
             [MarshalAs(UnmanagedType.LPArray)] [Out]
             byte[] _Output, int _Length, IntPtr _H1, IntPtr _H2);
 
-        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.gk_crypto_decrypt)]
+        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Symbol.gk_crypto_decrypt)]
         internal static extern CryptoResult gk_crypto_decrypt([In] IntPtr _Ctx, ENCODE _Encode,
             [MarshalAs(UnmanagedType.LPArray)] [In]
             byte[] _Input,
             [MarshalAs(UnmanagedType.LPArray)] [Out]
             byte[] _Output, int _Length, IntPtr _H1, IntPtr _H2);
 
-        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.gk_version)]
+        [DllImport(Symbol.libgk_so, CharSet = CharSet.Auto, EntryPoint = Symbol.gk_version)]
         internal static extern uint gk_version();
 
-        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.gk_startup,
+        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Symbol.gk_startup,
             ThrowOnUnmappableChar = true)]
         internal static extern IntPtr gk_startup();
     }

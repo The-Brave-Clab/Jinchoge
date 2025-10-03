@@ -80,40 +80,40 @@ public class ODF : IDisposable
 
     private static class NativeMethods
     {
-        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.odf_new,
+        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Symbol.odf_new,
             ThrowOnUnmappableChar = true)]
         internal static extern ODF_RESULT odf_new(ref IntPtr ret, [In] IntPtr ctx);
 
-        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.odf_delete,
+        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Symbol.odf_delete,
             ThrowOnUnmappableChar = true)]
         internal static extern void odf_delete(ref IntPtr ctx);
 
-        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.odf_encode,
+        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Symbol.odf_encode,
             ThrowOnUnmappableChar = true)]
         internal static extern ODF_RESULT odf_encode([In] IntPtr ctx, ENCODE enc,
             [MarshalAs(UnmanagedType.LPArray)] [In]
             byte[] _Data, int _Len);
 
-        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.odf_decode,
+        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Symbol.odf_decode,
             ThrowOnUnmappableChar = true)]
         internal static extern ODF_RESULT odf_decode([In] IntPtr ctx,
             [MarshalAs(UnmanagedType.LPArray)] [In]
             byte[] _Data, int _Len);
 
         [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto,
-            EntryPoint = Gk.Symbol.odf_get_length, ThrowOnUnmappableChar = true)]
+            EntryPoint = Symbol.odf_get_length, ThrowOnUnmappableChar = true)]
         internal static extern int odf_get_length(IntPtr ctx);
 
-        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.odf_get_data,
+        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Symbol.odf_get_data,
             ThrowOnUnmappableChar = true)]
         internal static extern IntPtr odf_get_data(IntPtr ctx);
 
-        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.odf_set_key,
+        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Symbol.odf_set_key,
             ThrowOnUnmappableChar = true)]
         internal static extern ODF_RESULT odf_set_key(IntPtr ctx, [In] IntPtr key);
 
         [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto,
-            EntryPoint = Gk.Symbol.odf_get_crypto_result, ThrowOnUnmappableChar = true)]
+            EntryPoint = Symbol.odf_get_crypto_result, ThrowOnUnmappableChar = true)]
         internal static extern CryptoResult odf_get_crypto_result(IntPtr ctx);
     }
 

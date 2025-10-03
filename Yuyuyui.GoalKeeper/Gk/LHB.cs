@@ -151,36 +151,36 @@ public class LHB : IDisposable
 
     private static class NativeMethods
     {
-        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.lhb_new,
+        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Symbol.lhb_new,
             ThrowOnUnmappableChar = true)]
         internal static extern IntPtr lhb_new();
 
-        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.lhb_delete,
+        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Symbol.lhb_delete,
             ThrowOnUnmappableChar = true)]
         internal static extern void lhb_delete(ref IntPtr ctx);
 
-        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.lhb_encrypt,
+        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Symbol.lhb_encrypt,
             ThrowOnUnmappableChar = true)]
         internal static extern LHB_RESULT lhb_encrypt([In] IntPtr ctx, [In] IntPtr key, ENCODE encode,
             [MarshalAs(UnmanagedType.LPArray)] [In]
             byte[] _Data, int _Len);
 
         [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto,
-            EntryPoint = Gk.Symbol.lhb_encrypt_ex, ThrowOnUnmappableChar = true)]
+            EntryPoint = Symbol.lhb_encrypt_ex, ThrowOnUnmappableChar = true)]
         internal static extern LHB_RESULT lhb_encrypt_ex([In] IntPtr ctx, [In] IntPtr key, ENCODE encode,
             [MarshalAs(UnmanagedType.LPArray)] [In]
             byte[] _Data, int _Len,
             [MarshalAs(UnmanagedType.LPArray)] [Out]
             byte[] _OutBuffer, int _OutBufferLen);
 
-        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Gk.Symbol.lhb_decrypt,
+        [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto, EntryPoint = Symbol.lhb_decrypt,
             ThrowOnUnmappableChar = true)]
         internal static extern LHB_RESULT lhb_decrypt([In] IntPtr ctx, [In] IntPtr key, [In] LHB_OPTION option,
             [MarshalAs(UnmanagedType.LPArray)] [In]
             byte[] _Data, int _Len);
 
         [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto,
-            EntryPoint = Gk.Symbol.lhb_decrypt_ex, ThrowOnUnmappableChar = true)]
+            EntryPoint = Symbol.lhb_decrypt_ex, ThrowOnUnmappableChar = true)]
         internal static extern LHB_RESULT lhb_decrypt_ex([In] IntPtr ctx, [In] IntPtr key, [In] LHB_OPTION option,
             [MarshalAs(UnmanagedType.LPArray)] [In]
             byte[] _Data, int _Len,
@@ -188,27 +188,27 @@ public class LHB : IDisposable
             byte[] _OutBuffer, int _OutBufferLen);
 
         [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto,
-            EntryPoint = Gk.Symbol.lhb_get_crypto_result, ThrowOnUnmappableChar = true)]
+            EntryPoint = Symbol.lhb_get_crypto_result, ThrowOnUnmappableChar = true)]
         internal static extern CryptoResult lhb_get_crypto_result(IntPtr ctx);
 
         [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto,
-            EntryPoint = Gk.Symbol.lhb_get_length, ThrowOnUnmappableChar = true)]
+            EntryPoint = Symbol.lhb_get_length, ThrowOnUnmappableChar = true)]
         internal static extern int lhb_get_length(IntPtr ctx);
 
         [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto,
-            EntryPoint = Gk.Symbol.lhb_get_buffer, ThrowOnUnmappableChar = true)]
+            EntryPoint = Symbol.lhb_get_buffer, ThrowOnUnmappableChar = true)]
         internal static extern IntPtr lhb_get_buffer(IntPtr ctx);
 
         [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto,
-            EntryPoint = Gk.Symbol.lhb_calc_encode_buffer_size, ThrowOnUnmappableChar = true)]
+            EntryPoint = Symbol.lhb_calc_encode_buffer_size, ThrowOnUnmappableChar = true)]
         internal static extern int lhb_calc_encode_buffer_size(int _Size);
 
         [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto,
-            EntryPoint = Gk.Symbol.lhb_calc_decode_buffer_size, ThrowOnUnmappableChar = true)]
+            EntryPoint = Symbol.lhb_calc_decode_buffer_size, ThrowOnUnmappableChar = true)]
         internal static extern int lhb_calc_decode_buffer_size(IntPtr ctx);
 
         [DllImport(Symbol.libgk_so, BestFitMapping = false, CharSet = CharSet.Auto,
-            EntryPoint = Gk.Symbol.lhb_load_header, ThrowOnUnmappableChar = true)]
+            EntryPoint = Symbol.lhb_load_header, ThrowOnUnmappableChar = true)]
         internal static extern LHB_RESULT lhb_load_header([In] IntPtr ctx,
             [MarshalAs(UnmanagedType.LPArray)] [In]
             byte[] _Buffer, int _Size);
