@@ -45,7 +45,7 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Download Current Time
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: build_time
     - name: Get Current Time
@@ -133,14 +133,14 @@ jobs:
       run: 7z a -tzip ${{ inputs.rid }}.zip ./${{ env.publish_folder }}/*
     - name: Upload Production Artifacts
       if: ${{ inputs.use_tar }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.rid }}
         path: ${{ inputs.rid }}.tgz
         retention-days: 1
     - name: Upload Production Artifacts
       if: ${{ !inputs.use_tar }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.rid }}
         path: ${{ inputs.rid }}.zip

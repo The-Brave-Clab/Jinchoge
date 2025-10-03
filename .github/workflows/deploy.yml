@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Get Current Time
         run: echo "current_time=$(date +'%Y%m%d%H%M%S')" > build_time.txt
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: build_time
           path: build_time.txt
@@ -85,7 +85,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
       - name: Download Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ matrix.rid }}
       - name: Upload to AWS S3
@@ -106,7 +106,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
       - name: Download Current Time
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build_time
       - name: Get Current Time
