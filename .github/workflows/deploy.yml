@@ -70,7 +70,12 @@ jobs:
   
     name: Upload ${{ matrix.rid }}, ${{ matrix.tfm }} to AWS
     needs: [build_win, build_linux, build_mac]
-    
+
+    if: >
+      github.event_name == 'push' &&
+      (github.ref == 'refs/heads/master' ||
+       github.ref == 'refs/heads/release')
+
     strategy:
       matrix:
         rid: [ "win10-x64", "osx-x64", "osx-arm64", "linux-x64" ]
@@ -96,6 +101,11 @@ jobs:
 
     name: Update Latest Version Manifest on AWS
     needs: upload
+
+    if: >
+      github.event_name == 'push' &&
+      (github.ref == 'refs/heads/master' ||
+       github.ref == 'refs/heads/release')
 
     runs-on: ubuntu-latest
 
