@@ -1,8 +1,6 @@
 name: Build & Deploy Project
 
-on:
-  push:
-    branches: [ "master", "release" ]
+on: push
 
 jobs:
   get_time:

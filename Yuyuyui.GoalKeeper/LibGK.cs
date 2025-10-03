@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Yuyuyui.GK;
 
@@ -24,13 +25,7 @@ public interface ILibGK
 
 public static class LibGK<TImpl> where TImpl : class, ILibGK, new()
 {
-
-    private static TImpl impl;
-
-    static LibGK()
-    {
-        impl = new TImpl();
-    }
+    private static ThreadLocal<TImpl> impl = new(() => new TImpl());
 
     public static byte[] Execute(CryptType type, CryptDirection direction,
         byte[] inputData,
@@ -39,13 +34,13 @@ public static class LibGK<TImpl> where TImpl : class, ILibGK, new()
         switch (type)
         {
             case CryptType.Binary when direction == CryptDirection.Encrypt:
-                return impl.EncryptBin(inputData, key, iv);
+                return impl.Value!.EncryptBin(inputData, key, iv);
             case CryptType.Binary when direction == CryptDirection.Decrypt:
-                return impl.DecryptBin(inputData, key, iv);
+                return impl.Value!.DecryptBin(inputData, key, iv);
             case CryptType.API when direction == CryptDirection.Encrypt:
-                return impl.EncryptApi(inputData, key, iv, sessionKey);
+                return impl.Value!.EncryptApi(inputData, key, iv, sessionKey);
             case CryptType.API when direction == CryptDirection.Decrypt:
-                return impl.DecryptApi(inputData, key, iv, sessionKey);
+                return impl.Value!.DecryptApi(inputData, key, iv, sessionKey);
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }

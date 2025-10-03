@@ -1,0 +1,14 @@
+﻿using System;
+
+namespace Gk;
+
+[Flags]
+public enum KEY_REQUEST : uint
+{
+    TAKESHI_ENC = 2147483648U,
+    TAKESHI_DEC = 1073741824U,
+    TAKESHI = 3221225472U,
+    IGARASHI = 536870912U,
+    TAKEDA = 268435456U,
+    ALL = 4026531840U
+}

@@ -9,9 +9,23 @@
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <FileVersion>$(Version)</FileVersion>
         <DebugType>embedded</DebugType>
-        <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net472;net6.0</TargetFrameworks>
-        <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">net6.0</TargetFrameworks>
+        <TargetFramework>net6.0</TargetFramework>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
+
+    <ItemGroup>
+        <!-- DEV build (no RID): copy ALL runtimes to bin/ preserving structure -->
+        <Content Include="runtimes/**" Condition="'$(RuntimeIdentifier)' == ''">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+        </Content>
+
+        <!-- Publish with a RID: include ONLY that RID -->
+        <Content Include="runtimes/$(RuntimeIdentifier)/native/**" Condition="'$(RuntimeIdentifier)' != ''">
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+            <TargetPath>runtimes/$(RuntimeIdentifier)/native/%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
+        </Content>
+    </ItemGroup>
 
 </Project>

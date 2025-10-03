@@ -1,0 +1,15 @@
+﻿using System;
+
+namespace Gk;
+
+[Flags]
+public enum ENCODE : uint
+{
+    TAKESHI = 16777216U,
+    TAKESHI_CBC = 2164260864U,
+    IGARASHI = 33554432U,
+    IGARASHI_CBC = 2181038080U,
+    TAKEDA = 1073741824U,
+    TAKEDA_CBC = 3221225472U,
+    INVALID = 1U
+}
