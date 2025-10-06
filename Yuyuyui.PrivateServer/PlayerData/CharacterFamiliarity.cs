@@ -38,22 +38,31 @@ public class CharacterFamiliarity
         return enhancementAmount[1000];
     }
 
-    public FamiliarityLevel GetLevelData(CharactersContext characterDb)
+    public FamiliarityLevel GetLevelData()
     {
+        using CharactersContext characterDb = new();
         return characterDb.FamiliarityLevels.First(l => l.Level == rank);
     }
 
-    public CharacterFamiliarityChange UpdateAndGetChange(CharactersContext charactersDb, int gotFamiliarity)
+    public CharacterFamiliarityChange UpdateAndGetChange(int gotFamiliarity)
     {
-        var maxLevel = charactersDb.FamiliarityLevels.OrderBy(l => l.Level).Last();
-        var maxExp = charactersDb.FamiliarityLevels.First(l => l.Level == maxLevel.Level - 1).MaxExp!.Value + 1;
-        CharacterFamiliarityChange change = new();
-        change.character_group = character_group;
-        change.before_familiarity = familiarity;
-        change.before_rank = rank;
+        FamiliarityLevel maxLevel;
+        FamiliarityLevel targetLevel;
+        using (CharactersContext charactersDb = new())
+        {
+            maxLevel = charactersDb.FamiliarityLevels.OrderBy(l => l.Level).Last();
+            targetLevel = charactersDb.FamiliarityLevels.First(l => l.Level == maxLevel.Level - 1);
+        }
+        var maxExp = targetLevel.MaxExp!.Value + 1;
+        CharacterFamiliarityChange change = new()
+        {
+            character_group = character_group,
+            before_familiarity = familiarity,
+            before_rank = rank
+        };
 
         var newFamiliarityUncapped = change.before_familiarity + gotFamiliarity;
-        FamiliarityLevel newRankUncapped = CalcUtil.GetFamiliarityRankFromExp(charactersDb, newFamiliarityUncapped);
+        FamiliarityLevel newRankUncapped = CalcUtil.GetFamiliarityRankFromExp(newFamiliarityUncapped);
         bool familiarityOverflow = newRankUncapped.Level >= maxLevel.Level;
         int newRank = familiarityOverflow ? maxLevel.Level : newRankUncapped.Level;
         int newFamiliarity = familiarityOverflow
@@ -81,11 +90,10 @@ public class CharacterFamiliarityWithAssist : CharacterFamiliarity
 {
     public int assist_level { get; set; }
 
-    public CharacterFamiliarityChangeWithAssist UpdateAndGetChange(CharactersContext charactersDb,
-        int gotFamiliarity, int gotAssistLevel)
+    public CharacterFamiliarityChangeWithAssist UpdateAndGetChange(int gotFamiliarity, int gotAssistLevel)
     {
         var beforeAssistLevel = assist_level;
-        CharacterFamiliarityChange change = UpdateAndGetChange(charactersDb, gotFamiliarity);
+        CharacterFamiliarityChange change = UpdateAndGetChange(gotFamiliarity);
         CharacterFamiliarityChangeWithAssist changeWithAssist = new()
         {
             character_group = change.character_group,

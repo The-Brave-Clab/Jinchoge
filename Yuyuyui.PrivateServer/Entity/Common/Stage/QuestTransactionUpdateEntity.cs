@@ -33,12 +33,17 @@ namespace Yuyuyui.PrivateServer
             QuestTransaction transaction = QuestTransaction.Load(transactionId);
             
             // Validate here?
-            
-            using var questsDb = new QuestsContext();
 
-            var dbStage = questsDb.Stages.First(s => s.Id == transaction.stageId);
-            var dbEpisode = questsDb.Episodes.First(e => e.Id == dbStage.EpisodeId);
-            var dbChapter = questsDb.Chapters.First(c => c.Id == dbEpisode.ChapterId);
+            Stage dbStage;
+            Episode dbEpisode;
+            Chapter dbChapter;
+
+            using (QuestsContext questsDb = new())
+            {
+                dbStage = questsDb.Stages.First(s => s.Id == transaction.stageId);
+                dbEpisode = questsDb.Episodes.First(e => e.Id == dbStage.EpisodeId);
+                dbChapter = questsDb.Chapters.First(c => c.Id == dbEpisode.ChapterId);
+            }
 
             var stageProgress = StageProgress.GetOrCreate(player, dbStage.Id);
             var episodeProgress = EpisodeProgress.GetOrCreate(player, dbEpisode.Id);
@@ -66,11 +71,8 @@ namespace Yuyuyui.PrivateServer
                     .Build();
                 responseObj = deserializer.Deserialize<Response>(stageData);
                 
-                using var cardsDb = new CardsContext();
-                using var accessoriesDb = new AccessoriesContext();
-                using var charactersDb = new CharactersContext();
                 // TODO: fill in the guest
-                responseObj.deck = Response.BattleDeck.FromTransaction(cardsDb, accessoriesDb, charactersDb, transaction, player, null);
+                responseObj.deck = Response.BattleDeck.FromTransaction(transaction, player, null);
             }
 
             responseObj.chapter = ChapterEntity.Response.Chapter.GetFromDatabase(dbChapter, player);
@@ -225,8 +227,7 @@ namespace Yuyuyui.PrivateServer
                 public IList<SkillInfo> stage_leader_skills { get; set; } = new List<SkillInfo>();
                 public IList<BattleCardData> cards { get; set; } = new List<BattleCardData>();
 
-                public static BattleDeck FromTransaction(CardsContext cardsDb, AccessoriesContext accessoriesDb,
-                    CharactersContext charactersDb, QuestTransaction transaction, PlayerProfile player, PlayerProfile? guest)
+                public static BattleDeck FromTransaction(QuestTransaction transaction, PlayerProfile player, PlayerProfile? guest)
                 {
                     var deck = Deck.Load(transaction.createdWith.using_deck_id!.Value);
 
@@ -237,8 +238,8 @@ namespace Yuyuyui.PrivateServer
 
                     var result = new BattleDeck
                     {
-                        leader_skill = LeaderSkillInfo.FromUnit(cardsDb, leaderUnit),
-                        friend_leader_skill = LeaderSkillInfo.FromUnit(cardsDb, friendUnit),
+                        leader_skill = LeaderSkillInfo.FromUnit(leaderUnit),
+                        friend_leader_skill = LeaderSkillInfo.FromUnit(friendUnit),
                         stage_leader_skills = new List<SkillInfo>(), // This seems to be always empty?
                     };
 
@@ -248,7 +249,7 @@ namespace Yuyuyui.PrivateServer
                         var unit = Unit.Load(unitId);
                         if (unit.baseCardID == null) continue;
                         
-                        result.cards.Add(BattleCardData.GetFromUnit(cardsDb, accessoriesDb, charactersDb, player, unit, order, unitId == deck.leaderUnitID, FriendType.OWNER));
+                        result.cards.Add(BattleCardData.GetFromUnit(player, unit, order, unitId == deck.leaderUnitID, FriendType.OWNER));
                         ++order;
                     }
 
@@ -275,11 +276,11 @@ namespace Yuyuyui.PrivateServer
                 public bool leader { get; set; }
                 public FriendType friend_type { get; set; }
 
-                public static BattleCardData GetFromUnit(CardsContext cardsDb, AccessoriesContext accessoriesDb, CharactersContext charactersDb,
-                    PlayerProfile player, Unit unit, int order, bool leader, FriendType friendType)
+                public static BattleCardData GetFromUnit(PlayerProfile player, Unit unit, int order, bool leader,
+                    FriendType friendType)
                 {
                     Card baseCard = Card.Load(unit.baseCardID!.Value);
-                    var masterCard = baseCard.MasterData(cardsDb);
+                    var masterCard = baseCard.MasterData();
                     Card? support = unit.supportCardID == null ? null : Card.Load(unit.supportCardID.Value);
                     Card? support2 = unit.supportCard2ID == null ? null : Card.Load(unit.supportCard2ID.Value);
                     Card? assist = unit.assistCardID == null ? null : Card.Load(unit.assistCardID.Value);
@@ -287,21 +288,21 @@ namespace Yuyuyui.PrivateServer
                     var result = new BattleCardData
                     {
                         id = unit.id,
-                        base_info = CardBaseInfo.GetFromCard(cardsDb, baseCard),
-                        supporter = GetFromCard(cardsDb, support),
-                        supporter_2 = GetFromCard(cardsDb, support2),
-                        assist = GetFromCard(cardsDb, assist),
+                        base_info = CardBaseInfo.GetFromCard(baseCard),
+                        supporter = GetFromCard(support),
+                        supporter_2 = GetFromCard(support2),
+                        assist = GetFromCard(assist),
                         order = order,
                         active_skill = new() { id = masterCard.ActiveSkillId!.Value, level = baseCard.active_skill_level },
                         accessories = unit.accessories
-                            .Select(id => Accessory.GetFromUserAccessoryId(accessoriesDb, id))
+                            .Select(Accessory.GetFromUserAccessoryId)
                             .ToList(),
-                        hp = unit.GetHP(cardsDb, charactersDb, player),
+                        hp = unit.GetHP(player),
                         leader = leader,
                         friend_type = friendType
                     };
                     
-                    result.FillFromCard(cardsDb, baseCard);
+                    result.FillFromCard(baseCard);
 
                     return result;
                 }
@@ -327,9 +328,9 @@ namespace Yuyuyui.PrivateServer
                 public long master_id { get; set; }
                 public AttackType attack_type { get; set; }
 
-                public static CardBaseInfo GetFromCard(CardsContext cardDb, Card card)
+                public static CardBaseInfo GetFromCard(Card card)
                 {
-                    var masterCard = card.MasterData(cardDb);
+                    var masterCard = card.MasterData();
 
                     float growthValue = GrowthKind.GetValue(masterCard.GrowthKind);
 
@@ -374,11 +375,11 @@ namespace Yuyuyui.PrivateServer
                 public CardBaseInfo base_info { get; set; } = new();
                 public List<SkillInfo> passive_skills { get; set; } = new();
 
-                public void FillFromCard(CardsContext cardDb, Card card)
+                public void FillFromCard(Card card)
                 {
-                    var masterCard = card.MasterData(cardDb);
+                    var masterCard = card.MasterData();
 
-                    base_info = CardBaseInfo.GetFromCard(cardDb, card);
+                    base_info = CardBaseInfo.GetFromCard(card);
                     passive_skills = new List<long?> { masterCard.SupportSkill1Id, masterCard.SupportSkill2Id }
                         .Where(id => id != null)
                         .Select(id => id!.Value)
@@ -386,12 +387,12 @@ namespace Yuyuyui.PrivateServer
                         .ToList();
                 }
 
-                public static object GetFromCard(CardsContext cardDb, Card? card)
+                public static object GetFromCard(Card? card)
                 {
                     if (card == null) return new();
 
                     var result = new SubCardData();
-                    result.FillFromCard(cardDb, card);
+                    result.FillFromCard(card);
                     return result;
                 }
             }
@@ -401,10 +402,10 @@ namespace Yuyuyui.PrivateServer
                 public long master_id { get; set; }
                 public SkillInfo passive_skill { get; set; } = new();
 
-                public static Accessory GetFromUserAccessoryId(AccessoriesContext accessoriesDb, long id)
+                public static Accessory GetFromUserAccessoryId(long id)
                 {
                     var accessory = Yuyuyui.PrivateServer.Accessory.Load(id);
-                    var masterData = accessory.MasterData(accessoriesDb);
+                    var masterData = accessory.MasterData();
 
                     return new()
                     {
@@ -429,11 +430,11 @@ namespace Yuyuyui.PrivateServer
                 [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
                 public long? id { get; set; } = null;
 
-                public static LeaderSkillInfo FromUnit(CardsContext cardDb, Unit? unit)
+                public static LeaderSkillInfo FromUnit(Unit? unit)
                 {
                     if (unit == null) return new();
                     var baseCard = unit.GetCard();
-                    var masterCard = baseCard!.MasterData(cardDb);
+                    var masterCard = baseCard!.MasterData();
 
                     return new()
                     {

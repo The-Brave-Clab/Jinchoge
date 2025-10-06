@@ -22,15 +22,19 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            using var itemsDb = new ItemsContext();
-
             Response responseObj;
 
             if (Config.Get().InGame.InfiniteItems)
             {
+                List<EnhancementItem> enhancementItems;
+                using (ItemsContext itemsDb = new())
+                {
+                    enhancementItems = itemsDb.EnhancementItems.ToList();
+                }
+
                 responseObj = new()
                 {
-                    enhancement_items = itemsDb.EnhancementItems
+                    enhancement_items = enhancementItems
                         .Select(masterData => new Response.EnhancementItem
                         {
                             id = masterData.Id,
@@ -56,8 +60,12 @@ namespace Yuyuyui.PrivateServer
                     enhancement_items = player.items.enhancement
                         .Select(p =>
                         {
-                            EnhancementItem masterData = 
-                                itemsDb.EnhancementItems.First(m => m.Id == p.Key);
+                            EnhancementItem masterData;
+                            using (ItemsContext itemsDb = new())
+                            {
+                                masterData = itemsDb.EnhancementItems.First(m => m.Id == p.Key);
+                            }
+
                             Item userItem = Item.Load(p.Value);
                             return new Response.EnhancementItem
                             {

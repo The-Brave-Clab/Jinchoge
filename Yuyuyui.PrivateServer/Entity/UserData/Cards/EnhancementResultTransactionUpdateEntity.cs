@@ -35,10 +35,6 @@ namespace Yuyuyui.PrivateServer
 
             // Validate here?
 
-            using var enhancementDb = new EnhancementContext();
-            using var itemsDb = new ItemsContext();
-            using var cardsDb = new CardsContext();
-
             // the target card data
             Card userCard = Card.Load(cardId);
             // the use item data
@@ -46,6 +42,7 @@ namespace Yuyuyui.PrivateServer
             if (infiniteItems)
             {
                 // in infinite items mode, the id and the master_id are the same
+                using ItemsContext itemsDb = new();
                 usedItem = itemsDb.EnhancementItems
                     .First(i => i.Id == transaction.createdWith.enhancement_item.id);
             }
@@ -55,15 +52,22 @@ namespace Yuyuyui.PrivateServer
                 // cost the item
                 userItem.quantity -= transaction.createdWith.enhancement_item.quantity;
                 userItem.Save();
+                using ItemsContext itemsDb = new();
                 usedItem = itemsDb.EnhancementItems
                     .First(i => i.Id == userItem.master_id);
             }
 
             // first, we pick a cooking character
-            var masterCard = userCard.MasterData(cardsDb);
+            var masterCard = userCard.MasterData();
             long targetCharacterId = masterCard.CharacterId;
-            var cookingCharacterDataSource = enhancementDb.NoodleCookingCharacters
-                .Where(c => c.TargetCharacterId == targetCharacterId); // this won't be empty at all
+            List<NoodleCookingCharacter> cookingCharacterDataSource;
+            using (EnhancementContext enhancementDb = new())
+            {
+                cookingCharacterDataSource = enhancementDb.NoodleCookingCharacters
+                    .Where(c => c.TargetCharacterId == targetCharacterId) // this won't be empty at all
+                    .ToList();
+            }
+
             NoodleCookingCharacter cookingCharacterData;
             long cookingCharacterId;
             if (usedItem.AvailableCharacterId1 != null && usedItem.AvailableCharacterId2 != null)
@@ -90,15 +94,18 @@ namespace Yuyuyui.PrivateServer
                 cookingCharacterData.CookingCharacterId, cookingCharacterData.TargetCharacterId));
 
             // this is the result cooking data
-            NoodleCooking cookingData =
-                enhancementDb.NoodleCookings
-                    .Where(c => c.EnhancementItemId == usedItem.Id)
-                    .FirstOrDefault(c =>
-                        c.CharacterId == cookingCharacterData.CookingCharacterId) ??
-                // if it is null, it's a character specific udon
-                // we just pick one from the database since this criteria result in the same result
-                enhancementDb.NoodleCookings
-                    .First(c => c.CharacterId == cookingCharacterId);
+            NoodleCooking cookingData;
+            using (EnhancementContext enhancementDb = new())
+            {
+                cookingData = enhancementDb.NoodleCookings
+                                  .Where(c => c.EnhancementItemId == usedItem.Id)
+                                  .FirstOrDefault(c =>
+                                      c.CharacterId == cookingCharacterData.CookingCharacterId) ??
+                              // if it is null, it's a character specific udon
+                              // we just pick one from the database since this criteria result in the same result
+                              enhancementDb.NoodleCookings
+                                  .First(c => c.CharacterId == cookingCharacterId);
+            }
             
             // next, we check if this is a big hit
             bool bigHit = Utils.ProbabilityCheck(cookingData.SpecialHitPercent / 100.0f);
@@ -108,18 +115,20 @@ namespace Yuyuyui.PrivateServer
 
             // get the used udon pack
             long noodleId = bigHit ? cookingData.SpecialNoodleId : cookingData.NoodleId;
-            Noodle noodleData = enhancementDb.Noodles
-                .First(n => n.Id == noodleId);
+            Noodle noodleData;
+            using (EnhancementContext enhancementDb = new())
+            {
+                noodleData = enhancementDb.Noodles
+                    .First(n => n.Id == noodleId);
+            }
 
             // calculate the stats
             // exp & level
             long gotExp = usedItem.Exp * noodleData.ExpCoefficient * transaction.createdWith.enhancement_item.quantity;
-            userCard.GainExp(cardsDb, gotExp);
+            userCard.GainExp(gotExp);
 
             // active skill
-            using var skillsDb = new SkillsContext();
             float activeSkillLevelUpProbability = CalcUtil.CalcActiveEnhancementChance(
-                skillsDb,
                 usedItem,
                 masterCard.ActiveSkillId ?? 0,
                 userCard.active_skill_level,
@@ -132,7 +141,6 @@ namespace Yuyuyui.PrivateServer
             
             // Overall Support Skill
             float supportSkillLevelUpProbability = CalcUtil.CalcSupportEnhancementChance(
-                skillsDb,
                 usedItem,
                 masterCard.SupportSkill1Id ?? 0,
                 usedItem.SupportSkillLevelCategory,
@@ -148,16 +156,15 @@ namespace Yuyuyui.PrivateServer
             CharacterFamiliarityWithAssist familiarity = player.GetCharacterFamiliarity(cookingCharacterData.CookingCharacterId,
                 cookingCharacterData.TargetCharacterId);
 
-            var gotFamiliarity = CharacterFamiliarityWithAssist.GetEnhancement(usedItem.Id) *
+            var gotFamiliarity = CharacterFamiliarity.GetEnhancement(usedItem.Id) *
                                  noodleData.ExpCoefficient *
                                  transaction.createdWith.enhancement_item.quantity;
             var gotAssistLevel = usedItem.AssistLevelPotential *
                                  noodleData.ExpCoefficient *
                                  transaction.createdWith.enhancement_item.quantity;
 
-            CharacterFamiliarityChangeWithAssist familiarityChange;
-            using (var charactersDb = new CharactersContext())
-                familiarityChange = familiarity.UpdateAndGetChange(charactersDb, gotFamiliarity, gotAssistLevel);
+            CharacterFamiliarityChangeWithAssist familiarityChange =
+                familiarity.UpdateAndGetChange(gotFamiliarity, gotAssistLevel);
 
             // finally, update the user data for card and character familiarity
             if (activeSkillLevelUp)
@@ -184,14 +191,14 @@ namespace Yuyuyui.PrivateServer
                 player.Save();
             }
 
-            IList<int> resultTitleItems = player.EnsureEligibleCardTitle(cardsDb, itemsDb);
+            IList<int> resultTitleItems = player.EnsureEligibleCardTitle();
             player.Save();
 
             Response responseObj = new()
             {
                 card_enhancement = new()
                 {
-                    card = CardsEntity.Card.FromPlayerCardData(cardsDb, userCard),
+                    card = CardsEntity.Card.FromPlayerCardData(userCard),
                     big_hit = bigHit,
                     noodle_master_id = noodleId,
                     cooking_character_master_id = cookingCharacterData.CookingCharacterId,

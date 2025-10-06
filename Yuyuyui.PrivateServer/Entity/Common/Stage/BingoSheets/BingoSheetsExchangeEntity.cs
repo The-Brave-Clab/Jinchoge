@@ -23,24 +23,30 @@ namespace Yuyuyui.PrivateServer
             long bingoSheetId = long.Parse(GetPathParameter("bingo_sheet_id")); // ignored
 
             Request request = Deserialize<Request>(requestBody)!;
-            Response responseObj;
-            using (var cartoonsDb = new CartoonsContext())
-                responseObj = new()
+
+            List<BingoSquare> bingoSquares;
+            using (CartoonsContext cartoonsDb = new())
+            {
+                bingoSquares = cartoonsDb.BingoSquares
+                    .Where(s => s.BingoSheetId == request.bingoSheetId) // unnecessary
+                    .ToList();
+            }
+
+            Response responseObj = new()
+            {
+                reward_items = new List<int>(),
+                completion_reward_items = new List<int>(),
+                sheet = new()
                 {
-                    reward_items = new List<int>(),
-                    completion_reward_items = new List<int>(),
-                    sheet = new()
-                    {
-                        open_bingo_squares = new List<Response.BingoSquare>(),
-                        opened_bingo_squares = cartoonsDb.BingoSquares
-                            .Where(s => s.BingoSheetId == request.bingoSheetId) // unnecessary
-                            .Select(s => new Response.BingoSquare { id = s.Id })
-                            .ToList(),
-                        required_item_quantity = 16, // fixed?
-                        current_item_quantity = null, // unknown
-                        lap_count = 0 // unknown
-                    }
-                };
+                    open_bingo_squares = new List<Response.BingoSquare>(),
+                    opened_bingo_squares = bingoSquares
+                        .Select(s => new Response.BingoSquare { id = s.Id })
+                        .ToList(),
+                    required_item_quantity = 16, // fixed?
+                    current_item_quantity = null, // unknown
+                    lap_count = 0 // unknown
+                }
+            };
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();

@@ -22,11 +22,9 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            using var gachasDb = new GachasContext();
-
             Response responseObj = new()
             {
-                gachas = GetCurrentActiveGachas(gachasDb, player).Select(g => new GachaProductData
+                gachas = GetCurrentActiveGachas(player).Select(g => new GachaProductData
                 {
                     id = g.Id,
                     name = g.Name,
@@ -35,7 +33,7 @@ namespace Yuyuyui.PrivateServer
                     banner_id = g.Kind switch { 0 => 10080, 1 => 1, _ => g.Id },
                     start_at = g.StartAt.ToUnixTime(),
                     end_at = g.EndAt.ToUnixTime(),
-                    lineups = GetGachaLineups(gachasDb, g), // It seems that the client doesn't respect this
+                    lineups = GetGachaLineups(g), // It seems that the client doesn't respect this
                     detail_url = "", // TODO
                     caution_url = "", // TODO
                     pickup_content = GetFirstPickupContent(g),
@@ -60,7 +58,7 @@ namespace Yuyuyui.PrivateServer
             return Task.CompletedTask;
         }
 
-        public static IEnumerable<Gacha> GetCurrentActiveGachas(GachasContext gachasDb, PlayerProfile player)
+        public static IEnumerable<Gacha> GetCurrentActiveGachas(PlayerProfile player)
         {
             // var currentTime = DateTime.UtcNow;
             //
@@ -71,14 +69,18 @@ namespace Yuyuyui.PrivateServer
 
             return new List<Gacha>
             {
-                GetCommonGacha(gachasDb),
-                GetFriendGacha(gachasDb)
+                GetCommonGacha(),
+                GetFriendGacha()
             };
         }
 
-        private static Gacha GetCommonGacha(GachasContext gachasDb)
+        private static Gacha GetCommonGacha()
         {
-            var commonGacha = gachasDb.Gachas.ToList()
+            List<Gacha> gachaList;
+            using (GachasContext gachasDb = new())
+                gachaList = gachasDb.Gachas.ToList();
+
+            var commonGacha = gachaList
                 .Where(g => g.Kind == 0) // common gacha
                 .MaxBy(g => g.EndAt.ToDateTime());
             commonGacha!.Name = "Private Server 勇者ガチャ";
@@ -87,20 +89,31 @@ namespace Yuyuyui.PrivateServer
             return commonGacha;
         }
 
-        private static Gacha GetFriendGacha(GachasContext gachasDb)
+        private static Gacha GetFriendGacha()
         {
-            var friendGacha = gachasDb.Gachas.ToList()
+            List<Gacha> gachaList;
+            using (GachasContext gachasDb = new())
+                gachaList = gachasDb.Gachas.ToList();
+
+            var friendGacha = gachaList
                 .Where(g => g.Kind == 1) // friend gacha
                 .MaxBy(g => g.EndAt.ToDateTime());
             friendGacha!.Name = "Private Server " + friendGacha.Name;
             return friendGacha;
         }
 
-        private List<GachaProductData.Lineup> GetGachaLineups(GachasContext gachasDb, Gacha gacha)
+        private List<GachaProductData.Lineup> GetGachaLineups(Gacha gacha)
         {
-            var lineups = gachasDb.GachaLineups
-                .Where(l => l.GachaId == gacha.Id)
-                .Where(l => l.Sp == 1) // We only need those on Smart Phone
+            List<GachaLineup> phoneLineups;
+            using (GachasContext gachasDb = new())
+            {
+                phoneLineups = gachasDb.GachaLineups
+                    .Where(l => l.GachaId == gacha.Id)
+                    .Where(l => l.Sp == 1) // We only need those on Smart Phone
+                    .ToList();
+            }
+
+            var lineups = phoneLineups
                 .Select(l =>
                     new GachaProductData.Lineup
                     {
@@ -115,7 +128,8 @@ namespace Yuyuyui.PrivateServer
                         played_count = null, // TODO
                         has_bonus = false, // TODO
                         bonus_description = null // TODO
-                    }).ToList();
+                    })
+                .ToList();
             return lineups;
         }
 

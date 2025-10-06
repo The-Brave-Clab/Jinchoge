@@ -43,12 +43,11 @@ namespace Yuyuyui.PrivateServer
 
             // Utils.LogWarning("Taisha point bonus not applied!");
 
-            using var cardsDb = new CardsContext();
             Response responseObj = new()
             {
                 cards = player.cards
                     .Select(p => p.Value)
-                    .ToDictionary(c => c, c => Card.FromPlayerCardData(cardsDb, c))
+                    .ToDictionary(c => c, c => Card.FromPlayerCardData(c))
             };
 
             responseBody = Serialize(responseObj);
@@ -85,15 +84,14 @@ namespace Yuyuyui.PrivateServer
             public int support_point { get; set; }
             public float exchange_point_rate { get; set; } // 0.0, 1.0, 2.0, 3.0, 5.0
 
-            public static Card FromPlayerCardData(CardsContext cardsDb, long userCardId)
+            public static Card FromPlayerCardData(long userCardId)
             {
-                return FromPlayerCardData(cardsDb, Yuyuyui.PrivateServer.Card.Load(userCardId));
+                return FromPlayerCardData(Yuyuyui.PrivateServer.Card.Load(userCardId));
             }
 
-            public static Card FromPlayerCardData(CardsContext cardsDb,
-                Yuyuyui.PrivateServer.Card userCard)
+            public static Card FromPlayerCardData(Yuyuyui.PrivateServer.Card userCard)
             {
-                DataModel.Card masterCard = userCard.MasterData(cardsDb);
+                DataModel.Card masterCard = userCard.MasterData();
                 float growthValue = GrowthKind.GetValue(masterCard.GrowthKind);
 
                 return new()

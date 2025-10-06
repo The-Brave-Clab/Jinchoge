@@ -72,16 +72,16 @@ namespace Yuyuyui.PrivateServer
             };
         }
 
-        public void GainExp(CardsContext cardsDb, long gotExp)
+        public void GainExp(long gotExp)
         {
-            var masterCard = MasterData(cardsDb);
+            var masterCard = MasterData();
             long newExpUncapped = exp + gotExp;
-            CardLevel newLevelUncapped = CalcUtil.GetLevelFromExp(cardsDb, masterCard.LevelCategory, newExpUncapped);
+            CardLevel newLevelUncapped = CalcUtil.GetLevelFromExp(masterCard.LevelCategory, newExpUncapped);
             bool expOverflow = newLevelUncapped.Level >= masterCard.MaxLevel;
             int newLevel = expOverflow ? masterCard.MaxLevel : newLevelUncapped.Level;
             long newExp = expOverflow
                 // default value only for casting from nullable, won't be used at all by theory
-                ? CalcUtil.GetExpFromLevel(cardsDb, masterCard.LevelCategory, newLevel - 1).MaxExp + 1 ?? 0
+                ? CalcUtil.GetExpFromLevel(masterCard.LevelCategory, newLevel - 1).MaxExp + 1 ?? 0
                 : newExpUncapped;
             exp = newExp;
             level = newLevel;
@@ -122,14 +122,15 @@ namespace Yuyuyui.PrivateServer
             return unit;
         }
 
-        public DataModel.Card MasterData(CardsContext cardDb)
+        public DataModel.Card MasterData()
         {
+            using CardsContext cardDb = new();
             return cardDb.Cards.First(c => c.Id == master_id);
         }
 
-        public int GetHitPoint(CardsContext cardsDb)
+        public int GetHitPoint()
         {
-            DataModel.Card masterCard = MasterData(cardsDb);
+            DataModel.Card masterCard = MasterData();
             float growthValue = GrowthKind.GetValue(masterCard.GrowthKind);
             return CalcUtil.CalcHitPointByLevel(
                 level, masterCard.MinLevel, masterCard.MaxLevel,
@@ -137,9 +138,9 @@ namespace Yuyuyui.PrivateServer
                 potential, masterCard.LevelMaxHitPointBonus, masterCard.PotentialHitPointArgument);
         }
 
-        public int GetAttack(CardsContext cardsDb)
+        public int GetAttack()
         {
-            DataModel.Card masterCard = MasterData(cardsDb);
+            DataModel.Card masterCard = MasterData();
             float growthValue = GrowthKind.GetValue(masterCard.GrowthKind);
             return CalcUtil.CalcAttackByLevel(
                 level, masterCard.MinLevel, masterCard.MaxLevel,
@@ -185,10 +186,10 @@ namespace Yuyuyui.PrivateServer
             return Card.Load(user_card_id);
         }
 
-        public Dictionary<string, long> ToDict(CardsContext cardsDb)
+        public Dictionary<string, long> ToDict()
         {
             Card userCard = GetCard();
-            DataModel.Card masterCard = userCard.MasterData(cardsDb);
+            DataModel.Card masterCard = userCard.MasterData();
             float growthValue = GrowthKind.GetValue(masterCard.GrowthKind);
             
             return new Dictionary<string, long>

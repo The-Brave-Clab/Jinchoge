@@ -30,16 +30,11 @@ namespace Yuyuyui.PrivateServer
             friendRequest.status = requestObj.fellow_request.status;
             friendRequest.ProcessStatus(); // should ultimately delete the request file
 
-            Response responseObj;
-            using (var cardsDb = new CardsContext())
-            using (var charactersDb = new CharactersContext())
+            Response responseObj = new()
             {
-                responseObj = new()
-                {
-                    fellow_request =
-                        FellowRequestEntity.Response.Data.FromFriendRequest(cardsDb, charactersDb, friendRequest)
-                };
-            }
+                fellow_request =
+                    FellowRequestEntity.Response.Data.FromFriendRequest(friendRequest)
+            };
             
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();

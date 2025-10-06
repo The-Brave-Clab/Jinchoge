@@ -25,12 +25,10 @@ public class ExchangeItemUpdateEntity : BaseEntity<ExchangeItemUpdateEntity>
         Request exchangeBoothRequest = Deserialize<Request>(requestBody)!;
         long exchangeItemId = exchangeBoothRequest.exchange_booth_item_id;
 
-        ExchangeProductData? cardProduct;
-        using (var cardsDb = new CardsContext())
-            cardProduct =
-                ExchangeItemListEntity.GetInitExchangeItemResponse(cardsDb).exchange.products.Values
-                    .Where(product => product.item_category == 1) // cards
-                    .FirstOrDefault(product => product.id == exchangeItemId);
+        ExchangeProductData? cardProduct =
+            ExchangeItemListEntity.GetInitExchangeItemResponse().exchange.products.Values
+                .Where(product => product.item_category == 1) // cards
+                .FirstOrDefault(product => product.id == exchangeItemId);
 
         if (cardProduct == null)
         {
@@ -41,9 +39,7 @@ public class ExchangeItemUpdateEntity : BaseEntity<ExchangeItemUpdateEntity>
         long masterCardId = cardProduct.master_id;
         int potentialCount = exchangeBoothRequest.count;
         
-        using (var cardsDb = new CardsContext())
-        using (var itemsDb = new ItemsContext())
-            player.GrantCard(masterCardId, potentialCount, cardsDb, itemsDb);
+        player.GrantCard(masterCardId, potentialCount);
 
         Response currentResponse = new Response
         {

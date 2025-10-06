@@ -25,10 +25,15 @@ namespace Yuyuyui.PrivateServer
             Response responseObj;
             if (Config.Get().InGame.InfiniteItems)
             {
-                using var eventDb = new EventStoriesContext();
+                List<EventItem> eventItems;
+                using (EventStoriesContext eventDb = new())
+                {
+                    eventItems = eventDb.EventItems.ToList();
+                }
+
                 responseObj = new()
                 {
-                    event_items = eventDb.EventItems
+                    event_items = eventItems
                         .Select(i => new Item
                         {
                             id = i.Id,

@@ -22,7 +22,6 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            using var questsDb = new QuestsContext();
             Response responseObj = GetBingoSheets();
 
             responseBody = Serialize(responseObj);
@@ -35,14 +34,18 @@ namespace Yuyuyui.PrivateServer
         {
             // var player = GetPlayerFromCookies();
 
-            using var cartoonsDb = new CartoonsContext();
-                
+            List<long> cartoonIds;
+            using (CartoonsContext cartoonsDb = new())
+            {
+                cartoonIds = cartoonsDb.BingoSheets.Select(s => s.Id).ToList();
+            }
+
             Response response = new()
             {
-                bingo_sheets = cartoonsDb.BingoSheets
-                    .ToDictionary(s => $"{s.Id}", s => new Response.BingoSheet
+                bingo_sheets = cartoonIds
+                    .ToDictionary(id => $"{id}", id => new Response.BingoSheet
                     {
-                        bingo_sheet_id = s.Id,
+                        bingo_sheet_id = id,
                         is_openable = true,
                         is_card_gettable = false
                     })

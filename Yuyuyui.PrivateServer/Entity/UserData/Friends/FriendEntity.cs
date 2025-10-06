@@ -22,18 +22,12 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            Response responseObj;
-            using (var cardsDb = new CardsContext())
-            using (var charactersDb = new CharactersContext())
+            Response responseObj = new()
             {
-                responseObj = new()
-                {
-                    fellowships = player.friends
-                        .Select(PlayerProfile.Load)
-                        .ToDictionary(p => p.id.code,
-                            p => UserInfoEntity.Response.User.FromPlayerProfile(cardsDb, charactersDb, p))
-                };
-            }
+                fellowships = player.friends
+                    .Select(PlayerProfile.Load)
+                    .ToDictionary(p => p.id.code, UserInfoEntity.Response.User.FromPlayerProfile)
+            };
             
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();

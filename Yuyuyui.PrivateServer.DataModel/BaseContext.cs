@@ -9,11 +9,11 @@ namespace Yuyuyui.PrivateServer.DataModel
     public abstract class BaseContext<TSelf> : DbContext
         where TSelf : BaseContext<TSelf>
     {
-        public BaseContext()
+        protected BaseContext()
         {
         }
 
-        public BaseContext(DbContextOptions<TSelf> options)
+        protected BaseContext(DbContextOptions<TSelf> options)
             : base(options)
         {
         }
@@ -26,6 +26,8 @@ namespace Yuyuyui.PrivateServer.DataModel
             {
                 var path = Path.Combine(Config.BaseDir, $"{DatabaseFileName}.db.compress");
                 optionsBuilder.UseSqlite($"Data Source={path}");
+                // We only do read operations, so no need to track changes
+                optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }
         }
     }

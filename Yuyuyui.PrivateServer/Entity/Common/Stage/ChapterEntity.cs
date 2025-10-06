@@ -22,8 +22,7 @@ namespace Yuyuyui.PrivateServer
         {
             var player = GetPlayerFromCookies();
 
-            using var questsDb = new QuestsContext();
-            Response responseObj = GetChapters(questsDb);
+            Response responseObj = GetChapters();
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
@@ -31,15 +30,21 @@ namespace Yuyuyui.PrivateServer
             return Task.CompletedTask;
         }
 
-        protected virtual Response GetChapters(QuestsContext questsDb)
+        protected virtual Response GetChapters()
         {
             var player = GetPlayerFromCookies();
             
             // Utils.LogWarning("Locked status not filled!");
+
+            List<Chapter> chapters;
+            using (QuestsContext questsDb = new())
+            {
+                chapters = questsDb.Chapters.ToList();
+            }
                 
             Response response = new()
             {
-                chapters = questsDb.Chapters
+                chapters = chapters
                     .Select(c => Response.Chapter.GetFromDatabase(c, player))
                     .ToDictionary(c => c.id, c => c)
             };
@@ -82,10 +87,10 @@ namespace Yuyuyui.PrivateServer
                         available_user_level = 0 // TODO
                     };
 
-                    if (player.progress.chapters.ContainsKey(dbChapter.Id))
+                    if (player.progress.chapters.TryGetValue(dbChapter.Id, out var chapter))
                     {
                         result.new_released = false;
-                        result.completed = ChapterProgress.Load(player.progress.chapters[dbChapter.Id]).finished;
+                        result.completed = ChapterProgress.Load(chapter).finished;
                     }
                     else
                     {

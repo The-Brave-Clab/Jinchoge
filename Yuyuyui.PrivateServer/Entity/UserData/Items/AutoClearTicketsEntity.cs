@@ -25,7 +25,7 @@ namespace Yuyuyui.PrivateServer
             Response responseObj;
             if (Config.Get().InGame.InfiniteItems)
             {
-                using var itemsDb = new ItemsContext();
+                using ItemsContext itemsDb = new();
                 responseObj = new()
                 {
                     tickets = itemsDb.AutoClearTickets

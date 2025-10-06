@@ -25,10 +25,15 @@ namespace Yuyuyui.PrivateServer
             Response responseObj;
             if (Config.Get().InGame.InfiniteItems)
             {
-                using var itemsDb = new ItemsContext();
+                List<EvolutionItem> evolutionItems;
+                using (ItemsContext itemsDb = new())
+                {
+                    evolutionItems = itemsDb.EvolutionItems.ToList();
+                }
+
                 responseObj = new()
                 {
-                    evolution_items = itemsDb.EvolutionItems
+                    evolution_items = evolutionItems
                         .Select(t => new Item
                         {
                             id = t.Id,

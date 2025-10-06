@@ -30,12 +30,17 @@ namespace Yuyuyui.PrivateServer
             QuestTransaction transaction = QuestTransaction.Load(transactionId);
             
             // Validate here?
-            
-            using var questsDb = new QuestsContext();
 
-            var dbStage = questsDb.Stages.First(s => s.Id == transaction.stageId);
-            var dbEpisode = questsDb.Episodes.First(e => e.Id == dbStage.EpisodeId);
-            var dbChapter = questsDb.Chapters.First(c => c.Id == dbEpisode.ChapterId);
+            Stage dbStage;
+            Episode dbEpisode;
+            Chapter dbChapter;
+
+            using (QuestsContext questsDb = new())
+            {
+                dbStage = questsDb.Stages.First(s => s.Id == transaction.stageId);
+                dbEpisode = questsDb.Episodes.First(e => e.Id == dbStage.EpisodeId);
+                dbChapter = questsDb.Chapters.First(c => c.Id == dbEpisode.ChapterId);
+            }
 
             var stageProgress = StageProgress.GetOrCreate(player, dbStage.Id);
             var episodeProgress = EpisodeProgress.GetOrCreate(player, dbEpisode.Id);
@@ -72,8 +77,6 @@ namespace Yuyuyui.PrivateServer
             {
                 responseObj.title_items = new List<int>(); // TODO
 
-                using var cardsDb = new CardsContext();
-
                 // fill in the battle result
                 Deck deck = Deck.Load(transaction.createdWith.using_deck_id!.Value); // This will not be null if battle
                 responseObj.battle_result.deck = new()
@@ -87,23 +90,22 @@ namespace Yuyuyui.PrivateServer
 
                     // fill in the deck
                     responseObj.battle_result.deck.cards.Add(
-                        Response.BattleResult.Deck.CardDataWithSupport.UpdateUnitAndGetData(cardsDb, unit, 
+                        Response.BattleResult.Deck.CardDataWithSupport.UpdateUnitAndGetData(unit, 
                             dbStage.CardExp * rankInfo.rank)); // TODO: rank calculation
 
                     // fill in the character familiarities
-                    using var charactersDb = new CharactersContext();
                     if (unit.baseCardID != null && unit.supportCardID != null)
                     {
                         var baseCard = Card.Load(unit.baseCardID!.Value);
                         var supportCard = Card.Load(unit.supportCardID!.Value);
-                        var baseMasterData = baseCard.MasterData(cardsDb);
-                        var supportMasterData = supportCard.MasterData(cardsDb);
+                        var baseMasterData = baseCard.MasterData();
+                        var supportMasterData = supportCard.MasterData();
 
                         var familiarity =
                             player.GetCharacterFamiliarity(baseMasterData.CharacterId, supportMasterData.CharacterId);
                         var gotFamiliarity = dbStage.Familiarity * rankInfo.rank; // TODO: familiarity calculation
 
-                        var familiarityChange = familiarity.UpdateAndGetChange(charactersDb, gotFamiliarity);
+                        var familiarityChange = familiarity.UpdateAndGetChange(gotFamiliarity);
                         responseObj.battle_result.familiarities.Add(familiarityChange);
                     }
                     
@@ -234,23 +236,23 @@ namespace Yuyuyui.PrivateServer
                         public long before_exp { get; set; }
                         public int before_level { get; set; }
 
-                        public void UpdateCardAndFillData(CardsContext cardsDb, Card card, long gainedExp)
+                        public void UpdateCardAndFillData(Card card, long gainedExp)
                         {
                             user_card_id = card.id;
                             master_id = card.master_id;
                             before_exp = card.exp;
                             before_level = card.level;
-                            card.GainExp(cardsDb, gainedExp);
+                            card.GainExp(gainedExp);
                             exp = card.exp;
                             level = card.level;
                             
                             card.Save();
                         }
 
-                        public static CardData UpdateCardAndGetData(CardsContext cardsDb, Card card, long gainedExp)
+                        public static CardData UpdateCardAndGetData(Card card, long gainedExp)
                         {
                             CardData result = new();
-                            result.UpdateCardAndFillData(cardsDb, card, gainedExp);
+                            result.UpdateCardAndFillData(card, gainedExp);
                             return result;
                         }
                     }
@@ -261,20 +263,20 @@ namespace Yuyuyui.PrivateServer
                         public object support { get; set; } = new(); // CardData
                         public object support_2 { get; set; } = new(); // CardData
 
-                        public static CardDataWithSupport UpdateUnitAndGetData(CardsContext cardsDb, Unit unit, long gainedExp)
+                        public static CardDataWithSupport UpdateUnitAndGetData(Unit unit, long gainedExp)
                         {
                             CardDataWithSupport result = new() { id = unit.id };
                             var baseCard = Card.Load(unit.baseCardID!.Value);
-                            result.UpdateCardAndFillData(cardsDb, baseCard, gainedExp);
+                            result.UpdateCardAndFillData(baseCard, gainedExp);
                             if (unit.supportCardID != null)
                             {
                                 var card = Card.Load(unit.supportCardID!.Value);
-                                result.support = CardData.UpdateCardAndGetData(cardsDb, card, gainedExp);
+                                result.support = CardData.UpdateCardAndGetData(card, gainedExp);
                             }
                             if (unit.supportCard2ID != null)
                             {
                                 var card = Card.Load(unit.supportCard2ID!.Value);
-                                result.support_2 = CardData.UpdateCardAndGetData(cardsDb, card, gainedExp);
+                                result.support_2 = CardData.UpdateCardAndGetData(card, gainedExp);
                             }
 
                             return result;

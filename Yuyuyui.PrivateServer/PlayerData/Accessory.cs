@@ -37,8 +37,9 @@ namespace Yuyuyui.PrivateServer
             };
         }
 
-        public DataModel.Accessory MasterData(AccessoriesContext accessoriesDb)
+        public DataModel.Accessory MasterData()
         {
+            using AccessoriesContext accessoriesDb = new();
             return accessoriesDb.Accessories.First(c => c.Id == master_id);
         }
 

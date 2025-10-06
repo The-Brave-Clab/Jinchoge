@@ -44,25 +44,31 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
-                using var adventureBooksDb = new AdventureBooksContext();
-                
+                List<AdventureBook> watchable;
+                List<AdventureBook> unwachable;
+                using (AdventureBooksContext adventureBooksDb = new())
+                {
+                    watchable = adventureBooksDb.AdventureBooks
+                        .Where(b => true) // TODO
+                        .ToList();
+                    unwachable = adventureBooksDb.AdventureBooks
+                        .Where(b => false) // TODO
+                        .ToList();
+                }
+
                 GetResponse responseObj = new()
                 {
-                    watchable_adventure_books = 
-                        adventureBooksDb.AdventureBooks
-                            .Where(b => true) // TODO
-                            .Select(b => new AdventureBookStatus
-                            {
-                                id = b.Id,  // See the definition of id
-                                master_id = b.Id,
-                                watched = player.progress.adventureBooksRead.Contains(b.Id)
-                            })
-                            .ToDictionary(s => s.id, s => s),
-                    unwatchable_adventure_books = 
-                        adventureBooksDb.AdventureBooks
-                            .Where(b => false) // TODO
-                            .Select(b => b.Id)
-                            .ToList(),
+                    watchable_adventure_books = watchable
+                        .Select(b => new AdventureBookStatus
+                        {
+                            id = b.Id, // See the definition of id
+                            master_id = b.Id,
+                            watched = player.progress.adventureBooksRead.Contains(b.Id)
+                        })
+                        .ToDictionary(s => s.id, s => s),
+                    unwatchable_adventure_books = unwachable
+                        .Select(b => b.Id)
+                        .ToList(),
                     adventure_book_tickets = new List<GetResponse.AdventureBookTickets>
                     {
                         new()

@@ -24,14 +24,12 @@ public class GuestEntity : BaseEntity<GuestEntity>
 
         var dummyPlayer = PrivateServer.EnsureDummyPlayer();
 
-        using var cardsDb = new CardsContext();
-        using var accessoriesDb = new AccessoriesContext();
         var responseObj = new Response
         {
             supporters = new Dictionary<long, Response.SupporterData>
             {
-                { long.Parse(dummyPlayer.id.code), Response.SupporterData.FromPlayer(cardsDb, accessoriesDb, dummyPlayer) },
-                //{ long.Parse(player.id.code), Response.SupporterData.FromPlayer(cardsDb, accessoriesDb, player) },
+                { long.Parse(dummyPlayer.id.code), Response.SupporterData.FromPlayer(dummyPlayer) },
+                //{ long.Parse(player.id.code), Response.SupporterData.FromPlayer(player) },
             }
         };
 
@@ -67,14 +65,14 @@ public class GuestEntity : BaseEntity<GuestEntity>
                 public int evolution_level { get; set; } = 0;
                 public int level { get; set; } = 0;
 
-                public void UpdateWithUserCardId(CardsContext cardsDb, long? cardId)
+                public void UpdateWithUserCardId(long? cardId)
                 {
                     if (cardId == null) return;
                     if (!Card.Exists((long)cardId)) return;
                     var userCard = Card.Load((long)cardId);
 
-                    hit_point = userCard.GetHitPoint(cardsDb);
-                    attack = userCard.GetAttack(cardsDb);
+                    hit_point = userCard.GetHitPoint();
+                    attack = userCard.GetAttack();
                     user_card_id = userCard.id;
                     master_id = userCard.master_id;
                     potential = userCard.potential;
@@ -82,13 +80,13 @@ public class GuestEntity : BaseEntity<GuestEntity>
                     level = userCard.level;
                 }
 
-                public static object FromUserCardId(CardsContext cardsDb, long? cardId)
+                public static object FromUserCardId(long? cardId)
                 {
                     if (cardId == null) return new();
                     if (!Card.Exists((long)cardId)) return new();
 
                     var data = new CardData();
-                    data.UpdateWithUserCardId(cardsDb, (long)cardId);
+                    data.UpdateWithUserCardId((long)cardId);
                     return data;
                 }
             }
@@ -101,30 +99,27 @@ public class GuestEntity : BaseEntity<GuestEntity>
                 public object assist { get; set; } = new();
                 public List<AccessoryListEntity.Response.Accessory> accessories { get; set; } = new();
 
-                public static CardDataWithSupport FromDeck(CardsContext cardsDb, AccessoriesContext accessoriesDb,
-                    Deck deck)
+                public static CardDataWithSupport FromDeck(Deck deck)
                 {
                     Unit leaderUnit = Unit.Load(deck.leaderUnitID);
                     var data = new CardDataWithSupport()
                     {
                         id = leaderUnit.id,
-                        support = FromUserCardId(cardsDb, leaderUnit.supportCardID),
-                        support_2 = FromUserCardId(cardsDb, leaderUnit.supportCard2ID),
-                        assist = FromUserCardId(cardsDb, leaderUnit.assistCardID),
+                        support = FromUserCardId(leaderUnit.supportCardID),
+                        support_2 = FromUserCardId(leaderUnit.supportCard2ID),
+                        assist = FromUserCardId(leaderUnit.assistCardID),
                         accessories = leaderUnit.accessories
                             .Select(a =>
-                                AccessoryListEntity.Response.Accessory.FromPlayerAccessory(accessoriesDb,
-                                    Accessory.Load(a)))
+                                AccessoryListEntity.Response.Accessory.FromPlayerAccessory(Accessory.Load(a)))
                             .ToList()
                     };
-                    data.UpdateWithUserCardId(cardsDb, leaderUnit.baseCardID);
+                    data.UpdateWithUserCardId(leaderUnit.baseCardID);
 
                     return data;
                 }
             }
 
-            public static SupporterData FromPlayer(CardsContext cardsDb, AccessoriesContext accessoriesDb,
-                PlayerProfile player)
+            public static SupporterData FromPlayer(PlayerProfile player)
             {
                 return new()
                 {
@@ -136,7 +131,7 @@ public class GuestEntity : BaseEntity<GuestEntity>
                     friend_point = 20, // TODO
                     user_id = player.id.code,
                     title_item_id = player.data.titleItemID,
-                    leader_card = CardDataWithSupport.FromDeck(cardsDb, accessoriesDb, Deck.Load(player.decks[0]))
+                    leader_card = CardDataWithSupport.FromDeck(Deck.Load(player.decks[0]))
                 };
             }
         }

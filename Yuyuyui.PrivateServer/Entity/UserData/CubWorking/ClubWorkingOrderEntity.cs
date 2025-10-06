@@ -27,11 +27,17 @@ namespace Yuyuyui.PrivateServer
             Response responseObj;
             if (Config.Get().InGame.InfiniteItems)
             {
-                using var clubWorkingsDb = new ClubWorkingsContext();
+                List<DataModel.ClubOrder> clubOrders;
+                List<ClubOrderRewardBox> clubOrderRewardBoxes;
+                using (ClubWorkingsContext clubWorkingsDb = new())
+                {
+                    clubOrders = clubWorkingsDb.ClubOrders.ToList();
+                    clubOrderRewardBoxes = clubWorkingsDb.ClubOrderRewardBoxes.ToList();
+                }
+
                 responseObj = new()
                 {
-                    club_orders = clubWorkingsDb.ClubOrders
-                        .ToList()
+                    club_orders = clubOrders
                         .Select(o => new Response.ClubOrderWithReward
                             {
                                 id = o.Id,
@@ -45,7 +51,7 @@ namespace Yuyuyui.PrivateServer
                                     }
                                     .Where(id => id != null)
                                     .Select(id => (long)id!)
-                                    .Select(id => clubWorkingsDb.ClubOrderRewardBoxes.ToList().FirstOrDefault(box => box.Id == id))
+                                    .Select(id => clubOrderRewardBoxes.FirstOrDefault(box => box.Id == id))
                                     .Where(box => box != null)
                                     .Select(box => new ClubOrder.RewardBox
                                     {

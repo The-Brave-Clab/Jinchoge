@@ -22,9 +22,7 @@ public class ExchangeItemListEntity : BaseEntity<ExchangeItemListEntity>
     {
         //var player = GetPlayerFromCookies();
 
-        Response boothResponse;
-        using (var cardsDb = new CardsContext())
-            boothResponse = GetInitExchangeItemResponse(cardsDb);
+        Response boothResponse = GetInitExchangeItemResponse();
         
         // boothResponse.exchange.products.Values
         //     .Where(product => product.item_category == 1)
@@ -51,8 +49,14 @@ public class ExchangeItemListEntity : BaseEntity<ExchangeItemListEntity>
         }
     }
 
-    public static Response GetInitExchangeItemResponse(CardsContext cardsDb)
+    public static Response GetInitExchangeItemResponse()
     {
+        List<DataModel.Card> cardsList;
+        using (CardsContext cardsDb = new())
+        {
+            cardsList = cardsDb.Cards.ToList();
+        }
+
         return new()
         {
             exchange = new()
@@ -61,7 +65,7 @@ public class ExchangeItemListEntity : BaseEntity<ExchangeItemListEntity>
                 start_at = 1483228800,
                 end_at = 1893456000,
                 special_chapter_id = null,
-                products = cardsDb.Cards.ToList()
+                products = cardsList
                     .Where(c => c.Id == c.BaseCardId)
                     .Where(c => c.BaseCardId != 700010) // remove Akamine dummy
                     .Where(c => c.BaseCardId != 800100) // remove Washio test

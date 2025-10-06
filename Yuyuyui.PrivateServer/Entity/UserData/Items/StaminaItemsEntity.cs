@@ -25,10 +25,15 @@ namespace Yuyuyui.PrivateServer
             Response responseObj;
             if (Config.Get().InGame.InfiniteItems)
             {
-                using var itemsDb = new ItemsContext();
+                List<StaminaItem> staminaItems;
+                using (ItemsContext itemsDb = new())
+                {
+                    staminaItems = itemsDb.StaminaItems.ToList();
+                }
+
                 responseObj = new()
                 {
-                    stamina_items = itemsDb.StaminaItems
+                    stamina_items = staminaItems
                         .Select(t => new Item
                         {
                             id = t.Id,

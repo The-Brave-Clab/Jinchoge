@@ -26,11 +26,17 @@ namespace Yuyuyui.PrivateServer
 
             // Utils.LogWarning("Finished status not filled!");
 
-            using var questsDb = new QuestsContext();
-            Response responseObj = new()
+            List<Episode> episodes;
+            using (QuestsContext questsDb = new())
             {
                 episodes = questsDb.Episodes
                     .Where(e => e.ChapterId == chapterId)
+                    .ToList();
+            }
+
+            Response responseObj = new()
+            {
+                episodes = episodes
                     .Select(e => Response.Episode.GetFromDatabase(e, player))
                     .ToDictionary(e => e.id, e => e)
             };
