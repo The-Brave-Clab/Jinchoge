@@ -25,7 +25,7 @@ namespace Yuyuyui.PrivateServer
 
             //Request requestObj = Deserialize<Request>(requestBody)!;
 
-            responseBody = Encoding.UTF8.GetBytes("{}");
+            responseBody = "{}"u8.ToArray();
 
             SetBasicResponseHeaders();
 

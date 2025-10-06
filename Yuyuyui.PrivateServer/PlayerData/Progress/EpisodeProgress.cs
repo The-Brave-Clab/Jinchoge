@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -11,10 +12,10 @@ namespace Yuyuyui.PrivateServer
 
         protected override long Identifier => id;
         
-        private static long GetID()
+        private static async Task<long> GetID()
         {
             long new_id = long.Parse(Utils.GenerateRandomDigit(9));
-            while (Exists(new_id))
+            while (await Exists(new_id))
             {
                 new_id = long.Parse(Utils.GenerateRandomDigit(9));
             }
@@ -22,25 +23,24 @@ namespace Yuyuyui.PrivateServer
             return new_id;
         }
         
-        public static EpisodeProgress GetOrCreate(PlayerProfile player, long episodeId)
+        public static async Task<EpisodeProgress> GetOrCreate(PlayerProfile player, long episodeId)
         {
-            if (player.progress.episodes.ContainsKey(episodeId))
+            if (player.progress.episodes.TryGetValue(episodeId, out var id))
             {
-                long id = player.progress.episodes[episodeId];
-                return Load(id);
+                return await Load(id);
             }
 
             EpisodeProgress progress = new()
             {
-                id = GetID(),
+                id = await GetID(),
                 master_id = episodeId,
                 finished = false,
                 stages = new List<long>()
             };
-            progress.Save();
+            await progress.Save();
             
             player.progress.episodes.Add(episodeId, progress.id);
-            player.Save();
+            await player.Save();
 
             return progress;
         }

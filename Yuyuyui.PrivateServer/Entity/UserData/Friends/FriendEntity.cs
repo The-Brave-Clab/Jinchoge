@@ -18,21 +18,23 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
+            var friends = await player.friends
+                .Select(PlayerProfile.Load)
+                .WhenAll();
+            var responseFromPlayerProfile = await friends
+                .Select(UserInfoEntity.Response.User.FromPlayerProfile)
+                .WhenAll();
             Response responseObj = new()
             {
-                fellowships = player.friends
-                    .Select(PlayerProfile.Load)
-                    .ToDictionary(p => p.id.code, UserInfoEntity.Response.User.FromPlayerProfile)
+                fellowships = responseFromPlayerProfile.ToDictionary(p => p.id, p => p)
             };
             
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer;
@@ -16,12 +17,12 @@ public class EventChapterEntity : ChapterEntity
     {
     }
 
-    protected override Response GetChapters()
+    protected override Task<Response> GetChapters()
     {
         // Utils.LogWarning("Stub API! Returns nothing for now.");
-        return new()
+        return Task.FromResult(new Response
         {
             chapters = new Dictionary<long, ChapterEntity.Response.Chapter>()
-        };
+        });
     }
 }

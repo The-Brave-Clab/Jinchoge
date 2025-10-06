@@ -18,7 +18,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -28,25 +28,25 @@ namespace Yuyuyui.PrivateServer
             // Utils.LogWarning("Many status not filled.");
 
             List<Stage> targetStages;
-            using (QuestsContext questsDb = new())
+            await using (QuestsContext questsDb = new())
             {
                 targetStages = questsDb.Stages
                     .Where(s => s.ChapterId == chapterId && s.EpisodeId == episodeId)
                     .ToList();
             }
 
+            var responseStages = await targetStages
+                .Select(s => Response.Stage.GetFromDatabase(s, player))
+                .WhenAll();
+
             Response responseObj = new()
             {
                 // Checking for chapter id might not be necessary
-                stages = targetStages
-                    .Select(s => Response.Stage.GetFromDatabase(s, player))
-                    .ToDictionary(s => s.id, s =>s)
+                stages = responseStages.ToDictionary(s => s.id, s => s)
             };
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response
@@ -67,7 +67,7 @@ namespace Yuyuyui.PrivateServer
                 public bool play_auto_clear { get; set; } // flag for enabling auto play
                 public bool? no_friend { get; set; } = null; // only saw null
 
-                public static Stage GetFromDatabase(Yuyuyui.PrivateServer.DataModel.Stage dbStage, PlayerProfile player)
+                public static async Task<Stage> GetFromDatabase(Yuyuyui.PrivateServer.DataModel.Stage dbStage, PlayerProfile player)
                 {
                     Stage result = new()
                     {
@@ -84,9 +84,9 @@ namespace Yuyuyui.PrivateServer
                         no_friend = dbStage.NoFriend == 1
                     };
 
-                    if (player.progress.stages.ContainsKey(dbStage.Id))
+                    if (player.progress.stages.TryGetValue(dbStage.Id, out var stage))
                     {
-                        StageProgress progress = StageProgress.Load(player.progress.stages[dbStage.Id]);
+                        StageProgress progress = await StageProgress.Load(stage);
                         result.finish = progress.finished;
 
                         // Scenario only stages will also affect the total star count of the episode

@@ -19,7 +19,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -29,30 +29,30 @@ namespace Yuyuyui.PrivateServer
             // Ignored the request body since it's the same as the path parameter
             //Request request = Deserialize<Request>(requestBody)!;
 
-            EnhancementTransaction transaction = EnhancementTransaction.Load(transactionId);
+            EnhancementTransaction transaction = await EnhancementTransaction.Load(transactionId);
 
             bool infiniteItems = Config.Get().InGame.InfiniteItems;
 
             // Validate here?
 
             // the target card data
-            Card userCard = Card.Load(cardId);
+            Card userCard = await Card.Load(cardId);
             // the use item data
             EnhancementItem usedItem;
             if (infiniteItems)
             {
                 // in infinite items mode, the id and the master_id are the same
-                using ItemsContext itemsDb = new();
+                await using ItemsContext itemsDb = new();
                 usedItem = itemsDb.EnhancementItems
                     .First(i => i.Id == transaction.createdWith.enhancement_item.id);
             }
             else
             {
-                Item userItem = Item.Load(transaction.createdWith.enhancement_item.id);
+                Item userItem = await Item.Load(transaction.createdWith.enhancement_item.id);
                 // cost the item
                 userItem.quantity -= transaction.createdWith.enhancement_item.quantity;
-                userItem.Save();
-                using ItemsContext itemsDb = new();
+                await userItem.Save();
+                await using ItemsContext itemsDb = new();
                 usedItem = itemsDb.EnhancementItems
                     .First(i => i.Id == userItem.master_id);
             }
@@ -61,7 +61,7 @@ namespace Yuyuyui.PrivateServer
             var masterCard = userCard.MasterData();
             long targetCharacterId = masterCard.CharacterId;
             List<NoodleCookingCharacter> cookingCharacterDataSource;
-            using (EnhancementContext enhancementDb = new())
+            await using (EnhancementContext enhancementDb = new())
             {
                 cookingCharacterDataSource = enhancementDb.NoodleCookingCharacters
                     .Where(c => c.TargetCharacterId == targetCharacterId) // this won't be empty at all
@@ -70,7 +70,7 @@ namespace Yuyuyui.PrivateServer
 
             NoodleCookingCharacter cookingCharacterData;
             long cookingCharacterId;
-            if (usedItem.AvailableCharacterId1 != null && usedItem.AvailableCharacterId2 != null)
+            if (usedItem is { AvailableCharacterId1: not null, AvailableCharacterId2: not null })
             {
                 // this is a character udon
                 // get the specified cooking character first
@@ -95,7 +95,7 @@ namespace Yuyuyui.PrivateServer
 
             // this is the result cooking data
             NoodleCooking cookingData;
-            using (EnhancementContext enhancementDb = new())
+            await using (EnhancementContext enhancementDb = new())
             {
                 cookingData = enhancementDb.NoodleCookings
                                   .Where(c => c.EnhancementItemId == usedItem.Id)
@@ -116,7 +116,7 @@ namespace Yuyuyui.PrivateServer
             // get the used udon pack
             long noodleId = bigHit ? cookingData.SpecialNoodleId : cookingData.NoodleId;
             Noodle noodleData;
-            using (EnhancementContext enhancementDb = new())
+            await using (EnhancementContext enhancementDb = new())
             {
                 noodleData = enhancementDb.Noodles
                     .First(n => n.Id == noodleId);
@@ -153,8 +153,9 @@ namespace Yuyuyui.PrivateServer
                 Utils.Log(Resources.LOG_PS_CARD_ENHANCEMENT_SUPPORT_SKILL_LEVEL_UP);
           
             // character familiarity
-            CharacterFamiliarityWithAssist familiarity = player.GetCharacterFamiliarity(cookingCharacterData.CookingCharacterId,
-                cookingCharacterData.TargetCharacterId);
+            CharacterFamiliarityWithAssist familiarity =
+                await player.GetCharacterFamiliarity(cookingCharacterData.CookingCharacterId,
+                    cookingCharacterData.TargetCharacterId);
 
             var gotFamiliarity = CharacterFamiliarity.GetEnhancement(usedItem.Id) *
                                  noodleData.ExpCoefficient *
@@ -174,13 +175,13 @@ namespace Yuyuyui.PrivateServer
             if (supportSkillLevelUp)
                 userCard.support_skill_level += 1;
 
-            userCard.Save();
+            await userCard.Save();
 
             Utils.Log(string.Format(Resources.LOG_PS_CARD_ENHANCEMENT_AFFINITY_INCREASE,
                 familiarity.character_group, familiarityChange.familiarity - familiarityChange.before_familiarity));
             Utils.Log(string.Format(Resources.LOG_PS_CARD_ENHANCEMENT_AFFINITY_ASSIST_LEVEL_INCREASE,
                 familiarity.character_group, familiarityChange.assist_level - familiarityChange.before_assist_level));
-            player.Save();
+            await player.Save();
 
             if (!infiniteItems)
             {
@@ -188,11 +189,11 @@ namespace Yuyuyui.PrivateServer
                     CalcUtil.CalcRequiredEnhancementMoney(transaction.createdWith.enhancement_item.quantity,
                         usedItem.CostCoefficient);
                 player.data.money -= costMoney;
-                player.Save();
+                await player.Save();
             }
 
-            IList<int> resultTitleItems = player.EnsureEligibleCardTitle();
-            player.Save();
+            IList<int> resultTitleItems = await player.EnsureEligibleCardTitle();
+            await player.Save();
 
             Response responseObj = new()
             {
@@ -222,12 +223,10 @@ namespace Yuyuyui.PrivateServer
             };
 
             // Finished transaction, remove it
-            transaction.Delete();
+            await transaction.Delete();
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         // public class Request

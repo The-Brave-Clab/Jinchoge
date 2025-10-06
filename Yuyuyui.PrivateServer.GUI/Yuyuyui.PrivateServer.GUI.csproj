@@ -35,6 +35,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Yuyuyui.GoalKeeper\Yuyuyui.GoalKeeper.csproj" />
     <ProjectReference Include="..\Yuyuyui.PrivateServer.DataModel\Yuyuyui.PrivateServer.DataModel.csproj" />
+    <ProjectReference Include="..\Yuyuyui.PrivateServer.Desktop\Yuyuyui.PrivateServer.Desktop.csproj" />
     <ProjectReference Include="..\Yuyuyui.PrivateServer\Yuyuyui.PrivateServer.csproj" />
     <ProjectReference Include="..\Yuyuyui.PrivateServer.Localization\Yuyuyui.PrivateServer.Localization.csproj" />
   </ItemGroup>

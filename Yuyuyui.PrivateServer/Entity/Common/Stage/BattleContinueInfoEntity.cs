@@ -17,7 +17,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             long transactionId = long.Parse(GetPathParameter("transaction_id"));
             
@@ -28,13 +28,11 @@ namespace Yuyuyui.PrivateServer
             var responseObj = new Response
             {
                 // TODO: check for "story" or "special"
-                battle_continue = QuestTransaction.Exists(transactionId)
+                battle_continue = await QuestTransaction.Exists(transactionId)
             };
             
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response

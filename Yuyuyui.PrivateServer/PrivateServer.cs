@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
@@ -58,7 +59,7 @@ namespace Yuyuyui.PrivateServer
         
         public static readonly HttpClient HttpClient = new();
 
-        static PrivateServer()
+        public static void Init()
         {
             playerUUID = new Dictionary<string, PlayerProfile>();
             playerCode = new Dictionary<string, PlayerProfile>();
@@ -92,16 +93,18 @@ namespace Yuyuyui.PrivateServer
                 var split = s.Split(',');
                 string uuid = split[0];
                 string code = split[1];
-                PlayerProfile player = PlayerProfile.Load(code);
-                playerUUID.Add(player.id.uuid, player);
+                var task = PlayerProfile.Load(code);
+                task.Wait();
+                PlayerProfile player = task.Result;
+                playerUUID.Add(player!.id.uuid, player);
                 playerCode.Add(player.id.code, player);
             }
         }
 
-        public static PlayerProfile RegisterNewPlayer(string uuid, string? code = null)
+        public async static Task<PlayerProfile> RegisterNewPlayer(string uuid, string? code = null)
         {
             string newCode = Utils.GenerateRandomDigit(10);
-            while (PlayerProfile.Exists(newCode))
+            while (await PlayerProfile.Exists(newCode))
             {
                 newCode = Utils.GenerateRandomDigit(10);
             }
@@ -120,35 +123,35 @@ namespace Yuyuyui.PrivateServer
             var playerDataFile = Path.Combine(dataFolder, PLAYER_DATA_FILE);
             lock (dataFileLock)
                 File.AppendAllText(playerDataFile, $"{player.id.uuid},{player.id.code}\n");
-            player.Save();
+            await player.Save();
 
             Utils.Log(string.Format(Resources.LOG_PS_REGISTER_NEW_PLAYER, player.id.code));
 
             return player;
         }
 
-        public static PlayerProfile EnsureDummyPlayer()
+        public static async Task<PlayerProfile?> EnsureDummyPlayer()
         {
             const string DUMMY_CODE = "0000000001";
             const string DUMMY_UUID = "0000000000000000000000000000000000000000000000000000000000000001";
 
-            if (PlayerProfile.Exists(DUMMY_CODE))
-                return PlayerProfile.Load(DUMMY_CODE);
+            if (await PlayerProfile.Exists(DUMMY_CODE))
+                return await PlayerProfile.Load(DUMMY_CODE);
 
-            var dummyPlayer = RegisterNewPlayer(DUMMY_UUID, DUMMY_CODE);
+            var dummyPlayer = await RegisterNewPlayer(DUMMY_UUID, DUMMY_CODE);
             dummyPlayer.profile.nickname = "無名な勇者さん";
             dummyPlayer.profile.comment = "無名な勇者さん";
             
-            var yuuna = Card.DefaultYuuna();
+            var yuuna = await Card.DefaultYuuna();
             yuuna.id = 1;
 
             dummyPlayer.cards.Add(100010, yuuna.id);
-            yuuna.Save();
+            await yuuna.Save();
 
-            var yuunaUnit = yuuna.CreateUnit();
+            var yuunaUnit = await yuuna.CreateUnit();
             yuunaUnit.id = 1;
             
-            yuunaUnit.Save();
+            await yuunaUnit.Save();
             
             var firstDeck = new Deck
             {
@@ -158,16 +161,16 @@ namespace Yuyuyui.PrivateServer
                 units = new List<long> {yuunaUnit.id}
             };
             dummyPlayer.decks.Add(firstDeck.id);
-            firstDeck.Save();
+            await firstDeck.Save();
             
-            dummyPlayer.Save();
+            await dummyPlayer.Save();
 
             Utils.Log(Resources.LOG_PS_CREATED_DUMMY_PLAYER);
 
             return dummyPlayer;
         }
 
-        public static PlayerSession CreateSessionForPlayer(string uuid, EntityBase entity)
+        public static async Task<PlayerSession> CreateSessionForPlayer(string uuid, EntityBase entity)
         {
             PlayerSession session;
             try
@@ -180,7 +183,7 @@ namespace Yuyuyui.PrivateServer
                 {
                     sessionID = Utils.GenerateRandomHexString(32),
                     sessionKey = Utils.GenerateRandomHexString(16),
-                    player = playerUUID.ContainsKey(uuid) ? playerUUID[uuid] : RegisterNewPlayer(uuid),
+                    player = playerUUID.TryGetValue(uuid, out var value) ? value : await RegisterNewPlayer(uuid),
                 };
 
                 playerSessions.Add(session.sessionID, session);
@@ -207,13 +210,13 @@ namespace Yuyuyui.PrivateServer
         public static bool GetSessionFromCookie(this EntityBase entity, out PlayerSession session)
         {
             string cookie = entity.GetRequestHeaderValue("Cookie");
-            var cookies = cookie.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
+            var cookies = cookie.Split([';'], StringSplitOptions.RemoveEmptyEntries)
                 .Select(c => c.Split('='))
                 .ToDictionary(e => e[0], e => e.Length > 1 ? e[1] : "");
 
-            if (cookies.ContainsKey("_session_id"))
+            if (cookies.TryGetValue("_session_id", out var c))
             {
-                session = playerSessions[cookies["_session_id"]];
+                session = playerSessions[c];
                 return true;
             }
 
@@ -227,13 +230,13 @@ namespace Yuyuyui.PrivateServer
             lock (dataFileLock)
             {
                 string[] lines;
-                using (StreamReader sr = new StreamReader(playerDataFile))
+                using (StreamReader sr = new(playerDataFile))
                 {
-                    lines = sr.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    lines = sr.ReadToEnd().Split(['\n'], StringSplitOptions.RemoveEmptyEntries);
                 }
 
                 var newLines = lines.Where(line => !line.StartsWith(player.id.uuid));
-                using (StreamWriter sw = new StreamWriter(playerDataFile, false))
+                using (StreamWriter sw = new(playerDataFile, false))
                 {
                     newLines.ForEach(sw.WriteLine);
                 }

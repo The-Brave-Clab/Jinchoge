@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System.Threading.Tasks;
+
+namespace Yuyuyui.PrivateServer
 {
     public class Gift : BasePlayerData<Gift, long>
     {
@@ -14,25 +16,25 @@
         public int item_category_id { get; set; }
         public int item_id { get; set; }
 
-        public void ReceivedByPlayer(PlayerProfile player)
+        public async Task ReceivedByPlayer(PlayerProfile player)
         {
             received_at = 0;
             receivable_at = Utils.CurrentUnixTime();
-            Save();
+            await Save();
             
             player.receivedGifts.Add(id);
-            player.Save();
+            await player.Save();
         }
 
-        public void AcceptedByPlayer(PlayerProfile player)
+        public async Task AcceptedByPlayer(PlayerProfile player)
         {
             received_at = Utils.CurrentUnixTime();
             receivable_at = 0;
-            Save();
+            await Save();
 
             player.receivedGifts.Remove(id);
             player.acceptedGifts.Add(id);
-            player.Save();
+            await player.Save();
         }
     }
 }

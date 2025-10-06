@@ -17,26 +17,24 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var userCode = GetPathParameter("user_id");
 
-            if (!PlayerProfile.Exists(userCode))
+            if (!await PlayerProfile.Exists(userCode))
             {
                 throw new APIErrorException("A0201", $"Player {userCode} not found!");
             }
 
-            var player = PlayerProfile.Load(userCode);
+            var player = await PlayerProfile.Load(userCode);
 
             Response responseObj = new()
             {
-                user = Response.User.FromPlayerProfile(player)
+                user = await Response.User.FromPlayerProfile(player)
             };
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response
@@ -54,11 +52,11 @@ namespace Yuyuyui.PrivateServer
                 public long? title_item_id { get; set; } = null;
                 public Unit.CardWithSupport leader_card { get; set; } = new();
 
-                public static User FromPlayerProfile(PlayerProfile player)
+                public static async Task<User> FromPlayerProfile(PlayerProfile player)
                 {
                     Unit leaderUnit = player.id.code.StartsWith("0") ? 
-                        Unit.Load(1) : 
-                        Unit.Load(Deck.Load(player.decks[0]).leaderUnitID);
+                        await Unit.Load(1) : 
+                        await Unit.Load((await Deck.Load(player.decks[0])).leaderUnitID);
                     return new()
                     {
                         id = player.id.code,
@@ -68,7 +66,7 @@ namespace Yuyuyui.PrivateServer
                         accessed_at = player.data.lastActive,
                         fellowship_count = player.friends.Count,
                         title_item_id = player.data.titleItemID,
-                        leader_card = Unit.CardWithSupport.FromUnit(leaderUnit, player)!
+                        leader_card = (await Unit.CardWithSupport.FromUnit(leaderUnit, player))!
                     };
                 }
             }

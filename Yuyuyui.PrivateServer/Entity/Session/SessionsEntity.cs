@@ -17,12 +17,13 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var requestObj = Deserialize<Request>(requestBody);
             Utils.Log(string.Format(Resources.LOG_PS_GOT_CONNECTION, requestObj!.uuid));
             
-            PrivateServer.PlayerSession sessionDetail = PrivateServer.CreateSessionForPlayer(requestObj!.uuid, this);
+            PrivateServer.PlayerSession sessionDetail =
+                await PrivateServer.CreateSessionForPlayer(requestObj!.uuid, this);
 
             Response responseObj = new()
             {
@@ -33,12 +34,10 @@ namespace Yuyuyui.PrivateServer
             };
 
             sessionDetail.player.data.lastActive = responseObj.unixtime;
-            sessionDetail.player.Save();
+            await sessionDetail.player.Save();
             
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders(sessionDetail.sessionID);
-            
-            return Task.CompletedTask;
         }
 
         public class Request

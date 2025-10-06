@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.Desktop;
 using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer.CLI
@@ -53,6 +54,8 @@ namespace Yuyuyui.PrivateServer.CLI
                     .InformationalVersion));
 
             await LocalData.Update();
+
+            PlayerDataProviderFactory.ActiveFactory = new FilesystemPlayerDataProviderFactory();
 
             var endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
 

@@ -17,29 +17,27 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             //var player = GetPlayerFromCookies();
             
             long requestID = long.Parse(GetPathParameter("request_id"));
-            FriendRequest friendRequest = FriendRequest.Load(requestID);
+            FriendRequest friendRequest = await FriendRequest.Load(requestID);
 
             Request requestObj = Deserialize<Request>(requestBody)!;
             
             // Update the friend request
             friendRequest.status = requestObj.fellow_request.status;
-            friendRequest.ProcessStatus(); // should ultimately delete the request file
+            await friendRequest.ProcessStatus(); // should ultimately delete the request file
 
             Response responseObj = new()
             {
                 fellow_request =
-                    FellowRequestEntity.Response.Data.FromFriendRequest(friendRequest)
+                    await FellowRequestEntity.Response.Data.FromFriendRequest(friendRequest)
             };
             
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Request

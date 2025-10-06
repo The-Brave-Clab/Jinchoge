@@ -17,20 +17,18 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
             
             Request request = Deserialize<Request>(requestBody)!;
             
             player.gachaSelections[request.gacha_id] = request.select_ids;
-            player.Save();
+            await player.Save();
 
             // It seems that the client doesn't read this response.
-            responseBody = Encoding.UTF8.GetBytes("{}");
+            responseBody = "{}"u8.ToArray();
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Request

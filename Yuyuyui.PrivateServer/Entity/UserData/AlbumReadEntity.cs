@@ -16,7 +16,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -25,7 +25,7 @@ namespace Yuyuyui.PrivateServer
             if (!player.progress.adventureBooksRead.Contains(requestObj.id))
             {
                 player.progress.adventureBooksRead.Add(requestObj.id);
-                player.Save();
+                await player.Save();
             }
 
             AlbumListEntity.PostResponse responseObj = new()
@@ -40,8 +40,6 @@ namespace Yuyuyui.PrivateServer
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Request

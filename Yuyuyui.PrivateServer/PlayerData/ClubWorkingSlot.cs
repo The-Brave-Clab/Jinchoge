@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System.Threading.Tasks;
+
+namespace Yuyuyui.PrivateServer
 {
     public class ClubWorkingSlot : BasePlayerData<ClubWorkingSlot, long>
     {
@@ -10,10 +12,10 @@
         public int? club_order_master_id { get; set; } = null;
         public long? finishment_time { get; set; } = null; // unixtime
 
-        public static ClubWorkingSlot NewEmptySlot()
+        public static async Task<ClubWorkingSlot> NewEmptySlot()
         {
             long new_id = long.Parse(Utils.GenerateRandomDigit(9));
-            while (Exists(new_id))
+            while (await Exists(new_id))
             {
                 new_id = long.Parse(Utils.GenerateRandomDigit(9));
             }

@@ -17,7 +17,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -26,26 +26,25 @@ namespace Yuyuyui.PrivateServer
                 player.clubWorkingSlots = new List<long>(3);
                 for (int i = 0; i < 3; ++i)
                 {
-                    var newSlot = ClubWorkingSlot.NewEmptySlot();
+                    var newSlot = await ClubWorkingSlot.NewEmptySlot();
                     player.clubWorkingSlots.Add(newSlot.id);
-                    newSlot.Save();
+                    await newSlot.Save();
                 }
-                player.Save();
+                await player.Save();
             }
 
             // Utils.LogWarning("Stub API! Process finished club working here!");
 
+            var slots = await player.clubWorkingSlots
+                .Select(ClubWorkingSlot.Load)
+                .WhenAll();
             Response responseObj = new()
             {
-                club_working_slots = player.clubWorkingSlots
-                    .Select(ClubWorkingSlot.Load)
-                    .ToList()
+                club_working_slots = slots.ToList()
             };
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response

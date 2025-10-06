@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
@@ -21,10 +22,10 @@ namespace Yuyuyui.PrivateServer
         // Maybe consider changing getter/setter?
         //public float exchange_point_rate { get; set; } // 0.0, 1.0, 2.0, 3.0, 5.0
 
-        private static long GetID()
+        private static async Task<long> GetID()
         {
             long new_id = long.Parse(Utils.RandomStrFromChar("123456789", 1) + Utils.GenerateRandomDigit(8));
-            while (Exists(new_id))
+            while (await Exists(new_id))
             {
                 new_id = long.Parse(Utils.RandomStrFromChar("123456789", 1) + Utils.GenerateRandomDigit(8));
             }
@@ -32,35 +33,35 @@ namespace Yuyuyui.PrivateServer
             return new_id;
         }
 
-        public static Card DefaultYuuna()
+        public static async Task<Card> DefaultYuuna()
         {
-            Card newCard = NewCardByMasterId(100011); // Consider getting this from the database
+            Card newCard = await NewCardByMasterId(100011); // Consider getting this from the database
             newCard.level = 15;
             newCard.exp = 10000;
             newCard.evolution_level = 2;
             return newCard;
         }
 
-        public static Card DefaultTougou()
+        public static async Task<Card> DefaultTougou()
         {
-            return NewCardByMasterId(100020);
+            return await NewCardByMasterId(100020);
         }
 
-        public static Card DefaultFuu()
+        public static async Task<Card> DefaultFuu()
         {
-            return NewCardByMasterId(100040);
+            return await NewCardByMasterId(100040);
         }
 
-        public static Card DefaultItsuki()
+        public static async Task<Card> DefaultItsuki()
         {
-            return NewCardByMasterId(100050);
+            return await NewCardByMasterId(100050);
         }
         
-        public static Card NewCardByMasterId(long masterId)
+        public static async Task<Card> NewCardByMasterId(long masterId)
         {
             return new Card
             {
-                id = GetID(),
+                id = await GetID(),
                 master_id = masterId,
                 level = 1,
                 exp = 0,
@@ -97,7 +98,7 @@ namespace Yuyuyui.PrivateServer
             };
         }
 
-        public Unit CreateUnit(
+        public async Task<Unit> CreateUnit(
             SupportCard? support = null,
             SupportCard? support2 = null,
             SupportCard? assist = null,
@@ -106,7 +107,7 @@ namespace Yuyuyui.PrivateServer
         {
             Unit unit = new Unit
             {
-                id = Unit.GetID(),
+                id = await Unit.GetID(),
                 baseCardID = id,
                 supportCardID = support?.user_card_id,
                 supportCard2ID = support2?.user_card_id,
@@ -155,7 +156,7 @@ namespace Yuyuyui.PrivateServer
             return 0.0f;
         }
 
-        public void AddPotential(int count)
+        public async Task AddPotential(int count)
         {
             const int SP_INCREMENT = 2;
             const int SUPPORT_SKILL_LEVEL_INCREMENT = 1;
@@ -173,7 +174,7 @@ namespace Yuyuyui.PrivateServer
                     base_sp_increment += SP_INCREMENT;
             }
 
-            Save();
+            await Save();
         }
     }
 
@@ -181,14 +182,14 @@ namespace Yuyuyui.PrivateServer
     {
         public long user_card_id { get; set; } // card id
 
-        public Card GetCard()
+        public async Task<Card> GetCard()
         {
-            return Card.Load(user_card_id);
+            return await Card.Load(user_card_id);
         }
 
-        public Dictionary<string, long> ToDict()
+        public async Task<Dictionary<string, long>> ToDict()
         {
-            Card userCard = GetCard();
+            Card userCard = await GetCard();
             DataModel.Card masterCard = userCard.MasterData();
             float growthValue = GrowthKind.GetValue(masterCard.GrowthKind);
             

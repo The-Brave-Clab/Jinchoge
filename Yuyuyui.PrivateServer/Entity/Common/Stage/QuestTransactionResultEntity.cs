@@ -18,7 +18,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -27,7 +27,7 @@ namespace Yuyuyui.PrivateServer
             
             Request requestObj = Deserialize<Request>(requestBody)!;
 
-            QuestTransaction transaction = QuestTransaction.Load(transactionId);
+            QuestTransaction transaction = await QuestTransaction.Load(transactionId);
             
             // Validate here?
 
@@ -35,16 +35,16 @@ namespace Yuyuyui.PrivateServer
             Episode dbEpisode;
             Chapter dbChapter;
 
-            using (QuestsContext questsDb = new())
+            await using (QuestsContext questsDb = new())
             {
                 dbStage = questsDb.Stages.First(s => s.Id == transaction.stageId);
                 dbEpisode = questsDb.Episodes.First(e => e.Id == dbStage.EpisodeId);
                 dbChapter = questsDb.Chapters.First(c => c.Id == dbEpisode.ChapterId);
             }
 
-            var stageProgress = StageProgress.GetOrCreate(player, dbStage.Id);
-            var episodeProgress = EpisodeProgress.GetOrCreate(player, dbEpisode.Id);
-            var chapterProgress = ChapterProgress.GetOrCreate(player, dbChapter.Id);
+            var stageProgress = await StageProgress.GetOrCreate(player, dbStage.Id);
+            var episodeProgress = await EpisodeProgress.GetOrCreate(player, dbEpisode.Id);
+            var chapterProgress = await ChapterProgress.GetOrCreate(player, dbChapter.Id);
             
             // The references are validated when updating the transaction.
             // We only update the progress data here.
@@ -54,7 +54,7 @@ namespace Yuyuyui.PrivateServer
                                            requestObj.battle_result.finished_score_speed;
             stageProgress.finishedNoInjury = stageProgress.finishedNoInjury ||
                                              requestObj.battle_result.finished_score_no_injury;
-            stageProgress.Save();
+            await stageProgress.Save();
 
             bool isScenario = dbStage.Kind == 0;
 
@@ -62,9 +62,9 @@ namespace Yuyuyui.PrivateServer
 
             Response responseObj = new()
             {
-                chapter = ChapterEntity.Response.Chapter.GetFromDatabase(dbChapter, player),
-                episode = EpisodeEntity.Response.Episode.GetFromDatabase(dbEpisode, player),
-                stage = StageEntity.Response.Stage.GetFromDatabase(dbStage, player),
+                chapter = await ChapterEntity.Response.Chapter.GetFromDatabase(dbChapter, player),
+                episode = await EpisodeEntity.Response.Episode.GetFromDatabase(dbEpisode, player),
+                stage = await StageEntity.Response.Stage.GetFromDatabase(dbStage, player),
                 battle_result = new(), // TODO
                 title_items = null, // TODO
             };
@@ -78,31 +78,32 @@ namespace Yuyuyui.PrivateServer
                 responseObj.title_items = new List<int>(); // TODO
 
                 // fill in the battle result
-                Deck deck = Deck.Load(transaction.createdWith.using_deck_id!.Value); // This will not be null if battle
+                Deck deck = await Deck.Load(transaction.createdWith.using_deck_id!.Value); // This will not be null if battle
                 responseObj.battle_result.deck = new()
                 {
                     id = deck.id, 
                 };
-                foreach (var unitId in deck.units)
+                
+                var deckUnits = await deck.units.Select(Unit.Load).WhenAll();
+                foreach (var unit in deckUnits)
                 {
-                    var unit = Unit.Load(unitId);
                     var rankInfo = requestObj.battle_result.deck_cards!.First(i => i.id == unit.id);
 
                     // fill in the deck
                     responseObj.battle_result.deck.cards.Add(
-                        Response.BattleResult.Deck.CardDataWithSupport.UpdateUnitAndGetData(unit, 
+                        await Response.BattleResult.Deck.CardDataWithSupport.UpdateUnitAndGetData(unit, 
                             dbStage.CardExp * rankInfo.rank)); // TODO: rank calculation
 
                     // fill in the character familiarities
-                    if (unit.baseCardID != null && unit.supportCardID != null)
+                    if (unit is { baseCardID: not null, supportCardID: not null })
                     {
-                        var baseCard = Card.Load(unit.baseCardID!.Value);
-                        var supportCard = Card.Load(unit.supportCardID!.Value);
+                        var baseCard = await Card.Load(unit.baseCardID!.Value);
+                        var supportCard = await Card.Load(unit.supportCardID!.Value);
                         var baseMasterData = baseCard.MasterData();
                         var supportMasterData = supportCard.MasterData();
 
-                        var familiarity =
-                            player.GetCharacterFamiliarity(baseMasterData.CharacterId, supportMasterData.CharacterId);
+                        var familiarity = await player.GetCharacterFamiliarity(baseMasterData.CharacterId,
+                            supportMasterData.CharacterId);
                         var gotFamiliarity = dbStage.Familiarity * rankInfo.rank; // TODO: familiarity calculation
 
                         var familiarityChange = familiarity.UpdateAndGetChange(gotFamiliarity);
@@ -144,11 +145,9 @@ namespace Yuyuyui.PrivateServer
             
             // Finished transaction, remove it
             player.transactions.questTransactions.Remove(transaction.stageId);
-            player.Save();
+            await player.Save();
 
-            transaction.Delete();
-
-            return Task.CompletedTask;
+            await transaction.Delete();
         }
 
         public class Request
@@ -236,7 +235,7 @@ namespace Yuyuyui.PrivateServer
                         public long before_exp { get; set; }
                         public int before_level { get; set; }
 
-                        public void UpdateCardAndFillData(Card card, long gainedExp)
+                        public async Task UpdateCardAndFillData(Card card, long gainedExp)
                         {
                             user_card_id = card.id;
                             master_id = card.master_id;
@@ -246,13 +245,13 @@ namespace Yuyuyui.PrivateServer
                             exp = card.exp;
                             level = card.level;
                             
-                            card.Save();
+                            await card.Save();
                         }
 
-                        public static CardData UpdateCardAndGetData(Card card, long gainedExp)
+                        public static async Task<CardData> UpdateCardAndGetData(Card card, long gainedExp)
                         {
                             CardData result = new();
-                            result.UpdateCardAndFillData(card, gainedExp);
+                            await result.UpdateCardAndFillData(card, gainedExp);
                             return result;
                         }
                     }
@@ -260,23 +259,23 @@ namespace Yuyuyui.PrivateServer
                     public class CardDataWithSupport : CardData
                     {
                         public long id { get; set; } // unit id
-                        public object support { get; set; } = new(); // CardData
-                        public object support_2 { get; set; } = new(); // CardData
+                        public CardData support { get; set; } = new();
+                        public CardData support_2 { get; set; } = new();
 
-                        public static CardDataWithSupport UpdateUnitAndGetData(Unit unit, long gainedExp)
+                        public static async Task<CardDataWithSupport> UpdateUnitAndGetData(Unit unit, long gainedExp)
                         {
                             CardDataWithSupport result = new() { id = unit.id };
-                            var baseCard = Card.Load(unit.baseCardID!.Value);
-                            result.UpdateCardAndFillData(baseCard, gainedExp);
+                            var baseCard = await Card.Load(unit.baseCardID!.Value);
+                            await result.UpdateCardAndFillData(baseCard, gainedExp);
                             if (unit.supportCardID != null)
                             {
-                                var card = Card.Load(unit.supportCardID!.Value);
-                                result.support = CardData.UpdateCardAndGetData(card, gainedExp);
+                                var card = await Card.Load(unit.supportCardID!.Value);
+                                result.support = await CardData.UpdateCardAndGetData(card, gainedExp);
                             }
                             if (unit.supportCard2ID != null)
                             {
-                                var card = Card.Load(unit.supportCard2ID!.Value);
-                                result.support_2 = CardData.UpdateCardAndGetData(card, gainedExp);
+                                var card = await Card.Load(unit.supportCard2ID!.Value);
+                                result.support_2 = await CardData.UpdateCardAndGetData(card, gainedExp);
                             }
 
                             return result;

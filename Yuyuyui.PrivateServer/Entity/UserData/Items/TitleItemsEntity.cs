@@ -19,7 +19,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -28,24 +28,24 @@ namespace Yuyuyui.PrivateServer
                 PostRequest requestObj = Deserialize<PostRequest>(requestBody)!;
 
                 player.data.titleItemID = requestObj.title_item_id;
-                player.Save();
+                await player.Save();
 
                 // responseBody = Serialize(postResponseObj);
                 
                 // It seems that the client doesn't read the response
-                responseBody = Encoding.UTF8.GetBytes("{}");
+                responseBody = "{}"u8.ToArray();
             }
             else
             {
                 if (!player.items.titleItems.Any())
                 {
-                    InitDefaultTitleItem(player);
+                    await InitDefaultTitleItem(player);
                 }
                 
-                player.EnsureEligibleCardTitle();
+                await player.EnsureEligibleCardTitle();
 
                 List<TitleItem> titleItems;
-                using (ItemsContext itemsDb = new())
+                await using (ItemsContext itemsDb = new())
                 {
                     titleItems = itemsDb.TitleItems.ToList();
                 }
@@ -72,14 +72,12 @@ namespace Yuyuyui.PrivateServer
             }
 
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
-        private static void InitDefaultTitleItem(PlayerProfile player)
+        private static async Task InitDefaultTitleItem(PlayerProfile player)
         {
             player.items.titleItems.Add(90001);
-            player.Save();
+            await player.Save();
         }
 
         public class PostRequest

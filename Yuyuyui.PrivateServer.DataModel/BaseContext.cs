@@ -26,7 +26,7 @@ namespace Yuyuyui.PrivateServer.DataModel
             {
                 var path = Path.Combine(Config.BaseDir, $"{DatabaseFileName}.db.compress");
                 optionsBuilder.UseSqlite($"Data Source={path}");
-                // We only do read operations, so no need to track changes
+                // We are always read-only and never write, so no need to track changes
                 optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }
         }

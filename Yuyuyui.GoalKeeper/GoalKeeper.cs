@@ -1,43 +1,55 @@
 ﻿using System;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Yuyuyui.GK;
 
 public class GoalKeeper : ILibGK
 {
-    private Y3GK y3gk;
+    private ThreadLocal<Y3GK> y3gk;
 
     public GoalKeeper()
     {
-        y3gk = new Y3GK();
-        y3gk.Initialize();
+        y3gk = new(() =>
+        {
+            var result = new Y3GK();
+            result.Initialize();
+            return result;
+        });
     }
     
-    public byte[] EncryptApi(byte[] inputData, string key = "", byte[]? iv = null, bool sessionKey = false)
+    public async Task<byte[]> EncryptApi(byte[] inputData, string key = "", byte[]? iv = null, bool sessionKey = false)
     {
-        if (string.IsNullOrEmpty(key) || !sessionKey)
-            y3gk.ResetKey();
-        else
-            y3gk.SetKey(key, sessionKey);
-        return y3gk.EncodeODF(inputData) ?? [];
+        return await Task.Run(() =>
+        {
+            if (string.IsNullOrEmpty(key) || !sessionKey)
+                y3gk.Value!.ResetKey();
+            else
+                y3gk.Value!.SetKey(key, sessionKey);
+            return y3gk.Value.EncodeODF(inputData) ?? [];
+        });
     }
 
-    public byte[] DecryptApi(byte[] inputData, string key = "", byte[]? iv = null, bool sessionKey = false)
+    public async Task<byte[]> DecryptApi(byte[] inputData, string key = "", byte[]? iv = null, bool sessionKey = false)
     {
-        if (string.IsNullOrEmpty(key) || !sessionKey)
-            y3gk.ResetKey();
-        else
-            y3gk.SetKey(key, sessionKey);
-        return y3gk.DecodeODF(inputData) ?? [];
+        return await Task.Run(() =>
+        {
+            if (string.IsNullOrEmpty(key) || !sessionKey)
+                y3gk.Value!.ResetKey();
+            else
+                y3gk.Value!.SetKey(key, sessionKey);
+            return y3gk.Value.DecodeODF(inputData) ?? [];
+        });
     }
 
-    public byte[] EncryptBin(byte[] inputData, string key = "", byte[]? iv = null)
+    public async Task<byte[]> EncryptBin(byte[] inputData, string key = "", byte[]? iv = null)
     {
-        return y3gk.EncodeLHB(inputData) ?? [];
+        return await Task.Run(() => y3gk.Value!.EncodeLHB(inputData) ?? []);
     }
 
-    public byte[] DecryptBin(byte[] inputData, string key = "", byte[]? iv = null)
+    public async Task<byte[]> DecryptBin(byte[] inputData, string key = "", byte[]? iv = null)
     {
-        return y3gk.DecodeLHB(inputData) ?? [];
+        return await Task.Run(() => y3gk.Value!.DecodeLHB(inputData) ?? []);
     }
 }

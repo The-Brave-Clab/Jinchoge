@@ -18,14 +18,14 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
             Response responseObj;
             if (Config.Get().InGame.InfiniteItems)
             {
-                using ItemsContext itemsDb = new();
+                await using ItemsContext itemsDb = new();
                 responseObj = new()
                 {
                     tickets = itemsDb.AutoClearTickets
@@ -40,11 +40,13 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
+                var autoClearTickets = await player.items.autoClearTickets
+                    .Select(p => p.Value)
+                    .Select(Item.Load)
+                    .WhenAll();
                 responseObj = new()
                 {
-                    tickets = player.items.autoClearTickets
-                        .Select(p => p.Value)
-                        .Select(Item.Load)
+                    tickets = autoClearTickets
                         .Where(t => t.quantity > 0)
                         .ToList()
                 };
@@ -52,8 +54,6 @@ namespace Yuyuyui.PrivateServer
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer;
@@ -14,10 +15,10 @@ public class Unit : BasePlayerData<Unit, long>
     public IList<long> accessories { get; set; } = new List<long>(); // Seirei ID
     protected override long Identifier => id;
 
-    public static long GetID()
+    public static async Task<long> GetID()
     {
         long new_id = long.Parse(Utils.RandomStrFromChar("123456789", 1) + Utils.GenerateRandomDigit(8));
-        while (Exists(new_id))
+        while (await Exists(new_id))
         {
             new_id = long.Parse(Utils.RandomStrFromChar("123456789", 1) + Utils.GenerateRandomDigit(8));
         }
@@ -25,16 +26,16 @@ public class Unit : BasePlayerData<Unit, long>
         return new_id;
     }
 
-    public Card? GetCard()
+    public async Task<Card?> GetCard()
     {
-        return baseCardID == null ? null : Card.Load((long) baseCardID);
+        return baseCardID == null ? null : await Card.Load((long) baseCardID);
     }
 
-    public static Unit CreateEmptyUnit()
+    public static async Task<Unit> CreateEmptyUnit()
     {
         return new()
         {
-            id = GetID(),
+            id = await GetID(),
             baseCardID = null,
             supportCardID = null,
             supportCard2ID = null,
@@ -43,24 +44,24 @@ public class Unit : BasePlayerData<Unit, long>
         };
     }
 
-    public int GetHP(PlayerProfile belongTo)
+    public async Task<int> GetHP(PlayerProfile belongTo)
     {
         // TODO: not finished yet!
         if (baseCardID == null) return 0;
         int hp = 0;
-        var card = GetCard()!;
+        var card = (await GetCard())!;
         var masterCard = card.MasterData();
         hp += card.GetHitPoint();
 
         if (supportCardID != null)
         {
-            var supportCard = Support()!;
+            var supportCard = (await Support())!;
             var masterSupport = supportCard.MasterData();
             hp += supportCard.GetHitPoint();
             
             // get bonus
             CharacterFamiliarityWithAssist familiarity =
-                belongTo.GetCharacterFamiliarity(masterCard.CharacterId, masterSupport.CharacterId);
+                await belongTo.GetCharacterFamiliarity(masterCard.CharacterId, masterSupport.CharacterId);
             int bonus = CalcUtil.AssistLevelHitPointBonus(familiarity.assist_level);
             float coefficient = familiarity.GetLevelData().HitPointCoefficient;
 
@@ -68,32 +69,32 @@ public class Unit : BasePlayerData<Unit, long>
         }
 
         if (supportCard2ID != null)
-            hp += Support2()!.GetHitPoint();
+            hp += (await Support2())!.GetHitPoint();
 
         if (assistCardID != null)
-            hp += Assist()!.GetHitPoint();
+            hp += (await Assist())!.GetHitPoint();
 
         return hp;
     }
 
-    public int GetAtk(PlayerProfile belongTo)
+    public async Task<int> GetAtk(PlayerProfile belongTo)
     {
         // TODO: not finished yet!
         if (baseCardID == null) return 0;
         int atk = 0;
-        var card = GetCard()!;
+        var card = (await GetCard())!;
         var masterCard = card.MasterData();
         atk += card.GetAttack();
 
         if (supportCardID != null)
         {
-            var supportCard = Support()!;
+            var supportCard = (await Support())!;
             var masterSupport = supportCard.MasterData();
             atk += supportCard.GetAttack();
             
             // get bonus
             CharacterFamiliarityWithAssist familiarity =
-                belongTo.GetCharacterFamiliarity(masterCard.CharacterId, masterSupport.CharacterId);
+                await belongTo.GetCharacterFamiliarity(masterCard.CharacterId, masterSupport.CharacterId);
             int bonus = CalcUtil.AssistLevelAttackBonus(familiarity.assist_level);
             float coefficient = familiarity.GetLevelData().AttackCoefficient;
 
@@ -101,51 +102,55 @@ public class Unit : BasePlayerData<Unit, long>
         }
 
         if (supportCard2ID != null)
-            atk += Support2()!.GetAttack();
+            atk += (await Support2())!.GetAttack();
 
         if (assistCardID != null)
-            atk += Assist()!.GetAttack();
+            atk += (await Assist())!.GetAttack();
 
         return atk;
     }
 
-    public long? GetMasterId()
+    public async Task<long?> GetMasterId()
     {
         if (baseCardID == null) return null;
-        return Card.Load((long) baseCardID).master_id;
+        var baseCard = await Card.Load((long)baseCardID);
+        return baseCard.master_id;
     }
 
-    public int? GetPotential()
+    public async Task<int?> GetPotential()
     {
         if (baseCardID == null) return null;
-        return Card.Load((long) baseCardID).potential;
+        var baseCard = await Card.Load((long)baseCardID);
+        return baseCard.potential;
     }
 
-    public int? GetEvolutionLevel()
+    public async Task<int?> GetEvolutionLevel()
     {
         if (baseCardID == null) return null;
-        return Card.Load((long) baseCardID).evolution_level;
+        var baseCard = await Card.Load((long)baseCardID);
+        return baseCard.evolution_level;
     }
 
-    public int? GetLevel()
+    public async Task<int?> GetLevel()
     {
         if (baseCardID == null) return null;
-        return Card.Load((long) baseCardID).level;
+        var baseCard = await Card.Load((long)baseCardID);
+        return baseCard.level;
     }
 
-    public Card? Support()
+    public async Task<Card?> Support()
     {
-        return supportCardID == null ? null : Card.Load((long) supportCardID);
+        return supportCardID == null ? null : await Card.Load((long) supportCardID);
     }
 
-    public Card? Support2()
+    public async Task<Card?> Support2()
     {
-        return supportCard2ID == null ? null : Card.Load((long) supportCard2ID);
+        return supportCard2ID == null ? null : await Card.Load((long) supportCard2ID);
     }
 
-    public Card? Assist()
+    public async Task<Card?> Assist()
     {
-        return assistCardID == null ? null : Card.Load((long) assistCardID);
+        return assistCardID == null ? null : await Card.Load((long) assistCardID);
     }
 
     // This is used for JSON response
@@ -164,23 +169,29 @@ public class Unit : BasePlayerData<Unit, long>
         public int? evolution_level { get; set; }
         public int? level { get; set; }
 
-        public static CardWithSupport? FromUnit(Unit? unit, PlayerProfile? belongTo)
+        public static async Task<CardWithSupport?> FromUnit(Unit? unit, PlayerProfile? belongTo)
         {
             if (unit == null) return null;
+            var supportCard = (await unit.Support())?.AsSupport();
+            var support2Card = (await unit.Support2())?.AsSupport();
+            var assistCard = (await unit.Assist())?.AsSupport();
+            var supportDict = supportCard != null ? await supportCard.ToDict() : new Dictionary<string, long>();
+            var support2Dict = support2Card != null ? await support2Card.ToDict() : new Dictionary<string, long>();
+            var assistDict = assistCard != null ? await assistCard.ToDict() : new Dictionary<string, long>();
             return new CardWithSupport
             {
                 id = unit.id,
-                hit_point = unit.GetHP(belongTo!),
-                attack = unit.GetAtk(belongTo!),
+                hit_point = await unit.GetHP(belongTo!),
+                attack = await unit.GetAtk(belongTo!),
                 user_card_id = unit.baseCardID,
-                support = unit.Support()?.AsSupport().ToDict() ?? new Dictionary<string, long>(),
-                support_2 = unit.Support2()?.AsSupport().ToDict() ?? new Dictionary<string, long>(),
-                assist = unit.Assist()?.AsSupport().ToDict() ?? new Dictionary<string, long>(),
-                accessories = unit.accessories.Select(Accessory.Load).ToList(),
-                master_id = unit.GetMasterId(),
-                potential = unit.GetPotential(),
-                evolution_level = unit.GetEvolutionLevel(),
-                level = unit.GetLevel()
+                support = supportDict,
+                support_2 = support2Dict,
+                assist = assistDict,
+                accessories = (await unit.accessories.Select(Accessory.Load).WhenAll()).ToList(),
+                master_id = await unit.GetMasterId(),
+                potential = await unit.GetPotential(),
+                evolution_level = await unit.GetEvolutionLevel(),
+                level = await unit.GetLevel()
             };
         }
 

@@ -16,14 +16,14 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
             if (requestBody.Length > 0)
             {
                 Request requestObj = Deserialize<Request>(requestBody)!;
                 player.data.tutorialProgress = requestObj.progress;
-                player.Save();
+                await player.Save();
             }
 
             Response responseObj = new()
@@ -34,8 +34,6 @@ namespace Yuyuyui.PrivateServer
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Request

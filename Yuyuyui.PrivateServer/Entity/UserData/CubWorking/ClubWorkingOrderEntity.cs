@@ -18,7 +18,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -29,7 +29,7 @@ namespace Yuyuyui.PrivateServer
             {
                 List<DataModel.ClubOrder> clubOrders;
                 List<ClubOrderRewardBox> clubOrderRewardBoxes;
-                using (ClubWorkingsContext clubWorkingsDb = new())
+                await using (ClubWorkingsContext clubWorkingsDb = new())
                 {
                     clubOrders = clubWorkingsDb.ClubOrders.ToList();
                     clubOrderRewardBoxes = clubWorkingsDb.ClubOrderRewardBoxes.ToList();
@@ -65,27 +65,24 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
+                var orders = await player.clubOrders
+                    .Select(ClubOrder.Load)
+                    .WhenAll();
                 responseObj = new()
                 {
-                    club_orders = player.clubOrders
-                        .Select(l =>
+                    club_orders = orders
+                        .Select(order => new Response.ClubOrderWithReward
                         {
-                            ClubOrder order = ClubOrder.Load(l);
-                            return new Response.ClubOrderWithReward
-                            {
-                                id = order.id,
-                                master_id = order.master_id,
-                                quantity = order.quantity,
-                                reward_boxes = new List<ClubOrder.RewardBox>()
-                            };
+                            id = order.id,
+                            master_id = order.master_id,
+                            quantity = order.quantity,
+                            reward_boxes = new List<ClubOrder.RewardBox>()
                         }).ToList()
                 };
             }
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response

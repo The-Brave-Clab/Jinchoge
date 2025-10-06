@@ -19,17 +19,17 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
             Request requestObj = Deserialize<Request>(requestBody)!;
 
-            Accessory playerAccessory = Accessory.Load(requestObj.id);
+            Accessory playerAccessory = await Accessory.Load(requestObj.id);
 
             DataModel.Accessory masterAccessory;
             AccessoryLevel accessoryTargetLevel;
-            using (AccessoriesContext accessoriesDb = new())
+            await using (AccessoriesContext accessoriesDb = new())
             {
                 masterAccessory = accessoriesDb.Accessories.First(ua => ua.Id == playerAccessory.master_id);
                 accessoryTargetLevel = accessoriesDb.AccessoryLevels
@@ -40,7 +40,7 @@ namespace Yuyuyui.PrivateServer
             // change player accessory status
             playerAccessory.level = requestObj.accessory.level;
             playerAccessory.quantity -= accessoryTargetLevel.NeedAmount; // don't need to clamp here
-            playerAccessory.Save();
+            await playerAccessory.Save();
             Utils.Log(string.Format(Resources.LOG_PS_ACCESSORY_ENHANCEMENT_LEVEL, playerAccessory.id, playerAccessory.level));
             Utils.Log(string.Format(Resources.LOG_PS_ACCESSORY_QUANTITY_DECREASED, playerAccessory.id, accessoryTargetLevel.NeedAmount));
             
@@ -55,7 +55,7 @@ namespace Yuyuyui.PrivateServer
                 // money
                 player.data.money -= accessoryTargetLevel.Money;
                 Utils.Log(string.Format(Resources.LOG_PS_MONEY_DECREASED, player.id.code, accessoryTargetLevel.Money));
-                player.Save();
+                await player.Save();
             }
 
             Response responseObj = new()
@@ -66,8 +66,6 @@ namespace Yuyuyui.PrivateServer
  
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Request

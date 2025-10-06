@@ -19,31 +19,32 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
             if (player.accessories.Count == 0)
             {
-                var newGyuuki = Accessory.DefaultAccessory();
+                var newGyuuki = await Accessory.DefaultAccessory();
                 player.accessories.Add(newGyuuki.master_id, newGyuuki.id);
-                newGyuuki.Save();
-                player.Save();
+                await newGyuuki.Save();
+                await player.Save();
                 Utils.Log(Resources.LOG_PS_ACCESSORY_ASSIGN_DEFAULT);
             }
 
+            var accessories = await player.accessories
+                .Select(a => Accessory.Load(a.Value))
+                .WhenAll();
+
             Response responseObj = new()
             {
-                accessories = player.accessories
-                    .Select(a => Accessory.Load(a.Value))
+                accessories = accessories
                     .Select(Response.Accessory.FromPlayerAccessory)
                     .ToDictionary(p => $"{p.id}", p => p)
             };
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response

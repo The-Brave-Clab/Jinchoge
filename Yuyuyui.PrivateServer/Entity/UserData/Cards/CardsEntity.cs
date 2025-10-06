@@ -19,41 +19,41 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
             if (player.cards.Count == 0)
             {
-                var yuuna = Yuyuyui.PrivateServer.Card.DefaultYuuna();
-                var tougou = Yuyuyui.PrivateServer.Card.DefaultTougou();
-                var fuu = Yuyuyui.PrivateServer.Card.DefaultFuu();
-                var itsuki = Yuyuyui.PrivateServer.Card.DefaultItsuki();
+                var yuuna = await Yuyuyui.PrivateServer.Card.DefaultYuuna();
+                var tougou = await Yuyuyui.PrivateServer.Card.DefaultTougou();
+                var fuu = await Yuyuyui.PrivateServer.Card.DefaultFuu();
+                var itsuki = await Yuyuyui.PrivateServer.Card.DefaultItsuki();
                 player.cards.Add(100010, yuuna.id); // since the key is base_card_id, we manually specify this
                 player.cards.Add(tougou.master_id, tougou.id);
                 player.cards.Add(fuu.master_id, fuu.id);
                 player.cards.Add(itsuki.master_id, itsuki.id);
-                yuuna.Save();
-                tougou.Save();
-                fuu.Save();
-                itsuki.Save();
-                player.Save();
+                await yuuna.Save();
+                await tougou.Save();
+                await fuu.Save();
+                await itsuki.Save();
+                await player.Save();
                 Utils.Log(Resources.LOG_PS_CARD_ASSIGN_DEFAULT);
             }
 
             // Utils.LogWarning("Taisha point bonus not applied!");
 
+            var cards = await player.cards
+                .Select(p => Card.FromPlayerCardData(p.Value))
+                .WhenAll();
+
             Response responseObj = new()
             {
-                cards = player.cards
-                    .Select(p => p.Value)
-                    .ToDictionary(c => c, c => Card.FromPlayerCardData(c))
+                cards = cards.ToDictionary(c => c.id, c => c)
             };
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response
@@ -84,9 +84,9 @@ namespace Yuyuyui.PrivateServer
             public int support_point { get; set; }
             public float exchange_point_rate { get; set; } // 0.0, 1.0, 2.0, 3.0, 5.0
 
-            public static Card FromPlayerCardData(long userCardId)
+            public static async Task<Card> FromPlayerCardData(long userCardId)
             {
-                return FromPlayerCardData(Yuyuyui.PrivateServer.Card.Load(userCardId));
+                return FromPlayerCardData(await Yuyuyui.PrivateServer.Card.Load(userCardId));
             }
 
             public static Card FromPlayerCardData(Yuyuyui.PrivateServer.Card userCard)

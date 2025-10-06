@@ -19,7 +19,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -27,13 +27,13 @@ namespace Yuyuyui.PrivateServer
 
             Request requestObj = Deserialize<Request>(requestBody)!;
             
-            Card userCard = Card.Load(requestObj.id);
+            Card userCard = await Card.Load(requestObj.id);
             DataModel.Card masterCard = userCard.MasterData();
             int targetEvolutionLevel = requestObj.card.evolution_level;
             int gotBraveCoin = masterCard.EvolutionRewardBraveCoin ?? 0;
             
             EvolutionRecipe recipe;
-            using (CardsContext cardsDb = new())
+            await using (CardsContext cardsDb = new())
             {
                 recipe = cardsDb.EvolutionRecipes.First(r => r.Id == masterCard.EvolutionRecipeId);
             }
@@ -47,7 +47,7 @@ namespace Yuyuyui.PrivateServer
                 userCard.id, userCard.evolution_level, targetEvolutionLevel));
             userCard.master_id = newMasterId;
             userCard.evolution_level = targetEvolutionLevel;
-            userCard.Save();
+            await userCard.Save();
             
             // since the player cards key is base_card_id which won't change,
             // we don't do anything even if the master_id of the card changed
@@ -60,17 +60,17 @@ namespace Yuyuyui.PrivateServer
                 {
                     {recipe.Resource1Id, recipe.Resource1Amount}
                 };
-                if (recipe.Resource2Id != null && recipe.Resource2Amount != null)
+                if (recipe is { Resource2Id: not null, Resource2Amount: not null })
                     costResources.Add(recipe.Resource2Id ?? 0, recipe.Resource2Amount ?? 0);
-                if (recipe.Resource3Id != null && recipe.Resource3Amount != null)
+                if (recipe is { Resource3Id: not null, Resource3Amount: not null })
                     costResources.Add(recipe.Resource3Id ?? 0, recipe.Resource3Amount ?? 0);
                 foreach (var resource in costResources)
                 {
                     // player has to have this item, or the client won't allow us to be here
-                    Item recipeItem = Item.Load(player.items.evolution[resource.Key]);
+                    Item recipeItem = await Item.Load(player.items.evolution[resource.Key]);
                     // we don't need to validate for the same reason
                     recipeItem.quantity -= resource.Value;
-                    recipeItem.Save();
+                    await recipeItem.Save();
                     Utils.Log(string.Format(Resources.LOG_PS_ITEM_QUANTITY_DECREASED, recipeItem.master_id, resource.Value));
                 }
 
@@ -81,7 +81,7 @@ namespace Yuyuyui.PrivateServer
             // grant the accessory rewards to the player
             long? evolutionRewardAccessoryId = newMasterCard.GetEvolutionRewardAccessoryId();
             int rewardQuantity = userCard.potential + 1;
-            player.GrantAccessory(evolutionRewardAccessoryId, rewardQuantity);
+            await player.GrantAccessory(evolutionRewardAccessoryId, rewardQuantity);
 
             // grant the brave coin rewards to the player
             if (!infiniteItems)
@@ -92,7 +92,7 @@ namespace Yuyuyui.PrivateServer
             // TODO: <GIFT_SYSTEM> give the limit break gift to the player
 
 
-            player.Save();
+            await player.Save();
 
             Response responseObj = new()
             {
@@ -102,8 +102,6 @@ namespace Yuyuyui.PrivateServer
  
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Request

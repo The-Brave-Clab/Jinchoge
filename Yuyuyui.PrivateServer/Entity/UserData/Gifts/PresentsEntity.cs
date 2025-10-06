@@ -17,13 +17,13 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
             
             // remove the gifts that have exceeded the time limit
             List<Gift> giftsToBeRemoved = new List<Gift>();
-            var acceptedGifts = player.receivedGifts.Select(Gift.Load).ToList();
+            var acceptedGifts = await player.receivedGifts.Select(Gift.Load).WhenAll();
             foreach (var gift in acceptedGifts)
             {
                 if (Utils.CurrentUnixTime() > gift.receivable_at)
@@ -33,23 +33,20 @@ namespace Yuyuyui.PrivateServer
                 }
             }
 
-            foreach (var gift in giftsToBeRemoved)
-            {
-                gift.Delete();
-                player.receivedGifts.Remove(gift.id);
-            }
-            if (giftsToBeRemoved.Count > 0)
-                player.Save();
+            giftsToBeRemoved.ForEach(g => player.receivedGifts.Remove(g.id));
+            await giftsToBeRemoved.ForEachAsync(g => g.Delete());
 
+            if (giftsToBeRemoved.Count > 0)
+                await player.Save();
+
+            var gifts = await player.receivedGifts.Select(Gift.Load).WhenAll();
             Response responseObj = new()
             {
-                gifts = player.receivedGifts.Select(Gift.Load).ToList()
+                gifts = gifts.ToList()
             };
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response

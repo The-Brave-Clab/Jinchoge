@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System.Threading.Tasks;
+
+namespace Yuyuyui.PrivateServer
 {
     public class EnhancementTransaction : BasePlayerData<EnhancementTransaction, long>
     {
@@ -7,10 +9,10 @@
 
         protected override long Identifier => id;
         
-        private static long GetID()
+        private static async Task<long> GetID()
         {
             long new_id = long.Parse(Utils.GenerateRandomDigit(8));
-            while (Exists(new_id))
+            while (await Exists(new_id))
             {
                 new_id = long.Parse(Utils.GenerateRandomDigit(8));
             }
@@ -18,15 +20,15 @@
             return new_id;
         }
 
-        public static EnhancementTransaction Create(TransactionCreateData createData)
+        public static async Task<EnhancementTransaction> Create(TransactionCreateData createData)
         {
             EnhancementTransaction transaction = new()
             {
-                id = GetID(),
+                id = await GetID(),
                 createdWith = createData
             };
             
-            transaction.Save();
+            await transaction.Save();
             
             return transaction;
         }

@@ -18,22 +18,23 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
+            var friendRequests = await player.friendRequests
+                .Select(FriendRequest.Load)
+                .WhenAll();
+            var responseFriendRequests = await friendRequests
+                .Select(Response.Data.FromFriendRequest)
+                .WhenAll();
             Response responseObj = new()
             {
-                fellow_requests = player.friendRequests
-                    .Select(FriendRequest.Load)
-                    .ToDictionary(fr => fr.id,
-                        fr => Response.Data.FromFriendRequest(fr))
+                fellow_requests = responseFriendRequests.ToDictionary(r => r.id, r => r)
             };
             
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response
@@ -47,15 +48,15 @@ namespace Yuyuyui.PrivateServer
                 public long created_at { get; set; }
                 public UserInfoEntity.Response.User from_user { get; set; } = new();
 
-                public static Data FromFriendRequest(FriendRequest friendRequest)
+                public static async Task<Data> FromFriendRequest(FriendRequest friendRequest)
                 {
+                    var fromPlayerProfile = await PlayerProfile.Load(friendRequest.fromUser);
                     return new()
                     {
                         id = friendRequest.id,
                         status = friendRequest.status,
                         created_at = friendRequest.createdAt,
-                        from_user = UserInfoEntity.Response.User.FromPlayerProfile(
-                            PlayerProfile.Load(friendRequest.fromUser))
+                        from_user = await UserInfoEntity.Response.User.FromPlayerProfile(fromPlayerProfile)
                     };
                 }
             }

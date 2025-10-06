@@ -228,6 +228,21 @@ namespace Yuyuyui.PrivateServer
                 action(item);
         }
 
+        public static Task ForEachAsync<T>(this IEnumerable<T> source, Func<T, Task> asyncAction)
+        {
+            return source.Select(asyncAction).WhenAll();
+        }
+
+        public static Task<T[]> WhenAll<T>(this IEnumerable<Task<T>> tasks)
+        {
+            return Task.WhenAll(tasks);
+        }
+
+        public static Task WhenAll(this IEnumerable<Task> tasks)
+        {
+            return Task.WhenAll(tasks);
+        }
+
         #endregion
     }
 }

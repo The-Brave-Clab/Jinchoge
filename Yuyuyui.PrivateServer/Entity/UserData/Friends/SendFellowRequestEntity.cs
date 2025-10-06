@@ -19,14 +19,14 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
             string friendCode = GetPathParameter("user_id");
 
             // Get the requested player
             // Respects the path parameter
-            var friend = PlayerProfile.Load(friendCode);
+            var friend = await PlayerProfile.Load(friendCode);
 
             // We don't care about the request body anymore
             // {
@@ -42,30 +42,28 @@ namespace Yuyuyui.PrivateServer
             // if so, we should automatically make it accepted
             try
             {
-                friendRequest =
-                    player.friendRequests
-                        .Select(FriendRequest.Load)
-                        .First(fr => fr.fromUser == friend.id.code);
+                var requests = await player.friendRequests
+                    .Select(FriendRequest.Load)
+                    .WhenAll();
+                friendRequest = requests.First(fr => fr.fromUser == friend.id.code);
                 Utils.Log(string.Format(Resources.LOG_PS_FRIEND_REQUEST_FOUND_SYMMETRIC,
                     friendRequest.id, friendRequest.fromUser, friendRequest.toUser));
                 friendRequest.status = 1; // Accept
-                friendRequest.ProcessStatus();
+                await friendRequest.ProcessStatus();
             }
             catch (InvalidOperationException)
             {
-                friendRequest = FriendRequest.CreateOrLoad(player, friend);
+                friendRequest = await FriendRequest.CreateOrLoad(player, friend);
             }
 
             Response responseObj = new()
             {
                 fellow_request =
-                    FellowRequestEntity.Response.Data.FromFriendRequest(friendRequest)
+                    await FellowRequestEntity.Response.Data.FromFriendRequest(friendRequest)
             };
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response

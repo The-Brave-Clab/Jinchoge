@@ -17,7 +17,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -27,7 +27,7 @@ namespace Yuyuyui.PrivateServer
                 int checkVersion = request.regulation_version.current_version;
                 Utils.Log(string.Format(Resources.PS_LOG_REGULATION_AGREED, checkVersion));
                 player.data.regulationVersion = checkVersion;
-                player.Save();
+                await player.Save();
             }
             
             Response responseObj = new()
@@ -42,8 +42,6 @@ namespace Yuyuyui.PrivateServer
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Request

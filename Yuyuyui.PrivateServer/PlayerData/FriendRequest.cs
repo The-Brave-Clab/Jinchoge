@@ -1,4 +1,5 @@
-﻿using Yuyuyui.PrivateServer.Localization;
+﻿using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -12,10 +13,10 @@ namespace Yuyuyui.PrivateServer
         public string fromUser { get; set; } = "";
         public string toUser { get; set; } = "";
 
-        private static long GetID()
+        private static async Task<long> GetID()
         {
             long new_id = long.Parse(Utils.GenerateRandomDigit(9));
-            while (Exists(new_id))
+            while (await Exists(new_id))
             {
                 new_id = long.Parse(Utils.GenerateRandomDigit(9));
             }
@@ -23,13 +24,13 @@ namespace Yuyuyui.PrivateServer
             return new_id;
         }
 
-        public static FriendRequest CreateOrLoad(PlayerProfile from, PlayerProfile to)
+        public static async Task<FriendRequest> CreateOrLoad(PlayerProfile from, PlayerProfile to)
         {
             // first, find if the request exists
             // if exists, do nothing but return the existing request
             foreach (var requestID in to.friendRequests)
             {
-                FriendRequest req = Load(requestID);
+                FriendRequest req = await Load(requestID);
                 if (req.fromUser == from.id.code)
                 {
                     Utils.LogTrace(string.Format(Resources.LOG_PS_FRIEND_REQUEST_FOUND, req.id, from.id.code, to.id.code));
@@ -40,40 +41,40 @@ namespace Yuyuyui.PrivateServer
             // if it doesn't exist, create it
             FriendRequest request = new FriendRequest
             {
-                id = GetID(),
+                id = await GetID(),
                 status = 0,
                 createdAt = Utils.CurrentUnixTime(),
                 fromUser = from.id.code,
                 toUser = to.id.code
             };
-            request.Save();
+            await request.Save();
             Utils.LogTrace(string.Format(Resources.LOG_PS_FRIEND_REQUEST_CREATED, request.id, from.id.code, to.id.code));
 
             // and save into the requested user's profile
             if (!to.id.code.StartsWith("0"))
             {
                 to.friendRequests.Add(request.id);
-                to.Save();
+                await to.Save();
             }
             Utils.Log(string.Format(Resources.LOG_PS_FRIEND_REQUEST_SENT, request.id, to.id.code));
 
             return request;
         }
 
-        private void Remove()
+        private async Task Remove()
         {
             // delete the id from target player
-            PlayerProfile toPlayer = PlayerProfile.Load(toUser);
+            PlayerProfile toPlayer = await PlayerProfile.Load(toUser);
             toPlayer.friendRequests.Remove(id);
-            toPlayer.Save();
+            await toPlayer.Save();
             Utils.Log(string.Format(Resources.LOG_PS_FRIEND_REQUEST_REMOVED, id, toPlayer.id.code));
             
             // delete the file
-            Delete();
+            await Delete();
             Utils.Log(string.Format(Resources.LOG_PS_FRIEND_REQUEST_DELETED, id, fromUser, toUser));
         }
 
-        public void ProcessStatus()
+        public async Task ProcessStatus()
         {
             if (status == 0)
             {
@@ -84,16 +85,16 @@ namespace Yuyuyui.PrivateServer
             if (status == 1) // accepted
             {
                 // add friend
-                PlayerProfile from = PlayerProfile.Load(fromUser);
-                PlayerProfile to = PlayerProfile.Load(toUser);
+                PlayerProfile from = await PlayerProfile.Load(fromUser);
+                PlayerProfile to = await PlayerProfile.Load(toUser);
                 
                 from.friends.Add(to.id.code);
-                from.Save();
+                await from.Save();
                 
                 if (!to.id.code.StartsWith("0"))
                 {
                     to.friends.Add(from.id.code);
-                    to.Save();
+                    await to.Save();
                 }
                 
                 Utils.Log(string.Format(Resources.LOG_PS_FRIEND_REQUEST_ACCEPTED, from.id.code, to.id.code));
@@ -107,7 +108,7 @@ namespace Yuyuyui.PrivateServer
             if (status is 1 or 2) // huh good looking syntax
             {
                 // finished processing, remove the request from "database"
-                Remove();
+                await Remove();
                 return;
             }
             

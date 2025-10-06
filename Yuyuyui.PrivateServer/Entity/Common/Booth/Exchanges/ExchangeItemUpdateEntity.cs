@@ -18,7 +18,7 @@ public class ExchangeItemUpdateEntity : BaseEntity<ExchangeItemUpdateEntity>
     {
     }
 
-    protected override Task ProcessRequest()
+    protected override async Task ProcessRequest()
     {
         var player = GetPlayerFromCookies();
         
@@ -33,13 +33,13 @@ public class ExchangeItemUpdateEntity : BaseEntity<ExchangeItemUpdateEntity>
         if (cardProduct == null)
         {
             SetBasicResponseHeaders();
-            return Task.CompletedTask;
+            return;
         }
 
         long masterCardId = cardProduct.master_id;
         int potentialCount = exchangeBoothRequest.count;
         
-        player.GrantCard(masterCardId, potentialCount);
+        await player.GrantCard(masterCardId, potentialCount);
 
         Response currentResponse = new Response
         {
@@ -56,7 +56,6 @@ public class ExchangeItemUpdateEntity : BaseEntity<ExchangeItemUpdateEntity>
         responseBody = Serialize(currentResponse);
         
         SetBasicResponseHeaders();
-        return Task.CompletedTask;
     }
 
     public class Request

@@ -17,14 +17,14 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
             // remove the gifts that have been accepted for 14 days
             // or exceeds the limit of 20
             List<Gift> giftsToBeRemoved = new List<Gift>();
-            var acceptedGifts = player.acceptedGifts.Select(Gift.Load).ToList();
+            var acceptedGifts = await player.acceptedGifts.Select(Gift.Load).WhenAll();
             foreach (var gift in acceptedGifts)
             {
                 var timePassed = DateTime.UtcNow - Utils.FromUnixTime(gift.received_at).ToUniversalTime();
@@ -35,29 +35,26 @@ namespace Yuyuyui.PrivateServer
                 }
             }
 
-            for (int i = 0; i < acceptedGifts.Count - 20; ++i)
+            for (int i = 0; i < acceptedGifts.Length - 20; ++i)
             {
                 if (!giftsToBeRemoved.Contains(acceptedGifts[i]))
                     giftsToBeRemoved.Add(acceptedGifts[i]);
             }
 
-            foreach (var gift in giftsToBeRemoved)
-            {
-                gift.Delete();
-                player.acceptedGifts.Remove(gift.id);
-            }
-            if (giftsToBeRemoved.Count > 0)
-                player.Save();
+            giftsToBeRemoved.ForEach(g => player.receivedGifts.Remove(g.id));
+            await giftsToBeRemoved.ForEachAsync(g => g.Delete());
 
+            if (giftsToBeRemoved.Count > 0)
+                await player.Save();
+
+            var gifts = await player.acceptedGifts.Select(Gift.Load).WhenAll();
             PresentsEntity.Response responseObj = new()
             {
-                gifts = player.acceptedGifts.Select(Gift.Load).ToList()
+                gifts = gifts.ToList()
             };
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
     }
 }

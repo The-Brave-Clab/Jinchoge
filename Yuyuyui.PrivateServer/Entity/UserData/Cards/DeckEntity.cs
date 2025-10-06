@@ -19,7 +19,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -27,67 +27,68 @@ namespace Yuyuyui.PrivateServer
             {
                 // when player's deck is empty, it has to be a new player
                 // which means there has to be these four cards.
-                var yuuna = Card.Load(player.cards[100010]);
-                var tougou = Card.Load(player.cards[100020]);
-                var fuu = Card.Load(player.cards[100040]);
-                var itsuki = Card.Load(player.cards[100050]);
+                var yuuna = await Card.Load(player.cards[100010]);
+                var tougou = await Card.Load(player.cards[100020]);
+                var fuu = await Card.Load(player.cards[100040]);
+                var itsuki = await Card.Load(player.cards[100050]);
 
-                var yuunaUnit = yuuna.CreateUnit(tougou.AsSupport());
-                var fuuUnit = fuu.CreateUnit();
-                var itsukiUnit = itsuki.CreateUnit();
+                var yuunaUnit = await yuuna.CreateUnit(tougou.AsSupport());
+                var fuuUnit = await fuu.CreateUnit();
+                var itsukiUnit = await itsuki.CreateUnit();
 
-                yuunaUnit.Save();
-                fuuUnit.Save();
-                itsukiUnit.Save();
+                await yuunaUnit.Save();
+                await fuuUnit.Save();
+                await itsukiUnit.Save();
 
                 var firstDeck = new Deck
                 {
-                    id = Deck.GetID(),
+                    id = await Deck.GetID(),
                     leaderUnitID = yuunaUnit.id,
                     name = null,
                     units = new List<long> {yuunaUnit.id, fuuUnit.id, itsukiUnit.id}
                 };
-                firstDeck.Save();
+                await firstDeck.Save();
 
                 player.decks.Add(firstDeck.id);
 
                 for (int i = 1; i < 14; ++i)
                 {
-                    var unit1 = yuuna.CreateUnit();
-                    var unit2 = Unit.CreateEmptyUnit();
-                    var unit3 = Unit.CreateEmptyUnit();
-                    unit1.Save();
-                    unit2.Save();
-                    unit3.Save();
+                    var unit1 = await yuuna.CreateUnit();
+                    var unit2 = await Unit.CreateEmptyUnit();
+                    var unit3 = await Unit.CreateEmptyUnit();
+                    await unit1.Save();
+                    await unit2.Save();
+                    await unit3.Save();
 
                     var deck = new Deck
                     {
-                        id = Deck.GetID(),
+                        id = await Deck.GetID(),
                         leaderUnitID = unit1.id,
                         name = null,
                         units = new List<long> {unit1.id, unit2.id, unit3.id}
                     };
-                    deck.Save();
+                    await deck.Save();
 
                     player.decks.Add(deck.id);
                 }
 
-                player.Save();
+                await player.Save();
                 Utils.Log(Resources.LOG_PS_DECK_SET_DEFAULT);
             }
 
+            var decks = await player.decks
+                .Select(Deck.Load)
+                .WhenAll();
+            var responseDeck = await decks
+                .Select(d => Response.Deck.FromPlayerDeck(d, player))
+                .WhenAll();
             Response responseObj = new()
             {
-                decks = player.decks
-                    .Select(Deck.Load)
-                    .Select(d => Response.Deck.FromPlayerDeck(d, player))
-                    .ToList()
+                decks = responseDeck.ToList()
             };
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response
@@ -101,16 +102,20 @@ namespace Yuyuyui.PrivateServer
                 public string? name { get; set; } = null;
                 public IList<Unit.CardWithSupport> cards { get; set; } = new List<Unit.CardWithSupport>();
 
-                public static Deck FromPlayerDeck(Yuyuyui.PrivateServer.Deck d, PlayerProfile player)
+                public static async Task<Deck> FromPlayerDeck(Yuyuyui.PrivateServer.Deck d, PlayerProfile player)
                 {
+                    var units = await d.units
+                        .Select(Unit.Load)
+                        .WhenAll();
+                    var cardsWithSupport = await units
+                        .Select(u => Unit.CardWithSupport.FromUnit(u, player))
+                        .WhenAll();
                     return new Response.Deck
                     {
                         id = d.id,
                         leader_deck_card_id = d.leaderUnitID,
                         name = d.name,
-                        cards = d.units
-                            .Select(id => Unit.CardWithSupport.FromUnit(Unit.Load(id), player))
-                            .ToList()!
+                        cards = cardsWithSupport.ToList()!
                     };
                 }
             }

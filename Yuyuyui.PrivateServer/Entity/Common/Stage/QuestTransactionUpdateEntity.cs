@@ -20,7 +20,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -30,7 +30,7 @@ namespace Yuyuyui.PrivateServer
             // Ignored the request body since it's the same as the path parameter
             //Request request = Deserialize<Request>(requestBody)!;
 
-            QuestTransaction transaction = QuestTransaction.Load(transactionId);
+            QuestTransaction transaction = await QuestTransaction.Load(transactionId);
             
             // Validate here?
 
@@ -38,27 +38,27 @@ namespace Yuyuyui.PrivateServer
             Episode dbEpisode;
             Chapter dbChapter;
 
-            using (QuestsContext questsDb = new())
+            await using (QuestsContext questsDb = new())
             {
                 dbStage = questsDb.Stages.First(s => s.Id == transaction.stageId);
                 dbEpisode = questsDb.Episodes.First(e => e.Id == dbStage.EpisodeId);
                 dbChapter = questsDb.Chapters.First(c => c.Id == dbEpisode.ChapterId);
             }
 
-            var stageProgress = StageProgress.GetOrCreate(player, dbStage.Id);
-            var episodeProgress = EpisodeProgress.GetOrCreate(player, dbEpisode.Id);
-            var chapterProgress = ChapterProgress.GetOrCreate(player, dbChapter.Id);
+            var stageProgress = await StageProgress.GetOrCreate(player, dbStage.Id);
+            var episodeProgress = await EpisodeProgress.GetOrCreate(player, dbEpisode.Id);
+            var chapterProgress = await ChapterProgress.GetOrCreate(player, dbChapter.Id);
 
             if (!episodeProgress.stages.Contains(stageProgress.id))
             {
                 episodeProgress.stages.Add(stageProgress.id);
-                episodeProgress.Save();
+                await episodeProgress.Save();
             }
 
             if (!chapterProgress.episodes.Contains(episodeProgress.id))
             {
                 chapterProgress.episodes.Add(episodeProgress.id);
-                chapterProgress.Save();
+                await chapterProgress.Save();
             }
 
             Response responseObj = new();
@@ -72,12 +72,12 @@ namespace Yuyuyui.PrivateServer
                 responseObj = deserializer.Deserialize<Response>(stageData);
                 
                 // TODO: fill in the guest
-                responseObj.deck = Response.BattleDeck.FromTransaction(transaction, player, null);
+                responseObj.deck = await Response.BattleDeck.FromTransaction(transaction, player, null);
             }
 
-            responseObj.chapter = ChapterEntity.Response.Chapter.GetFromDatabase(dbChapter, player);
-            responseObj.episode = EpisodeEntity.Response.Episode.GetFromDatabase(dbEpisode, player);
-            responseObj.stage = StageEntity.Response.Stage.GetFromDatabase(dbStage, player);
+            responseObj.chapter = await ChapterEntity.Response.Chapter.GetFromDatabase(dbChapter, player);
+            responseObj.episode = await EpisodeEntity.Response.Episode.GetFromDatabase(dbEpisode, player);
+            responseObj.stage = await StageEntity.Response.Stage.GetFromDatabase(dbStage, player);
             
             responseObj.chapter.id = chapterProgress.id;
             responseObj.episode.id = episodeProgress.id;
@@ -87,8 +87,6 @@ namespace Yuyuyui.PrivateServer
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         // public class Request
@@ -227,29 +225,31 @@ namespace Yuyuyui.PrivateServer
                 public IList<SkillInfo> stage_leader_skills { get; set; } = new List<SkillInfo>();
                 public IList<BattleCardData> cards { get; set; } = new List<BattleCardData>();
 
-                public static BattleDeck FromTransaction(QuestTransaction transaction, PlayerProfile player, PlayerProfile? guest)
+                public static async Task<BattleDeck> FromTransaction(QuestTransaction transaction, PlayerProfile player, PlayerProfile? guest)
                 {
-                    var deck = Deck.Load(transaction.createdWith.using_deck_id!.Value);
+                    var deck = await Deck.Load(transaction.createdWith.using_deck_id!.Value);
 
-                    var leaderUnit = Unit.Load(deck.leaderUnitID);
+                    var leaderUnit = await Unit.Load(deck.leaderUnitID);
                     var friendUnit = transaction.createdWith.supporting_deck_card_id == null
                         ? null
-                        : Unit.Load(transaction.createdWith.supporting_deck_card_id.Value);
+                        : await Unit.Load(transaction.createdWith.supporting_deck_card_id.Value);
 
                     var result = new BattleDeck
                     {
-                        leader_skill = LeaderSkillInfo.FromUnit(leaderUnit),
-                        friend_leader_skill = LeaderSkillInfo.FromUnit(friendUnit),
+                        leader_skill = await LeaderSkillInfo.FromUnit(leaderUnit),
+                        friend_leader_skill = await LeaderSkillInfo.FromUnit(friendUnit),
                         stage_leader_skills = new List<SkillInfo>(), // This seems to be always empty?
                     };
 
                     int order = 1;
-                    foreach (var unitId in deck.units)
+
+                    var deckUnits = await deck.units.Select(Unit.Load).WhenAll();
+                    foreach (var unit in deckUnits)
                     {
-                        var unit = Unit.Load(unitId);
                         if (unit.baseCardID == null) continue;
                         
-                        result.cards.Add(BattleCardData.GetFromUnit(player, unit, order, unitId == deck.leaderUnitID, FriendType.OWNER));
+                        result.cards.Add(await BattleCardData.GetFromUnit(player, unit, order,
+                            unit.id == deck.leaderUnitID, FriendType.OWNER));
                         ++order;
                     }
 
@@ -266,9 +266,9 @@ namespace Yuyuyui.PrivateServer
             public class BattleCardData : SubCardData
             {
                 public long id { get; set; }
-                public object supporter { get; set; } = new();
-                public object supporter_2 { get; set; } = new();
-                public object assist { get; set; } = new();
+                public SubCardData? supporter { get; set; } = new();
+                public SubCardData? supporter_2 { get; set; } = new();
+                public SubCardData? assist { get; set; } = new();
                 public int order { get; set; }
                 public SkillInfo active_skill { get; set; } = new();
                 public List<Accessory> accessories { get; set; } = new();
@@ -276,14 +276,18 @@ namespace Yuyuyui.PrivateServer
                 public bool leader { get; set; }
                 public FriendType friend_type { get; set; }
 
-                public static BattleCardData GetFromUnit(PlayerProfile player, Unit unit, int order, bool leader,
+                public static async Task<BattleCardData> GetFromUnit(PlayerProfile player, Unit unit, int order, bool leader,
                     FriendType friendType)
                 {
-                    Card baseCard = Card.Load(unit.baseCardID!.Value);
+                    Card baseCard = await Card.Load(unit.baseCardID!.Value);
                     var masterCard = baseCard.MasterData();
-                    Card? support = unit.supportCardID == null ? null : Card.Load(unit.supportCardID.Value);
-                    Card? support2 = unit.supportCard2ID == null ? null : Card.Load(unit.supportCard2ID.Value);
-                    Card? assist = unit.assistCardID == null ? null : Card.Load(unit.assistCardID.Value);
+                    Card? support = unit.supportCardID == null ? null : await Card.Load(unit.supportCardID.Value);
+                    Card? support2 = unit.supportCard2ID == null ? null : await Card.Load(unit.supportCard2ID.Value);
+                    Card? assist = unit.assistCardID == null ? null : await Card.Load(unit.assistCardID.Value);
+
+                    var responseAccessories = await unit.accessories
+                        .Select(Accessory.GetFromUserAccessoryId)
+                        .WhenAll();
 
                     var result = new BattleCardData
                     {
@@ -294,10 +298,8 @@ namespace Yuyuyui.PrivateServer
                         assist = GetFromCard(assist),
                         order = order,
                         active_skill = new() { id = masterCard.ActiveSkillId!.Value, level = baseCard.active_skill_level },
-                        accessories = unit.accessories
-                            .Select(Accessory.GetFromUserAccessoryId)
-                            .ToList(),
-                        hp = unit.GetHP(player),
+                        accessories = responseAccessories.ToList(),
+                        hp = await unit.GetHP(player),
                         leader = leader,
                         friend_type = friendType
                     };
@@ -387,9 +389,9 @@ namespace Yuyuyui.PrivateServer
                         .ToList();
                 }
 
-                public static object GetFromCard(Card? card)
+                public static SubCardData? GetFromCard(Card? card)
                 {
-                    if (card == null) return new();
+                    if (card == null) return null;
 
                     var result = new SubCardData();
                     result.FillFromCard(card);
@@ -402,9 +404,9 @@ namespace Yuyuyui.PrivateServer
                 public long master_id { get; set; }
                 public SkillInfo passive_skill { get; set; } = new();
 
-                public static Accessory GetFromUserAccessoryId(long id)
+                public static async Task<Accessory> GetFromUserAccessoryId(long id)
                 {
-                    var accessory = Yuyuyui.PrivateServer.Accessory.Load(id);
+                    var accessory = await Yuyuyui.PrivateServer.Accessory.Load(id);
                     var masterData = accessory.MasterData();
 
                     return new()
@@ -430,10 +432,10 @@ namespace Yuyuyui.PrivateServer
                 [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
                 public long? id { get; set; } = null;
 
-                public static LeaderSkillInfo FromUnit(Unit? unit)
+                public static async Task<LeaderSkillInfo> FromUnit(Unit? unit)
                 {
                     if (unit == null) return new();
-                    var baseCard = unit.GetCard();
+                    var baseCard = await unit.GetCard();
                     var masterCard = baseCard!.MasterData();
 
                     return new()

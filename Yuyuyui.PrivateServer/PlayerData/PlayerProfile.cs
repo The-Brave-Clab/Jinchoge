@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
 using Yuyuyui.PrivateServer.Localization;
 
@@ -45,9 +46,9 @@ namespace Yuyuyui.PrivateServer
         
 
 
-        public CharacterFamiliarityWithAssist GetCharacterFamiliarity(long characterId1, long characterId2)
+        public async Task<CharacterFamiliarityWithAssist> GetCharacterFamiliarity(long characterId1, long characterId2)
         {
-            string groupName = CharacterFamiliarityWithAssist.GetGroupName(characterId1, characterId2);
+            string groupName = CharacterFamiliarity.GetGroupName(characterId1, characterId2);
             if (!characterFamiliarities.ContainsKey(groupName))
                 characterFamiliarities.Add(groupName, new()
                 {
@@ -57,53 +58,53 @@ namespace Yuyuyui.PrivateServer
                     assist_level = 1
                 });
             
-            Save();
+            await Save();
 
             return characterFamiliarities[groupName];
         }
 
-        public void BanAccount()
+        public async Task BanAccount()
         {
             // Delete all BasePlayerData.Identifier related entries
             
             Utils.LogWarning(string.Format(Resources.LOG_PS_ACCOUNT_BANNING, id.code));
             
-            accessories.Values.ForEach(Accessory.Delete);
-            clubOrders.ForEach(ClubOrder.Delete);
-            clubWorkingSlots.ForEach(ClubWorkingSlot.Delete);
-            cards.Values.ForEach(Card.Delete);
-            friendRequests.ForEach(FriendRequest.Delete);
+            await accessories.Values.ForEachAsync(Accessory.Delete);
+            await clubOrders.ForEachAsync(ClubOrder.Delete);
+            await clubWorkingSlots.ForEachAsync(ClubWorkingSlot.Delete);
+            await cards.Values.ForEachAsync(Card.Delete);
+            await friendRequests.ForEachAsync(FriendRequest.Delete);
             
             // For decks, remove the units inside first
             foreach (var deckId in decks)
             {
-                Deck deck = Deck.Load(deckId);
-                deck.units.ForEach(Unit.Delete);
-                deck.Delete();
+                Deck deck = await Deck.Load(deckId);
+                await deck.units.ForEachAsync(Unit.Delete);
+                await deck.Delete();
             }
             
-            receivedGifts.ForEach(Gift.Delete);
-            acceptedGifts.ForEach(Gift.Delete);
+            await receivedGifts.ForEachAsync(Gift.Delete);
+            await acceptedGifts.ForEachAsync(Gift.Delete);
 
-            progress.chapters.Values.ForEach(ChapterProgress.Delete);
-            progress.episodes.Values.ForEach(EpisodeProgress.Delete);
-            progress.stages.Values.ForEach(StageProgress.Delete);
+            await progress.chapters.Values.ForEachAsync(ChapterProgress.Delete);
+            await progress.episodes.Values.ForEachAsync(EpisodeProgress.Delete);
+            await progress.stages.Values.ForEachAsync(StageProgress.Delete);
             
-            items.autoClearTickets.Values.ForEach(Item.Delete);
-            items.enhancement.Values.ForEach(Item.Delete);
-            items.eventItems.Values.ForEach(Item.Delete);
-            items.evolution.Values.ForEach(Item.Delete);
-            items.stamina.Values.ForEach(Item.Delete);
+            await items.autoClearTickets.Values.ForEachAsync(Item.Delete);
+            await items.enhancement.Values.ForEachAsync(Item.Delete);
+            await items.eventItems.Values.ForEachAsync(Item.Delete);
+            await items.evolution.Values.ForEachAsync(Item.Delete);
+            await items.stamina.Values.ForEachAsync(Item.Delete);
             
             // Finally, delete ourselves
             PrivateServer.RemovePlayerProfile(this);
-            Delete();
+            await Delete();
             
             Utils.LogWarning(string.Format(Resources.LOG_PS_ACCOUNT_BANNED, id.code));
         }
 
         // Accessory only, skip the gift acceptance progress
-        public void UpsertPotentialGift(int previousPotential, int currentPotential, DataModel.Card masterCard)
+        public async Task UpsertPotentialGift(int previousPotential, int currentPotential, DataModel.Card masterCard)
         {
             var border = masterCard.PotentialGiftBorder;
             if (previousPotential >= border || currentPotential < border)
@@ -112,17 +113,17 @@ namespace Yuyuyui.PrivateServer
             long? potentialGiftId = masterCard.PotentialGiftId;
 
             DataModel.Gift masterGift;
-            using (GiftsContext giftsDb = new())
+            await using (GiftsContext giftsDb = new())
             {
                 masterGift = giftsDb.Gifts
                     .Where(gift => gift.ContentType == "Accessory")
                     .First(gift => gift.Id == potentialGiftId);
             }
 
-            GrantAccessory(masterGift.ContentId, masterGift.Quantity);
+            await GrantAccessory(masterGift.ContentId, masterGift.Quantity);
         }
 
-        public void GrantAccessory(long? accessoryId, int quantity)
+        public async Task GrantAccessory(long? accessoryId, int quantity)
         {
             if (accessoryId == null) return;
 
@@ -131,61 +132,61 @@ namespace Yuyuyui.PrivateServer
             Accessory accessory;
             if (isNew)
             {
-                accessory = Accessory.NewAccessoryByMasterId((long) accessoryId);
+                accessory = await Accessory.NewAccessoryByMasterId((long) accessoryId);
                 accessory.quantity = quantity - 1;
 
                 accessories.Add((long) accessoryId, accessory.id);
-                accessory.Save();
-                Save();
+                await accessory.Save();
+                await Save();
 
                 Utils.Log(string.Format(Resources.LOG_PS_ACCESSORY_ASSIGN_NEW, (long) accessoryId));
                 return;
             }
 
-            accessory = Accessory.Load(accessories[(long)accessoryId]);
+            accessory = await Accessory.Load(accessories[(long)accessoryId]);
             accessory.quantity += quantity;
 
-            accessory.Save();
+            await accessory.Save();
 
             Utils.Log(string.Format(Resources.LOG_PS_ACCESSORY_QUANTITY_INCREASED, accessoryId, quantity));
         }
 
-        public void GrantCard(long masterCardId, int potentialCount)
+        public async Task GrantCard(long masterCardId, int potentialCount)
         {
             bool isNewCard = !cards.Keys.Contains(masterCardId);
 
             Card card;
             if (isNewCard)
             {
-                card = Card.NewCardByMasterId(masterCardId);
+                card = await Card.NewCardByMasterId(masterCardId);
                 cards.Add(masterCardId, card.id);
-                card.Save();
-                Save();
+                await card.Save();
+                await Save();
                 potentialCount -= 1;
                 Utils.Log(string.Format(Resources.LOG_PS_CARD_ASSIGN_NEW, masterCardId));
             }
             else
             {
-                card = Card.Load(cards[masterCardId]);
+                card = await Card.Load(cards[masterCardId]);
             }
 
             int previousPotentialCount = card.potential;
-            card.AddPotential(potentialCount);
+            await card.AddPotential(potentialCount);
 
             DataModel.Card masterCard;
-            using (CardsContext cardsDb = new())
+            await using (CardsContext cardsDb = new())
                 masterCard = cardsDb.Cards.First(c => c.Id == masterCardId);
-            UpsertPotentialGift(previousPotentialCount, card.potential, masterCard);
+            await UpsertPotentialGift(previousPotentialCount, card.potential, masterCard);
 
-            card = Card.Load(cards[masterCardId]);
-            UpdateEvolutionAccessoriesForCard(card, potentialCount);
+            card = await Card.Load(cards[masterCardId]);
+            await UpdateEvolutionAccessoriesForCard(card, potentialCount);
 
-            EnsureEligibleCardTitle();
+            await EnsureEligibleCardTitle();
         }
 
-        public IList<int> EnsureEligibleCardTitle()
+        public async Task<IList<int>> EnsureEligibleCardTitle()
         {
-            var eligibleCardTitleItems = GetObtainableTitles();
+            var eligibleCardTitleItems = await GetObtainableTitles();
             if (!eligibleCardTitleItems.Any()) return new List<int>();
 
             eligibleCardTitleItems.AsEnumerable().ForEach(titleItem => items.titleItems.Add(titleItem.Id));
@@ -193,33 +194,33 @@ namespace Yuyuyui.PrivateServer
                 .Concat(eligibleCardTitleItems.Select(ti => ti.Id))
                 .ToList();
 
-            Save();
+            await Save();
 
             return eligibleCardTitleItems.Select(ti => (int) ti.Id).ToList();
         }
 
-        private void UpdateEvolutionAccessoriesForCard(Card playerCard, int potentialCount)
+        private async Task UpdateEvolutionAccessoriesForCard(Card playerCard, int potentialCount)
         {
             if (playerCard.evolution_level < 1 || potentialCount < 1)
                 return;
 
             IEnumerable<DataModel.Card> cardsQuery;
-            using (CardsContext cardsDb = new())
+            await using (CardsContext cardsDb = new())
             {
                 cardsQuery = cardsDb.Cards
                     .Where(card => card.Id == playerCard.master_id)
                     .AsEnumerable();
             }
-            cardsQuery.ForEach(card => UpdateEvolutionAccessories(potentialCount, card));
+            await cardsQuery.ForEachAsync(card => UpdateEvolutionAccessories(potentialCount, card));
         }
 
-        private void UpdateEvolutionAccessories(int potentialCount, DataModel.Card card)
+        private async Task UpdateEvolutionAccessories(int potentialCount, DataModel.Card card)
         {
-            GrantAccessory(card.EvolutionRewardAccessory1Id, potentialCount);
-            GrantAccessory(card.EvolutionRewardAccessory2Id, potentialCount);
-            GrantAccessory(card.EvolutionRewardAccessory3Id, potentialCount);
-            GrantAccessory(card.EvolutionRewardAccessory4Id, potentialCount);
-            GrantAccessory(card.EvolutionRewardAccessory5Id, potentialCount);
+            await GrantAccessory(card.EvolutionRewardAccessory1Id, potentialCount);
+            await GrantAccessory(card.EvolutionRewardAccessory2Id, potentialCount);
+            await GrantAccessory(card.EvolutionRewardAccessory3Id, potentialCount);
+            await GrantAccessory(card.EvolutionRewardAccessory4Id, potentialCount);
+            await GrantAccessory(card.EvolutionRewardAccessory5Id, potentialCount);
         }
         
         
@@ -229,9 +230,9 @@ namespace Yuyuyui.PrivateServer
         private const int CARD_TITLE_CONTENT_TYPE = 2;
         private static readonly List<int> ELIGIBLE_RARITY_LIST = new() { 400, 450, 500 };
     
-        private List<TitleItem> GetObtainableTitles()
+        private async Task<List<TitleItem>> GetObtainableTitles()
         {
-            var userEligibleCardIdList = GetBaseCardIdsEligibleForObtainingTitle();
+            var userEligibleCardIdList = await GetBaseCardIdsEligibleForObtainingTitle();
             return GetObtainableTitleItems(userEligibleCardIdList);
         }
 
@@ -246,10 +247,12 @@ namespace Yuyuyui.PrivateServer
                 .ToList();
         }
 
-        private IEnumerable<long> GetBaseCardIdsEligibleForObtainingTitle()
+        private async Task<IEnumerable<long>> GetBaseCardIdsEligibleForObtainingTitle()
         {
-            return cards.Values
+            var baseCards = await cards.Values
                 .Select(Card.Load)
+                .WhenAll();
+            return baseCards
                 .Where(card => ELIGIBLE_RARITY_LIST.Contains(card.MasterData().Rarity))
                 .Where(card => card.potential >= MINIMAL_CARD_POTENTIAL)
                 .Where(card => card.level >= MINIMAL_CARD_LEVEL)

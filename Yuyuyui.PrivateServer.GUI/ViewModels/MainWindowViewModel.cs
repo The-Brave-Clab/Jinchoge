@@ -8,6 +8,7 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using ReactiveUI;
 using Titanium.Web.Proxy.Models;
+using Yuyuyui.PrivateServer.Desktop;
 using Yuyuyui.PrivateServer.GUI.Views;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels
@@ -274,6 +275,8 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
         private void StartPrivateServer()
         {
+            PlayerDataProviderFactory.ActiveFactory = new FilesystemPlayerDataProviderFactory();
+
             endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
 
             Status = ServerStatus.Started;

@@ -17,37 +17,35 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
             Request requestObj = Deserialize<Request>(requestBody)!;
 
-            Deck targetDeck = Deck.Load(requestObj.deck.id);
+            Deck targetDeck = await Deck.Load(requestObj.deck.id);
             targetDeck.name = requestObj.deck.name;
 
             foreach (var unitUpdateRequest in requestObj.deck.cards)
             {
-                Unit targetUnit = Unit.Load(unitUpdateRequest.deck_card_id);
+                Unit targetUnit = await Unit.Load(unitUpdateRequest.deck_card_id);
                 targetUnit.baseCardID = unitUpdateRequest.user_card_id;
                 targetUnit.supportCardID = unitUpdateRequest.support_user_card_id;
                 targetUnit.supportCard2ID = unitUpdateRequest.support_user_card_2_id;
                 targetUnit.assistCardID = unitUpdateRequest.assist_user_card_id;
                 targetUnit.accessories = unitUpdateRequest.accessory_ids ??= new List<long>();
-                targetUnit.Save();
+                await targetUnit.Save();
             }
 
-            targetDeck.Save();
+            await targetDeck.Save();
 
             Response responseObj = new()
             {
-                deck = DeckEntity.Response.Deck.FromPlayerDeck(targetDeck, player)
+                deck = await DeckEntity.Response.Deck.FromPlayerDeck(targetDeck, player)
             };
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Request

@@ -17,24 +17,22 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
             long stageId = long.Parse(GetPathParameter("stage_id"));
             long transactionId = long.Parse(GetPathParameter("transaction_id"));
             
-            QuestTransaction transaction = QuestTransaction.Load(transactionId);
+            QuestTransaction transaction = await QuestTransaction.Load(transactionId);
             // Validate?
 
             player.transactions.questTransactions.Remove(transaction.stageId);
-            player.Save();
-            transaction.Delete();
+            await player.Save();
+            await transaction.Delete();
 
-            responseBody = Encoding.UTF8.GetBytes("{}");
+            responseBody = "{}"u8.ToArray();
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
         
         public class Request

@@ -158,18 +158,18 @@ namespace Yuyuyui.PrivateServer
                     if (!hasSessionCookie)
                     {
                         requestBody =
-                            Config.Get().Security.UseOnlineDecryption
+                            await (Config.Get().Security.UseOnlineDecryption
                                 ? LibGK<LibGKLambda>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody)
-                                : LibGK<GoalKeeper>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody);
+                                : LibGK<GoalKeeper>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody));
                     }
                     else
                     {
                         requestBody =
-                            Config.Get().Security.UseOnlineDecryption
+                            await (Config.Get().Security.UseOnlineDecryption
                                 ? LibGK<LibGKLambda>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody,
                                     session.sessionKey, sessionKey: true)
                                 : LibGK<GoalKeeper>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody,
-                                    session.sessionKey, sessionKey: true);
+                                    session.sessionKey, sessionKey: true));
                     }
                 }
             }

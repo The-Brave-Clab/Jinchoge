@@ -18,25 +18,23 @@ public class GuestEntity : BaseEntity<GuestEntity>
     {
     }
 
-    protected override Task ProcessRequest()
+    protected override async Task ProcessRequest()
     {
         PlayerProfile player = GetPlayerFromCookies();
 
-        var dummyPlayer = PrivateServer.EnsureDummyPlayer();
+        var dummyPlayer = await PrivateServer.EnsureDummyPlayer();
 
         var responseObj = new Response
         {
             supporters = new Dictionary<long, Response.SupporterData>
             {
-                { long.Parse(dummyPlayer.id.code), Response.SupporterData.FromPlayer(dummyPlayer) },
-                //{ long.Parse(player.id.code), Response.SupporterData.FromPlayer(player) },
+                { long.Parse(dummyPlayer!.id.code), await Response.SupporterData.FromPlayer(dummyPlayer) },
+                //{ long.Parse(player.id.code), await Response.SupporterData.FromPlayer(player) },
             }
         };
 
         responseBody = Serialize(responseObj);
         SetBasicResponseHeaders();
-
-        return Task.CompletedTask;
     }
 
     public class Response
@@ -65,11 +63,11 @@ public class GuestEntity : BaseEntity<GuestEntity>
                 public int evolution_level { get; set; } = 0;
                 public int level { get; set; } = 0;
 
-                public void UpdateWithUserCardId(long? cardId)
+                public async Task UpdateWithUserCardId(long? cardId)
                 {
                     if (cardId == null) return;
-                    if (!Card.Exists((long)cardId)) return;
-                    var userCard = Card.Load((long)cardId);
+                    if (!await Card.Exists((long)cardId)) return;
+                    var userCard = await Card.Load((long)cardId);
 
                     hit_point = userCard.GetHitPoint();
                     attack = userCard.GetAttack();
@@ -80,13 +78,13 @@ public class GuestEntity : BaseEntity<GuestEntity>
                     level = userCard.level;
                 }
 
-                public static object FromUserCardId(long? cardId)
+                public static async Task<CardData?> FromUserCardId(long? cardId)
                 {
-                    if (cardId == null) return new();
-                    if (!Card.Exists((long)cardId)) return new();
+                    if (cardId == null) return null;
+                    if (!await Card.Exists((long)cardId)) return null;
 
                     var data = new CardData();
-                    data.UpdateWithUserCardId((long)cardId);
+                    await data.UpdateWithUserCardId((long)cardId);
                     return data;
                 }
             }
@@ -94,32 +92,34 @@ public class GuestEntity : BaseEntity<GuestEntity>
             public class CardDataWithSupport : CardData
             {
                 public long id { get; set; }
-                public object support { get; set; } = new();
-                public object support_2 { get; set; } = new();
-                public object assist { get; set; } = new();
+                public CardData? support { get; set; } = new();
+                public CardData? support_2 { get; set; } = new();
+                public CardData? assist { get; set; } = new();
                 public List<AccessoryListEntity.Response.Accessory> accessories { get; set; } = new();
 
-                public static CardDataWithSupport FromDeck(Deck deck)
+                public static async Task<CardDataWithSupport> FromDeck(Deck deck)
                 {
-                    Unit leaderUnit = Unit.Load(deck.leaderUnitID);
+                    Unit leaderUnit = await Unit.Load(deck.leaderUnitID);
+                    var leaderUnitAccessories = await leaderUnit.accessories
+                        .Select(Accessory.Load)
+                        .WhenAll();
                     var data = new CardDataWithSupport()
                     {
                         id = leaderUnit.id,
-                        support = FromUserCardId(leaderUnit.supportCardID),
-                        support_2 = FromUserCardId(leaderUnit.supportCard2ID),
-                        assist = FromUserCardId(leaderUnit.assistCardID),
-                        accessories = leaderUnit.accessories
-                            .Select(a =>
-                                AccessoryListEntity.Response.Accessory.FromPlayerAccessory(Accessory.Load(a)))
+                        support = await FromUserCardId(leaderUnit.supportCardID),
+                        support_2 = await FromUserCardId(leaderUnit.supportCard2ID),
+                        assist = await FromUserCardId(leaderUnit.assistCardID),
+                        accessories = leaderUnitAccessories
+                            .Select(AccessoryListEntity.Response.Accessory.FromPlayerAccessory)
                             .ToList()
                     };
-                    data.UpdateWithUserCardId(leaderUnit.baseCardID);
+                    await data.UpdateWithUserCardId(leaderUnit.baseCardID);
 
                     return data;
                 }
             }
 
-            public static SupporterData FromPlayer(PlayerProfile player)
+            public static async Task<SupporterData> FromPlayer(PlayerProfile player)
             {
                 return new()
                 {
@@ -131,7 +131,7 @@ public class GuestEntity : BaseEntity<GuestEntity>
                     friend_point = 20, // TODO
                     user_id = player.id.code,
                     title_item_id = player.data.titleItemID,
-                    leader_card = CardDataWithSupport.FromDeck(Deck.Load(player.decks[0]))
+                    leader_card = await CardDataWithSupport.FromDeck(await Deck.Load(player.decks[0]))
                 };
             }
         }

@@ -17,7 +17,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -44,13 +44,13 @@ namespace Yuyuyui.PrivateServer
             // Delete duplicate/unfinished quests
             if (player.transactions.questTransactions.ContainsKey(stageId))
             {
-                var existedTransaction = QuestTransaction.Load(player.transactions.questTransactions[stageId]);
-                existedTransaction.Delete();
+                var existedTransaction = await QuestTransaction.Load(player.transactions.questTransactions[stageId]);
+                await existedTransaction.Delete();
                 player.transactions.questTransactions.Remove(stageId);
             }
-            var createdTransaction = QuestTransaction.Create(stageId, transactionCreateData);
+            var createdTransaction = await QuestTransaction.Create(stageId, transactionCreateData);
             player.transactions.questTransactions.Add(stageId, createdTransaction.id);
-            player.Save();
+            await player.Save();
 
             Response responseObj = new()
             {
@@ -63,8 +63,6 @@ namespace Yuyuyui.PrivateServer
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
         
         public class Request

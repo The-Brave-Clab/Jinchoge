@@ -18,7 +18,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -26,7 +26,7 @@ namespace Yuyuyui.PrivateServer
             if (Config.Get().InGame.InfiniteItems)
             {
                 List<EventItem> eventItems;
-                using (EventStoriesContext eventDb = new())
+                await using (EventStoriesContext eventDb = new())
                 {
                     eventItems = eventDb.EventItems.ToList();
                 }
@@ -45,11 +45,13 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
+                var eventItems = await player.items.eventItems
+                    .Select(p => p.Value)
+                    .Select(Item.Load)
+                    .WhenAll();
                 responseObj = new()
                 {
-                    event_items = player.items.eventItems
-                        .Select(p => p.Value)
-                        .Select(Item.Load)
+                    event_items = eventItems
                         .Where(ei => ei.quantity > 0) // don't show consumed items
                         .ToDictionary(ei => ei.id, ei => ei)
                 };
@@ -57,8 +59,6 @@ namespace Yuyuyui.PrivateServer
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response

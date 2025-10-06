@@ -48,32 +48,24 @@ namespace Yuyuyui.PrivateServer
             return decodedBytes;
         }
 
-        public byte[] EncryptApi(byte[] inputData, string key = "", byte[]? iv = null, bool sessionKey = false)
+        public async Task<byte[]> EncryptApi(byte[] inputData, string key = "", byte[]? iv = null, bool sessionKey = false)
         {
-            var task = Task.Run(() => InvokeLambda("api", "encrypt", inputData, key, iv, sessionKey));
-            task.Wait();
-            return task.Result;
+            return await InvokeLambda("api", "encrypt", inputData, key, iv, sessionKey);
         }
 
-        public byte[] DecryptApi(byte[] inputData, string key = "", byte[]? iv = null, bool sessionKey = false)
+        public async Task<byte[]> DecryptApi(byte[] inputData, string key = "", byte[]? iv = null, bool sessionKey = false)
         {
-            var task = Task.Run(() => InvokeLambda("api", "decrypt", inputData, key, iv, sessionKey));
-            task.Wait();
-            return task.Result;
+            return await InvokeLambda("api", "decrypt", inputData, key, iv, sessionKey);
         }
 
-        public byte[] EncryptBin(byte[] inputData, string key = "", byte[]? iv = null)
+        public async Task<byte[]> EncryptBin(byte[] inputData, string key = "", byte[]? iv = null)
         {
-            var task = Task.Run(() => InvokeLambda("bin", "encrypt", inputData, key, iv));
-            task.Wait();
-            return task.Result;
+            return await InvokeLambda("bin", "encrypt", inputData, key, iv);
         }
 
-        public byte[] DecryptBin(byte[] inputData, string key = "", byte[]? iv = null)
+        public async Task<byte[]> DecryptBin(byte[] inputData, string key = "", byte[]? iv = null)
         {
-            var task = Task.Run(() => InvokeLambda("bin", "decrypt", inputData, key, iv));
-            task.Wait();
-            return task.Result;
+            return await InvokeLambda("bin", "decrypt", inputData, key, iv);
         }
     }
 }

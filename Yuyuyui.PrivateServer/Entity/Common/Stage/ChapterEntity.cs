@@ -18,35 +18,33 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
-
-            Response responseObj = GetChapters();
+            Response responseObj = await GetChapters();
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
-        protected virtual Response GetChapters()
+        protected virtual async Task<Response> GetChapters()
         {
             var player = GetPlayerFromCookies();
             
             // Utils.LogWarning("Locked status not filled!");
 
             List<Chapter> chapters;
-            using (QuestsContext questsDb = new())
+            await using (QuestsContext questsDb = new())
             {
                 chapters = questsDb.Chapters.ToList();
             }
-                
+
+            var responseChapters = await chapters
+                .Select(c => Response.Chapter.GetFromDatabase(c, player))
+                .WhenAll();
+            
             Response response = new()
             {
-                chapters = chapters
-                    .Select(c => Response.Chapter.GetFromDatabase(c, player))
-                    .ToDictionary(c => c.id, c => c)
+                chapters = responseChapters.ToDictionary(c => c.id, c => c)
             };
 
             return response;
@@ -70,7 +68,7 @@ namespace Yuyuyui.PrivateServer
                 public bool locked { get; set; }
                 public int available_user_level { get; set; }
 
-                public static Chapter GetFromDatabase(Yuyuyui.PrivateServer.DataModel.Chapter dbChapter, PlayerProfile player)
+                public static async Task<Chapter> GetFromDatabase(Yuyuyui.PrivateServer.DataModel.Chapter dbChapter, PlayerProfile player)
                 {
                     Chapter result = new Chapter
                     {
@@ -90,7 +88,7 @@ namespace Yuyuyui.PrivateServer
                     if (player.progress.chapters.TryGetValue(dbChapter.Id, out var chapter))
                     {
                         result.new_released = false;
-                        result.completed = ChapterProgress.Load(chapter).finished;
+                        result.completed = (await ChapterProgress.Load(chapter)).finished;
                     }
                     else
                     {

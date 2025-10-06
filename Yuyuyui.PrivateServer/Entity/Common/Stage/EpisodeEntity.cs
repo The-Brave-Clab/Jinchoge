@@ -18,7 +18,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -27,24 +27,24 @@ namespace Yuyuyui.PrivateServer
             // Utils.LogWarning("Finished status not filled!");
 
             List<Episode> episodes;
-            using (QuestsContext questsDb = new())
+            await using (QuestsContext questsDb = new())
             {
                 episodes = questsDb.Episodes
                     .Where(e => e.ChapterId == chapterId)
                     .ToList();
             }
 
+            var responseEpisodes = await episodes
+                .Select(e => Response.Episode.GetFromDatabase(e, player))
+                .WhenAll();
+
             Response responseObj = new()
             {
-                episodes = episodes
-                    .Select(e => Response.Episode.GetFromDatabase(e, player))
-                    .ToDictionary(e => e.id, e => e)
+                episodes = responseEpisodes.ToDictionary(e => e.id, e => e)
             };
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response
@@ -58,15 +58,15 @@ namespace Yuyuyui.PrivateServer
                 public bool finish { get; set; }
                 public string detail_url { get; set; } = "";
 
-                public static Episode GetFromDatabase(Yuyuyui.PrivateServer.DataModel.Episode dbEpisode,
+                public static async Task<Episode> GetFromDatabase(Yuyuyui.PrivateServer.DataModel.Episode dbEpisode,
                     PlayerProfile player)
                 {
                     return new()
                     {
                         id = dbEpisode.Id,
                         master_id = dbEpisode.Id,
-                        finish = player.progress.episodes.ContainsKey(dbEpisode.Id) && 
-                                 EpisodeProgress.Load(player.progress.episodes[dbEpisode.Id]).finished,
+                        finish = player.progress.episodes.ContainsKey(dbEpisode.Id) &&
+                                 (await EpisodeProgress.Load(player.progress.episodes[dbEpisode.Id])).finished,
                         detail_url = $"https://article.yuyuyui.jp/article/episodes/{dbEpisode.Id}"
                     };
                 }

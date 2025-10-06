@@ -18,7 +18,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -27,7 +27,7 @@ namespace Yuyuyui.PrivateServer
             if (Config.Get().InGame.InfiniteItems)
             {
                 List<EnhancementItem> enhancementItems;
-                using (ItemsContext itemsDb = new())
+                await using (ItemsContext itemsDb = new())
                 {
                     enhancementItems = itemsDb.EnhancementItems.ToList();
                 }
@@ -55,34 +55,36 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
+                var enhancementItems = await player.items.enhancement
+                    .Select(async p =>
+                    {
+                        EnhancementItem masterData;
+                        await using (ItemsContext itemsDb = new())
+                        {
+                            masterData = itemsDb.EnhancementItems.First(m => m.Id == p.Key);
+                        }
+
+                        Item userItem = await Item.Load(p.Value);
+                        return new Response.EnhancementItem
+                        {
+                            id = p.Value,
+                            master_id = masterData.Id,
+                            quantity = userItem.quantity,
+                            active_skill_level_potential = masterData.ActiveSkillLevelPotential,
+                            rarity = masterData.Rarity,
+                            available_character_1_id = masterData.AvailableCharacterId1,
+                            available_character_2_id = masterData.AvailableCharacterId2,
+                            pair_limited = masterData.AvailableCharacterId1 != null &&
+                                           masterData.AvailableCharacterId2 != null,
+                            priority = masterData.Priority,
+                            support_skill_level_potential = masterData.SupportSkillLevelPotential,
+                            support_skill_level_category = masterData.SupportSkillLevelCategory
+                        };
+                    })
+                    .WhenAll();
                 responseObj = new()
                 {
-                    enhancement_items = player.items.enhancement
-                        .Select(p =>
-                        {
-                            EnhancementItem masterData;
-                            using (ItemsContext itemsDb = new())
-                            {
-                                masterData = itemsDb.EnhancementItems.First(m => m.Id == p.Key);
-                            }
-
-                            Item userItem = Item.Load(p.Value);
-                            return new Response.EnhancementItem
-                            {
-                                id = p.Value,
-                                master_id = masterData.Id,
-                                quantity = userItem.quantity,
-                                active_skill_level_potential = masterData.ActiveSkillLevelPotential,
-                                rarity = masterData.Rarity,
-                                available_character_1_id = masterData.AvailableCharacterId1,
-                                available_character_2_id = masterData.AvailableCharacterId2,
-                                pair_limited = masterData.AvailableCharacterId1 != null &&
-                                               masterData.AvailableCharacterId2 != null,
-                                priority = masterData.Priority,
-                                support_skill_level_potential = masterData.SupportSkillLevelPotential,
-                                support_skill_level_category = masterData.SupportSkillLevelCategory
-                            };
-                        })
+                    enhancement_items = enhancementItems
                         .Where(ei => ei.quantity > 0) // don't show consumed items
                         .ToList()
                 };
@@ -90,8 +92,6 @@ namespace Yuyuyui.PrivateServer
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response

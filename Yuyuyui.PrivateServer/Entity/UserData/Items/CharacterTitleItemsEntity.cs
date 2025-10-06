@@ -21,7 +21,7 @@ namespace Yuyuyui.PrivateServer
         {
             // Utils.LogError("Request is {}, response is {}, WTF IS THIS ONE");
 
-            responseBody = Encoding.UTF8.GetBytes("{}");
+            responseBody = "{}"u8.ToArray();
             SetBasicResponseHeaders();
 
             return Task.CompletedTask;

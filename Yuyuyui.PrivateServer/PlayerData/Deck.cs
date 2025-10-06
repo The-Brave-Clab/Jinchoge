@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Yuyuyui.PrivateServer
 {
@@ -9,10 +10,10 @@ namespace Yuyuyui.PrivateServer
         public string? name { get; set; } = null;
         public IList<long> units { get; set; } = new List<long>(); // id of Unit (CardWithSupport)
         
-        public static long GetID()
+        public static async Task<long> GetID()
         {
             long new_id = long.Parse(Utils.RandomStrFromChar("123456789", 1) + Utils.GenerateRandomDigit(8));
-            while (Exists(new_id))
+            while (await Exists(new_id))
             {
                 new_id = long.Parse(Utils.RandomStrFromChar("123456789", 1) + Utils.GenerateRandomDigit(8));
             }

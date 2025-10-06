@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer
@@ -10,10 +11,10 @@ namespace Yuyuyui.PrivateServer
         public int level { get; set; }
         public int quantity { get; set; }
 
-        public static long GetID()
+        public static async Task<long> GetID()
         {
             long new_id = long.Parse(Utils.GenerateRandomDigit(9));
-            while (Exists(new_id))
+            while (await Exists(new_id))
             {
                 new_id = long.Parse(Utils.GenerateRandomDigit(9));
             }
@@ -21,16 +22,16 @@ namespace Yuyuyui.PrivateServer
             return new_id;
         }
         
-        public static Accessory DefaultAccessory()
+        public static async Task<Accessory> DefaultAccessory()
         {
-            return NewAccessoryByMasterId(500001); // Gyuuki, consider reading the data from database
+            return await NewAccessoryByMasterId(500001); // Gyuuki, consider reading the data from database
         }
         
-        public static Accessory NewAccessoryByMasterId(long masterId)
+        public static async Task<Accessory> NewAccessoryByMasterId(long masterId)
         {
             return new Accessory
             {
-                id = GetID(),
+                id = await GetID(),
                 master_id = masterId,
                 level = 1,
                 quantity = 0,

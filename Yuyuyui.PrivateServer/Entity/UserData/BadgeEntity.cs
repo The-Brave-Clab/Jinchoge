@@ -17,7 +17,7 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var player = GetPlayerFromCookies();
 
@@ -40,9 +40,9 @@ namespace Yuyuyui.PrivateServer
                     // Utils.Log(
                     //     $"Updated user new album status:\n\tCategory\t{request.category_id}\n\tSubcategory\t{request.sub_category_id}");
                 }
-                player.Save();
+                await player.Save();
                 
-                responseBody = Encoding.UTF8.GetBytes("{}");
+                responseBody = "{}"u8.ToArray();
             }
             else
             {
@@ -71,8 +71,6 @@ namespace Yuyuyui.PrivateServer
             }
             
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Request

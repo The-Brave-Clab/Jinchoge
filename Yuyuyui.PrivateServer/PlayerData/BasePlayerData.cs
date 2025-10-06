@@ -1,111 +1,40 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using YamlDotNet.Serialization;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Yuyuyui.PrivateServer
 {
-    public abstract class BasePlayerData<TSelf, TIdentifier>
+    public abstract class BasePlayerData<TSelf, TIdentifier> : PlayerDataBase
         where TSelf : BasePlayerData<TSelf, TIdentifier>
         where TIdentifier : notnull
     {
         protected abstract TIdentifier Identifier { get; }
+        protected override string DataType => typeof(TSelf).Name;
 
-        private static readonly Dictionary<TIdentifier, TSelf> Cache = new();
-
-        private static readonly Dictionary<TIdentifier, object> locks = new();
-
-        private static object GetLockObj(TIdentifier identifier)
+        public async Task Save()
         {
-            lock (locks)
-            {
-                if (locks.ContainsKey(identifier))
-                    return locks[identifier];
-
-                object lockObj = new object();
-                locks.Add(identifier, lockObj);
-                return lockObj;
-            }
+            await PlayerDataProviderFactory.ActiveFactory!.Get<TSelf, TIdentifier>().Save((TSelf)this, Identifier);
         }
 
-        private object GetLockObj()
+        public static async Task<TSelf> Load(TIdentifier identifier)
         {
-            return GetLockObj(Identifier);
+            if (typeof(TIdentifier) == typeof(long) && (long)(object)identifier == 439264682)
+                Debugger.Break();
+            return await PlayerDataProviderFactory.ActiveFactory!.Get<TSelf, TIdentifier>().Load(identifier);
         }
 
-        private static string GetFileName(TIdentifier identifier)
+        public static async Task Delete(TIdentifier identifier)
         {
-            return Path.Combine(EnsurePlayerDataFolder(typeof(TSelf).Name), $"{identifier}.yaml");
+            await PlayerDataProviderFactory.ActiveFactory!.Get<TSelf, TIdentifier>().Delete(identifier);
         }
 
-        public void Save()
+        public async Task Delete()
         {
-            lock (GetLockObj())
-            {
-                string file = GetFileName(Identifier);
-                //File.WriteAllText(file, JsonConvert.SerializeObject(this, Formatting.Indented));
-                var serializer = new Serializer();
-                File.WriteAllText(file, serializer.Serialize(this));
-
-                // Update cache
-                if (!Cache.ContainsKey(Identifier))
-                {
-                    Cache.Add(Identifier, (TSelf) this);
-                }
-            }
+            await Delete(Identifier);
         }
 
-        public static TSelf Load(TIdentifier identifier)
+        public static async Task<bool> Exists(TIdentifier identifier)
         {
-            lock (Cache)
-            {
-                // Get directly from cache if possible
-                if (Cache.ContainsKey(identifier))
-                {
-                    return Cache[identifier];
-                }
-
-                lock (GetLockObj(identifier))
-                {
-                    string file = GetFileName(identifier);
-                    string content = File.ReadAllText(file, Encoding.UTF8);
-                    //return JsonConvert.DeserializeObject<T>(content)!;
-                    var deserializer = new DeserializerBuilder()
-                        .IgnoreUnmatchedProperties()
-                        .Build();
-                    TSelf result = deserializer.Deserialize<TSelf>(content);
-
-                    // Add to cache
-                    Cache.Add(identifier, result);
-
-                    return result;
-                }
-            }
-        }
-
-        public static void Delete(TIdentifier identifier)
-        {
-            lock (Cache)
-                Cache.Remove(identifier);
-            lock (GetLockObj(identifier))
-                File.Delete(GetFileName(identifier));
-        }
-
-        public void Delete()
-        {
-            Delete(Identifier);
-        }
-
-        public static bool Exists(TIdentifier identifier)
-        {
-            lock (GetLockObj(identifier))
-                return File.Exists(GetFileName(identifier));
-        }
-
-        private static string EnsurePlayerDataFolder(string subFolder)
-        {
-            string dir = Path.Combine(PrivateServer.BASE_DIR, PrivateServer.PLAYER_DATA_FOLDER, subFolder);
-            return Utils.EnsureDirectory(dir);
+            return await PlayerDataProviderFactory.ActiveFactory!.Get<TSelf, TIdentifier>().Exists(identifier);
         }
     }
 }

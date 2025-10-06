@@ -17,10 +17,11 @@ namespace Yuyuyui.PrivateServer
             
         }
         
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             var requestObj = Deserialize<SessionsEntity.Request>(requestBody);
-            PrivateServer.PlayerSession sessionDetail = PrivateServer.CreateSessionForPlayer(requestObj!.uuid, this);
+            PrivateServer.PlayerSession sessionDetail =
+                await PrivateServer.CreateSessionForPlayer(requestObj!.uuid, this);
 
             SessionsEntity.Response responseObj = new()
             {
@@ -32,8 +33,6 @@ namespace Yuyuyui.PrivateServer
             
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-            
-            return Task.CompletedTask;
         }
     }
 }

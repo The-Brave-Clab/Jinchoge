@@ -17,16 +17,14 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
             PlayerProfile player = GetPlayerFromCookies();
 
-            player.BanAccount();
+            await player.BanAccount();
             
-            responseBody = Encoding.UTF8.GetBytes("{}");
+            responseBody = "{}"u8.ToArray();
             SetBasicResponseHeaders();
-            
-            return Task.CompletedTask;
         }
     }
 }

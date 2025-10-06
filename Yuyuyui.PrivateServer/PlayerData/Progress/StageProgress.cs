@@ -1,4 +1,6 @@
-﻿namespace Yuyuyui.PrivateServer
+﻿using System.Threading.Tasks;
+
+namespace Yuyuyui.PrivateServer
 {
     public class StageProgress : BasePlayerData<StageProgress, long>
     {
@@ -10,10 +12,10 @@
 
         protected override long Identifier => id;
         
-        private static long GetID()
+        private static async Task<long> GetID()
         {
             long new_id = long.Parse(Utils.GenerateRandomDigit(9));
-            while (Exists(new_id))
+            while (await Exists(new_id))
             {
                 new_id = long.Parse(Utils.GenerateRandomDigit(9));
             }
@@ -21,26 +23,25 @@
             return new_id;
         }
         
-        public static StageProgress GetOrCreate(PlayerProfile player, long stageId)
+        public static async Task<StageProgress> GetOrCreate(PlayerProfile player, long stageId)
         {
-            if (player.progress.stages.ContainsKey(stageId))
+            if (player.progress.stages.TryGetValue(stageId, out var id))
             {
-                long id = player.progress.stages[stageId];
-                return Load(id);
+                return await Load(id);
             }
 
             StageProgress progress = new()
             {
-                id = GetID(),
+                id = await GetID(),
                 master_id = stageId,
                 finished = false,
                 finishedInTime = false,
                 finishedNoInjury = false
             };
-            progress.Save();
+            await progress.Save();
             
             player.progress.stages.Add(stageId, progress.id);
-            player.Save();
+            await player.Save();
 
             return progress;
         }
