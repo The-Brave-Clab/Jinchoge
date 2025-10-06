@@ -17,8 +17,6 @@ namespace Yuyuyui.PrivateServer
 
         public static async Task<TSelf> Load(TIdentifier identifier)
         {
-            if (typeof(TIdentifier) == typeof(long) && (long)(object)identifier == 439264682)
-                Debugger.Break();
             return await PlayerDataProviderFactory.ActiveFactory!.Get<TSelf, TIdentifier>().Load(identifier);
         }
 
