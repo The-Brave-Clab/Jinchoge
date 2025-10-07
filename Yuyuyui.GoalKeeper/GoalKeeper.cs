@@ -19,9 +19,9 @@ public class GoalKeeper : ILibGK
         });
     }
     
-    public async Task<byte[]> EncryptApi(byte[] inputData, string key = "", byte[]? iv = null, bool sessionKey = false)
+    public Task<byte[]> EncryptApi(byte[] inputData, string key = "", byte[]? iv = null, bool sessionKey = false)
     {
-        return await Task.Run(() =>
+        return Task.Run(() =>
         {
             if (string.IsNullOrEmpty(key) || !sessionKey)
                 y3gk.Value!.ResetKey();
@@ -31,9 +31,9 @@ public class GoalKeeper : ILibGK
         });
     }
 
-    public async Task<byte[]> DecryptApi(byte[] inputData, string key = "", byte[]? iv = null, bool sessionKey = false)
+    public Task<byte[]> DecryptApi(byte[] inputData, string key = "", byte[]? iv = null, bool sessionKey = false)
     {
-        return await Task.Run(() =>
+        return Task.Run(() =>
         {
             if (string.IsNullOrEmpty(key) || !sessionKey)
                 y3gk.Value!.ResetKey();
@@ -43,13 +43,13 @@ public class GoalKeeper : ILibGK
         });
     }
 
-    public async Task<byte[]> EncryptBin(byte[] inputData, string key = "", byte[]? iv = null)
+    public Task<byte[]> EncryptBin(byte[] inputData, string key = "", byte[]? iv = null)
     {
-        return await Task.Run(() => y3gk.Value!.EncodeLHB(inputData) ?? []);
+        return Task.Run(() => y3gk.Value!.EncodeLHB(inputData) ?? []);
     }
 
-    public async Task<byte[]> DecryptBin(byte[] inputData, string key = "", byte[]? iv = null)
+    public Task<byte[]> DecryptBin(byte[] inputData, string key = "", byte[]? iv = null)
     {
-        return await Task.Run(() => y3gk.Value!.DecodeLHB(inputData) ?? []);
+        return Task.Run(() => y3gk.Value!.DecodeLHB(inputData) ?? []);
     }
 }
