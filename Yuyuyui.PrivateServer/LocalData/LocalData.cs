@@ -19,6 +19,7 @@ namespace Yuyuyui.PrivateServer
             return Assembly.GetExecutingAssembly().GetName().Version!.ToString();
         }
 
+        // To be deprecated
         public static async Task Update(Action<string, float>? singleFileProgress = null, Action<int, int>? totalProgress = null)
         {
             string url = $"{URL}/jp"; // language option here

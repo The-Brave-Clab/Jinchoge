@@ -18,9 +18,9 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
+            var player = await GetPlayerFromCookies();
             
             // Utils.LogWarning("All adventure books are unlocked and watchable for now!");
             // Utils.LogWarning("Player adventure books ticket count is fixed!");
@@ -83,8 +83,6 @@ namespace Yuyuyui.PrivateServer
             }
             
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class AdventureBookStatus

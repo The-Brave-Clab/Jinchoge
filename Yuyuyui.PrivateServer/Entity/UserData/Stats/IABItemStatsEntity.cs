@@ -16,9 +16,9 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
+            var player = await GetPlayerFromCookies();
 
             // Utils.LogWarning("Fixed number of 1,000,000 paid blessings");
 
@@ -30,8 +30,6 @@ namespace Yuyuyui.PrivateServer
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         public class Response

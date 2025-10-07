@@ -20,7 +20,7 @@ public class GuestEntity : BaseEntity<GuestEntity>
 
     protected override async Task ProcessRequest()
     {
-        PlayerProfile player = GetPlayerFromCookies();
+        // PlayerProfile player = await GetPlayerFromCookies();
 
         var dummyPlayer = await PrivateServer.EnsureDummyPlayer();
 

@@ -20,7 +20,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
+            var player = await GetPlayerFromCookies();
             string friendCode = GetPathParameter("user_id");
             
             // Remove the friend from our friend list

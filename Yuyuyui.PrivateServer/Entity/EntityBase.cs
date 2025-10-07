@@ -151,8 +151,8 @@ namespace Yuyuyui.PrivateServer
             {
                 if (GetRequestHeaderValue("Content-Type").ToLower() == MIMETYPE_GK_JSON)
                 {
-                    bool hasSessionCookie = this.GetSessionFromCookie(out var session);
-                    if (!hasSessionCookie)
+                    var playerSession = await this.GetSessionFromCookie();
+                    if (playerSession == null)
                     {
                         requestBody =
                             await (Config.Get().Security.UseOnlineDecryption
@@ -164,9 +164,9 @@ namespace Yuyuyui.PrivateServer
                         requestBody =
                             await (Config.Get().Security.UseOnlineDecryption
                                 ? LibGK<LibGKLambda>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody,
-                                    session.sessionKey, sessionKey: true)
+                                    playerSession.session.key, sessionKey: true)
                                 : LibGK<GoalKeeper>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody,
-                                    session.sessionKey, sessionKey: true));
+                                    playerSession.session.key, sessionKey: true));
                     }
                 }
             }
@@ -199,15 +199,12 @@ namespace Yuyuyui.PrivateServer
             return Encoding.UTF8.GetBytes(str);
         }
 
-        protected PlayerProfile GetPlayerFromCookies()
+        protected async Task<PlayerProfile> GetPlayerFromCookies()
         {
-            bool isSession = this.GetSessionFromCookie(out var playerSession);
-            if (!isSession)
-            {
-                throw new APIErrorException("U0401", "Unauthorized Error");
-            }
-
-            return playerSession.player;
+            var playerSession = await this.GetSessionFromCookie();
+            return playerSession == null
+                ? throw new APIErrorException("U0401", "Unauthorized Error")
+                : playerSession.player;
         }
 
         protected void SetBasicResponseHeaders(string sessionId = "", bool isGk = false)

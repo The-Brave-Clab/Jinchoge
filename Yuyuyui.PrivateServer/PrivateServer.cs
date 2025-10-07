@@ -10,40 +10,8 @@ namespace Yuyuyui.PrivateServer
 {
     public static class PrivateServer
     {
-        public struct PlayerSession
-        {
-            public PlayerProfile player;
-            public string sessionID;
-            public string sessionKey;
-            public DeviceInfo deviceInfo;
-        }
-
-        public struct DeviceInfo
-        {
-            public enum OS
-            {
-                Android,
-                iOS
-            }
-
-            public OS os;
-            public string platformName;
-            public string unityVersion;
-            public string appVersion;
-            public string deviceName;
-            public string userAgent;
-        }
-
-        private static string dataFolder = "";
-
-        private static Dictionary<string, PlayerProfile> playerUUID = new();
-        private static Dictionary<string, PlayerProfile> playerCode = new();
-        private static Dictionary<string, PlayerSession> playerSessions = new();
 
         public const string YUYUYUI_APP_VERSION = "3.28.0";
-
-        public const string PLAYER_DATA_FOLDER = "PlayerData";
-        public const string PLAYER_DATA_FILE = "players.dat";
 
         public const string LOCAL_DATA_FOLDER = "Resources";
         public const string LOCAL_DATA_VERSION_FILE = "master_data.version.json";
@@ -51,54 +19,14 @@ namespace Yuyuyui.PrivateServer
         public const string OFFICIAL_API_SERVER = "app.yuyuyui.jp";
         public const string PRIVATE_LOCAL_API_SERVER = "private.yuyuyui.org";
         public const string PRIVATE_PUBLIC_API_SERVER = "936fkiz1v2.execute-api.ap-northeast-1.amazonaws.com";
-
-        public static string BASE_DIR => Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YuyuyuiPrivateServer");
-
-        private static object dataFileLock = new();
         
         public static readonly HttpClient HttpClient = new();
 
         public static void Init()
         {
-            playerUUID = new Dictionary<string, PlayerProfile>();
-            playerCode = new Dictionary<string, PlayerProfile>();
-            playerSessions = new Dictionary<string, PlayerSession>();
-
             HttpClient.DefaultRequestHeaders.Referrer = new Uri($"https://{PRIVATE_LOCAL_API_SERVER}");
 
-            DataModel.Config.BaseDir = Path.Combine(BASE_DIR, LOCAL_DATA_FOLDER, "master_data");
-
-            lock (dataFileLock)
-            {
-                dataFolder = Utils.EnsureDirectory(Path.Combine(BASE_DIR, PLAYER_DATA_FOLDER));
-            }
-
-            var playerDataFile = Path.Combine(dataFolder, PLAYER_DATA_FILE);
-
-            lock(dataFileLock)
-            {
-                if (!File.Exists(playerDataFile))
-                {
-                    File.AppendAllText(playerDataFile, null);
-                }
-            }
-
-            IEnumerable<string> players;
-            lock (dataFileLock)
-                players = File.ReadLines(playerDataFile);
-            
-            foreach (var s in players)
-            {
-                var split = s.Split(',');
-                string uuid = split[0];
-                string code = split[1];
-                var task = PlayerProfile.Load(code);
-                task.Wait();
-                PlayerProfile player = task.Result;
-                playerUUID.Add(player!.id.uuid, player);
-                playerCode.Add(player.id.code, player);
-            }
+            // DataModel.Config.BaseDir = Path.Combine(BASE_DIR, LOCAL_DATA_FOLDER, "master_data");
         }
 
         public async static Task<PlayerProfile> RegisterNewPlayer(string uuid, string? code = null)
@@ -117,12 +45,8 @@ namespace Yuyuyui.PrivateServer
                     code = code ?? newCode
                 }
             };
-            playerUUID.Add(player.id.uuid, player);
-            playerCode.Add(player.id.code, player);
 
-            var playerDataFile = Path.Combine(dataFolder, PLAYER_DATA_FILE);
-            lock (dataFileLock)
-                File.AppendAllText(playerDataFile, $"{player.id.uuid},{player.id.code}\n");
+            await IPlayerProfileSessionProvider.ActiveProvider!.AddNewPlayer(player);
             await player.Save();
 
             Utils.Log(string.Format(Resources.LOG_PS_REGISTER_NEW_PLAYER, player.id.code));
@@ -170,33 +94,25 @@ namespace Yuyuyui.PrivateServer
             return dummyPlayer;
         }
 
-        public static async Task<PlayerSession> CreateSessionForPlayer(string uuid, EntityBase entity)
+        public static async Task<IPlayerProfileSessionProvider.PlayerSession> CreateSessionForPlayer(string uuid, EntityBase entity)
         {
-            PlayerSession session;
-            try
-            {
-                session = playerSessions.First(p => p.Value.player.id.uuid == uuid).Value;
-            }
-            catch (InvalidOperationException)
-            {
-                session = new PlayerSession
-                {
-                    sessionID = Utils.GenerateRandomHexString(32),
-                    sessionKey = Utils.GenerateRandomHexString(16),
-                    player = playerUUID.TryGetValue(uuid, out var value) ? value : await RegisterNewPlayer(uuid),
-                };
-
-                playerSessions.Add(session.sessionID, session);
-            }
+            IPlayerProfileSessionProvider.PlayerSession playerSession =
+                await IPlayerProfileSessionProvider.ActiveProvider!.GetOrAddSessionFromUUID(uuid,
+                    () => new IPlayerProfileSessionProvider.SessionInfo
+                    {
+                        id = Utils.GenerateRandomHexString(32),
+                        key = Utils.GenerateRandomHexString(16),
+                    },
+                    async u => await RegisterNewPlayer(u));
 
             Utils.Log(string.Format(Resources.LOG_PS_CREATE_SESSION,
-                session.player.id.code, session.sessionID, session.sessionKey));
+                playerSession.player.id.code, playerSession.session.id, playerSession.session.key));
 
-            session.deviceInfo = new DeviceInfo
+            playerSession.deviceInfo = new IPlayerProfileSessionProvider.DeviceInfo
             {
                 os = entity.GetRequestHeaderValue("X-APP-PLATFORM").Split(' ')[0] == "Android"
-                    ? DeviceInfo.OS.Android
-                    : DeviceInfo.OS.iOS,
+                    ? IPlayerProfileSessionProvider.DeviceInfo.OS.Android
+                    : IPlayerProfileSessionProvider.DeviceInfo.OS.iOS,
                 platformName = entity.GetRequestHeaderValue("X-APP-PLATFORM"),
                 unityVersion = entity.GetRequestHeaderValue("X-Unity-Version"),
                 appVersion = entity.GetRequestHeaderValue("X-APP-VERSION"),
@@ -204,10 +120,10 @@ namespace Yuyuyui.PrivateServer
                 userAgent = entity.GetRequestHeaderValue("User-Agent"),
             };
 
-            return session;
+            return playerSession;
         }
 
-        public static bool GetSessionFromCookie(this EntityBase entity, out PlayerSession session)
+        public static async Task<IPlayerProfileSessionProvider.PlayerSession?> GetSessionFromCookie(this EntityBase entity)
         {
             string cookie = entity.GetRequestHeaderValue("Cookie");
             var cookies = cookie.Split([';'], StringSplitOptions.RemoveEmptyEntries)
@@ -216,31 +132,15 @@ namespace Yuyuyui.PrivateServer
 
             if (cookies.TryGetValue("_session_id", out var c))
             {
-                session = playerSessions[c];
-                return true;
+                return await IPlayerProfileSessionProvider.ActiveProvider!.GetSessionFromSessionID(c);
             }
 
-            session = new PlayerSession();
-            return false;
+            return null;
         }
 
-        public static void RemovePlayerProfile(PlayerProfile player)
+        public static async Task RemovePlayerProfile(PlayerProfile player)
         {
-            var playerDataFile = Path.Combine(dataFolder, PLAYER_DATA_FILE);
-            lock (dataFileLock)
-            {
-                string[] lines;
-                using (StreamReader sr = new(playerDataFile))
-                {
-                    lines = sr.ReadToEnd().Split(['\n'], StringSplitOptions.RemoveEmptyEntries);
-                }
-
-                var newLines = lines.Where(line => !line.StartsWith(player.id.uuid));
-                using (StreamWriter sw = new(playerDataFile, false))
-                {
-                    newLines.ForEach(sw.WriteLine);
-                }
-            }
+            await IPlayerProfileSessionProvider.ActiveProvider!.RemovePlayer(player);
         }
     }
 }

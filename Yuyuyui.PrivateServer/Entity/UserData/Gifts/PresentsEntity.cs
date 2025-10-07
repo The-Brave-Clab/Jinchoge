@@ -19,7 +19,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
+            var player = await GetPlayerFromCookies();
             
             // remove the gifts that have exceeded the time limit
             List<Gift> giftsToBeRemoved = new List<Gift>();

@@ -19,7 +19,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
+            var player = await GetPlayerFromCookies();
 
             long stageId = long.Parse(GetPathParameter("stage_id"));
 

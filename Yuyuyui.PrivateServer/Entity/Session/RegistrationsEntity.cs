@@ -20,15 +20,15 @@ namespace Yuyuyui.PrivateServer
         protected override async Task ProcessRequest()
         {
             var requestObj = Deserialize<SessionsEntity.Request>(requestBody);
-            PrivateServer.PlayerSession sessionDetail =
+            IPlayerProfileSessionProvider.PlayerSession sessionDetail =
                 await PrivateServer.CreateSessionForPlayer(requestObj!.uuid, this);
 
             SessionsEntity.Response responseObj = new()
             {
-                session_id = sessionDetail.sessionID,
+                session_id = sessionDetail.session.id,
                 code = $"{sessionDetail.player.id.code}",
                 unixtime = Utils.CurrentUnixTime(),
-                gk_key = sessionDetail.sessionKey
+                gk_key = sessionDetail.session.key
             };
             
             responseBody = Serialize(responseObj);

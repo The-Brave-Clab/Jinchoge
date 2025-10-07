@@ -18,8 +18,8 @@ public static class ProxyUtils
     private const string CERT_PATH = "/cert/pem";
     private const string CERT_RESPONSE_FILE_NAME = "yuyuyui-private-server.pem";
 
-    public static string LOCAL_CERT_FILE => Path.Combine(PrivateServer.BASE_DIR, "ca.cer");
-    public static string LOCAL_PFX_FILE => Path.Combine(PrivateServer.BASE_DIR, "ca.pfx");
+    public static string LOCAL_CERT_FILE => Path.Combine(FileSystemData.BASE_DIR, "ca.cer");
+    public static string LOCAL_PFX_FILE => Path.Combine(FileSystemData.BASE_DIR, "ca.pfx");
 
     public static bool WebService(SessionEventArgs e)
     {

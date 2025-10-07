@@ -21,7 +21,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
+            var player = await GetPlayerFromCookies();
 
             bool infiniteItems = Config.Get().InGame.InfiniteItems;
 

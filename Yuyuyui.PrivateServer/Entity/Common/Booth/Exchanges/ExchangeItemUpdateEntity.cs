@@ -20,7 +20,7 @@ public class ExchangeItemUpdateEntity : BaseEntity<ExchangeItemUpdateEntity>
 
     protected override async Task ProcessRequest()
     {
-        var player = GetPlayerFromCookies();
+        var player = await GetPlayerFromCookies();
         
         Request exchangeBoothRequest = Deserialize<Request>(requestBody)!;
         long exchangeItemId = exchangeBoothRequest.exchange_booth_item_id;

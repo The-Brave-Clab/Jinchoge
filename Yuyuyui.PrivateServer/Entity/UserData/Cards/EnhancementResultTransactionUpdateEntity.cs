@@ -21,7 +21,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
+            var player = await GetPlayerFromCookies();
 
             long cardId = long.Parse(GetPathParameter("card_id"));
             long transactionId = long.Parse(GetPathParameter("transaction_id"));

@@ -28,7 +28,7 @@ namespace Yuyuyui.PrivateServer
 
         protected virtual async Task<Response> GetChapters()
         {
-            var player = GetPlayerFromCookies();
+            var player = await GetPlayerFromCookies();
             
             // Utils.LogWarning("Locked status not filled!");
 

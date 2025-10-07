@@ -136,7 +136,7 @@ public class FilesystemPlayerDataProvider<TPlayerData, TIdentifier> : IPlayerDat
 
     private static string EnsurePlayerDataFolder(string subFolder)
     {
-        string dir = Path.Combine(PrivateServer.BASE_DIR, PrivateServer.PLAYER_DATA_FOLDER, subFolder);
+        string dir = Path.Combine(FileSystemData.BASE_DIR, FileSystemData.PLAYER_DATA_FOLDER, subFolder);
         return Utils.EnsureDirectory(dir);
     }
 }

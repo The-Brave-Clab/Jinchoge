@@ -20,7 +20,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
+            var player = await GetPlayerFromCookies();
 
             var friendRequests = await player.friendRequests
                 .Select(FriendRequest.Load)

@@ -22,22 +22,22 @@ namespace Yuyuyui.PrivateServer
             var requestObj = Deserialize<Request>(requestBody);
             Utils.Log(string.Format(Resources.LOG_PS_GOT_CONNECTION, requestObj!.uuid));
             
-            PrivateServer.PlayerSession sessionDetail =
+            IPlayerProfileSessionProvider.PlayerSession sessionDetail =
                 await PrivateServer.CreateSessionForPlayer(requestObj!.uuid, this);
 
             Response responseObj = new()
             {
-                session_id = sessionDetail.sessionID,
+                session_id = sessionDetail.session.id,
                 code = $"{sessionDetail.player.id.code}",
                 unixtime = Utils.CurrentUnixTime(),
-                gk_key = sessionDetail.sessionKey
+                gk_key = sessionDetail.session.key
             };
 
             sessionDetail.player.data.lastActive = responseObj.unixtime;
             await sessionDetail.player.Save();
             
             responseBody = Serialize(responseObj);
-            SetBasicResponseHeaders(sessionDetail.sessionID);
+            SetBasicResponseHeaders(sessionDetail.session.id);
         }
 
         public class Request

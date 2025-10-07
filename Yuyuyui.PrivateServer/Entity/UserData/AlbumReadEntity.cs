@@ -18,7 +18,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
+            var player = await GetPlayerFromCookies();
 
             Request requestObj = Deserialize<Request>(requestBody)!;
 

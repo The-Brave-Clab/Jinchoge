@@ -18,9 +18,9 @@ namespace Yuyuyui.PrivateServer
         {
         }
 
-        protected override Task ProcessRequest()
+        protected override async Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
+            var player = await GetPlayerFromCookies();
 
             var selectGachas = GachaEntity.GetCurrentActiveGachas(player)
                 .Where(g => g.SelectGacha == "1");
@@ -37,8 +37,6 @@ namespace Yuyuyui.PrivateServer
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
         }
 
         private List<Response.SelectContent> GetSelectGachaContents(Gacha gacha)
