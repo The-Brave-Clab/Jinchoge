@@ -53,10 +53,11 @@ namespace Yuyuyui.PrivateServer.CLI
                 Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()!
                     .InformationalVersion));
 
-            await LocalData.Update();
-
             PlayerDataProviderFactory.ActiveFactory = new FilesystemPlayerDataProviderFactory();
+            IPlayerProfileSessionProvider.ActiveProvider = new InMemoryPlayerProfileSessionProvider();
+            IMasterDataProvider.ActiveProvider = new AWSMasterDataProvider();
 
+            await PrivateServer.Init();
             var endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
 
             //foreach (var endPoint in proxyServer.ProxyEndPoints)

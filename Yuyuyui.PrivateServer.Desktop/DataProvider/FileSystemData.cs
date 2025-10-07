@@ -9,11 +9,14 @@ internal static class FileSystemData
     public const string PLAYER_DATA_FOLDER = "PlayerData";
     public const string PLAYER_DATA_FILE = "players.dat";
 
+    public const string LOCAL_DATA_FOLDER = "Resources";
+    public const string LOCAL_DATA_VERSION_FILE = "master_data.version.json";
+
     public static string BASE_DIR => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YuyuyuiPrivateServer");
 
-    public static string dataFolder = "";
-    public static SemaphoreSlim dataFileLock = new(1, 1);
+    public static readonly string dataFolder;
+    public static readonly SemaphoreSlim dataFileLock = new(1, 1);
 
     static FileSystemData()
     {

@@ -207,8 +207,11 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             ? new Thickness(10, 5, 0, 0)
             : new Thickness(0, 5, 0, 0);
 
-        public void UpdateLocalData()
+        public void InitializeGUIApplication()
         {
+            PlayerDataProviderFactory.ActiveFactory = new FilesystemPlayerDataProviderFactory();
+            IPlayerProfileSessionProvider.ActiveProvider = new InMemoryPlayerProfileSessionProvider();
+
             Status = ServerStatus.Updating;
 
             if (Config.Get().General.AutoCheckUpdate)
@@ -234,31 +237,34 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                     : $"{currentFileName} ({currentCount}/{totalCount})";
             }
 
-            LocalData.Update(
-                    (fileName, progress) =>
+            IMasterDataProvider.ActiveProvider = new AWSMasterDataProvider((fileName, progress) =>
+                {
+                    if (!canSet) return;
+                    toolbarVM.ShowProgressText = true;
+                    toolbarVM.IsProgressIndeterminate = false;
+                    toolbarVM.ToolbarProgress = progress * 100;
+                    currentFileName = fileName;
+                    SetToolbarText();
+                },
+                (current, total) =>
+                {
+                    if (!canSet) return;
+                    toolbarVM.IsProgressIndeterminate = false;
+                    if (total > 0)
                     {
-                        if (!canSet) return;
                         toolbarVM.ShowProgressText = true;
-                        toolbarVM.IsProgressIndeterminate = false;
-                        toolbarVM.ToolbarProgress = progress * 100;
-                        currentFileName = fileName;
-                        SetToolbarText();
-                    },
-                    (current, total) =>
-                    {
-                        if (!canSet) return;
-                        toolbarVM.IsProgressIndeterminate = false;
-                        if (total > 0)
-                        {
-                            toolbarVM.ShowProgressText = true;
-                            currentCount = current;
-                            totalCount = total;
-                        }
-
-                        SetToolbarText();
+                        currentCount = current;
+                        totalCount = total;
                     }
-                )
-                .ContinueWith(t => Console.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted)
+
+                    SetToolbarText();
+                });
+
+            PrivateServer.Init()
+                .ContinueWith(t =>
+                {
+                    if (t.Exception != null) Utils.LogError(t.Exception);
+                }, TaskContinuationOptions.OnlyOnFaulted)
                 .ContinueWith(_ =>
                 {
                     Task.Run(() =>
@@ -275,8 +281,6 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
         private void StartPrivateServer()
         {
-            PlayerDataProviderFactory.ActiveFactory = new FilesystemPlayerDataProviderFactory();
-
             endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
 
             Status = ServerStatus.Started;

@@ -13,20 +13,25 @@ namespace Yuyuyui.PrivateServer
 
         public const string YUYUYUI_APP_VERSION = "3.28.0";
 
-        public const string LOCAL_DATA_FOLDER = "Resources";
-        public const string LOCAL_DATA_VERSION_FILE = "master_data.version.json";
-
         public const string OFFICIAL_API_SERVER = "app.yuyuyui.jp";
         public const string PRIVATE_LOCAL_API_SERVER = "private.yuyuyui.org";
         public const string PRIVATE_PUBLIC_API_SERVER = "936fkiz1v2.execute-api.ap-northeast-1.amazonaws.com";
         
         public static readonly HttpClient HttpClient = new();
 
-        public static void Init()
+        public static async Task Init()
         {
+            if (PlayerDataProviderFactory.ActiveFactory == null)
+                throw new Exception("No PlayerDataProviderFactory is set.");
+            if (IPlayerProfileSessionProvider.ActiveProvider == null)
+                throw new Exception("No IPlayerProfileSessionProvider is set.");
+            if (IMasterDataProvider.ActiveProvider == null)
+                throw new Exception("No IMasterDataProvider is set.");
+
             HttpClient.DefaultRequestHeaders.Referrer = new Uri($"https://{PRIVATE_LOCAL_API_SERVER}");
 
-            // DataModel.Config.BaseDir = Path.Combine(BASE_DIR, LOCAL_DATA_FOLDER, "master_data");
+            DataModel.Config.BaseDir = IMasterDataProvider.ActiveProvider.Directory;
+            await IMasterDataProvider.ActiveProvider!.Initialize();
         }
 
         public async static Task<PlayerProfile> RegisterNewPlayer(string uuid, string? code = null)

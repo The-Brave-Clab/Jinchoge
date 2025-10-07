@@ -13,11 +13,6 @@ namespace Yuyuyui.PrivateServer.Desktop;
 
 public class PrivateServerProxyCallbacks : IProxyCallbacks
 {
-    public PrivateServerProxyCallbacks()
-    {
-        PrivateServer.Init();
-    }
-
     public async Task OnRequest(object sender, SessionEventArgs e)
     {
         if (ProxyUtils.WebService(e)) return;

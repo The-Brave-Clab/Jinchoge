@@ -131,7 +131,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
 
             if (!Design.IsDesignMode)
             {
-                mainWindowVM.UpdateLocalData();
+                mainWindowVM.InitializeGUIApplication();
             }
         }
 
