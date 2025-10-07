@@ -97,7 +97,7 @@ namespace Yuyuyui.PrivateServer
             await items.stamina.Values.ForEachAsync(Item.Delete);
             
             // Finally, delete ourselves
-            PrivateServer.RemovePlayerProfile(this);
+            await PrivateServer.RemovePlayerProfile(this);
             await Delete();
             
             Utils.LogWarning(string.Format(Resources.LOG_PS_ACCOUNT_BANNED, id.code));
