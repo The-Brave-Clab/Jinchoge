@@ -189,7 +189,7 @@ namespace Yuyuyui.PrivateServer
             var eligibleCardTitleItems = await GetObtainableTitles();
             if (!eligibleCardTitleItems.Any()) return new List<int>();
 
-            eligibleCardTitleItems.AsEnumerable().ForEach(titleItem => items.titleItems.Add(titleItem.Id));
+            eligibleCardTitleItems.ForEach(titleItem => items.titleItems.Add(titleItem.Id));
             items.titleItems = items.titleItems
                 .Concat(eligibleCardTitleItems.Select(ti => ti.Id))
                 .ToList();
@@ -204,12 +204,12 @@ namespace Yuyuyui.PrivateServer
             if (playerCard.evolution_level < 1 || potentialCount < 1)
                 return;
 
-            IEnumerable<DataModel.Card> cardsQuery;
+            List<DataModel.Card> cardsQuery;
             await using (CardsContext cardsDb = new())
             {
                 cardsQuery = cardsDb.Cards
                     .Where(card => card.Id == playerCard.master_id)
-                    .AsEnumerable();
+                    .ToList();
             }
             await cardsQuery.ForEachAsync(card => UpdateEvolutionAccessories(potentialCount, card));
         }

@@ -38,13 +38,14 @@ namespace Yuyuyui.PrivateServer
         
         public static CardLevel GetLevelFromExp(int levelCategory, long exp)
         {
-            IEnumerable<CardLevel> source;
+            List<CardLevel> source;
             CardLevel? masterCardLevelData;
 
             using (CardsContext cardsDb = new())
             {
                 source = cardsDb.CardLevels
-                    .Where(i => i.LevelCategory == levelCategory); // all level data in current category
+                    .Where(i => i.LevelCategory == levelCategory)
+                    .ToList(); // all level data in current category
                 masterCardLevelData = source.FirstOrDefault(i => i.MaxExp >= exp); // find one
             }
 
@@ -162,12 +163,12 @@ namespace Yuyuyui.PrivateServer
         
         public static FamiliarityLevel GetFamiliarityRankFromExp(long exp)
         {
-            IEnumerable<FamiliarityLevel> source;
+            List<FamiliarityLevel> source;
             FamiliarityLevel? masterFamiliarityLevelData;
 
             using (CharactersContext charactersDb = new())
             {
-                source = charactersDb.FamiliarityLevels;
+                source = charactersDb.FamiliarityLevels.ToList();
                 masterFamiliarityLevelData = source.FirstOrDefault(i => i.MaxExp >= exp);
             }
 
