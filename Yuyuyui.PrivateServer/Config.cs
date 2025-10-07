@@ -104,7 +104,11 @@ public static class Config
 
     private static string GetFileName()
     {
-        return Path.Combine(PrivateServer.BASE_DIR, FILE_NAME);
+        // To be deprecated
+        string BASE_DIR = Path.Combine(
+            System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData),
+            "YuyuyuiPrivateServer");
+        return Path.Combine(BASE_DIR, FILE_NAME);
     }
 
     public static readonly List<string> SupportedInterfaceLocale = new()
