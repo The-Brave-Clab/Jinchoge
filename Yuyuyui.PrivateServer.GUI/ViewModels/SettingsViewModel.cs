@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using Avalonia.Controls;
 using ReactiveUI;
+using Yuyuyui.PrivateServer.Desktop;
 using Yuyuyui.PrivateServer.Localization;
 
 namespace Yuyuyui.PrivateServer.GUI.ViewModels;

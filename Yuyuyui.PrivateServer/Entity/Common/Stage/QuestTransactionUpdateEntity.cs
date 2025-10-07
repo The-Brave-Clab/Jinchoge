@@ -65,7 +65,7 @@ namespace Yuyuyui.PrivateServer
 
             if (dbStage.Kind != 0) // not scenario, means battle stage
             {
-                var stageData = ProxyUtils.ReadAllTextFromAssemblyResources($"data.stages.{stageId}.yaml");
+                var stageData = ServerResources.ReadAllTextFromAssemblyResources($"data.stages.{stageId}.yaml");
                 var deserializer = new DeserializerBuilder()
                     .IgnoreUnmatchedProperties()
                     .Build();

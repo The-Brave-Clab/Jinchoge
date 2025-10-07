@@ -24,7 +24,7 @@ namespace Yuyuyui.PrivateServer
                 {
                     new()
                     {
-                        url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/{ProxyUtils.RELEASE_NOTES_PATH}",
+                        url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/{ServerResources.RELEASE_NOTES_PATH}",
                         kind = 0,
                         label = "topics"
                     },

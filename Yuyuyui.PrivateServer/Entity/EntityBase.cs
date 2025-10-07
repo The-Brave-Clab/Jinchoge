@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Titanium.Web.Proxy.EventArguments;
 using Yuyuyui.GK;
 using Yuyuyui.PrivateServer.Localization;
 
@@ -91,40 +90,38 @@ namespace Yuyuyui.PrivateServer
             return ExtractPathParameters(apiPathWithParameters, apiPathReal) != null;
         }
 
-        public static async Task<EntityBase> FromRequestEvent(SessionEventArgs e)
+        public static EntityBase FromEventArgs(EventArgs args)
         {
-            string apiPath = StripApiPrefix(e.HttpClient.Request.RequestUri.AbsolutePath);
+            string apiPath = StripApiPrefix(args.requestUri.AbsolutePath);
 
-            Utils.LogTrace($"{e.HttpClient.Request.Method} {apiPath}");
-
-            var headersAndBody = await ProxyUtils.GetRequestHeadersAndBody(e);
+            Utils.LogTrace($"{args.requestMethod} {apiPath}");
 
             foreach (var config in configs)
             {
                 if (ApiPathMatch(config.Value.apiPath, apiPath) &&
-                    config.Value.httpMethods.Contains(e.HttpClient.Request.Method))
+                    config.Value.httpMethods.Contains(args.requestMethod))
                 {
                     try
                     {
-                        return (EntityBase) TypeDescriptor.CreateInstance(
+                        return (EntityBase)TypeDescriptor.CreateInstance(
                             provider: null,
                             objectType: config.Key,
-                            argTypes: new[]
-                            {
+                            argTypes:
+                            [
                                 typeof(Uri),
                                 typeof(string),
                                 typeof(Dictionary<string, string>),
                                 typeof(byte[]),
                                 typeof(RouteConfig)
-                            },
-                            args: new object[]
-                            {
-                                e.HttpClient.Request.RequestUri,
-                                e.HttpClient.Request.Method,
-                                headersAndBody.Item1,
-                                headersAndBody.Item2,
+                            ],
+                            args:
+                            [
+                                args.requestUri,
+                                args.requestMethod,
+                                args.header,
+                                args.requestBody,
                                 config.Value
-                            })!;
+                            ])!;
                     }
                     catch (Exception exception)
                     {
@@ -136,13 +133,13 @@ namespace Yuyuyui.PrivateServer
 
             return new RequestErrorEntity(
                 "S2000",
-                $"\n\nAPI Not Implemented:\n\n{e.HttpClient.Request.Method} {apiPath}",
-                e.HttpClient.Request.RequestUri,
-                e.HttpClient.Request.Method,
-                new RouteConfig(apiPath, e.HttpClient.Request.Method),
-                headersAndBody.Item1,
-                headersAndBody.Item2,
-                Resources.LOG_PS_API_NOT_IMPLEMENTED + $"{e.HttpClient.Request.Method} {apiPath}"
+                $"\n\nAPI Not Implemented:\n\n{args.requestMethod} {apiPath}",
+                args.requestUri,
+                args.requestMethod,
+                new RouteConfig(apiPath, args.requestMethod),
+                args.header,
+                args.requestBody,
+                Resources.LOG_PS_API_NOT_IMPLEMENTED + $"{args.requestMethod} {apiPath}"
             ); // error type
         }
 
