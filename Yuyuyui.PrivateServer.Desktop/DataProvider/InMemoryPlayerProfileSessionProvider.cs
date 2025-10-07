@@ -53,9 +53,7 @@ public class InMemoryPlayerProfileSessionProvider : IPlayerProfileSessionProvide
             var split = s.Split(',');
             string uuid = split[0];
             string code = split[1];
-            var task = PlayerProfile.Load(code);
-            task.Wait();
-            PlayerProfile player = task.Result;
+            PlayerProfile player = await PlayerProfile.Load(code);
             playerUUID.Add(player!.id.uuid, player);
             playerCode.Add(player.id.code, player);
         }
