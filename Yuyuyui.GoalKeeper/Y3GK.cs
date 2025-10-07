@@ -4,11 +4,6 @@ using Gk;
 
 public class Y3GK : IDisposable
 {
-    static Y3GK()
-    {
-        NativeResolver.EnsureRegistered();
-    }
-
     public ICrypt? GetApiCrypter()
     {
         return api_crypter;
