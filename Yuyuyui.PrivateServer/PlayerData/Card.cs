@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
 
@@ -123,10 +124,13 @@ namespace Yuyuyui.PrivateServer
             return unit;
         }
 
+        private readonly AsyncLocal<DataModel.Card?> masterDataCache = new(null);
         public DataModel.Card MasterData()
         {
-            using CardsContext cardDb = new();
-            return cardDb.Cards.First(c => c.Id == master_id);
+            if (masterDataCache.Value != null && masterDataCache.Value.Id == master_id) return masterDataCache.Value;
+            using (CardsContext cardDb = new())
+                masterDataCache.Value = cardDb.Cards.First(c => c.Id == master_id);
+            return masterDataCache.Value;
         }
 
         public int GetHitPoint()
