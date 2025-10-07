@@ -31,7 +31,7 @@ namespace Yuyuyui.PrivateServer
 
             EnhancementTransaction transaction = await EnhancementTransaction.Load(transactionId);
 
-            bool infiniteItems = Config.Get().InGame.InfiniteItems;
+            bool infiniteItems = await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player);
 
             // Validate here?
 

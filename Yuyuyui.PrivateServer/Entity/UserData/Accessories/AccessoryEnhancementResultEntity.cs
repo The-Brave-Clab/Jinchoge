@@ -45,7 +45,7 @@ namespace Yuyuyui.PrivateServer
             Utils.Log(string.Format(Resources.LOG_PS_ACCESSORY_QUANTITY_DECREASED, playerAccessory.id, accessoryTargetLevel.NeedAmount));
             
             // brave coins
-            if (!Config.Get().InGame.InfiniteItems)
+            if (!await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player))
             {
                 if (accessoryTargetLevel.BraveCoin > 0)
                 {

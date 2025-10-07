@@ -23,7 +23,7 @@ namespace Yuyuyui.PrivateServer
             var player = await GetPlayerFromCookies();
 
             Response responseObj;
-            if (Config.Get().InGame.InfiniteItems)
+            if (await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player))
             {
                 await using ItemsContext itemsDb = new();
                 responseObj = new()

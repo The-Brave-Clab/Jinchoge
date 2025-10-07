@@ -25,7 +25,7 @@ namespace Yuyuyui.PrivateServer
             // Utils.LogWarning("Reward boxes of club orders not filled!");
 
             Response responseObj;
-            if (Config.Get().InGame.InfiniteItems)
+            if (await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player))
             {
                 List<DataModel.ClubOrder> clubOrders;
                 List<ClubOrderRewardBox> clubOrderRewardBoxes;

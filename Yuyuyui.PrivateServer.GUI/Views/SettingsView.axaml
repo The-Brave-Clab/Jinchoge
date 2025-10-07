@@ -179,13 +179,6 @@
                 
                 <Panel Classes="entry">
                     <StackPanel Classes="name">
-                        <TextBlock Classes="nameText" Text="{Binding SETTINGS_SECURITY_ONLINE_DECRYPTION}" />
-                    </StackPanel>
-                    <ToggleSwitch Classes="switch" IsChecked="{Binding UseOnlineDecryption}" />
-                </Panel>
-                
-                <Panel Classes="entry">
-                    <StackPanel Classes="name">
                         <TextBlock Classes="nameText" Text="{Binding SETTINGS_SECURITY_REISSUE_CERT}" />
                         <TextBlock Classes="comment" Text="{Binding SETTINGS_INFO_REISSUE_CERT}" />
                     </StackPanel>

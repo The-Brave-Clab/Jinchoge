@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Yuyuyui.PrivateServer;
+namespace Yuyuyui.PrivateServer.Desktop;
 
 public static class Update
 {
@@ -26,7 +26,7 @@ public static class Update
         latestVersionInfo = new();
 
         var assembly = typeof(Update).Assembly;
-        var jsonName = "Yuyuyui.PrivateServer.Resources.version.json";
+        var jsonName = "Yuyuyui.PrivateServer.Desktop.Resources.version.json";
         using Stream stream = assembly.GetManifestResourceStream(jsonName)!;
         using StreamReader reader = new StreamReader(stream);
         localVersionInfo = (JsonSerializer.Create().Deserialize(reader, typeof(LocalVersionInfo)) as LocalVersionInfo)!;

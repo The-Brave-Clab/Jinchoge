@@ -24,7 +24,7 @@ namespace Yuyuyui.PrivateServer
 
             Response responseObj;
 
-            if (Config.Get().InGame.InfiniteItems)
+            if (await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player))
             {
                 List<EnhancementItem> enhancementItems;
                 await using (ItemsContext itemsDb = new())

@@ -20,7 +20,8 @@ internal class SettingsViewModel : ViewModelBase
 
         interfaceLanguageSelected = Config.SupportedInterfaceLocale.IndexOf(Config.Get().General.Language);
         updateChannelSelected = Config.SupportedUpdateChannel.IndexOf(Config.Get().General.UpdateBranch);
-        scenarioLanguageSelected = Config.SupportedInGameScenarioLanguage.IndexOf(Config.Get().InGame.ScenarioLanguage);
+        scenarioLanguageSelected = IInGameConfigProvider.SupportedInGameScenarioLanguage.IndexOf(
+            Config.Get().InGame.ScenarioLanguage);
         
         canReissueCert = ProxyUtils.CertExists();
         autoCheckUpdate = Config.Get().General.AutoCheckUpdate;
@@ -29,7 +30,6 @@ internal class SettingsViewModel : ViewModelBase
         privateServerRunning = false;
         updateStatus = "";
         infiniteItems = Config.Get().InGame.InfiniteItems;
-        useOnlineDecryption = Config.Get().Security.UseOnlineDecryption;
 
         hasNewUpdate = false;
         newVersionInfo = new();
@@ -51,7 +51,6 @@ internal class SettingsViewModel : ViewModelBase
         privateServerRunning = false;
         updateStatus = "";
         infiniteItems = false;
-        useOnlineDecryption = false;
 
         hasNewUpdate = false;
         newVersionInfo = new();
@@ -83,7 +82,7 @@ internal class SettingsViewModel : ViewModelBase
         .Select(c => new LanguageDisplay(c))
         .ToList();
     public List<string> AvailableBranches => Config.SupportedUpdateChannel;
-    public List<LanguageDisplay> ScenarioLanguages => Config.SupportedInGameScenarioLanguage
+    public List<LanguageDisplay> ScenarioLanguages => IInGameConfigProvider.SupportedInGameScenarioLanguage
         .Select(CultureInfo.GetCultureInfo)
         .Select(c => new LanguageDisplay(c))
         .ToList();
@@ -148,18 +147,6 @@ internal class SettingsViewModel : ViewModelBase
         }
     }
 
-    public bool useOnlineDecryption;
-    public bool UseOnlineDecryption
-    {
-        get => useOnlineDecryption;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref useOnlineDecryption, value);
-            Config.Get().Security.UseOnlineDecryption = value;
-            Config.Save();
-        }
-    }
-
     private int scenarioLanguageSelected;
     public int ScenarioLanguagesSelected
     {
@@ -167,7 +154,8 @@ internal class SettingsViewModel : ViewModelBase
         set
         {
             this.RaiseAndSetIfChanged(ref scenarioLanguageSelected, value);
-            Config.Get().InGame.ScenarioLanguage = Config.SupportedInGameScenarioLanguage[scenarioLanguageSelected];
+            Config.Get().InGame.ScenarioLanguage =
+                IInGameConfigProvider.SupportedInGameScenarioLanguage[scenarioLanguageSelected];
             Config.Save();
         }
     }

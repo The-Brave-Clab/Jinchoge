@@ -155,18 +155,13 @@ namespace Yuyuyui.PrivateServer
                     if (playerSession == null)
                     {
                         requestBody =
-                            await (Config.Get().Security.UseOnlineDecryption
-                                ? LibGK<LibGKLambda>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody)
-                                : LibGK<GoalKeeper>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody));
+                            await LibGK<GoalKeeper>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody);
                     }
                     else
                     {
                         requestBody =
-                            await (Config.Get().Security.UseOnlineDecryption
-                                ? LibGK<LibGKLambda>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody,
-                                    playerSession.session.key, sessionKey: true)
-                                : LibGK<GoalKeeper>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody,
-                                    playerSession.session.key, sessionKey: true));
+                            await LibGK<GoalKeeper>.Execute(CryptType.API, CryptDirection.Decrypt, requestBody,
+                                playerSession.session.key, sessionKey: true);
                     }
                 }
             }

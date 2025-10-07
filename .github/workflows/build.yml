@@ -76,43 +76,43 @@ jobs:
     - name: Update "is_local_build"
       uses: jossef/action-set-json-field@v1
       with:
-        file: Yuyuyui.PrivateServer/Resources/version.json
+        file: Yuyuyui.PrivateServer.Desktop/Resources/version.json
         field: is_local_build
         value: false
     - name: Update "framework"
       uses: jossef/action-set-json-field@v1
       with:
-        file: Yuyuyui.PrivateServer/Resources/version.json
+        file: Yuyuyui.PrivateServer.Desktop/Resources/version.json
         field: framework
         value: ${{ inputs.tfm }}
     - name: Update "runtime_id"
       uses: jossef/action-set-json-field@v1
       with:
-        file: Yuyuyui.PrivateServer/Resources/version.json
+        file: Yuyuyui.PrivateServer.Desktop/Resources/version.json
         field: runtime_id
         value: ${{ inputs.rid }}
     - name: Update "branch"
       uses: jossef/action-set-json-field@v1
       with:
-        file: Yuyuyui.PrivateServer/Resources/version.json
+        file: Yuyuyui.PrivateServer.Desktop/Resources/version.json
         field: version_info.branch
         value: ${{ github.ref_name }}
     - name: Update "commit_sha"
       uses: jossef/action-set-json-field@v1
       with:
-        file: Yuyuyui.PrivateServer/Resources/version.json
+        file: Yuyuyui.PrivateServer.Desktop/Resources/version.json
         field: version_info.commit_sha
         value: ${{ github.sha }}
     - name: Update "ci_run"
       uses: jossef/action-set-json-field@v1
       with:
-        file: Yuyuyui.PrivateServer/Resources/version.json
+        file: Yuyuyui.PrivateServer.Desktop/Resources/version.json
         field: version_info.ci_run
         value: ${{ github.run_number }}
     - name: Update "created_at"
       uses: jossef/action-set-json-field@v1
       with:
-        file: Yuyuyui.PrivateServer/Resources/version.json
+        file: Yuyuyui.PrivateServer.Desktop/Resources/version.json
         field: version_info.created_at
         value: ${{ env.current_time }}
 

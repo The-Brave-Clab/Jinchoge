@@ -18,7 +18,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Yuyuyui.PrivateServer\Yuyuyui.PrivateServer.csproj" />
+        <ProjectReference Include="..\Yuyuyui.PrivateServer\Yuyuyui.PrivateServer.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\**" />
     </ItemGroup>
 
 </Project>

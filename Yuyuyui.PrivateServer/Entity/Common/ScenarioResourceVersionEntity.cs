@@ -22,15 +22,17 @@ public class ScenarioResourceVersionEntity : GameResourceVersionEntity
 
     protected override async Task ProcessRequest()
     {
+        var player = await GetPlayerFromCookies();
+
         Utils.Log(Resources.LOG_PS_REDIRECT_API);
 
         string languageOption = "";
 
-        var scenarioLanguage = Config.Get().InGame.ScenarioLanguage;
-        if (Config.SupportedInGameScenarioLanguage.Contains(scenarioLanguage))
+        var scenarioLanguage = await IInGameConfigProvider.ActiveProvider!.GetScenarioLanguage(player);
+        if (IInGameConfigProvider.SupportedInGameScenarioLanguage.Contains(scenarioLanguage))
         {
             Utils.Log(string.Format(Resources.LOG_PS_SCENARIO_LANGUAGE, CultureInfo.GetCultureInfo(scenarioLanguage).DisplayName));
-            if (scenarioLanguage != Config.SupportedInGameScenarioLanguage[0])
+            if (scenarioLanguage != IInGameConfigProvider.SupportedInGameScenarioLanguage[0])
             {
                 languageOption = $"/{scenarioLanguage}";
             }

@@ -26,6 +26,8 @@ namespace Yuyuyui.PrivateServer
                 throw new Exception("No IPlayerProfileSessionProvider is set.");
             if (IMasterDataProvider.ActiveProvider == null)
                 throw new Exception("No IMasterDataProvider is set.");
+            if (IInGameConfigProvider.ActiveProvider == null)
+                throw new Exception("No IInGameConfigProvider is set.");
 
             HttpClient.DefaultRequestHeaders.Referrer = new Uri($"https://{PRIVATE_LOCAL_API_SERVER}");
 

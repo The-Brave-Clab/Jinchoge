@@ -22,7 +22,7 @@ namespace Yuyuyui.PrivateServer
 
             // Utils.LogWarning("Many data is stub");
 
-            bool infiniteItems = Config.Get().InGame.InfiniteItems;
+            bool infiniteItems = await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player);
 
             Response responseObj = new()
             {

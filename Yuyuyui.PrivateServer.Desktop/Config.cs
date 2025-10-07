@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 using YamlDotNet.Serialization;
 
-namespace Yuyuyui.PrivateServer;
+namespace Yuyuyui.PrivateServer.Desktop;
 
 public static class Config
 {
@@ -12,7 +12,6 @@ public static class Config
     {
         public General General = new();
         public InGame InGame = new();
-        public Security Security = new();
     }
 
     public class General
@@ -26,14 +25,9 @@ public static class Config
 
     public class InGame
     {
-        public string ScenarioLanguage { get; set; } = SupportedInGameScenarioLanguage[0];
+        public string ScenarioLanguage { get; set; } = IInGameConfigProvider.SupportedInGameScenarioLanguage[0];
         public bool InfiniteItems { get; set; } = true;
         public bool UnlockAllDifficulties { get; set; } = false;
-    }
-
-    public class Security
-    {
-        public bool UseOnlineDecryption { get; set; } = false;
     }
 
 
@@ -122,12 +116,5 @@ public static class Config
     {
         "master",
         "release"
-    };
-
-    public static readonly List<string> SupportedInGameScenarioLanguage = new()
-    {
-        "ja",
-        "zh",
-        "en"
     };
 }

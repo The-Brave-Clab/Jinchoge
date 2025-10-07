@@ -56,6 +56,7 @@ namespace Yuyuyui.PrivateServer.CLI
             PlayerDataProviderFactory.ActiveFactory = new FilesystemPlayerDataProviderFactory();
             IPlayerProfileSessionProvider.ActiveProvider = new InMemoryPlayerProfileSessionProvider();
             IMasterDataProvider.ActiveProvider = new AWSMasterDataProvider();
+            IInGameConfigProvider.ActiveProvider = new DesktopInGameConfigProvider();
 
             await PrivateServer.Init();
             var endpoint = Proxy<PrivateServerProxyCallbacks>.Start();

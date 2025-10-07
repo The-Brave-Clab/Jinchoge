@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Avalonia.Media;
+using Yuyuyui.PrivateServer.Desktop;
 
 namespace Yuyuyui.PrivateServer.GUI
 {
