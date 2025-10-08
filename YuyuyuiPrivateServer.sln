@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.PrivateServer.Local
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.PrivateServer.Desktop", "Yuyuyui.PrivateServer.Desktop\Yuyuyui.PrivateServer.Desktop.csproj", "{4EA86AB2-9361-4EE4-8147-5B7A380B0833}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yuyuyui.PrivateServer.AWS", "Yuyuyui.PrivateServer.AWS\Yuyuyui.PrivateServer.AWS.csproj", "{4D806B3F-56FA-4E71-9058-C23E6E56B4B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{4EA86AB2-9361-4EE4-8147-5B7A380B0833}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EA86AB2-9361-4EE4-8147-5B7A380B0833}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EA86AB2-9361-4EE4-8147-5B7A380B0833}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D806B3F-56FA-4E71-9058-C23E6E56B4B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D806B3F-56FA-4E71-9058-C23E6E56B4B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D806B3F-56FA-4E71-9058-C23E6E56B4B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D806B3F-56FA-4E71-9058-C23E6E56B4B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
