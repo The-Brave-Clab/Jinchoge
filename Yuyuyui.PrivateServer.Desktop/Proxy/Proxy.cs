@@ -27,11 +27,11 @@ public static class Proxy<TCallbacks> where TCallbacks : class, IProxyCallbacks,
         callbacks = new TCallbacks();
 
         proxyServer = new ProxyServer(false, false, false);
-        // Use this very hacky way to disable systemProxySettingsManager on windows
+        // Use this very hacky way to disable SystemProxySettingsManager on windows
         if (RunTime.IsWindows && !RunTime.IsUwpOnWindows)
         {
-            // proxyServer.systemProxySettingsManager = null;
-            var field = typeof(ProxyServer).GetField("<systemProxySettingsManager>k__BackingField",
+            // proxyServer.SystemProxySettingsManager = null;
+            var field = typeof(ProxyServer).GetField("<SystemProxySettingsManager>k__BackingField",
                 BindingFlags.Instance | BindingFlags.NonPublic);
             field?.SetValue(proxyServer, null);
         }
