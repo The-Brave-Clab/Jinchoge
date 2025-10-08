@@ -56,26 +56,9 @@ public class PrivateServerProxyCallbacks : IProxyCallbacks
             {
             }
         }
-            
+
         EntityBase entity = EntityBase.FromEventArgs(args);
-            
-        try
-        {
-            await entity.Process();
-        }
-        catch (APIErrorException apiError)
-        {
-            entity = new RequestErrorEntity(
-                apiError.errorCode,
-                $"{apiError.body}",
-                args.requestUri,
-                args.requestMethod,
-                new RouteConfig(args.requestUri.AbsolutePath, args.requestMethod),
-                args.header,
-                args.requestBody,
-                $"{apiError.body}");
-            await entity.Process();
-        }
+        entity = await EntityBase.Process(entity);
 
         byte[] responseBody = entity.ResponseBody;
         Dictionary<string, string> responseHeaders = entity.ResponseHeaders;

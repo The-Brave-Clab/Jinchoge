@@ -145,7 +145,30 @@ namespace Yuyuyui.PrivateServer
 
         protected abstract Task ProcessRequest();
 
-        public async Task Process()
+        public static async Task<EntityBase> Process(EntityBase inputEntity)
+        {
+            try
+            {
+                await inputEntity.ProcessInternal();
+                return inputEntity;
+            }
+            catch (APIErrorException apiError)
+            {
+                var errorEntity = new RequestErrorEntity(
+                    apiError.errorCode,
+                    $"{apiError.body}",
+                    inputEntity.RequestUri,
+                    inputEntity.HttpMethod,
+                    new RouteConfig(inputEntity.RequestUri.AbsolutePath, inputEntity.HttpMethod),
+                    inputEntity.RequestHeaders,
+                    inputEntity.RequestBody,
+                    $"{apiError.body}");
+                await errorEntity.ProcessInternal();
+                return errorEntity;
+            }
+        }
+
+        private async Task ProcessInternal()
         {
             if (requestBody.Length > 0)
             {
