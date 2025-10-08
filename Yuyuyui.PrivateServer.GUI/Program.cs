@@ -29,30 +29,30 @@ namespace Yuyuyui.PrivateServer.GUI
             if (!Equals(cultureInfo, CultureInfo.InvariantCulture))
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
-            IReadOnlyList<FontFallback> fallbacks = Array.Empty<FontFallback>();
+            IReadOnlyList<FontFallback> fallbacks = [];
 
             if (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "zh")
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    fallbacks = new[]
-                    {
-                        new FontFallback { FontFamily = new FontFamily("Microsoft YaHei UI") },
-                    };
+                    fallbacks =
+                    [
+                        new FontFallback { FontFamily = new FontFamily("Microsoft YaHei UI") }
+                    ];
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
-                    fallbacks = new[]
-                    {
-                        new FontFallback { FontFamily = new FontFamily("PingFang SC") },
-                    };
+                    fallbacks =
+                    [
+                        new FontFallback { FontFamily = new FontFamily("PingFang SC") }
+                    ];
                 }
                 else
                 {
-                    fallbacks = new[]
-                    {
-                        new FontFallback { FontFamily = new FontFamily("Noto Sans CJK SC") },
-                    };
+                    fallbacks =
+                    [
+                        new FontFallback { FontFamily = new FontFamily("Noto Sans CJK SC") }
+                    ];
                 }
             }
 

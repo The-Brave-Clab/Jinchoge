@@ -23,7 +23,7 @@ namespace Yuyuyui.PrivateServer
 
             // remove the gifts that have been accepted for 14 days
             // or exceeds the limit of 20
-            List<Gift> giftsToBeRemoved = new List<Gift>();
+            List<Gift> giftsToBeRemoved = [];
             var acceptedGifts = await player.acceptedGifts.Select(Gift.Load).WhenAll();
             foreach (var gift in acceptedGifts)
             {

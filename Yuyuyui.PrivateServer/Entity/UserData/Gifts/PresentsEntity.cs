@@ -22,7 +22,7 @@ namespace Yuyuyui.PrivateServer
             var player = await GetPlayerFromCookies();
             
             // remove the gifts that have exceeded the time limit
-            List<Gift> giftsToBeRemoved = new List<Gift>();
+            List<Gift> giftsToBeRemoved = [];
             var acceptedGifts = await player.receivedGifts.Select(Gift.Load).WhenAll();
             foreach (var gift in acceptedGifts)
             {

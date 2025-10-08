@@ -15,7 +15,7 @@
     
         <ScrollViewer AllowAutoHide="True" IsVisible="{Binding IsRootPage}">
 
-            <ItemsControl Items="{Binding HelpTopics}">
+            <ItemsControl ItemsSource="{Binding HelpTopics}">
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

@@ -95,7 +95,7 @@ public class GuestEntity : BaseEntity<GuestEntity>
                 public CardData? support { get; set; } = new();
                 public CardData? support_2 { get; set; } = new();
                 public CardData? assist { get; set; } = new();
-                public List<AccessoryListEntity.Response.Accessory> accessories { get; set; } = new();
+                public List<AccessoryListEntity.Response.Accessory> accessories { get; set; } = [];
 
                 public static async Task<CardDataWithSupport> FromDeck(Deck deck)
                 {

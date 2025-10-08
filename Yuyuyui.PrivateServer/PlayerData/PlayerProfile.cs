@@ -228,7 +228,7 @@ namespace Yuyuyui.PrivateServer
         private const int MINIMAL_CARD_LEVEL = 99;
         private const int MINIMAL_EVOLUTION_LEVEL = 5;
         private const int CARD_TITLE_CONTENT_TYPE = 2;
-        private static readonly List<int> ELIGIBLE_RARITY_LIST = new() { 400, 450, 500 };
+        private static readonly List<int> ELIGIBLE_RARITY_LIST = [400, 450, 500];
     
         private async Task<List<TitleItem>> GetObtainableTitles()
         {

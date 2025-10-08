@@ -10,14 +10,14 @@
     <FileVersion>$(Version)</FileVersion>
     <DebugType>embedded</DebugType>
     <LangVersion>latest</LangVersion>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="YamlDotNet" Version="11.2.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
-    <PackageReference Include="Markdig" Version="0.30.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="YamlDotNet" Version="16.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.9" />
+    <PackageReference Include="Markdig" Version="0.42.0" />
     <ProjectReference Include="..\Yuyuyui.GoalKeeper\Yuyuyui.GoalKeeper.csproj" />
     <ProjectReference Include="..\Yuyuyui.PrivateServer.DataModel\Yuyuyui.PrivateServer.DataModel.csproj" />
     <ProjectReference Include="..\Yuyuyui.PrivateServer.Localization\Yuyuyui.PrivateServer.Localization.csproj" />

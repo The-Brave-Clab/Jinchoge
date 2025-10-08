@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using ReactiveUI;
 using Yuyuyui.PrivateServer.Desktop;
 using Yuyuyui.PrivateServer.Localization;
@@ -281,27 +282,29 @@ internal class SettingsViewModel : ViewModelBase
         string url = $"{Update.BASE_URL}/{newVersionInfo.branch}/{newVersionInfo.ci_run}/{fileName}";
 
         string extension = Path.GetExtension(fileName).Replace(".", "");
-        
-        SaveFileDialog saveFileBox = new SaveFileDialog
-        {
-            Title = Resources.SETTINGS_DIALOG_SAVE_TITLE,
-            InitialFileName = fileName,
-            Directory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            Filters = new List<FileDialogFilter>
-            {
-                new()
-                {
-                    Extensions = new List<string> { extension },
-                    Name = Resources.SETTINGS_DIALOG_SAVE_FILE_TYPE
-                }
-            },
-            DefaultExtension = extension,
-        };
 
         mainWindowVM.TryGetTarget(out var mainWindowViewModel);
         mainWindowViewModel!.TryGetWindow(out var mainWindow);
+        
+        var topLevel = TopLevel.GetTopLevel(mainWindow)!;
+        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = Resources.SETTINGS_DIALOG_SAVE_TITLE,
+            SuggestedFileName = fileName,
+            SuggestedStartLocation = await topLevel.StorageProvider.TryGetFolderFromPathAsync(
+                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)),
+            FileTypeChoices =
+            [
+                new FilePickerFileType(Resources.SETTINGS_DIALOG_SAVE_FILE_TYPE)
+                {
+                    Patterns = [$"*.{extension}"],
+                    AppleUniformTypeIdentifiers = [$"public.{extension}"]
+                }
+            ],
+            DefaultExtension = extension
+        });
 
-        var localFileName = await saveFileBox.ShowAsync(mainWindow!);
+        var localFileName = file?.TryGetLocalPath();
         if (string.IsNullOrEmpty(localFileName))
         {
             AllowCheckUpdate = true;

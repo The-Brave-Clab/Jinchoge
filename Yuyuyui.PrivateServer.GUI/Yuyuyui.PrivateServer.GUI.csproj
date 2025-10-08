@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <TrimMode>copyused</TrimMode>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
@@ -21,16 +21,12 @@
     <None Remove=".gitignore" />
   </ItemGroup>
   <ItemGroup>
-    <TrimmableAssembly Include="Avalonia.Themes.Fluent" />
-    <TrimmableAssembly Include="Avalonia.Themes.Default" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.18" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
-    <PackageReference Include="Markdown.Avalonia" Version="0.10.11" />
-    <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
+    <PackageReference Include="Avalonia" Version="11.3.7" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.7" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.7" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.3.7" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.7" />
+    <PackageReference Include="Markdown.Avalonia" Version="11.0.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yuyuyui.GoalKeeper\Yuyuyui.GoalKeeper.csproj" />

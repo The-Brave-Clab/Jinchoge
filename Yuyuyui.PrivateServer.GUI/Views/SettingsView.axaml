@@ -81,7 +81,7 @@
                         <TextBlock Classes="nameText" Text="{Binding SETTINGS_GENERAL_LANGUAGE}" />
                         <TextBlock Classes="comment" Text="{Binding SETTINGS_INFO_REQUIRE_RESTART}" />
                     </StackPanel>
-                    <ComboBox Classes="value" Items="{Binding InterfaceLanguages}" SelectedIndex="{Binding InterfaceLanguagesSelected}">
+                    <ComboBox Classes="value" ItemsSource="{Binding InterfaceLanguages}" SelectedIndex="{Binding InterfaceLanguagesSelected}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel>
@@ -105,7 +105,7 @@
                         <TextBlock Classes="nameText" Text="{Binding SETTINGS_GENERAL_UPDATE_CHANNEL}" />
                     </StackPanel>
                     <ComboBox Classes="value" 
-                              Items="{Binding AvailableBranches}" 
+                              ItemsSource="{Binding AvailableBranches}" 
                               SelectedIndex="{Binding UpdateChannelSelected}"
                               IsEnabled="{Binding AllowCheckUpdate}">
                         <ComboBox.ItemTemplate>
@@ -147,7 +147,7 @@
                         <TextBlock Classes="nameText" Text="{Binding SETTINGS_IN_GAME_LANGUAGE}" />
                         <TextBlock Classes="comment" Text="{Binding SETTINGS_INFO_TRANSLATION_PROVIDER}" />
                     </StackPanel>
-                    <ComboBox Classes="value" Items="{Binding ScenarioLanguages}" SelectedIndex="{Binding ScenarioLanguagesSelected}">
+                    <ComboBox Classes="value" ItemsSource="{Binding ScenarioLanguages}" SelectedIndex="{Binding ScenarioLanguagesSelected}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel>

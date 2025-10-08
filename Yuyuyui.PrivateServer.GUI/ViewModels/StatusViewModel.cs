@@ -18,7 +18,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
         public StatusViewModel()
         {
             ipMessage = "";
-            NetworkInterfaces = new ObservableCollection<InterfaceDescription>();
+            NetworkInterfaces = [];
             ListeningPort = 44460; // TODO
 
             UpdateNetworkInfo();

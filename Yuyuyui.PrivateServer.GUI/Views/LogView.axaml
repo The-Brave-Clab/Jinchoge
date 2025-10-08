@@ -16,7 +16,7 @@
 
         <ScrollViewer AllowAutoHide="True" ScrollChanged="ScrollViewerOnScrollChanged">
 
-            <ItemsControl Items="{Binding Logs}">
+            <ItemsControl ItemsSource="{Binding Logs}">
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

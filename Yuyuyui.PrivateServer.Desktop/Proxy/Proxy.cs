@@ -99,7 +99,7 @@ public static class Proxy<TCallbacks> where TCallbacks : class, IProxyCallbacks,
 
     public static async Task<Tuple<Dictionary<string, string>, byte[]>> GetRequestHeadersAndBody(SessionEventArgs e)
     {
-        byte[] requestBodyBytes = Array.Empty<byte>();
+        byte[] requestBodyBytes = [];
         Dictionary<string, string> headers =
             new Dictionary<string, string>(e.HttpClient.Request.Headers.Count());
         foreach (var header in e.HttpClient.Request.Headers)

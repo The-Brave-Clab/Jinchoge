@@ -107,9 +107,9 @@ namespace Yuyuyui.PrivateServer
             public BattleInfo battle_info { get; set; } = new();
             public BattleDeck deck { get; set; } = new();
             public int tree_hp { get; set; } = 3; // Is this fixed?
-            public List<int> brave_systems { get; set; } = new(); // only saw empty for story stages
-            public List<Enemy> enemies { get; set; } = new();
-            public List<WaveTimeline> wave_timelines { get; set; } = new();
+            public List<int> brave_systems { get; set; } = []; // only saw empty for story stages
+            public List<Enemy> enemies { get; set; } = [];
+            public List<WaveTimeline> wave_timelines { get; set; } = [];
             public GameModeRule game_mode_rule { get; set; } = new();
 
             public class Boss
@@ -122,7 +122,7 @@ namespace Yuyuyui.PrivateServer
                 public int pop_cond_type { get; set; }
                 public int pop_cond_value { get; set; }
                 public string enemy_id { get; set; } = "";
-                public List<Status> statuses { get; set; } = new();
+                public List<Status> statuses { get; set; } = [];
 
                 public class Status
                 {
@@ -178,8 +178,8 @@ namespace Yuyuyui.PrivateServer
                 public EnemyHpGaugeType hp_gauge_type { get; set; }
                 public float as_first_interval { get; set; } // only saw 0
                 public float hit_effect_height { get; set; }
-                public List<ActiveSkill> active_skills { get; set; } = new();
-                public List<SkillInfo> passive_skills { get; set; } = new();
+                public List<ActiveSkill> active_skills { get; set; } = [];
+                public List<SkillInfo> passive_skills { get; set; } = [];
                 public int? character_type { get; set; } = null;
                 public long? master_id { get; set; } = null;
                 public EnemySizeTye? summon_size_type { get; set; } = null;
@@ -271,7 +271,7 @@ namespace Yuyuyui.PrivateServer
                 public SubCardData? assist { get; set; } = new();
                 public int order { get; set; }
                 public SkillInfo active_skill { get; set; } = new();
-                public List<Accessory> accessories { get; set; } = new();
+                public List<Accessory> accessories { get; set; } = [];
                 public int hp { get; set; }
                 public bool leader { get; set; }
                 public FriendType friend_type { get; set; }
@@ -375,7 +375,7 @@ namespace Yuyuyui.PrivateServer
             public class SubCardData
             {
                 public CardBaseInfo base_info { get; set; } = new();
-                public List<SkillInfo> passive_skills { get; set; } = new();
+                public List<SkillInfo> passive_skills { get; set; } = [];
 
                 public void FillFromCard(Card card)
                 {

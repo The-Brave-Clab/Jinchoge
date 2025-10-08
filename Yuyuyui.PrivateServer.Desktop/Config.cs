@@ -105,16 +105,16 @@ public static class Config
         return Path.Combine(BASE_DIR, FILE_NAME);
     }
 
-    public static readonly List<string> SupportedInterfaceLocale = new()
-    {
+    public static readonly List<string> SupportedInterfaceLocale =
+    [
         "",
         "en",
         "zh"
-    };
+    ];
 
-    public static readonly List<string> SupportedUpdateChannel = new()
-    {
+    public static readonly List<string> SupportedUpdateChannel =
+    [
         "master",
         "release"
-    };
+    ];
 }

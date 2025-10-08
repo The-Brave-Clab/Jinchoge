@@ -218,6 +218,6 @@ namespace Yuyuyui.PrivateServer
             return Values[kind];
         }
 
-        private static readonly float[] Values = {0f, 0.7f, 0.85f, 1f, 1.25f, 1.5f};
+        private static readonly float[] Values = [0f, 0.7f, 0.85f, 1f, 1.25f, 1.5f];
     }
 }

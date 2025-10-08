@@ -159,7 +159,7 @@ namespace Yuyuyui.PrivateServer
             
             public class BattleResult
             {
-                public List<string> destroyed_wave_timeline_ids { get; set; } = new();
+                public List<string> destroyed_wave_timeline_ids { get; set; } = [];
                 public bool finished_score_scenario { get; set; } // first star
                 public bool finished_score_speed { get; set; } // second star
                 public bool finished_score_no_injury { get; set; } // third star

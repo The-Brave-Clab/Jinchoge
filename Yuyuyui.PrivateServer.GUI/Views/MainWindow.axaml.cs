@@ -35,13 +35,18 @@ namespace Yuyuyui.PrivateServer.GUI.Views
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                TransparencyLevelHint = WindowTransparencyLevel.Mica;
+                TransparencyLevelHint = [
+                    WindowTransparencyLevel.Mica,
+                    WindowTransparencyLevel.AcrylicBlur,
+                    WindowTransparencyLevel.Blur,
+                    WindowTransparencyLevel.None
+                ];
                 ExtendClientAreaToDecorationsHint = true;
                 Background = Brushes.Transparent;
             }
             else
             {
-                TransparencyLevelHint = WindowTransparencyLevel.None;
+                TransparencyLevelHint = [WindowTransparencyLevel.None];
                 ExtendClientAreaToDecorationsHint = false;
                 Background = Brushes.Gray;
             }
@@ -135,7 +140,7 @@ namespace Yuyuyui.PrivateServer.GUI.Views
             }
         }
 
-        private void WindowOnClosing(object? sender, CancelEventArgs e)
+        private void WindowOnClosing(object? sender, WindowClosingEventArgs e)
         {
             mainWindowVM.StopPrivateServer();
         }

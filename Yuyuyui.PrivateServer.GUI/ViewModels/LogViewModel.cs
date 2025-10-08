@@ -9,7 +9,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
         public LogViewModel()
         {
-            Logs = new ObservableCollection<LogEntry>();
+            Logs = [];
         }
     }
     public class LogEntry

@@ -134,13 +134,13 @@ namespace Yuyuyui.PrivateServer
         private List<GachaProductData.PickupContent> GetGachaPickUps(Gacha gacha)
         {
             if (gacha.PickupType == null || gacha.PickupId == null) 
-                return new List<GachaProductData.PickupContent>();
+                return [];
 
-            var pickupTypes = gacha.PickupType.Split(new [] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-            var pickupIds = gacha.PickupId.Split(new [] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            var pickupTypes = gacha.PickupType.Split([';'], StringSplitOptions.RemoveEmptyEntries);
+            var pickupIds = gacha.PickupId.Split([';'], StringSplitOptions.RemoveEmptyEntries);
 
             if (pickupTypes.Length != pickupIds.Length) 
-                return new List<GachaProductData.PickupContent>();
+                return [];
             
             var result = new List<GachaProductData.PickupContent>(pickupTypes.Length);
 

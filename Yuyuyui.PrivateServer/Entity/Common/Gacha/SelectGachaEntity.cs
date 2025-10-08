@@ -67,7 +67,7 @@ namespace Yuyuyui.PrivateServer
             var gachaBoxId = gacha.StepupGroup ?? gacha.Id;
             bool hasSelected = player.gachaSelections.TryGetValue(gachaBoxId, out var selected);
 
-            if (!hasSelected) return new List<Response.SelectedContent>();
+            if (!hasSelected) return [];
 
             return selected!.Select(s => new Response.SelectedContent
             {

@@ -48,7 +48,7 @@
                     </StackPanel.Styles>
 
 
-                    <ItemsControl Items="{Binding NetworkInterfaces}">
+                    <ItemsControl ItemsSource="{Binding NetworkInterfaces}">
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -64,7 +64,7 @@
 
                     </ItemsControl>
 
-                    <ItemsControl Items="{Binding NetworkInterfaces}">
+                    <ItemsControl ItemsSource="{Binding NetworkInterfaces}">
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -81,7 +81,7 @@
                     </ItemsControl>
 
 
-                    <ItemsControl Items="{Binding NetworkInterfaces}">
+                    <ItemsControl ItemsSource="{Binding NetworkInterfaces}">
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -98,7 +98,7 @@
                     </ItemsControl>
 
 
-                    <ItemsControl Items="{Binding NetworkInterfaces}">
+                    <ItemsControl ItemsSource="{Binding NetworkInterfaces}">
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>

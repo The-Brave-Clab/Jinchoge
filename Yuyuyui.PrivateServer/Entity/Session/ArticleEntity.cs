@@ -20,8 +20,8 @@ namespace Yuyuyui.PrivateServer
         {
             Response responseObj = new()
             {
-                articles = new Response.Article[]
-                {
+                articles =
+                [
                     new()
                     {
                         url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/{ServerResources.RELEASE_NOTES_PATH}",
@@ -58,7 +58,7 @@ namespace Yuyuyui.PrivateServer
                         kind = 0,
                         label = "official_links"
                     }
-                }
+                ]
             };
 
             responseBody = Serialize(responseObj);

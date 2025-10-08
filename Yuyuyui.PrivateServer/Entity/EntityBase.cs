@@ -70,8 +70,8 @@ namespace Yuyuyui.PrivateServer
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
 
-            var orig = apiPathWithParameters.Split(new [] {'/'}, StringSplitOptions.RemoveEmptyEntries);
-            var real = apiPathReal.Split(new [] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+            var orig = apiPathWithParameters.Split(['/'], StringSplitOptions.RemoveEmptyEntries);
+            var real = apiPathReal.Split(['/'], StringSplitOptions.RemoveEmptyEntries);
 
             if (orig.Length != real.Length) return null;
 
@@ -218,7 +218,7 @@ namespace Yuyuyui.PrivateServer
             RequestUri = requestUri;
             this.requestHeaders = requestHeaders;
             this.requestBody = requestBody;
-            responseBody = Array.Empty<byte>();
+            responseBody = [];
             responseHeaders = new Dictionary<string, string>();
 
             pathParameters = ExtractPathParameters(config.apiPath, StripApiPrefix(requestUri.AbsolutePath))!;
