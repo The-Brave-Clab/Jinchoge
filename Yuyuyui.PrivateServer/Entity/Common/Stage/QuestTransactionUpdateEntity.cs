@@ -243,7 +243,7 @@ namespace Yuyuyui.PrivateServer
 
                     int order = 1;
 
-                    var deckUnits = await deck.units.Select(Unit.Load).WhenAll();
+                    var deckUnits = await Unit.LoadMany(deck.units);
                     foreach (var unit in deckUnits)
                     {
                         if (unit.baseCardID == null) continue;

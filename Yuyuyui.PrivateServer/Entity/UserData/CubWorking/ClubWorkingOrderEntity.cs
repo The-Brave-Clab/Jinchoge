@@ -65,9 +65,7 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
-                var orders = await player.clubOrders
-                    .Select(ClubOrder.Load)
-                    .WhenAll();
+                var orders = await ClubOrder.LoadMany(player.clubOrders);
                 responseObj = new()
                 {
                     club_orders = orders

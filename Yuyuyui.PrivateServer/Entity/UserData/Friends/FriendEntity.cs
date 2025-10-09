@@ -22,9 +22,7 @@ namespace Yuyuyui.PrivateServer
         {
             var player = await GetPlayerFromCookies();
 
-            var friends = await player.friends
-                .Select(PlayerProfile.Load)
-                .WhenAll();
+            var friends = await PlayerProfile.LoadMany(player.friends);
             var responseFromPlayerProfile = await friends
                 .Select(UserInfoEntity.Response.User.FromPlayerProfile)
                 .WhenAll();

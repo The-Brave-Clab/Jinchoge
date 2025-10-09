@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Yuyuyui.PrivateServer
@@ -18,6 +20,11 @@ namespace Yuyuyui.PrivateServer
         public static async Task<TSelf> Load(TIdentifier identifier)
         {
             return await PlayerDataProviderFactory.ActiveFactory!.Get<TSelf, TIdentifier>().Load(identifier);
+        }
+
+        public static async Task<IEnumerable<TSelf>> LoadMany(IEnumerable<TIdentifier> identifiers)
+        {
+            return await PlayerDataProviderFactory.ActiveFactory!.Get<TSelf, TIdentifier>().LoadMany(identifiers);
         }
 
         public static async Task Delete(TIdentifier identifier)

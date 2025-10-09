@@ -23,7 +23,7 @@ namespace Yuyuyui.PrivateServer
             
             // remove the gifts that have exceeded the time limit
             List<Gift> giftsToBeRemoved = [];
-            var acceptedGifts = await player.receivedGifts.Select(Gift.Load).WhenAll();
+            var acceptedGifts = await Gift.LoadMany(player.receivedGifts);
             foreach (var gift in acceptedGifts)
             {
                 if (Utils.CurrentUnixTime() > gift.receivable_at)
@@ -39,7 +39,7 @@ namespace Yuyuyui.PrivateServer
             if (giftsToBeRemoved.Count > 0)
                 await player.Save();
 
-            var gifts = await player.receivedGifts.Select(Gift.Load).WhenAll();
+            var gifts = await Gift.LoadMany(player.receivedGifts);
             Response responseObj = new()
             {
                 gifts = gifts.ToList()

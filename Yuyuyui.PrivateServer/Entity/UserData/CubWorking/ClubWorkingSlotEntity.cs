@@ -35,9 +35,7 @@ namespace Yuyuyui.PrivateServer
 
             // Utils.LogWarning("Stub API! Process finished club working here!");
 
-            var slots = await player.clubWorkingSlots
-                .Select(ClubWorkingSlot.Load)
-                .WhenAll();
+            var slots = await ClubWorkingSlot.LoadMany(player.clubWorkingSlots);
             Response responseObj = new()
             {
                 club_working_slots = slots.ToList()

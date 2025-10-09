@@ -45,10 +45,9 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
-                var staminaItems = await player.items.stamina
-                    .Select(p => p.Value)
-                    .Select(Item.Load)
-                    .WhenAll();
+                var staminaItems = await Item.LoadMany(
+                    player.items.stamina
+                        .Select(p => p.Value));
                 responseObj = new()
                 {
                     stamina_items = staminaItems

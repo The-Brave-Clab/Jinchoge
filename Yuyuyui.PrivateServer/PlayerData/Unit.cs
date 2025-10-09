@@ -187,7 +187,7 @@ public class Unit : BasePlayerData<Unit, long>
                 support = supportDict,
                 support_2 = support2Dict,
                 assist = assistDict,
-                accessories = (await unit.accessories.Select(Accessory.Load).WhenAll()).ToList(),
+                accessories = (await Accessory.LoadMany(unit.accessories)).ToList(),
                 master_id = await unit.GetMasterId(),
                 potential = await unit.GetPotential(),
                 evolution_level = await unit.GetEvolutionLevel(),

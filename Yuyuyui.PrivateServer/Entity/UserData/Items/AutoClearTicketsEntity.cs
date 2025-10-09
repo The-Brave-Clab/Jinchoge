@@ -40,10 +40,9 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
-                var autoClearTickets = await player.items.autoClearTickets
-                    .Select(p => p.Value)
-                    .Select(Item.Load)
-                    .WhenAll();
+                var autoClearTickets = await Item.LoadMany(
+                    player.items.autoClearTickets
+                        .Select(p => p.Value));
                 responseObj = new()
                 {
                     tickets = autoClearTickets

@@ -45,10 +45,9 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
-                var eventItems = await player.items.eventItems
-                    .Select(p => p.Value)
-                    .Select(Item.Load)
-                    .WhenAll();
+                var eventItems = await Item.LoadMany(
+                    player.items.eventItems
+                        .Select(p => p.Value));
                 responseObj = new()
                 {
                     event_items = eventItems

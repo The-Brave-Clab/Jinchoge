@@ -76,9 +76,7 @@ namespace Yuyuyui.PrivateServer
                 Utils.Log(Resources.LOG_PS_DECK_SET_DEFAULT);
             }
 
-            var decks = await player.decks
-                .Select(Deck.Load)
-                .WhenAll();
+            var decks = await Deck.LoadMany(player.decks);
             var responseDeck = await decks
                 .Select(d => Response.Deck.FromPlayerDeck(d, player))
                 .WhenAll();
@@ -104,9 +102,7 @@ namespace Yuyuyui.PrivateServer
 
                 public static async Task<Deck> FromPlayerDeck(Yuyuyui.PrivateServer.Deck d, PlayerProfile player)
                 {
-                    var units = await d.units
-                        .Select(Unit.Load)
-                        .WhenAll();
+                    var units = await Unit.LoadMany(d.units);
                     var cardsWithSupport = await units
                         .Select(u => Unit.CardWithSupport.FromUnit(u, player))
                         .WhenAll();

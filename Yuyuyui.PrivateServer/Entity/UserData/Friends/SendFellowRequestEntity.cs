@@ -42,9 +42,7 @@ namespace Yuyuyui.PrivateServer
             // if so, we should automatically make it accepted
             try
             {
-                var requests = await player.friendRequests
-                    .Select(FriendRequest.Load)
-                    .WhenAll();
+                var requests = await FriendRequest.LoadMany(player.friendRequests);
                 friendRequest = requests.First(fr => fr.fromUser == friend.id.code);
                 Utils.Log(string.Format(Resources.LOG_PS_FRIEND_REQUEST_FOUND_SYMMETRIC,
                     friendRequest.id, friendRequest.fromUser, friendRequest.toUser));

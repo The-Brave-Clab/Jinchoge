@@ -84,7 +84,7 @@ namespace Yuyuyui.PrivateServer
                     id = deck.id, 
                 };
                 
-                var deckUnits = await deck.units.Select(Unit.Load).WhenAll();
+                var deckUnits = await Unit.LoadMany(deck.units);
                 foreach (var unit in deckUnits)
                 {
                     var rankInfo = requestObj.battle_result.deck_cards!.First(i => i.id == unit.id);

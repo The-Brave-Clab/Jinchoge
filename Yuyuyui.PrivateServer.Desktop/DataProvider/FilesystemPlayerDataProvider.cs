@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -49,6 +50,11 @@ public class FilesystemPlayerDataProvider<TPlayerData, TIdentifier> : IPlayerDat
         {
             cacheSemaphore.Release();
         }
+    }
+
+    public async Task<IEnumerable<TPlayerData>> LoadMany(IEnumerable<TIdentifier> ids)
+    {
+        return await ids.Select(Load).WhenAll();
     }
 
     public async Task Save(TPlayerData entity, TIdentifier id)

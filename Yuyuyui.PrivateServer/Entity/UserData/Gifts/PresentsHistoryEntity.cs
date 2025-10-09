@@ -24,7 +24,7 @@ namespace Yuyuyui.PrivateServer
             // remove the gifts that have been accepted for 14 days
             // or exceeds the limit of 20
             List<Gift> giftsToBeRemoved = [];
-            var acceptedGifts = await player.acceptedGifts.Select(Gift.Load).WhenAll();
+            var acceptedGifts = (await Gift.LoadMany(player.acceptedGifts)).ToArray();
             foreach (var gift in acceptedGifts)
             {
                 var timePassed = DateTime.UtcNow - Utils.FromUnixTime(gift.received_at).ToUniversalTime();
@@ -47,7 +47,7 @@ namespace Yuyuyui.PrivateServer
             if (giftsToBeRemoved.Count > 0)
                 await player.Save();
 
-            var gifts = await player.acceptedGifts.Select(Gift.Load).WhenAll();
+            var gifts = await Gift.LoadMany(player.acceptedGifts);
             PresentsEntity.Response responseObj = new()
             {
                 gifts = gifts.ToList()

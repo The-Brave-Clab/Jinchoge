@@ -249,9 +249,7 @@ namespace Yuyuyui.PrivateServer
 
         private async Task<IEnumerable<long>> GetBaseCardIdsEligibleForObtainingTitle()
         {
-            var baseCards = await cards.Values
-                .Select(Card.Load)
-                .WhenAll();
+            var baseCards = await Card.LoadMany(cards.Values);
             return baseCards
                 .Where(card => ELIGIBLE_RARITY_LIST.Contains(card.MasterData().Rarity))
                 .Where(card => card.potential >= MINIMAL_CARD_POTENTIAL)

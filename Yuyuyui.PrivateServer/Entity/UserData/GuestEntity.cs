@@ -100,9 +100,7 @@ public class GuestEntity : BaseEntity<GuestEntity>
                 public static async Task<CardDataWithSupport> FromDeck(Deck deck)
                 {
                     Unit leaderUnit = await Unit.Load(deck.leaderUnitID);
-                    var leaderUnitAccessories = await leaderUnit.accessories
-                        .Select(Accessory.Load)
-                        .WhenAll();
+                    var leaderUnitAccessories = await Accessory.LoadMany(leaderUnit.accessories);
                     var data = new CardDataWithSupport()
                     {
                         id = leaderUnit.id,

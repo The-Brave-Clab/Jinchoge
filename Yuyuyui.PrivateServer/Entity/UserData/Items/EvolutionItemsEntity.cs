@@ -45,10 +45,9 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
-                var evolutionItems = await player.items.evolution
-                    .Select(p => p.Value)
-                    .Select(Item.Load)
-                    .WhenAll();
+                var evolutionItems = await Item.LoadMany(
+                    player.items.evolution
+                        .Select(p => p.Value));
                 responseObj = new()
                 {
                     evolution_items = evolutionItems
