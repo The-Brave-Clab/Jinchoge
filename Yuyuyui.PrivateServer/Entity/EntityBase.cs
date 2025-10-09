@@ -70,8 +70,8 @@ namespace Yuyuyui.PrivateServer
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
 
-            var orig = apiPathWithParameters.Split(['/'], StringSplitOptions.RemoveEmptyEntries);
-            var real = apiPathReal.Split(['/'], StringSplitOptions.RemoveEmptyEntries);
+            var orig = apiPathWithParameters.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            var real = apiPathReal.Split('/', StringSplitOptions.RemoveEmptyEntries);
 
             if (orig.Length != real.Length) return null;
 

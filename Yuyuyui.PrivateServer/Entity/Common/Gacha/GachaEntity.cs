@@ -136,8 +136,8 @@ namespace Yuyuyui.PrivateServer
             if (gacha.PickupType == null || gacha.PickupId == null) 
                 return [];
 
-            var pickupTypes = gacha.PickupType.Split([';'], StringSplitOptions.RemoveEmptyEntries);
-            var pickupIds = gacha.PickupId.Split([';'], StringSplitOptions.RemoveEmptyEntries);
+            var pickupTypes = gacha.PickupType.Split(';', StringSplitOptions.RemoveEmptyEntries);
+            var pickupIds = gacha.PickupId.Split(';', StringSplitOptions.RemoveEmptyEntries);
 
             if (pickupTypes.Length != pickupIds.Length) 
                 return [];

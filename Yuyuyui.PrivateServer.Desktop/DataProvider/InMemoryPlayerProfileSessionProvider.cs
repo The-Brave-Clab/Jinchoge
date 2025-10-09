@@ -101,7 +101,7 @@ public class InMemoryPlayerProfileSessionProvider : IPlayerProfileSessionProvide
             using (StreamReader sr = new(playerDataFile))
             {
                 var content = await sr.ReadToEndAsync();
-                lines = content.Split(['\n'], StringSplitOptions.RemoveEmptyEntries);
+                lines = content.Split('\n', StringSplitOptions.RemoveEmptyEntries);
             }
 
             var newLines = lines.Where(line => !line.StartsWith(player.id.uuid));

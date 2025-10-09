@@ -132,7 +132,7 @@ namespace Yuyuyui.PrivateServer
         public static async Task<IPlayerProfileSessionProvider.PlayerSession?> GetSessionFromCookie(this EntityBase entity)
         {
             string cookie = entity.GetRequestHeaderValue("Cookie");
-            var cookies = cookie.Split([';'], StringSplitOptions.RemoveEmptyEntries)
+            var cookies = cookie.Split(';', StringSplitOptions.RemoveEmptyEntries)
                 .Select(c => c.Split('='))
                 .ToDictionary(e => e[0], e => e.Length > 1 ? e[1] : "");
 
