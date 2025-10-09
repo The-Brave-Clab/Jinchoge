@@ -22,11 +22,11 @@ jobs:
     needs: [get_time]
     strategy:
       matrix:
-        tfm: [ "net6.0" ]
+        tfm: [ "net8.0" ]
 
     uses: ./.github/workflows/build.yml
     with:
-      rid: win10-x64
+      rid: win-x64
       tfm: ${{ matrix.tfm }}
       build_host: windows-latest
       use_tar: false
@@ -36,7 +36,7 @@ jobs:
     needs: [get_time]
     strategy:
       matrix:
-        tfm: [ "net6.0" ]
+        tfm: [ "net8.0" ]
 
     uses: ./.github/workflows/build.yml
     with:
@@ -51,7 +51,7 @@ jobs:
     strategy:
       matrix:
         rid: [ "osx-x64", "osx-arm64" ]
-        tfm: [ "net6.0" ]
+        tfm: [ "net8.0" ]
 
     uses: ./.github/workflows/build.yml
     with:
@@ -78,8 +78,8 @@ jobs:
 
     strategy:
       matrix:
-        rid: [ "win10-x64", "osx-x64", "osx-arm64", "linux-x64" ]
-        tfm: [ "net6.0" ]
+        rid: [ "win-x64", "osx-x64", "osx-arm64", "linux-x64" ]
+        tfm: [ "net8.0" ]
         
     runs-on: ubuntu-latest
     
@@ -156,12 +156,12 @@ jobs:
 
 
 
-      - name: Update Artifacts (win10-x64)
+      - name: Update Artifacts (win-x64)
         uses: jossef/action-set-json-field@v1
         with:
           file: version.json
-          field: version_info.${{ github.ref_name }}.artifacts.win10-x64
-          value: win10-x64.zip
+          field: version_info.${{ github.ref_name }}.artifacts.win-x64
+          value: win-x64.zip
 
       - name: Update Artifacts (osx-x64)
         uses: jossef/action-set-json-field@v1
