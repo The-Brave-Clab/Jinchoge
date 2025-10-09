@@ -93,6 +93,7 @@ namespace Yuyuyui.PrivateServer
 
         public static EntityBase FromEventArgs(EventArgs args)
         {
+            args.requestUri = PrivateServer.RequestURIRewriter(args.requestUri);
             string apiPath = StripApiPrefix(args.requestUri.AbsolutePath);
 
             Utils.LogTrace($"{args.requestMethod} {apiPath}");

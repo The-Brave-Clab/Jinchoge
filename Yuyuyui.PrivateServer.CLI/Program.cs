@@ -58,6 +58,7 @@ namespace Yuyuyui.PrivateServer.CLI
             IMasterDataProvider.ActiveProvider = new AWSMasterDataProvider();
             IInGameConfigProvider.ActiveProvider = new DesktopInGameConfigProvider();
 
+            PrivateServerDesktop.SetPrivateServerURIRewriter();
             await PrivateServer.Init();
             var endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
 

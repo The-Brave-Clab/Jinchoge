@@ -212,6 +212,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
             PlayerDataProviderFactory.ActiveFactory = new FilesystemPlayerDataProviderFactory();
             IPlayerProfileSessionProvider.ActiveProvider = new InMemoryPlayerProfileSessionProvider();
             IInGameConfigProvider.ActiveProvider = new DesktopInGameConfigProvider();
+            PrivateServerDesktop.SetPrivateServerURIRewriter();
 
             Status = ServerStatus.Updating;
 

@@ -9,11 +9,12 @@ namespace Yuyuyui.PrivateServer
 {
     public static class PrivateServer
     {
-
         public const string YUYUYUI_APP_VERSION = "3.28.0";
 
         public const string OFFICIAL_API_SERVER = "app.yuyuyui.jp";
         public const string PRIVATE_PUBLIC_API_SERVER = "936fkiz1v2.execute-api.ap-northeast-1.amazonaws.com";
+
+        public static Func<Uri, Uri> RequestURIRewriter = uri => uri;
 
         public static async Task Init()
         {
