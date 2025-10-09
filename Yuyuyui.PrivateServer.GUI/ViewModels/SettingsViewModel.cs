@@ -325,7 +325,7 @@ internal class SettingsViewModel : ViewModelBase
             toolbarVM.ShowProgressText = true;
             toolbarVM.IsProgressIndeterminate = false;
             toolbarVM.ProgressBarText = fileName;
-            await PrivateServer.HttpClient.DownloadAsync(url, fs, new Progress<float>(
+            await PrivateServerDesktop.HttpClient.DownloadAsync(url, fs, new Progress<float>(
                 progress => { toolbarVM.ToolbarProgress = progress * 100; }));
 
             Utils.Log(string.Format(Resources.LOG_UPDATE_DOWNLOADED, localFileName));

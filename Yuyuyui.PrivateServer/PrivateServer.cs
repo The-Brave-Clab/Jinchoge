@@ -13,10 +13,7 @@ namespace Yuyuyui.PrivateServer
         public const string YUYUYUI_APP_VERSION = "3.28.0";
 
         public const string OFFICIAL_API_SERVER = "app.yuyuyui.jp";
-        public const string PRIVATE_LOCAL_API_SERVER = "private.yuyuyui.org";
         public const string PRIVATE_PUBLIC_API_SERVER = "936fkiz1v2.execute-api.ap-northeast-1.amazonaws.com";
-        
-        public static readonly HttpClient HttpClient = new();
 
         public static async Task Init()
         {
@@ -28,8 +25,6 @@ namespace Yuyuyui.PrivateServer
                 throw new Exception("No IMasterDataProvider is set.");
             if (IInGameConfigProvider.ActiveProvider == null)
                 throw new Exception("No IInGameConfigProvider is set.");
-
-            HttpClient.DefaultRequestHeaders.Referrer = new Uri($"https://{PRIVATE_LOCAL_API_SERVER}");
 
             DataModel.Config.BaseDir = IMasterDataProvider.ActiveProvider.Directory;
             await IMasterDataProvider.ActiveProvider!.Initialize();

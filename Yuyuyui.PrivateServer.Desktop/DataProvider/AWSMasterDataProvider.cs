@@ -40,7 +40,7 @@ public class AWSMasterDataProvider : IMasterDataProvider
         // Get remote data
         HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, new Uri(url));
 
-        HttpResponseMessage response = await PrivateServer.HttpClient.SendAsync(requestMessage);
+        HttpResponseMessage response = await PrivateServerDesktop.HttpClient.SendAsync(requestMessage);
         string responseStr = await response.Content.ReadAsStringAsync();
 
         LocalDataResult localDataResult = JsonConvert.DeserializeObject<LocalDataResult>(responseStr)!;
@@ -96,7 +96,7 @@ public class AWSMasterDataProvider : IMasterDataProvider
             Utils.Log(string.Format(Resources.LOG_PS_LOCAL_DATA_DOWNLOADING, fileName));
 
             await using FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
-            await PrivateServer.HttpClient.DownloadAsync(fileUrl, fs,
+            await PrivateServerDesktop.HttpClient.DownloadAsync(fileUrl, fs,
                 new Progress<float>(progress => { singleFileProgress?.Invoke(fileName, progress); }));
             ++count;
         }

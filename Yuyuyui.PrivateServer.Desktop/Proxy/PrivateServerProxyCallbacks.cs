@@ -25,7 +25,7 @@ public class PrivateServerProxyCallbacks : IProxyCallbacks
         }
 
         if (!e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.OFFICIAL_API_SERVER) &&
-            !e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.PRIVATE_LOCAL_API_SERVER))
+            !e.HttpClient.Request.RequestUri.Host.Contains(PrivateServerDesktop.PRIVATE_LOCAL_API_SERVER))
             return;
 
         EventArgs args = new()
@@ -107,7 +107,7 @@ public class PrivateServerProxyCallbacks : IProxyCallbacks
         }
 
         e.DecryptSsl = e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.OFFICIAL_API_SERVER)
-                       || e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.PRIVATE_LOCAL_API_SERVER)
+                       || e.HttpClient.Request.RequestUri.Host.Contains(PrivateServerDesktop.PRIVATE_LOCAL_API_SERVER)
                        || e.HttpClient.Request.RequestUri.Host.Contains("perf-events.cloud.unity3d.com");
 
         return Task.CompletedTask;

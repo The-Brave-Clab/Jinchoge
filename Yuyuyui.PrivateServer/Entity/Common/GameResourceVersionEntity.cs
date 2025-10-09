@@ -46,7 +46,10 @@ namespace Yuyuyui.PrivateServer
                 requestMessage.Headers.Add(header.Key, header.Value);
             }
 
-            HttpResponseMessage response = await PrivateServer.HttpClient.SendAsync(requestMessage);
+            HttpClient client = new();
+            client.DefaultRequestHeaders.Referrer = RequestUri;
+
+            HttpResponseMessage response = await client.SendAsync(requestMessage);
             byte[] responseBytes = await response.Content.ReadAsByteArrayAsync();
             
             // // the response from official server is in default key, we need to decrypt it

@@ -24,7 +24,7 @@ public static class ProxyUtils
     public static bool WebService(SessionEventArgs e)
     {
         var request = e.HttpClient.Request;
-        if (request.Host != PrivateServer.PRIVATE_LOCAL_API_SERVER ||
+        if (request.Host != PrivateServerDesktop.PRIVATE_LOCAL_API_SERVER ||
             e.HttpClient.Request.RequestUri.AbsolutePath.StartsWith(EntityBase.BASE_API_PATH))
             return false;
 

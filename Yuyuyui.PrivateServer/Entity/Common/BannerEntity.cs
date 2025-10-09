@@ -63,7 +63,7 @@ namespace Yuyuyui.PrivateServer
                     {
                         image_id = 9000,
                         transition_screen_kind = "",
-                        transition_url = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}/",
+                        transition_url = $"{RequestAuthority}/",
                         available_user_level = 0
                     },
                 }

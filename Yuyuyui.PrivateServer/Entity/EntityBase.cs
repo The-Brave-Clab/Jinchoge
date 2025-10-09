@@ -32,6 +32,7 @@ namespace Yuyuyui.PrivateServer
         public Dictionary<string, string> PathParameters => pathParameters;
         public byte[] ResponseBody => responseBody;
         public Dictionary<string, string> ResponseHeaders => responseHeaders;
+        public string RequestAuthority => RequestUri.GetLeftPart(UriPartial.Authority);
 
         public bool HeaderContainsKey(string headerKey)
         {
