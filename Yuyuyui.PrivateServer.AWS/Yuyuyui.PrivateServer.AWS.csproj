@@ -21,6 +21,7 @@
         <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.7.1" />
         <PackageReference Include="Amazon.Lambda.Core" Version="2.7.1" />
         <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.4.4" />
+        <PackageReference Include="AWSSDK.DynamoDBv2" Version="4.0.7.1" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Yuyuyui.PrivateServer.Localization\Yuyuyui.PrivateServer.Localization.csproj" />
