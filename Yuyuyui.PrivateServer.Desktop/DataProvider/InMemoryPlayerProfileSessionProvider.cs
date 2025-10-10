@@ -9,7 +9,6 @@ namespace Yuyuyui.PrivateServer.Desktop;
 public class InMemoryPlayerProfileSessionProvider : IPlayerProfileSessionProvider
 {
     private Dictionary<string, PlayerProfile> playerUUID = new();
-    private Dictionary<string, PlayerProfile> playerCode = new();
     private Dictionary<string, IPlayerProfileSessionProvider.PlayerSession> playerSessions = new();
 
     private bool isInitialized = false;
@@ -19,7 +18,6 @@ public class InMemoryPlayerProfileSessionProvider : IPlayerProfileSessionProvide
         if (isInitialized) return;
 
         playerUUID = new Dictionary<string, PlayerProfile>();
-        playerCode = new Dictionary<string, PlayerProfile>();
         playerSessions = new Dictionary<string, IPlayerProfileSessionProvider.PlayerSession>();
 
         var playerDataFile = Path.Combine(FileSystemData.dataFolder, FileSystemData.PLAYER_DATA_FILE);
@@ -55,29 +53,15 @@ public class InMemoryPlayerProfileSessionProvider : IPlayerProfileSessionProvide
             string code = split[1];
             PlayerProfile player = await PlayerProfile.Load(code);
             playerUUID.Add(player!.id.uuid, player);
-            playerCode.Add(player.id.code, player);
         }
 
         isInitialized = true;
-    }
-
-    public async Task<PlayerProfile?> GetPlayerProfileFromUUID(string playerUUID)
-    {
-        await Init();
-        return this.playerUUID.TryGetValue(playerUUID, out var profile) ? profile : null;
-    }
-
-    public async Task<PlayerProfile?> GetPlayerProfileFromCode(string playerCode)
-    {
-        await Init();
-        return this.playerCode.TryGetValue(playerCode, out var profile) ? profile : null;
     }
 
     public async Task AddNewPlayer(PlayerProfile player)
     {
         await Init();
         playerUUID.Add(player.id.uuid, player);
-        playerCode.Add(player.id.code, player);
 
         var playerDataFile = Path.Combine(FileSystemData.dataFolder, FileSystemData.PLAYER_DATA_FILE);
         await FileSystemData.dataFileLock.WaitAsync();
