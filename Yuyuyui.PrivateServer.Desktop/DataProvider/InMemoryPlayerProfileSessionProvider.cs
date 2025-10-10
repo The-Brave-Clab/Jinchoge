@@ -125,19 +125,23 @@ public class InMemoryPlayerProfileSessionProvider : IPlayerProfileSessionProvide
     {
         await Init();
 
-        if (playerSessions.TryGetValue(playerUUID, out var playerSession))
-            return playerSession;
-
-
-        playerSession = new IPlayerProfileSessionProvider.PlayerSession
+        IPlayerProfileSessionProvider.PlayerSession session;
+        try
         {
-            session = createSessionInfo(),
-            player = this.playerUUID.TryGetValue(playerUUID, out var value) ? value : await registerNewPlayer(playerUUID),
-        };
+            session = playerSessions.First(p => p.Value.player.id.uuid == playerUUID).Value;
+        }
+        catch (InvalidOperationException)
+        {
+            session = new IPlayerProfileSessionProvider.PlayerSession
+            {
+                session = createSessionInfo(),
+                player = this.playerUUID.TryGetValue(playerUUID, out var value) ? value : await registerNewPlayer(playerUUID),
+            };
 
-        playerSessions.Add(playerSession.session.id, playerSession);
+            playerSessions.Add(session.session.id, session);
+        }
 
-        return playerSession;
+        return session;
     }
 
     public async Task<IPlayerProfileSessionProvider.PlayerSession?> GetSessionFromSessionID(string sessionID)
