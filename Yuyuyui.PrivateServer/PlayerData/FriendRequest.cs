@@ -5,7 +5,7 @@ namespace Yuyuyui.PrivateServer
 {
     public class FriendRequest : BasePlayerData<FriendRequest, long>
     {
-        protected override long Identifier => id;
+        public override long Identifier => id;
 
         public long id { get; set; }
         public int status { get; set; } // Requested = 0, Accepted = 1, Rejected = 2

@@ -9,7 +9,7 @@ namespace Yuyuyui.PrivateServer
         where TSelf : BasePlayerData<TSelf, TIdentifier>
         where TIdentifier : notnull
     {
-        protected abstract TIdentifier Identifier { get; }
+        public abstract TIdentifier Identifier { get; }
         protected override string DataType => typeof(TSelf).Name;
 
         public async Task Save()

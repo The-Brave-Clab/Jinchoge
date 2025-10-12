@@ -10,7 +10,7 @@ namespace Yuyuyui.PrivateServer
         public bool finishedInTime { get; set; }
         public bool finishedNoInjury { get; set; }
 
-        protected override long Identifier => id;
+        public override long Identifier => id;
         
         private static async Task<long> GetID()
         {

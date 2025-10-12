@@ -13,7 +13,7 @@ public class Unit : BasePlayerData<Unit, long>
     public long? supportCard2ID { get; set; } = null; // UR support
     public long? assistCardID { get; set; } = null; // Miko
     public IList<long> accessories { get; set; } = new List<long>(); // Seirei ID
-    protected override long Identifier => id;
+    public override long Identifier => id;
 
     public static async Task<long> GetID()
     {

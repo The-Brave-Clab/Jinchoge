@@ -10,7 +10,7 @@ namespace Yuyuyui.PrivateServer
         public bool finished { get; set; }
         public IList<long> stages { get; set; } = new List<long>(); // The stages that the player viewed
 
-        protected override long Identifier => id;
+        public override long Identifier => id;
         
         private static async Task<long> GetID()
         {

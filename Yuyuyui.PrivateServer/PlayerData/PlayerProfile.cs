@@ -41,7 +41,7 @@ namespace Yuyuyui.PrivateServer
 
         public Transactions transactions { get; set; } = new();
 
-        protected override string Identifier => id.code;
+        public override string Identifier => id.code;
         
         
 

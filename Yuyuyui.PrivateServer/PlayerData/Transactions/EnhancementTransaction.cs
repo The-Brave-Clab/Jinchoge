@@ -7,7 +7,7 @@ namespace Yuyuyui.PrivateServer
         public long id { get; set; }
         public TransactionCreateData createdWith { get; set; } = new();
 
-        protected override long Identifier => id;
+        public override long Identifier => id;
         
         private static async Task<long> GetID()
         {

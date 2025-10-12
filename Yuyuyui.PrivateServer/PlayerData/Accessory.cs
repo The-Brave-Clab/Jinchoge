@@ -44,7 +44,7 @@ namespace Yuyuyui.PrivateServer
             return accessoriesDb.Accessories.First(c => c.Id == master_id);
         }
 
-        protected override long Identifier => id;
+        public override long Identifier => id;
     }
 }
 

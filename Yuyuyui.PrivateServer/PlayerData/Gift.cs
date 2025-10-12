@@ -4,7 +4,7 @@ namespace Yuyuyui.PrivateServer
 {
     public class Gift : BasePlayerData<Gift, long>
     {
-        protected override long Identifier => id;
+        public override long Identifier => id;
 
         public long id { get; set; }
         public string title { get; set; } = ""; // items.db/gifts

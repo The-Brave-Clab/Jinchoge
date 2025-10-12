@@ -89,7 +89,7 @@ namespace Yuyuyui.PrivateServer
             level = newLevel;
         }
 
-        protected override long Identifier => id;
+        public override long Identifier => id;
 
         public SupportCard AsSupport()
         {

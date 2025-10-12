@@ -21,6 +21,6 @@ namespace Yuyuyui.PrivateServer
             return new_id;
         }
 
-        protected override long Identifier => id;
+        public override long Identifier => id;
     }
 }

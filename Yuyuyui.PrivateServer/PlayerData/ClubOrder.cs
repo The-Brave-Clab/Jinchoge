@@ -12,6 +12,6 @@
             public string title { get; set; } = "";
         }
 
-        protected override long Identifier => id;
+        public override long Identifier => id;
     }
 }
