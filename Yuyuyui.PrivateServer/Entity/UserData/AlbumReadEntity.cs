@@ -18,14 +18,19 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
             Request requestObj = Deserialize<Request>(requestBody)!;
 
-            if (!player.progress.adventureBooksRead.Contains(requestObj.id))
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
             {
-                player.progress.adventureBooksRead.Add(requestObj.id);
-                await player.Save();
+                var player = await PlayerProfile.Load(playerId.code);
+
+                if (!player.progress.adventureBooksRead.Contains(requestObj.id))
+                {
+                    player.progress.adventureBooksRead.Add(requestObj.id);
+                    await player.Save();
+                }
             }
 
             AlbumListEntity.PostResponse responseObj = new()

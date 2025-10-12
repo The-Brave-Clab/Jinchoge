@@ -21,18 +21,25 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
-            if (player.accessories.Count == 0)
+            IDictionary<long, long> playerAccessories;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
             {
-                var newGyuuki = await Accessory.DefaultAccessory();
-                player.accessories.Add(newGyuuki.master_id, newGyuuki.id);
-                await newGyuuki.Save();
-                await player.Save();
-                Utils.Log(Resources.LOG_PS_ACCESSORY_ASSIGN_DEFAULT);
+                var player = await PlayerProfile.Load(playerId.code);
+                if (player.accessories.Count == 0)
+                {
+                    var newGyuuki = await Accessory.DefaultAccessory();
+                    player.accessories.Add(newGyuuki.master_id, newGyuuki.id);
+                    await newGyuuki.Save();
+                    await player.Save();
+                    Utils.Log(Resources.LOG_PS_ACCESSORY_ASSIGN_DEFAULT);
+                }
+
+                playerAccessories = player.accessories;
             }
 
-            var accessories = await player.accessories
+            var accessories = await playerAccessories
                 .Select(a => Accessory.Load(a.Value))
                 .WhenAll();
 

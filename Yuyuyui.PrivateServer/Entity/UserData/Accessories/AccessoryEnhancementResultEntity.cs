@@ -21,7 +21,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
             Request requestObj = Deserialize<Request>(requestBody)!;
 
@@ -44,18 +44,25 @@ namespace Yuyuyui.PrivateServer
             Utils.Log(string.Format(Resources.LOG_PS_ACCESSORY_ENHANCEMENT_LEVEL, playerAccessory.id, playerAccessory.level));
             Utils.Log(string.Format(Resources.LOG_PS_ACCESSORY_QUANTITY_DECREASED, playerAccessory.id, accessoryTargetLevel.NeedAmount));
             
-            // brave coins
-            if (!await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player))
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
             {
-                if (accessoryTargetLevel.BraveCoin > 0)
+                var player = await PlayerProfile.Load(playerId.code);
+                if (!await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player))
                 {
-                    player.data.braveCoin += accessoryTargetLevel.BraveCoin;
-                    Utils.Log(string.Format(Resources.LOG_PS_BRAVE_COIN_INCREASE, player.id.code, accessoryTargetLevel.BraveCoin));
+                    // brave coins
+                    if (accessoryTargetLevel.BraveCoin > 0)
+                    {
+                        player.data.braveCoin += accessoryTargetLevel.BraveCoin;
+                        Utils.Log(string.Format(Resources.LOG_PS_BRAVE_COIN_INCREASE, player.id.code,
+                            accessoryTargetLevel.BraveCoin));
+                    }
+
+                    // money
+                    player.data.money -= accessoryTargetLevel.Money;
+                    Utils.Log(string.Format(Resources.LOG_PS_MONEY_DECREASED, player.id.code,
+                        accessoryTargetLevel.Money));
+                    await player.Save();
                 }
-                // money
-                player.data.money -= accessoryTargetLevel.Money;
-                Utils.Log(string.Format(Resources.LOG_PS_MONEY_DECREASED, player.id.code, accessoryTargetLevel.Money));
-                await player.Save();
             }
 
             Response responseObj = new()

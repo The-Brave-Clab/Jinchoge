@@ -19,26 +19,33 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
-            if (player.clubWorkingSlots.Count == 0)
+            IList<long> playerSlots;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
             {
-                player.clubWorkingSlots = new List<long>(3);
-                for (int i = 0; i < 3; ++i)
+                var player = await PlayerProfile.Load(playerId.code);
+
+                if (player.clubWorkingSlots.Count == 0)
                 {
-                    var newSlot = await ClubWorkingSlot.NewEmptySlot();
-                    player.clubWorkingSlots.Add(newSlot.id);
-                    await newSlot.Save();
+                    player.clubWorkingSlots = new List<long>(3);
+                    for (int i = 0; i < 3; ++i)
+                    {
+                        var newSlot = await ClubWorkingSlot.NewEmptySlot();
+                        player.clubWorkingSlots.Add(newSlot.id);
+                        await newSlot.Save();
+                    }
+
+                    await player.Save();
                 }
-                await player.Save();
+
+                // Utils.LogWarning("Stub API! Process finished club working here!");
+                playerSlots = player.clubWorkingSlots;
             }
 
-            // Utils.LogWarning("Stub API! Process finished club working here!");
-
-            var slots = await ClubWorkingSlot.LoadMany(player.clubWorkingSlots);
             Response responseObj = new()
             {
-                club_working_slots = slots.ToList()
+                club_working_slots = (await ClubWorkingSlot.LoadMany(playerSlots)).ToList()
             };
 
             responseBody = Serialize(responseObj);

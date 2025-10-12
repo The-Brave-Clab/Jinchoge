@@ -10,7 +10,7 @@ public abstract class PlayerDataProviderFactory
     private static readonly ConcurrentDictionary<(Type playerDataType, Type identifierType), object> _providers = new();
 
     public IPlayerDataProvider<TPlayerData, TIdentifier> Get<TPlayerData, TIdentifier>()
-        where TPlayerData : PlayerDataBase
+        where TPlayerData : BasePlayerData<TPlayerData, TIdentifier>
         where TIdentifier : notnull
     {
         return (IPlayerDataProvider<TPlayerData, TIdentifier>)
@@ -20,6 +20,6 @@ public abstract class PlayerDataProviderFactory
     }
 
     protected abstract IPlayerDataProvider<TPlayerData, TIdentifier> Create<TPlayerData, TIdentifier>()
-        where TPlayerData : PlayerDataBase
+        where TPlayerData : BasePlayerData<TPlayerData, TIdentifier>
         where TIdentifier : notnull;
 }

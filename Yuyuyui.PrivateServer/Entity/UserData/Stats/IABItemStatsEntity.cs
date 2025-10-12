@@ -18,14 +18,21 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
+
+            PlayerProfile.Data playerData;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                var player = await PlayerProfile.Load(playerId.code);
+                playerData = player.data;
+            }
 
             // Utils.LogWarning("Fixed number of 1,000,000 paid blessings");
 
             Response responseObj = new()
             {
-                paid_point = player.data.paidBlessing,
-                free_point = player.data.freeBlessing
+                paid_point = playerData.paidBlessing,
+                free_point = playerData.freeBlessing
             };
 
             responseBody = Serialize(responseObj);

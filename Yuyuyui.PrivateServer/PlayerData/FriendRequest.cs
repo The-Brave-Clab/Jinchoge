@@ -24,16 +24,16 @@ namespace Yuyuyui.PrivateServer
             return new_id;
         }
 
-        public static async Task<FriendRequest> CreateOrLoad(PlayerProfile from, PlayerProfile to)
+        public static async Task<FriendRequest> CreateOrLoad(PlayerProfile.ID fromId, PlayerProfile to)
         {
             // first, find if the request exists
             // if exists, do nothing but return the existing request
             foreach (var requestID in to.friendRequests)
             {
                 FriendRequest req = await Load(requestID);
-                if (req.fromUser == from.id.code)
+                if (req.fromUser == fromId.code)
                 {
-                    Utils.LogTrace(string.Format(Resources.LOG_PS_FRIEND_REQUEST_FOUND, req.id, from.id.code, to.id.code));
+                    Utils.LogTrace(string.Format(Resources.LOG_PS_FRIEND_REQUEST_FOUND, req.id, fromId.code, to.id.code));
                     return req;
                 }
             }
@@ -44,11 +44,11 @@ namespace Yuyuyui.PrivateServer
                 id = await GetID(),
                 status = 0,
                 createdAt = Utils.CurrentUnixTime(),
-                fromUser = from.id.code,
+                fromUser = fromId.code,
                 toUser = to.id.code
             };
             await request.Save();
-            Utils.LogTrace(string.Format(Resources.LOG_PS_FRIEND_REQUEST_CREATED, request.id, from.id.code, to.id.code));
+            Utils.LogTrace(string.Format(Resources.LOG_PS_FRIEND_REQUEST_CREATED, request.id, fromId.code, to.id.code));
 
             // and save into the requested user's profile
             if (!to.id.code.StartsWith("0"))

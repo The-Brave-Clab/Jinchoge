@@ -7,9 +7,9 @@ public interface IPlayerProfileSessionProvider
 {
     public class PlayerSession
     {
-        public PlayerProfile player = new();
-        public SessionInfo session;
-        public DeviceInfo deviceInfo;
+        public PlayerProfile.ID playerId = new();
+        public SessionInfo session = new();
+        public DeviceInfo deviceInfo = new();
     }
 
     public struct SessionInfo

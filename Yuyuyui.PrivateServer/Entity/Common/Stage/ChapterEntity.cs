@@ -28,7 +28,7 @@ namespace Yuyuyui.PrivateServer
 
         protected virtual async Task<Response> GetChapters()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
             
             // Utils.LogWarning("Locked status not filled!");
 
@@ -38,10 +38,17 @@ namespace Yuyuyui.PrivateServer
                 chapters = questsDb.Chapters.ToList();
             }
 
-            var responseChapters = await chapters
-                .Select(c => Response.Chapter.GetFromDatabase(c, player))
-                .WhenAll();
-            
+
+            PlayerProfile player;
+            Response.Chapter[] responseChapters;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                player = await PlayerProfile.Load(playerId.code);
+                responseChapters = await chapters
+                    .Select(c => Response.Chapter.GetFromDatabase(c, player))
+                    .WhenAll();
+            }
+
             Response response = new()
             {
                 chapters = responseChapters.ToDictionary(c => c.id, c => c)

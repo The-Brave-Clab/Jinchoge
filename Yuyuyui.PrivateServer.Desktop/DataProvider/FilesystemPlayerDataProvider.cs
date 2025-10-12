@@ -11,7 +11,8 @@ using YamlDotNet.Serialization;
 namespace Yuyuyui.PrivateServer.Desktop;
 
 public class FilesystemPlayerDataProvider<TPlayerData, TIdentifier> : IPlayerDataProvider<TPlayerData, TIdentifier>
-    where TPlayerData : PlayerDataBase where TIdentifier : notnull
+    where TPlayerData : BasePlayerData<TPlayerData, TIdentifier>
+    where TIdentifier : notnull
 {
     public async Task<TPlayerData> Load(TIdentifier id)
     {

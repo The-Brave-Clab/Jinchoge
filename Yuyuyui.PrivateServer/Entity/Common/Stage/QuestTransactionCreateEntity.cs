@@ -19,7 +19,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
             long stageId = long.Parse(GetPathParameter("stage_id"));
 
@@ -42,15 +42,22 @@ namespace Yuyuyui.PrivateServer
             }
 
             // Delete duplicate/unfinished quests
-            if (player.transactions.questTransactions.ContainsKey(stageId))
+            QuestTransaction createdTransaction;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
             {
-                var existedTransaction = await QuestTransaction.Load(player.transactions.questTransactions[stageId]);
-                await existedTransaction.Delete();
-                player.transactions.questTransactions.Remove(stageId);
+                var player = await PlayerProfile.Load(playerId.code);
+                if (player.transactions.questTransactions.ContainsKey(stageId))
+                {
+                    var existedTransaction =
+                        await QuestTransaction.Load(player.transactions.questTransactions[stageId]);
+                    await existedTransaction.Delete();
+                    player.transactions.questTransactions.Remove(stageId);
+                }
+
+                createdTransaction = await QuestTransaction.Create(stageId, transactionCreateData);
+                player.transactions.questTransactions.Add(stageId, createdTransaction.id);
+                await player.Save();
             }
-            var createdTransaction = await QuestTransaction.Create(stageId, transactionCreateData);
-            player.transactions.questTransactions.Add(stageId, createdTransaction.id);
-            await player.Save();
 
             Response responseObj = new()
             {

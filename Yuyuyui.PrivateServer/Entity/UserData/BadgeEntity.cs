@@ -19,49 +19,65 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
             if (requestBody.Length > 0)
             {
                 // Utils.LogWarning("PUT Method, Needs more tests!");
                 Request request = Deserialize<Request>(requestBody)!;
-                if (request.sub_category_id == -1)
+
+                await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
                 {
-                    player.newAlbum.Remove(request.category_id);
-                    // Utils.Log(
-                    //     $"Updated user new album status:\n\tCategory\t{request.category_id}");
-                }
-                else
-                {
-                    player.newAlbum[request.category_id].Remove(request.sub_category_id);
-                    if (player.newAlbum[request.category_id].Count == 0)
+                    var player = await PlayerProfile.Load(playerId.code);
+                    if (request.sub_category_id == -1)
+                    {
                         player.newAlbum.Remove(request.category_id);
-                    // Utils.Log(
-                    //     $"Updated user new album status:\n\tCategory\t{request.category_id}\n\tSubcategory\t{request.sub_category_id}");
+                        // Utils.Log(
+                        //     $"Updated user new album status:\n\tCategory\t{request.category_id}");
+                    }
+                    else
+                    {
+                        player.newAlbum[request.category_id].Remove(request.sub_category_id);
+                        if (player.newAlbum[request.category_id].Count == 0)
+                            player.newAlbum.Remove(request.category_id);
+                        // Utils.Log(
+                        //     $"Updated user new album status:\n\tCategory\t{request.category_id}\n\tSubcategory\t{request.sub_category_id}");
+                    }
+
+                    await player.Save();
                 }
-                await player.Save();
-                
+
                 responseBody = "{}"u8.ToArray();
             }
             else
             {
                 // Utils.LogWarning("Stub API!");
-                
+                IList<long> playerReceivedGifts;
+                IList<long> playerFriendRequests;
+                IDictionary<int, IList<int>> playerNewAlbum;
+                await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+                {
+                    var player = await PlayerProfile.Load(playerId.code);
+                    playerReceivedGifts = player.receivedGifts;
+                    playerFriendRequests = player.friendRequests;
+                    playerNewAlbum = player.newAlbum;
+                }
+
                 Response responseObj = new()
                 {
                     badge = new()
                     {
                         has_complete_mission = false, // update automatically?
                         has_complete_daily_mission = false, // update automatically?
-                        has_present = player.receivedGifts.Count > 0,
-                        has_fellow_request = player.friendRequests.Count > 0,
+                        has_present = playerReceivedGifts.Count > 0,
+                        has_fellow_request = playerFriendRequests.Count > 0,
                         has_complete_club_working = false, // update automatically?
                         end_at_exchange = Utils.CurrentUnixTime() - 1, // taisha shop rewards end at this timestamp
                         has_exchangeable_bingo = false, // update automatically?
                         end_at_event = Utils.CurrentUnixTime() + 86400, // event items in taisha shop end at this timestamp
                         end_at_playback_event = Utils.CurrentUnixTime() - 1, // remastered event items ...
                         new_title = 0, // if the player has new title
-                        new_album_categories = player.newAlbum, // album { category_id : [ sub_category_id ] }
+                        new_album_categories = playerNewAlbum, // album { category_id : [ sub_category_id ] }
                         end_at_collab_event = Utils.CurrentUnixTime() - 1 // collaboration event items ...
                     }
                 };

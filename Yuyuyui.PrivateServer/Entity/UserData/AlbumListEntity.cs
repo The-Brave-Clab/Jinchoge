@@ -20,7 +20,14 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
+
+            PlayerProfile.Progress playerProgress;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                var player = await PlayerProfile.Load(playerId.code);
+                playerProgress = player.progress;
+            }
             
             // Utils.LogWarning("All adventure books are unlocked and watchable for now!");
             // Utils.LogWarning("Player adventure books ticket count is fixed!");
@@ -36,7 +43,7 @@ namespace Yuyuyui.PrivateServer
                     {
                         id = requestObj.adventure_book_id, // See the definition of id
                         master_id = requestObj.adventure_book_id,
-                        watched = player.progress.adventureBooksRead.Contains(requestObj.adventure_book_id)
+                        watched = playerProgress.adventureBooksRead.Contains(requestObj.adventure_book_id)
                     }
                 };
 
@@ -63,7 +70,7 @@ namespace Yuyuyui.PrivateServer
                         {
                             id = b.Id, // See the definition of id
                             master_id = b.Id,
-                            watched = player.progress.adventureBooksRead.Contains(b.Id)
+                            watched = playerProgress.adventureBooksRead.Contains(b.Id)
                         })
                         .ToDictionary(s => s.id, s => s),
                     unwatchable_adventure_books = unwachable

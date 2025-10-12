@@ -28,13 +28,17 @@ namespace Yuyuyui.PrivateServer
             Response responseObj = new()
             {
                 session_id = sessionDetail.session.id,
-                code = $"{sessionDetail.player.id.code}",
+                code = sessionDetail.playerId.code,
                 unixtime = Utils.CurrentUnixTime(),
                 gk_key = sessionDetail.session.key
             };
 
-            sessionDetail.player.data.lastActive = responseObj.unixtime;
-            await sessionDetail.player.Save();
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(sessionDetail.playerId.code))
+            {
+                var player = await PlayerProfile.Load(sessionDetail.playerId.code);
+                player.data.lastActive = responseObj.unixtime;
+                await player.Save();
+            }
             
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders(sessionDetail.session.id);

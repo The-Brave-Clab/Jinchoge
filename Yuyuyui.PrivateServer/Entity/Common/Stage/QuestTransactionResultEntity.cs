@@ -20,7 +20,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
             long stageId = long.Parse(GetPathParameter("stage_id"));
             long transactionId = long.Parse(GetPathParameter("transaction_id"));
@@ -42,10 +42,30 @@ namespace Yuyuyui.PrivateServer
                 dbChapter = questsDb.Chapters.First(c => c.Id == dbEpisode.ChapterId);
             }
 
-            var stageProgress = await StageProgress.GetOrCreate(player, dbStage.Id);
-            var episodeProgress = await EpisodeProgress.GetOrCreate(player, dbEpisode.Id);
-            var chapterProgress = await ChapterProgress.GetOrCreate(player, dbChapter.Id);
-            
+
+            PlayerProfile player;
+
+            StageProgress stageProgress;
+            EpisodeProgress episodeProgress;
+            ChapterProgress chapterProgress;
+
+            ChapterEntity.Response.Chapter chapter;
+            EpisodeEntity.Response.Episode episode;
+            StageEntity.Response.Stage stage;
+
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                player = await PlayerProfile.Load(playerId.code);
+
+                stageProgress = await StageProgress.GetOrCreate(player, dbStage.Id);
+                episodeProgress = await EpisodeProgress.GetOrCreate(player, dbEpisode.Id);
+                chapterProgress = await ChapterProgress.GetOrCreate(player, dbChapter.Id);
+
+                chapter = await ChapterEntity.Response.Chapter.GetFromDatabase(dbChapter, player);
+                episode = await EpisodeEntity.Response.Episode.GetFromDatabase(dbEpisode, player);
+                stage = await StageEntity.Response.Stage.GetFromDatabase(dbStage, player);
+            }
+
             // The references are validated when updating the transaction.
             // We only update the progress data here.
             stageProgress.finished = stageProgress.finished || 
@@ -62,9 +82,9 @@ namespace Yuyuyui.PrivateServer
 
             Response responseObj = new()
             {
-                chapter = await ChapterEntity.Response.Chapter.GetFromDatabase(dbChapter, player),
-                episode = await EpisodeEntity.Response.Episode.GetFromDatabase(dbEpisode, player),
-                stage = await StageEntity.Response.Stage.GetFromDatabase(dbStage, player),
+                chapter = chapter,
+                episode = episode,
+                stage = stage,
                 battle_result = new(), // TODO
                 title_items = null, // TODO
             };

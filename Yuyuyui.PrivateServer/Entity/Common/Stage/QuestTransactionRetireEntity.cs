@@ -19,7 +19,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
             long stageId = long.Parse(GetPathParameter("stage_id"));
             long transactionId = long.Parse(GetPathParameter("transaction_id"));
@@ -27,8 +27,13 @@ namespace Yuyuyui.PrivateServer
             QuestTransaction transaction = await QuestTransaction.Load(transactionId);
             // Validate?
 
-            player.transactions.questTransactions.Remove(transaction.stageId);
-            await player.Save();
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                var player = await PlayerProfile.Load(playerId.code);
+                player.transactions.questTransactions.Remove(transaction.stageId);
+                await player.Save();
+            }
+
             await transaction.Delete();
 
             responseBody = "{}"u8.ToArray();

@@ -19,7 +19,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
             Request requestObj = Deserialize<Request>(requestBody)!;
 
@@ -39,10 +39,15 @@ namespace Yuyuyui.PrivateServer
 
             await targetDeck.Save();
 
-            Response responseObj = new()
+            Response responseObj;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
             {
-                deck = await DeckEntity.Response.Deck.FromPlayerDeck(targetDeck, player)
-            };
+                var player = await PlayerProfile.Load(playerId.code);
+                responseObj = new()
+                {
+                    deck = await DeckEntity.Response.Deck.FromPlayerDeck(targetDeck, player)
+                };
+            }
 
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();

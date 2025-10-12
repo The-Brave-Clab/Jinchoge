@@ -9,7 +9,8 @@ using Amazon.DynamoDBv2.Model;
 namespace Yuyuyui.PrivateServer.AWS;
 
 public class DynamoDBPlayerDataProvider<TPlayerData, TIdentifier> : IPlayerDataProvider<TPlayerData, TIdentifier>
-    where TPlayerData : PlayerDataBase where TIdentifier : notnull
+    where TPlayerData : BasePlayerData<TPlayerData, TIdentifier>
+    where TIdentifier : notnull
 {
     private readonly IAmazonDynamoDB client;
     private const string PLAYER_DATA_TABLE_NAME = "YuyuyuiPlayerData";
@@ -50,7 +51,11 @@ public class DynamoDBPlayerDataProvider<TPlayerData, TIdentifier> : IPlayerDataP
             throw new Exception($"PlayerData not found: {typeof(TPlayerData).Name} with ID {id}");
         }
 
-        return DeserializeEntity(getResponse.Item);
+        var result = DeserializeEntity(getResponse.Item);
+
+        Utils.LogTrace($"{typeof(TPlayerData).Name} #{id} loaded with version {result._version}");
+
+        return result;
     }
 
     public async Task<IEnumerable<TPlayerData>> LoadMany(IEnumerable<TIdentifier> ids)
@@ -100,6 +105,11 @@ public class DynamoDBPlayerDataProvider<TPlayerData, TIdentifier> : IPlayerDataP
                              $"but only {results.Count} PlayerData were found");
         }
 
+        foreach (var result in results)
+        {
+            Utils.LogTrace($"{typeof(TPlayerData).Name} #{result.Identifier} loaded with version {result._version}");
+        }
+
         return results;
     }
 
@@ -138,10 +148,12 @@ public class DynamoDBPlayerDataProvider<TPlayerData, TIdentifier> : IPlayerDataP
             await client.PutItemAsync(putRequest);
             // Update version to match what was written to DB
             entity._version++;
+            Utils.LogTrace($"{typeof(TPlayerData).Name} #{id} saved with version {entity._version}");
         }
         catch (ConditionalCheckFailedException)
         {
-            throw new Exception($"Concurrency conflict: Entity {typeof(TPlayerData).Name} with ID {id} was modified by another request");
+            throw new Exception($"Concurrency conflict: Entity {typeof(TPlayerData).Name} with ID {id} was modified by another request! " +
+                                $"Expected version: {entity._version}");
         }
     }
 

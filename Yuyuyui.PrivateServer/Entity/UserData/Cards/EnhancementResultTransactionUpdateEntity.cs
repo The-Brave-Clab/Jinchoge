@@ -21,7 +21,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
             long cardId = long.Parse(GetPathParameter("card_id"));
             long transactionId = long.Parse(GetPathParameter("transaction_id"));
@@ -31,7 +31,12 @@ namespace Yuyuyui.PrivateServer
 
             EnhancementTransaction transaction = await EnhancementTransaction.Load(transactionId);
 
-            bool infiniteItems = await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player);
+            bool infiniteItems;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                PlayerProfile player = await PlayerProfile.Load(playerId.code);
+                infiniteItems = await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player);
+            }
 
             // Validate here?
 
@@ -153,47 +158,51 @@ namespace Yuyuyui.PrivateServer
                 Utils.Log(Resources.LOG_PS_CARD_ENHANCEMENT_SUPPORT_SKILL_LEVEL_UP);
           
             // character familiarity
-            CharacterFamiliarityWithAssist familiarity =
-                await player.GetCharacterFamiliarity(cookingCharacterData.CookingCharacterId,
-                    cookingCharacterData.TargetCharacterId);
-
-            var gotFamiliarity = CharacterFamiliarity.GetEnhancement(usedItem.Id) *
-                                 noodleData.ExpCoefficient *
-                                 transaction.createdWith.enhancement_item.quantity;
-            var gotAssistLevel = usedItem.AssistLevelPotential *
-                                 noodleData.ExpCoefficient *
-                                 transaction.createdWith.enhancement_item.quantity;
-
-            CharacterFamiliarityChangeWithAssist familiarityChange =
-                familiarity.UpdateAndGetChange(gotFamiliarity, gotAssistLevel);
-
-            // finally, update the user data for card and character familiarity
-            if (activeSkillLevelUp)
-                // We don't need to validate this since the client won't let us use a skill udon if level is maxed out
-                userCard.active_skill_level += 1;
-            
-            if (supportSkillLevelUp)
-                userCard.support_skill_level += 1;
-
-            await userCard.Save();
-
-            Utils.Log(string.Format(Resources.LOG_PS_CARD_ENHANCEMENT_AFFINITY_INCREASE,
-                familiarity.character_group, familiarityChange.familiarity - familiarityChange.before_familiarity));
-            Utils.Log(string.Format(Resources.LOG_PS_CARD_ENHANCEMENT_AFFINITY_ASSIST_LEVEL_INCREASE,
-                familiarity.character_group, familiarityChange.assist_level - familiarityChange.before_assist_level));
-            await player.Save();
-
-            if (!infiniteItems)
+            IList<int> resultTitleItems;
+            CharacterFamiliarityChangeWithAssist familiarityChange;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
             {
-                long costMoney =
-                    CalcUtil.CalcRequiredEnhancementMoney(transaction.createdWith.enhancement_item.quantity,
-                        usedItem.CostCoefficient);
-                player.data.money -= costMoney;
+                PlayerProfile player = await PlayerProfile.Load(playerId.code);
+                CharacterFamiliarityWithAssist familiarity =
+                    await player.GetCharacterFamiliarity(cookingCharacterData.CookingCharacterId,
+                        cookingCharacterData.TargetCharacterId);
+
+                var gotFamiliarity = CharacterFamiliarity.GetEnhancement(usedItem.Id) *
+                                     noodleData.ExpCoefficient *
+                                     transaction.createdWith.enhancement_item.quantity;
+                var gotAssistLevel = usedItem.AssistLevelPotential *
+                                     noodleData.ExpCoefficient *
+                                     transaction.createdWith.enhancement_item.quantity;
+
+                familiarityChange = familiarity.UpdateAndGetChange(gotFamiliarity, gotAssistLevel);
+
+                // finally, update the user data for card and character familiarity
+                if (activeSkillLevelUp)
+                    // We don't need to validate this since the client won't let us use a skill udon if level is maxed out
+                    userCard.active_skill_level += 1;
+
+                if (supportSkillLevelUp)
+                    userCard.support_skill_level += 1;
+
+                await userCard.Save();
+
+                Utils.Log(string.Format(Resources.LOG_PS_CARD_ENHANCEMENT_AFFINITY_INCREASE,
+                    familiarity.character_group, familiarityChange.familiarity - familiarityChange.before_familiarity));
+                Utils.Log(string.Format(Resources.LOG_PS_CARD_ENHANCEMENT_AFFINITY_ASSIST_LEVEL_INCREASE,
+                    familiarity.character_group,
+                    familiarityChange.assist_level - familiarityChange.before_assist_level));
+
+                if (!infiniteItems)
+                {
+                    long costMoney =
+                        CalcUtil.CalcRequiredEnhancementMoney(transaction.createdWith.enhancement_item.quantity,
+                            usedItem.CostCoefficient);
+                    player.data.money -= costMoney;
+                }
+
+                resultTitleItems = await player.EnsureEligibleCardTitle();
                 await player.Save();
             }
-
-            IList<int> resultTitleItems = await player.EnsureEligibleCardTitle();
-            await player.Save();
 
             Response responseObj = new()
             {

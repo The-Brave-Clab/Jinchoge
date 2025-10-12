@@ -22,6 +22,8 @@ namespace Yuyuyui.PrivateServer
                 throw new Exception("No PlayerDataProviderFactory is set.");
             if (IPlayerProfileSessionProvider.ActiveProvider == null)
                 throw new Exception("No IPlayerProfileSessionProvider is set.");
+            if (IDistributedLockProvider.ActiveProvider == null)
+                throw new Exception("No IDistributedLockProvider is set.");
             if (IMasterDataProvider.ActiveProvider == null)
                 throw new Exception("No IMasterDataProvider is set.");
             if (IInGameConfigProvider.ActiveProvider == null)
@@ -48,8 +50,11 @@ namespace Yuyuyui.PrivateServer
                 }
             };
 
-            await IPlayerProfileSessionProvider.ActiveProvider!.AddNewPlayer(player);
-            await player.Save();
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(player.id.code))
+            {
+                await IPlayerProfileSessionProvider.ActiveProvider!.AddNewPlayer(player);
+                await player.Save();
+            }
 
             Utils.Log(string.Format(Resources.LOG_PS_REGISTER_NEW_PLAYER, player.id.code));
 
@@ -108,7 +113,7 @@ namespace Yuyuyui.PrivateServer
                     async u => await RegisterNewPlayer(u));
 
             Utils.Log(string.Format(Resources.LOG_PS_CREATE_SESSION,
-                playerSession.player.id.code, playerSession.session.id, playerSession.session.key));
+                playerSession.playerId.code, playerSession.session.id, playerSession.session.key));
 
             playerSession.deviceInfo = new IPlayerProfileSessionProvider.DeviceInfo
             {

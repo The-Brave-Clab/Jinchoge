@@ -18,40 +18,48 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
+
+            bool infiniteItems;
+            PlayerProfile.Data playerData;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                var player = await PlayerProfile.Load(playerId.code);
+                infiniteItems = await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player);
+                playerData = player.data;
+            }
 
             // Utils.LogWarning("Many data is stub");
 
-            bool infiniteItems = await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player);
 
             Response responseObj = new()
             {
                 is_sancho = false, // We all know this
                 header = new()
                 {
-                    level = player.data.level,
-                    exp = player.data.exp,
+                    level = playerData.level,
+                    exp = playerData.exp,
                     next_level_exp = 110, // database
-                    title_item_id = player.data.titleItemID,
+                    title_item_id = playerData.titleItemID,
                     is_level_effect = 0, // what is this
-                    stamina = player.data.stamina,
+                    stamina = playerData.stamina,
                     max_stamina = 140, // database
                     exceeded_stamina = 0, // do the math!
                     stamina_full_recover_at = 0, // unixtime
                     stamina_recovery_second = 300, // fixed?
-                    money = infiniteItems ? 99999999 : player.data.money,
-                    friend_point = infiniteItems ? 99999999 : player.data.friendPoint,
-                    billing_point = infiniteItems ? 999999 : player.data.paidBlessing + player.data.freeBlessing,
-                    brave_coin = infiniteItems ? 999 : player.data.braveCoin,
+                    money = infiniteItems ? 99999999 : playerData.money,
+                    friend_point = infiniteItems ? 99999999 : playerData.friendPoint,
+                    billing_point = infiniteItems ? 999999 : playerData.paidBlessing + playerData.freeBlessing,
+                    brave_coin = infiniteItems ? 999 : playerData.braveCoin,
                     enhancement_item_capacity = 590, // database + player bought
                     has_complete_mission = false, // club order prompt
                     has_present = false,
-                    weekday_stamina = player.data.weekdayStamina,
+                    weekday_stamina = playerData.weekdayStamina,
                     max_weekday_stamina = 6, // brave system?
                     exceeded_weekday_stamina = 0, // do the math!
                     weekday_stamina_full_recover_at = 0, // unixtime
                     weekday_stamina_recovery_second = 3600, // fixed?
-                    exchange_point = infiniteItems ? 99999999 : player.data.exchangePoint,
+                    exchange_point = infiniteItems ? 99999999 : playerData.exchangePoint,
                     exchange_point_capacity = 99999999 // fixed?
                 }
                 

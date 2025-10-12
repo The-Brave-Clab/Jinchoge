@@ -19,10 +19,14 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            PlayerProfile player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
-            await player.BanAccount();
-            
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                var player = await PlayerProfile.Load(playerId.code);
+                await player.BanAccount();
+            }
+
             responseBody = "{}"u8.ToArray();
             SetBasicResponseHeaders();
         }

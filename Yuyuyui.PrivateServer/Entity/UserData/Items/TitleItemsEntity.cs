@@ -21,14 +21,18 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
             if (HttpMethod == "POST")
             {
                 PostRequest requestObj = Deserialize<PostRequest>(requestBody)!;
 
-                player.data.titleItemID = requestObj.title_item_id;
-                await player.Save();
+                await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+                {
+                    var player = await PlayerProfile.Load(playerId.code);
+                    player.data.titleItemID = requestObj.title_item_id;
+                    await player.Save();
+                }
 
                 // responseBody = Serialize(postResponseObj);
                 
@@ -37,12 +41,18 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
-                if (!player.items.titleItems.Any())
+                IList<long> playerTitleItems;
+                await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
                 {
-                    await InitDefaultTitleItem(player);
+                    var player = await PlayerProfile.Load(playerId.code);
+                    if (!player.items.titleItems.Any())
+                    {
+                        await InitDefaultTitleItem(player);
+                    }
+
+                    await player.EnsureEligibleCardTitle();
+                    playerTitleItems = player.items.titleItems;
                 }
-                
-                await player.EnsureEligibleCardTitle();
 
                 List<TitleItem> titleItems;
                 await using (ItemsContext itemsDb = new())
@@ -54,9 +64,9 @@ namespace Yuyuyui.PrivateServer
                 {
                     title_items = titleItems
                         // either player has it, or it's a character title
-                        .Where(t => player.items.titleItems.Contains(t.Id) || t.ContentType == 2)
+                        .Where(t => playerTitleItems.Contains(t.Id) || t.ContentType == 2)
                         // cache the player ownership status
-                        .Select(t => new Tuple<TitleItem, bool>(t, player.items.titleItems.Contains(t.Id)))
+                        .Select(t => new Tuple<TitleItem, bool>(t, playerTitleItems.Contains(t.Id)))
                         .ToDictionary(t => t.Item1.Id,
                             t => new GetResponse.TitleItem
                                 {

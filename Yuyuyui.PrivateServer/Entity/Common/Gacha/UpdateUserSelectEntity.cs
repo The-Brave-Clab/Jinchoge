@@ -19,12 +19,16 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
             
             Request request = Deserialize<Request>(requestBody)!;
-            
-            player.gachaSelections[request.gacha_id] = request.select_ids;
-            await player.Save();
+
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                var player = await PlayerProfile.Load(playerId.code);
+                player.gachaSelections[request.gacha_id] = request.select_ids;
+                await player.Save();
+            }
 
             // It seems that the client doesn't read this response.
             responseBody = "{}"u8.ToArray();

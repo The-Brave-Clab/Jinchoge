@@ -20,11 +20,20 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
+
+            bool infiniteItems;
+            IDictionary<long, long> playerEnhancementItems;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                var player = await PlayerProfile.Load(playerId.code);
+                infiniteItems = await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player);
+                playerEnhancementItems = player.items.enhancement;
+            }
 
             Response responseObj;
 
-            if (await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player))
+            if (infiniteItems)
             {
                 List<EnhancementItem> enhancementItems;
                 await using (ItemsContext itemsDb = new())
@@ -55,7 +64,7 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
-                var enhancementItems = await player.items.enhancement
+                var enhancementItems = await playerEnhancementItems
                     .Select(async p =>
                     {
                         EnhancementItem masterData;

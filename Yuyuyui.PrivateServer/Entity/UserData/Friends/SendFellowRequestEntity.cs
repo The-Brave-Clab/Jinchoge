@@ -21,12 +21,15 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
             string friendCode = GetPathParameter("user_id");
 
-            // Get the requested player
-            // Respects the path parameter
-            var friend = await PlayerProfile.Load(friendCode);
+            IList<long> playerFriendRequests;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                var player = await PlayerProfile.Load(playerId.code);
+                playerFriendRequests = player.friendRequests;
+            }
 
             // We don't care about the request body anymore
             // {
@@ -35,23 +38,30 @@ namespace Yuyuyui.PrivateServer
 
             FriendRequest friendRequest;
 
-            // The game client checks if the friend has already been added
-            // so we don't check it here.
+            // Get the requested player
+            // Respects the path parameter
+            PlayerProfile friend;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(friendCode))
+            {
+                // The game client checks if the friend has already been added
+                // so we don't check it here.
 
-            // However, we check if the same request have sent from the other player
-            // if so, we should automatically make it accepted
-            try
-            {
-                var requests = await FriendRequest.LoadMany(player.friendRequests);
-                friendRequest = requests.First(fr => fr.fromUser == friend.id.code);
-                Utils.Log(string.Format(Resources.LOG_PS_FRIEND_REQUEST_FOUND_SYMMETRIC,
-                    friendRequest.id, friendRequest.fromUser, friendRequest.toUser));
-                friendRequest.status = 1; // Accept
-                await friendRequest.ProcessStatus();
-            }
-            catch (InvalidOperationException)
-            {
-                friendRequest = await FriendRequest.CreateOrLoad(player, friend);
+                // However, we check if the same request have sent from the other player
+                // if so, we should automatically make it accepted
+                friend = await PlayerProfile.Load(friendCode);
+                try
+                {
+                    var requests = await FriendRequest.LoadMany(playerFriendRequests);
+                    friendRequest = requests.First(fr => fr.fromUser == friend.id.code);
+                    Utils.Log(string.Format(Resources.LOG_PS_FRIEND_REQUEST_FOUND_SYMMETRIC,
+                        friendRequest.id, friendRequest.fromUser, friendRequest.toUser));
+                    friendRequest.status = 1; // Accept
+                    await friendRequest.ProcessStatus();
+                }
+                catch (InvalidOperationException)
+                {
+                    friendRequest = await FriendRequest.CreateOrLoad(playerId, friend);
+                }
             }
 
             Response responseObj = new()

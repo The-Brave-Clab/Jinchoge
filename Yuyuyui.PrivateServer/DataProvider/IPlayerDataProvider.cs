@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 
 namespace Yuyuyui.PrivateServer;
 
-public interface IPlayerDataProvider<TPlayerData, TIdentifier> where TPlayerData : PlayerDataBase where TIdentifier : notnull
+public interface IPlayerDataProvider<TPlayerData, TIdentifier>
+    where TPlayerData : BasePlayerData<TPlayerData, TIdentifier>
+    where TIdentifier : notnull
 {
     Task<TPlayerData> Load(TIdentifier id);
     Task<IEnumerable<TPlayerData>> LoadMany(IEnumerable<TIdentifier> ids);

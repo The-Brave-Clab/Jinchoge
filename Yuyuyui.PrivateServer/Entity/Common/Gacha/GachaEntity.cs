@@ -20,11 +20,18 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
+
+            List<Gacha> currentActiveGachas;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                PlayerProfile player = await PlayerProfile.Load(playerId.code);
+                currentActiveGachas = GetCurrentActiveGachas(player).ToList();
+            }
 
             Response responseObj = new()
             {
-                gachas = GetCurrentActiveGachas(player).Select(g => new GachaProductData
+                gachas = currentActiveGachas.Select(g => new GachaProductData
                 {
                     id = g.Id,
                     name = g.Name,

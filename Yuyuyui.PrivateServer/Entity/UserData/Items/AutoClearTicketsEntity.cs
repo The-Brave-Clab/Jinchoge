@@ -20,10 +20,19 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
+
+            bool infiniteItems;
+            IDictionary<long, long> playerAutoClearTickets;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                var player = await PlayerProfile.Load(playerId.code);
+                infiniteItems = await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player);
+                playerAutoClearTickets = player.items.autoClearTickets;
+            }
 
             Response responseObj;
-            if (await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player))
+            if (infiniteItems)
             {
                 await using ItemsContext itemsDb = new();
                 responseObj = new()
@@ -41,7 +50,7 @@ namespace Yuyuyui.PrivateServer
             else
             {
                 var autoClearTickets = await Item.LoadMany(
-                    player.items.autoClearTickets
+                    playerAutoClearTickets
                         .Select(p => p.Value));
                 responseObj = new()
                 {

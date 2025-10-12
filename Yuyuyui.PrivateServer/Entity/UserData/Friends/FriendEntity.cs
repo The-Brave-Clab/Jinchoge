@@ -20,9 +20,16 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
-            var friends = await PlayerProfile.LoadMany(player.friends);
+            IList<string> playerFriends;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                var player = await PlayerProfile.Load(playerId.code);
+                playerFriends = player.friends;
+            }
+
+            var friends = await PlayerProfile.LoadMany(playerFriends);
             var responseFromPlayerProfile = await friends
                 .Select(UserInfoEntity.Response.User.FromPlayerProfile)
                 .WhenAll();

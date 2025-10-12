@@ -21,65 +21,77 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
-            if (player.decks.Count == 0)
+            List<Response.Deck> responseDeck;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
             {
-                // when player's deck is empty, it has to be a new player
-                // which means there has to be these four cards.
-                var yuuna = await Card.Load(player.cards[100010]);
-                var tougou = await Card.Load(player.cards[100020]);
-                var fuu = await Card.Load(player.cards[100040]);
-                var itsuki = await Card.Load(player.cards[100050]);
+                var player = await PlayerProfile.Load(playerId.code);
 
-                var yuunaUnit = await yuuna.CreateUnit(tougou.AsSupport());
-                var fuuUnit = await fuu.CreateUnit();
-                var itsukiUnit = await itsuki.CreateUnit();
-
-                await yuunaUnit.Save();
-                await fuuUnit.Save();
-                await itsukiUnit.Save();
-
-                var firstDeck = new Deck
+                if (player.decks.Count == 0)
                 {
-                    id = await Deck.GetID(),
-                    leaderUnitID = yuunaUnit.id,
-                    name = null,
-                    units = new List<long> {yuunaUnit.id, fuuUnit.id, itsukiUnit.id}
-                };
-                await firstDeck.Save();
+                    // when player's deck is empty, it has to be a new player
+                    // which means there has to be these four cards.
+                    var yuuna = await Card.Load(player.cards[100010]);
+                    var tougou = await Card.Load(player.cards[100020]);
+                    var fuu = await Card.Load(player.cards[100040]);
+                    var itsuki = await Card.Load(player.cards[100050]);
 
-                player.decks.Add(firstDeck.id);
+                    var yuunaUnit = await yuuna.CreateUnit(tougou.AsSupport());
+                    var fuuUnit = await fuu.CreateUnit();
+                    var itsukiUnit = await itsuki.CreateUnit();
 
-                for (int i = 1; i < 14; ++i)
-                {
-                    var unit1 = await yuuna.CreateUnit();
-                    var unit2 = await Unit.CreateEmptyUnit();
-                    var unit3 = await Unit.CreateEmptyUnit();
-                    await unit1.Save();
-                    await unit2.Save();
-                    await unit3.Save();
+                    await yuunaUnit.Save();
+                    await fuuUnit.Save();
+                    await itsukiUnit.Save();
 
-                    var deck = new Deck
+                    var firstDeck = new Deck
                     {
                         id = await Deck.GetID(),
-                        leaderUnitID = unit1.id,
+                        leaderUnitID = yuunaUnit.id,
                         name = null,
-                        units = new List<long> {unit1.id, unit2.id, unit3.id}
+                        units = new List<long> { yuunaUnit.id, fuuUnit.id, itsukiUnit.id }
                     };
-                    await deck.Save();
+                    await firstDeck.Save();
 
-                    player.decks.Add(deck.id);
+                    player.decks.Add(firstDeck.id);
+
+                    for (int i = 1; i < 14; ++i)
+                    {
+                        var unit1 = await yuuna.CreateUnit();
+                        var unit2 = await Unit.CreateEmptyUnit();
+                        var unit3 = await Unit.CreateEmptyUnit();
+                        await unit1.Save();
+                        await unit2.Save();
+                        await unit3.Save();
+
+                        var deck = new Deck
+                        {
+                            id = await Deck.GetID(),
+                            leaderUnitID = unit1.id,
+                            name = null,
+                            units = new List<long> { unit1.id, unit2.id, unit3.id }
+                        };
+                        await deck.Save();
+
+                        player.decks.Add(deck.id);
+                    }
+
+                    await player.Save();
+                    Utils.Log(Resources.LOG_PS_DECK_SET_DEFAULT);
                 }
 
-                await player.Save();
-                Utils.Log(Resources.LOG_PS_DECK_SET_DEFAULT);
+                var decks = await Deck.LoadMany(player.decks);
+
+                // We don't use WhenAll here because FromPlayerDeck potentially modifies the player
+                // which will cause race
+                responseDeck = new();
+                foreach (var deck in decks)
+                {
+                    responseDeck.Add(await Response.Deck.FromPlayerDeck(deck, player));
+                }
             }
 
-            var decks = await Deck.LoadMany(player.decks);
-            var responseDeck = await decks
-                .Select(d => Response.Deck.FromPlayerDeck(d, player))
-                .WhenAll();
             Response responseObj = new()
             {
                 decks = responseDeck.ToList()

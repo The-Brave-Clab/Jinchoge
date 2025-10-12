@@ -20,12 +20,21 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
+
+            bool infiniteItems;
+            IList<long> playerClubOrders;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                var player = await PlayerProfile.Load(playerId.code);
+                infiniteItems = await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player);
+                playerClubOrders = player.clubOrders;
+            }
 
             // Utils.LogWarning("Reward boxes of club orders not filled!");
 
             Response responseObj;
-            if (await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player))
+            if (infiniteItems)
             {
                 List<DataModel.ClubOrder> clubOrders;
                 List<ClubOrderRewardBox> clubOrderRewardBoxes;
@@ -65,7 +74,7 @@ namespace Yuyuyui.PrivateServer
             }
             else
             {
-                var orders = await ClubOrder.LoadMany(player.clubOrders);
+                var orders = await ClubOrder.LoadMany(playerClubOrders);
                 responseObj = new()
                 {
                     club_orders = orders

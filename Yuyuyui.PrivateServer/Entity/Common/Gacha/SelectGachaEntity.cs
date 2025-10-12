@@ -20,19 +20,28 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
-            var selectGachas = GachaEntity.GetCurrentActiveGachas(player)
-                .Where(g => g.SelectGacha == "1");
-
-            Response responseObj = new()
+            List<Response.SelectGachaInfo> responseContents;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
             {
-                contents = selectGachas.Select(g => new Response.SelectGachaInfo
+                PlayerProfile player = await PlayerProfile.Load(playerId.code);
+
+                var selectGachas = GachaEntity.GetCurrentActiveGachas(player)
+                    .Where(g => g.SelectGacha == "1")
+                    .ToList();
+
+                responseContents = selectGachas.Select(g => new Response.SelectGachaInfo
                 {
                     gacha_id = g.Id, // TODO: This might be the step up group
                     cards = GetSelectGachaContents(g),
                     selected_cards = GetPlayerSelectedCards(player, g)
-                }).ToList()
+                }).ToList();
+            }
+
+            Response responseObj = new()
+            {
+                contents = responseContents
             };
 
             responseBody = Serialize(responseObj);

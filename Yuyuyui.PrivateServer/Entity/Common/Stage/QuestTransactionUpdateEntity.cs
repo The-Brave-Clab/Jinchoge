@@ -22,7 +22,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
             long stageId = long.Parse(GetPathParameter("stage_id"));
             long transactionId = long.Parse(GetPathParameter("transaction_id"));
@@ -45,40 +45,46 @@ namespace Yuyuyui.PrivateServer
                 dbChapter = questsDb.Chapters.First(c => c.Id == dbEpisode.ChapterId);
             }
 
-            var stageProgress = await StageProgress.GetOrCreate(player, dbStage.Id);
-            var episodeProgress = await EpisodeProgress.GetOrCreate(player, dbEpisode.Id);
-            var chapterProgress = await ChapterProgress.GetOrCreate(player, dbChapter.Id);
-
-            if (!episodeProgress.stages.Contains(stageProgress.id))
-            {
-                episodeProgress.stages.Add(stageProgress.id);
-                await episodeProgress.Save();
-            }
-
-            if (!chapterProgress.episodes.Contains(episodeProgress.id))
-            {
-                chapterProgress.episodes.Add(episodeProgress.id);
-                await chapterProgress.Save();
-            }
-
             Response responseObj = new();
-
-            if (dbStage.Kind != 0) // not scenario, means battle stage
+            StageProgress stageProgress;
+            EpisodeProgress episodeProgress;
+            ChapterProgress chapterProgress;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
             {
-                var stageData = ServerResources.ReadAllTextFromAssemblyResources($"data.stages.{stageId}.yaml");
-                var deserializer = new DeserializerBuilder()
-                    .IgnoreUnmatchedProperties()
-                    .Build();
-                responseObj = deserializer.Deserialize<Response>(stageData);
-                
-                // TODO: fill in the guest
-                responseObj.deck = await Response.BattleDeck.FromTransaction(transaction, player, null);
+                var player = await PlayerProfile.Load(playerId.code);
+                stageProgress = await StageProgress.GetOrCreate(player, dbStage.Id);
+                episodeProgress = await EpisodeProgress.GetOrCreate(player, dbEpisode.Id);
+                chapterProgress = await ChapterProgress.GetOrCreate(player, dbChapter.Id);
+
+                if (!episodeProgress.stages.Contains(stageProgress.id))
+                {
+                    episodeProgress.stages.Add(stageProgress.id);
+                    await episodeProgress.Save();
+                }
+
+                if (!chapterProgress.episodes.Contains(episodeProgress.id))
+                {
+                    chapterProgress.episodes.Add(episodeProgress.id);
+                    await chapterProgress.Save();
+                }
+
+                if (dbStage.Kind != 0) // not scenario, means battle stage
+                {
+                    var stageData = ServerResources.ReadAllTextFromAssemblyResources($"data.stages.{stageId}.yaml");
+                    var deserializer = new DeserializerBuilder()
+                        .IgnoreUnmatchedProperties()
+                        .Build();
+                    responseObj = deserializer.Deserialize<Response>(stageData);
+
+                    // TODO: fill in the guest
+                    responseObj.deck = await Response.BattleDeck.FromTransaction(transaction, player, null);
+                }
+
+                responseObj.chapter = await ChapterEntity.Response.Chapter.GetFromDatabase(dbChapter, player);
+                responseObj.episode = await EpisodeEntity.Response.Episode.GetFromDatabase(dbEpisode, player);
+                responseObj.stage = await StageEntity.Response.Stage.GetFromDatabase(dbStage, player);
             }
 
-            responseObj.chapter = await ChapterEntity.Response.Chapter.GetFromDatabase(dbChapter, player);
-            responseObj.episode = await EpisodeEntity.Response.Episode.GetFromDatabase(dbEpisode, player);
-            responseObj.stage = await StageEntity.Response.Stage.GetFromDatabase(dbStage, player);
-            
             responseObj.chapter.id = chapterProgress.id;
             responseObj.episode.id = episodeProgress.id;
             responseObj.stage.id = stageProgress.id;

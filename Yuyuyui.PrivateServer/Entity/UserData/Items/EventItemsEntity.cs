@@ -20,10 +20,19 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
+
+            bool infiniteItems;
+            IDictionary<long, long> playerEventItems;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                var player = await PlayerProfile.Load(playerId.code);
+                infiniteItems = await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player);
+                playerEventItems = player.items.eventItems;
+            }
 
             Response responseObj;
-            if (await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player))
+            if (infiniteItems)
             {
                 List<EventItem> eventItems;
                 await using (EventStoriesContext eventDb = new())
@@ -46,7 +55,7 @@ namespace Yuyuyui.PrivateServer
             else
             {
                 var eventItems = await Item.LoadMany(
-                    player.items.eventItems
+                    playerEventItems
                         .Select(p => p.Value));
                 responseObj = new()
                 {

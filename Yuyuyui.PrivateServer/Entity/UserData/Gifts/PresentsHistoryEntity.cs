@@ -19,35 +19,42 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
-            // remove the gifts that have been accepted for 14 days
-            // or exceeds the limit of 20
-            List<Gift> giftsToBeRemoved = [];
-            var acceptedGifts = (await Gift.LoadMany(player.acceptedGifts)).ToArray();
-            foreach (var gift in acceptedGifts)
+            IList<long> playerAcceptedGifts;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
             {
-                var timePassed = DateTime.UtcNow - Utils.FromUnixTime(gift.received_at).ToUniversalTime();
-                if (timePassed.TotalDays > 14.0)
+                var player = await PlayerProfile.Load(playerId.code);
+
+                // remove the gifts that have been accepted for 14 days
+                // or exceeds the limit of 20
+                List<Gift> giftsToBeRemoved = [];
+                var acceptedGifts = (await Gift.LoadMany(player.acceptedGifts)).ToArray();
+                foreach (var gift in acceptedGifts)
                 {
+                    var timePassed = DateTime.UtcNow - Utils.FromUnixTime(gift.received_at).ToUniversalTime();
+                    if (!(timePassed.TotalDays > 14.0)) continue;
+
                     if (!giftsToBeRemoved.Contains(gift))
                         giftsToBeRemoved.Add(gift);
                 }
+
+                for (int i = 0; i < acceptedGifts.Length - 20; ++i)
+                {
+                    if (!giftsToBeRemoved.Contains(acceptedGifts[i]))
+                        giftsToBeRemoved.Add(acceptedGifts[i]);
+                }
+
+                giftsToBeRemoved.ForEach(g => player.receivedGifts.Remove(g.id));
+                await giftsToBeRemoved.ForEachAsync(g => g.Delete());
+
+                if (giftsToBeRemoved.Count > 0)
+                    await player.Save();
+
+                playerAcceptedGifts = player.acceptedGifts;
             }
 
-            for (int i = 0; i < acceptedGifts.Length - 20; ++i)
-            {
-                if (!giftsToBeRemoved.Contains(acceptedGifts[i]))
-                    giftsToBeRemoved.Add(acceptedGifts[i]);
-            }
-
-            giftsToBeRemoved.ForEach(g => player.receivedGifts.Remove(g.id));
-            await giftsToBeRemoved.ForEachAsync(g => g.Delete());
-
-            if (giftsToBeRemoved.Count > 0)
-                await player.Save();
-
-            var gifts = await Gift.LoadMany(player.acceptedGifts);
+            var gifts = await Gift.LoadMany(playerAcceptedGifts);
             PresentsEntity.Response responseObj = new()
             {
                 gifts = gifts.ToList()

@@ -21,29 +21,36 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
-            if (player.cards.Count == 0)
+            IDictionary<long, long> playerCards;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
             {
-                var yuuna = await Yuyuyui.PrivateServer.Card.DefaultYuuna();
-                var tougou = await Yuyuyui.PrivateServer.Card.DefaultTougou();
-                var fuu = await Yuyuyui.PrivateServer.Card.DefaultFuu();
-                var itsuki = await Yuyuyui.PrivateServer.Card.DefaultItsuki();
-                player.cards.Add(100010, yuuna.id); // since the key is base_card_id, we manually specify this
-                player.cards.Add(tougou.master_id, tougou.id);
-                player.cards.Add(fuu.master_id, fuu.id);
-                player.cards.Add(itsuki.master_id, itsuki.id);
-                await yuuna.Save();
-                await tougou.Save();
-                await fuu.Save();
-                await itsuki.Save();
-                await player.Save();
-                Utils.Log(Resources.LOG_PS_CARD_ASSIGN_DEFAULT);
+                var player = await PlayerProfile.Load(playerId.code);
+                if (player.cards.Count == 0)
+                {
+                    var yuuna = await Yuyuyui.PrivateServer.Card.DefaultYuuna();
+                    var tougou = await Yuyuyui.PrivateServer.Card.DefaultTougou();
+                    var fuu = await Yuyuyui.PrivateServer.Card.DefaultFuu();
+                    var itsuki = await Yuyuyui.PrivateServer.Card.DefaultItsuki();
+                    player.cards.Add(100010, yuuna.id); // since the key is base_card_id, we manually specify this
+                    player.cards.Add(tougou.master_id, tougou.id);
+                    player.cards.Add(fuu.master_id, fuu.id);
+                    player.cards.Add(itsuki.master_id, itsuki.id);
+                    await yuuna.Save();
+                    await tougou.Save();
+                    await fuu.Save();
+                    await itsuki.Save();
+                    await player.Save();
+                    Utils.Log(Resources.LOG_PS_CARD_ASSIGN_DEFAULT);
+                }
+
+                playerCards = player.cards;
             }
 
             // Utils.LogWarning("Taisha point bonus not applied!");
 
-            var cards = await player.cards
+            var cards = await playerCards
                 .Select(p => Card.FromPlayerCardData(p.Value))
                 .WhenAll();
 

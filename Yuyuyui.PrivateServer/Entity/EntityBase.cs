@@ -219,12 +219,10 @@ namespace Yuyuyui.PrivateServer
             return Encoding.UTF8.GetBytes(str);
         }
 
-        protected async Task<PlayerProfile> GetPlayerFromCookies()
+        protected async Task<PlayerProfile.ID> GetPlayerIdFromCookies()
         {
             var playerSession = await this.GetSessionFromCookie();
-            return playerSession == null
-                ? throw new APIErrorException("U0401", "Unauthorized Error")
-                : playerSession.player;
+            return playerSession?.playerId ?? throw new APIErrorException("U0401", "Unauthorized Error");
         }
 
         protected void SetBasicResponseHeaders(string sessionId = "", bool isGk = false)

@@ -21,6 +21,7 @@ namespace Yuyuyui.PrivateServer.AWS
             // Initialize providers
             PlayerDataProviderFactory.ActiveFactory = new DynamoDBPlayerDataProviderFactory();
             IPlayerProfileSessionProvider.ActiveProvider = new DynamoDBPlayerProfileSessionProvider();
+            IDistributedLockProvider.ActiveProvider = new DynamoDBLockProvider();
             IMasterDataProvider.ActiveProvider = new LambdaMasterDataProvider();
             IInGameConfigProvider.ActiveProvider = new ConfigPlayerInGameConfigProvider();
         }
@@ -30,6 +31,10 @@ namespace Yuyuyui.PrivateServer.AWS
             ILambdaContext context)
         {
             _logger = context.Logger;
+
+            // Set Lambda request context for distributed lock provider
+            // This enables Lambda-context-wise reentrant locks and better traceability
+            DynamoDBLockProvider.CurrentLambdaRequestId = context.AwsRequestId;
 
             await _initTask.Value;
 
@@ -85,6 +90,9 @@ namespace Yuyuyui.PrivateServer.AWS
             }
             finally
             {
+                // Clear Lambda request context to prevent issues with container reuse
+                // CRITICAL: Must be called after every request
+                DynamoDBLockProvider.ClearRequestContext();
                 _logger = null;
             }
         }

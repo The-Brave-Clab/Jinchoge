@@ -73,14 +73,14 @@ public class DynamoDBPlayerProfileSessionProvider : IPlayerProfileSessionProvide
         var sessionInfo = createSessionInfo();
         
         // Try to load existing player by UUID, or register new one
-        var player = await LoadPlayerProfileByUUID(playerUUID) 
-                     ?? await registerNewPlayer(playerUUID);
+        var playerId = await LoadPlayerIDByUUID(playerUUID)
+                     ?? (await registerNewPlayer(playerUUID)).id;
 
         // Create and save new session
         var session = new IPlayerProfileSessionProvider.PlayerSession
         {
             session = sessionInfo,
-            player = player
+            playerId = playerId
         };
 
         await SaveSession(session);
@@ -117,6 +117,7 @@ public class DynamoDBPlayerProfileSessionProvider : IPlayerProfileSessionProvide
         string sessionId = item["PK"].S;
         string playerCode = item["playerCode"].S;
         string sessionKey = item["sessionKey"].S;
+        string playerUUID = item["GSI1PK"].S["UUID#".Length..];
         long ttl = long.Parse(item["ttl"].N);
 
         // Check if TTL needs refresh (less than 10 minutes remaining)
@@ -129,14 +130,15 @@ public class DynamoDBPlayerProfileSessionProvider : IPlayerProfileSessionProvide
             await UpdateSessionTTL(sessionId, currentTime);
         }
 
-        // Load player profile
-        var player = await PlayerProfile.Load(playerCode);
-
         // Deserialize device info
 
         return new IPlayerProfileSessionProvider.PlayerSession
         {
-            player = player,
+            playerId = new PlayerProfile.ID
+            {
+                code = playerCode,
+                uuid = playerUUID,
+            },
             session = new IPlayerProfileSessionProvider.SessionInfo
             {
                 id = sessionId,
@@ -146,13 +148,13 @@ public class DynamoDBPlayerProfileSessionProvider : IPlayerProfileSessionProvide
         };
     }
 
-    private async Task<PlayerProfile?> LoadPlayerProfileByUUID(string playerUUID)
+    private async Task<PlayerProfile.ID?> LoadPlayerIDByUUID(string playerUUID)
     {
         // Use GSI2 on PlayerData table to find profile by UUID
         // This is an O(1) query operation that scales efficiently
         var dynamoDBPlayerDataProvider = PlayerDataProviderFactory.ActiveFactory!.Get<PlayerProfile, string>()
             as DynamoDBPlayerDataProvider<PlayerProfile, string>;
-        return await dynamoDBPlayerDataProvider!.LoadPlayerProfileByUUID(playerUUID);
+        return (await dynamoDBPlayerDataProvider!.LoadPlayerProfileByUUID(playerUUID))?.id;
     }
 
     private async Task SaveSession(IPlayerProfileSessionProvider.PlayerSession session)
@@ -166,9 +168,9 @@ public class DynamoDBPlayerProfileSessionProvider : IPlayerProfileSessionProvide
             Item = new Dictionary<string, AttributeValue>
             {
                 { "PK", new AttributeValue { S = session.session.id } },
-                { "GSI1PK", new AttributeValue { S = $"UUID#{session.player.id.uuid}" } },
+                { "GSI1PK", new AttributeValue { S = $"UUID#{session.playerId.uuid}" } },
                 { "GSI1SK", new AttributeValue { S = "SESSION" } },
-                { "playerCode", new AttributeValue { S = session.player.id.code } },
+                { "playerCode", new AttributeValue { S = session.playerId.code } },
                 { "sessionKey", new AttributeValue { S = session.session.key } },
                 { "ttl", new AttributeValue { N = ttl.ToString() } },
                 { "lastActive", new AttributeValue { N = currentTime.ToString() } },

@@ -19,20 +19,28 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
-            if (requestBody.Length > 0)
+            PlayerProfile.Profile playerProfile;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
             {
-                RequestResponse request = Deserialize<RequestResponse>(requestBody)!;
-                Utils.Log(string.Format(Resources.LOG_PS_PROFILE_UPDATED,
-                    request.profile.nickname, request.profile.comment));
-                player.profile = request.profile;
-                await player.Save();
+                var player = await PlayerProfile.Load(playerId.code);
+
+                if (requestBody.Length > 0)
+                {
+                    RequestResponse request = Deserialize<RequestResponse>(requestBody)!;
+                    Utils.Log(string.Format(Resources.LOG_PS_PROFILE_UPDATED,
+                        request.profile.nickname, request.profile.comment));
+                    player.profile = request.profile;
+                    await player.Save();
+                }
+
+                playerProfile = player.profile;
             }
 
             RequestResponse responseObj = new RequestResponse
             {
-                profile = player.profile
+                profile = playerProfile
             };
             
             responseBody = Serialize(responseObj);

@@ -18,7 +18,12 @@ namespace Yuyuyui.PrivateServer
 
         protected override Task ProcessRequest()
         {
-            var player = GetPlayerFromCookies();
+            // var playerId = await GetPlayerIdFromCookies();
+            //
+            // await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            // {
+            //     var player = await PlayerProfile.Load(playerId.code);
+            // }
 
             // Looks like the request body is always "{}". Ignored for now.
             // Utils.LogWarning("Stub API! Returns nothing for now.");

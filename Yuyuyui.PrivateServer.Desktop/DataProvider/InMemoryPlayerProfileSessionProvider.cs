@@ -8,7 +8,7 @@ namespace Yuyuyui.PrivateServer.Desktop;
 
 public class InMemoryPlayerProfileSessionProvider : IPlayerProfileSessionProvider
 {
-    private Dictionary<string, PlayerProfile> playerUUID = new();
+    private List<PlayerProfile.ID> playerIds = new();
     private Dictionary<string, IPlayerProfileSessionProvider.PlayerSession> playerSessions = new();
 
     private bool isInitialized = false;
@@ -17,7 +17,7 @@ public class InMemoryPlayerProfileSessionProvider : IPlayerProfileSessionProvide
     {
         if (isInitialized) return;
 
-        playerUUID = new Dictionary<string, PlayerProfile>();
+        playerIds = new List<PlayerProfile.ID>();
         playerSessions = new Dictionary<string, IPlayerProfileSessionProvider.PlayerSession>();
 
         var playerDataFile = Path.Combine(FileSystemData.dataFolder, FileSystemData.PLAYER_DATA_FILE);
@@ -49,10 +49,11 @@ public class InMemoryPlayerProfileSessionProvider : IPlayerProfileSessionProvide
         foreach (var s in players)
         {
             var split = s.Split(',');
-            string uuid = split[0];
-            string code = split[1];
-            PlayerProfile player = await PlayerProfile.Load(code);
-            playerUUID.Add(player!.id.uuid, player);
+            playerIds.Add(new()
+            {
+                uuid = split[0],
+                code = split[1]
+            });
         }
 
         isInitialized = true;
@@ -61,7 +62,7 @@ public class InMemoryPlayerProfileSessionProvider : IPlayerProfileSessionProvide
     public async Task AddNewPlayer(PlayerProfile player)
     {
         await Init();
-        playerUUID.Add(player.id.uuid, player);
+        playerIds.Add(player.id);
 
         var playerDataFile = Path.Combine(FileSystemData.dataFolder, FileSystemData.PLAYER_DATA_FILE);
         await FileSystemData.dataFileLock.WaitAsync();
@@ -112,14 +113,17 @@ public class InMemoryPlayerProfileSessionProvider : IPlayerProfileSessionProvide
         IPlayerProfileSessionProvider.PlayerSession session;
         try
         {
-            session = playerSessions.First(p => p.Value.player.id.uuid == playerUUID).Value;
+            session = playerSessions.First(p => p.Value.playerId.uuid == playerUUID).Value;
         }
         catch (InvalidOperationException)
         {
+            var playerId = playerIds.Any(id => id.uuid == playerUUID)
+                ? playerIds.First(id => id.uuid == playerUUID)
+                : (await registerNewPlayer(playerUUID)).id;
             session = new IPlayerProfileSessionProvider.PlayerSession
             {
                 session = createSessionInfo(),
-                player = this.playerUUID.TryGetValue(playerUUID, out var value) ? value : await registerNewPlayer(playerUUID),
+                playerId = playerId,
             };
 
             playerSessions.Add(session.session.id, session);

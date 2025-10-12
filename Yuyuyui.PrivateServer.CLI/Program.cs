@@ -55,6 +55,7 @@ namespace Yuyuyui.PrivateServer.CLI
 
             PlayerDataProviderFactory.ActiveFactory = new FilesystemPlayerDataProviderFactory();
             IPlayerProfileSessionProvider.ActiveProvider = new InMemoryPlayerProfileSessionProvider();
+            IDistributedLockProvider.ActiveProvider = new LocalLockProvider();
             IMasterDataProvider.ActiveProvider = new AWSMasterDataProvider();
             IInGameConfigProvider.ActiveProvider = new DesktopInGameConfigProvider();
 

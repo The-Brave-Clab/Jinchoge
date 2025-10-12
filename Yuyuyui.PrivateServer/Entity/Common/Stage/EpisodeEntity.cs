@@ -20,7 +20,7 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
             long chapterId = long.Parse(GetPathParameter("chapter_id"));
 
@@ -34,9 +34,17 @@ namespace Yuyuyui.PrivateServer
                     .ToList();
             }
 
-            var responseEpisodes = await episodes
-                .Select(e => Response.Episode.GetFromDatabase(e, player))
-                .WhenAll();
+
+            PlayerProfile player;
+            Response.Episode[] responseEpisodes;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            {
+                player = await PlayerProfile.Load(playerId.code);
+
+                responseEpisodes = await episodes
+                    .Select(e => Response.Episode.GetFromDatabase(e, player))
+                    .WhenAll();
+            }
 
             Response responseObj = new()
             {

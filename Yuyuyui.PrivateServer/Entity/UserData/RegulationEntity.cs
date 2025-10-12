@@ -19,23 +19,31 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
+            var playerId = await GetPlayerIdFromCookies();
 
-            if (requestBody.Length > 0)
+            int regulationVersion;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
             {
-                Request request = Deserialize<Request>(requestBody)!;
-                int checkVersion = request.regulation_version.current_version;
-                Utils.Log(string.Format(Resources.PS_LOG_REGULATION_AGREED, checkVersion));
-                player.data.regulationVersion = checkVersion;
-                await player.Save();
+                var player = await PlayerProfile.Load(playerId.code);
+
+                if (requestBody.Length > 0)
+                {
+                    Request request = Deserialize<Request>(requestBody)!;
+                    int checkVersion = request.regulation_version.current_version;
+                    Utils.Log(string.Format(Resources.PS_LOG_REGULATION_AGREED, checkVersion));
+                    player.data.regulationVersion = checkVersion;
+                    await player.Save();
+                }
+
+                regulationVersion = player.data.regulationVersion;
             }
-            
+
             Response responseObj = new()
             {
                 regulation_version = new()
                 {
                     current_version = 1,
-                    checked_version = player.data.regulationVersion,
+                    checked_version = regulationVersion,
                     regulation_url = $"{RequestAuthority}/"
                 }
             };

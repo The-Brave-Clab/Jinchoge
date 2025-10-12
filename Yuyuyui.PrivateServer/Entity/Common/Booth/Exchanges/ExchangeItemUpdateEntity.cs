@@ -20,7 +20,7 @@ public class ExchangeItemUpdateEntity : BaseEntity<ExchangeItemUpdateEntity>
 
     protected override async Task ProcessRequest()
     {
-        var player = await GetPlayerFromCookies();
+        var playerId = await GetPlayerIdFromCookies();
         
         Request exchangeBoothRequest = Deserialize<Request>(requestBody)!;
         long exchangeItemId = exchangeBoothRequest.exchange_booth_item_id;
@@ -38,8 +38,12 @@ public class ExchangeItemUpdateEntity : BaseEntity<ExchangeItemUpdateEntity>
 
         long masterCardId = cardProduct.master_id;
         int potentialCount = exchangeBoothRequest.count;
-        
-        await player.GrantCard(masterCardId, potentialCount);
+
+        await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+        {
+            var player = await PlayerProfile.Load(playerId.code);
+            await player.GrantCard(masterCardId, potentialCount);
+        }
 
         Response currentResponse = new Response
         {

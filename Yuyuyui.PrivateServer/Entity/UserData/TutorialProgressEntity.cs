@@ -18,18 +18,26 @@ namespace Yuyuyui.PrivateServer
 
         protected override async Task ProcessRequest()
         {
-            var player = await GetPlayerFromCookies();
-            if (requestBody.Length > 0)
+            var playerId = await GetPlayerIdFromCookies();
+
+            int tutorialProgress;
+            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
             {
-                Request requestObj = Deserialize<Request>(requestBody)!;
-                player.data.tutorialProgress = requestObj.progress;
-                await player.Save();
+                var player = await PlayerProfile.Load(playerId.code);
+                if (requestBody.Length > 0)
+                {
+                    Request requestObj = Deserialize<Request>(requestBody)!;
+                    player.data.tutorialProgress = requestObj.progress;
+                    await player.Save();
+                }
+
+                tutorialProgress = player.data.tutorialProgress;
             }
 
             Response responseObj = new()
             {
-                progress = player.data.tutorialProgress,
-                tutee = player.data.tutorialProgress != 1000
+                progress = tutorialProgress,
+                tutee = tutorialProgress != 1000
             };
 
             responseBody = Serialize(responseObj);
