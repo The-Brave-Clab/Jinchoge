@@ -209,11 +209,7 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
 
         public void InitializeGUIApplication()
         {
-            PlayerDataProviderFactory.ActiveFactory = new FilesystemPlayerDataProviderFactory();
-            IPlayerProfileSessionProvider.ActiveProvider = new InMemoryPlayerProfileSessionProvider();
-            IDistributedLockProvider.ActiveProvider = new LocalLockProvider();
-            IInGameConfigProvider.ActiveProvider = new DesktopInGameConfigProvider();
-            PrivateServerDesktop.SetPrivateServerURIRewriter();
+            DesktopServerResourceProvider serverResourceProvider = new DesktopServerResourceProvider();
 
             Status = ServerStatus.Updating;
 
@@ -240,30 +236,30 @@ namespace Yuyuyui.PrivateServer.GUI.ViewModels
                     : $"{currentFileName} ({currentCount}/{totalCount})";
             }
 
-            IMasterDataProvider.ActiveProvider = new AWSMasterDataProvider((fileName, progress) =>
+            serverResourceProvider.AWSMasterDataProvider.SingleFileProgress = (fileName, progress) =>
+            {
+                if (!canSet) return;
+                toolbarVM.ShowProgressText = true;
+                toolbarVM.IsProgressIndeterminate = false;
+                toolbarVM.ToolbarProgress = progress * 100;
+                currentFileName = fileName;
+                SetToolbarText();
+            };
+            serverResourceProvider.AWSMasterDataProvider.TotalProgress = (current, total) =>
+            {
+                if (!canSet) return;
+                toolbarVM.IsProgressIndeterminate = false;
+                if (total > 0)
                 {
-                    if (!canSet) return;
                     toolbarVM.ShowProgressText = true;
-                    toolbarVM.IsProgressIndeterminate = false;
-                    toolbarVM.ToolbarProgress = progress * 100;
-                    currentFileName = fileName;
-                    SetToolbarText();
-                },
-                (current, total) =>
-                {
-                    if (!canSet) return;
-                    toolbarVM.IsProgressIndeterminate = false;
-                    if (total > 0)
-                    {
-                        toolbarVM.ShowProgressText = true;
-                        currentCount = current;
-                        totalCount = total;
-                    }
+                    currentCount = current;
+                    totalCount = total;
+                }
 
-                    SetToolbarText();
-                });
+                SetToolbarText();
+            };
 
-            PrivateServer.Init()
+            PrivateServer.Init(serverResourceProvider)
                 .ContinueWith(t =>
                 {
                     if (t.Exception != null) Utils.LogError(t.Exception);

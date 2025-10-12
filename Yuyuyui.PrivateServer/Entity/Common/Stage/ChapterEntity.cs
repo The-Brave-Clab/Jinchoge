@@ -41,7 +41,7 @@ namespace Yuyuyui.PrivateServer
 
             PlayerProfile player;
             Response.Chapter[] responseChapters;
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 player = await PlayerProfile.Load(playerId.code);
                 responseChapters = await chapters

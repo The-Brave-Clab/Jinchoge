@@ -25,7 +25,7 @@ namespace Yuyuyui.PrivateServer
             string friendCode = GetPathParameter("user_id");
 
             IList<long> playerFriendRequests;
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 var player = await PlayerProfile.Load(playerId.code);
                 playerFriendRequests = player.friendRequests;
@@ -41,7 +41,7 @@ namespace Yuyuyui.PrivateServer
             // Get the requested player
             // Respects the path parameter
             PlayerProfile friend;
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(friendCode))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(friendCode))
             {
                 // The game client checks if the friend has already been added
                 // so we don't check it here.

@@ -24,10 +24,10 @@ namespace Yuyuyui.PrivateServer
 
             bool infiniteItems;
             IDictionary<long, long> playerEvolutionItems;
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 var player = await PlayerProfile.Load(playerId.code);
-                infiniteItems = await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player);
+                infiniteItems = await PrivateServer.ResourceProvider.inGameConfigProvider.GetInfiniteItems(player);
                 playerEvolutionItems = player.items.evolution;
             }
 

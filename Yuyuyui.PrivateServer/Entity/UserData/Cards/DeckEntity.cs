@@ -24,7 +24,7 @@ namespace Yuyuyui.PrivateServer
             var playerId = await GetPlayerIdFromCookies();
 
             List<Response.Deck> responseDeck;
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 var player = await PlayerProfile.Load(playerId.code);
 

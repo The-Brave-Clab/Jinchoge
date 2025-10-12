@@ -27,7 +27,7 @@ namespace Yuyuyui.PrivateServer
             QuestTransaction transaction = await QuestTransaction.Load(transactionId);
             // Validate?
 
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 var player = await PlayerProfile.Load(playerId.code);
                 player.transactions.questTransactions.Remove(transaction.stageId);

@@ -44,10 +44,10 @@ namespace Yuyuyui.PrivateServer
             Utils.Log(string.Format(Resources.LOG_PS_ACCESSORY_ENHANCEMENT_LEVEL, playerAccessory.id, playerAccessory.level));
             Utils.Log(string.Format(Resources.LOG_PS_ACCESSORY_QUANTITY_DECREASED, playerAccessory.id, accessoryTargetLevel.NeedAmount));
             
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 var player = await PlayerProfile.Load(playerId.code);
-                if (!await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player))
+                if (!await PrivateServer.ResourceProvider.inGameConfigProvider.GetInfiniteItems(player))
                 {
                     // brave coins
                     if (accessoryTargetLevel.BraveCoin > 0)

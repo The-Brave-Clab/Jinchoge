@@ -21,7 +21,7 @@ namespace Yuyuyui.PrivateServer
             var playerId = await GetPlayerIdFromCookies();
 
             IDictionary<string, CharacterFamiliarityWithAssist> playerCharacterFamiliarities;
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 var player = await PlayerProfile.Load(playerId.code);
                 playerCharacterFamiliarities = player.characterFamiliarities;

@@ -32,10 +32,10 @@ namespace Yuyuyui.PrivateServer
             EnhancementTransaction transaction = await EnhancementTransaction.Load(transactionId);
 
             bool infiniteItems;
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 PlayerProfile player = await PlayerProfile.Load(playerId.code);
-                infiniteItems = await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player);
+                infiniteItems = await PrivateServer.ResourceProvider.inGameConfigProvider.GetInfiniteItems(player);
             }
 
             // Validate here?
@@ -160,7 +160,7 @@ namespace Yuyuyui.PrivateServer
             // character familiarity
             IList<int> resultTitleItems;
             CharacterFamiliarityChangeWithAssist familiarityChange;
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 PlayerProfile player = await PlayerProfile.Load(playerId.code);
                 CharacterFamiliarityWithAssist familiarity =

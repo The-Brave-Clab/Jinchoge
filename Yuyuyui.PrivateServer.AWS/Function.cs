@@ -11,19 +11,14 @@ namespace Yuyuyui.PrivateServer.AWS
     {
         private static ILambdaLogger? _logger;
         private static readonly Lazy<Task> _initTask;
+        public static LambdaServerResourceProvider ServerResourceProvider { get; }
 
         static Function()
         {
             _logger = null;
-            _initTask = new Lazy<Task>(PrivateServer.Init);
+            ServerResourceProvider = new LambdaServerResourceProvider();
+            _initTask = new Lazy<Task>(PrivateServer.Init(ServerResourceProvider));
             Utils.SetLogCallback(LogFunc);
-
-            // Initialize providers
-            PlayerDataProviderFactory.ActiveFactory = new DynamoDBPlayerDataProviderFactory();
-            IPlayerProfileSessionProvider.ActiveProvider = new DynamoDBPlayerProfileSessionProvider();
-            IDistributedLockProvider.ActiveProvider = new DynamoDBLockProvider();
-            IMasterDataProvider.ActiveProvider = new LambdaMasterDataProvider();
-            IInGameConfigProvider.ActiveProvider = new ConfigPlayerInGameConfigProvider();
         }
 
         public async Task<APIGatewayHttpApiV2ProxyResponse> FunctionHandler(

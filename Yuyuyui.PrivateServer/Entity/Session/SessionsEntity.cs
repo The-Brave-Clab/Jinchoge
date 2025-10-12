@@ -33,7 +33,7 @@ namespace Yuyuyui.PrivateServer
                 gk_key = sessionDetail.session.key
             };
 
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(sessionDetail.playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(sessionDetail.playerId.code))
             {
                 var player = await PlayerProfile.Load(sessionDetail.playerId.code);
                 player.data.lastActive = responseObj.unixtime;

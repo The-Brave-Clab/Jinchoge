@@ -23,7 +23,7 @@ namespace Yuyuyui.PrivateServer
             var playerId = await GetPlayerIdFromCookies();
 
             PlayerProfile.Progress playerProgress;
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 var player = await PlayerProfile.Load(playerId.code);
                 playerProgress = player.progress;

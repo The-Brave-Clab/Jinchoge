@@ -43,7 +43,7 @@ namespace Yuyuyui.PrivateServer
 
             // Delete duplicate/unfinished quests
             QuestTransaction createdTransaction;
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 var player = await PlayerProfile.Load(playerId.code);
                 if (player.transactions.questTransactions.ContainsKey(stageId))

@@ -51,10 +51,10 @@ namespace Yuyuyui.PrivateServer
             // we don't do anything even if the master_id of the card changed
             DataModel.Card newMasterCard = userCard.MasterData();
 
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 var player = await PlayerProfile.Load(playerId.code);
-                bool infiniteItems = await IInGameConfigProvider.ActiveProvider!.GetInfiniteItems(player);
+                bool infiniteItems = await PrivateServer.ResourceProvider.inGameConfigProvider.GetInfiniteItems(player);
 
                 if (!infiniteItems)
                 {

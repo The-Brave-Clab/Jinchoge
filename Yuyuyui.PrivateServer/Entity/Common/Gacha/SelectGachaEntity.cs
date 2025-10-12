@@ -23,7 +23,7 @@ namespace Yuyuyui.PrivateServer
             var playerId = await GetPlayerIdFromCookies();
 
             List<Response.SelectGachaInfo> responseContents;
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 PlayerProfile player = await PlayerProfile.Load(playerId.code);
 

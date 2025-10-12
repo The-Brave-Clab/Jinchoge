@@ -22,7 +22,7 @@ namespace Yuyuyui.PrivateServer
 
             Request requestObj = Deserialize<Request>(requestBody)!;
 
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 var player = await PlayerProfile.Load(playerId.code);
 

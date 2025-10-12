@@ -34,8 +34,6 @@ public interface IPlayerProfileSessionProvider
         public string userAgent;
     }
 
-    public static IPlayerProfileSessionProvider? ActiveProvider { get; set; } = null;
-
     Task AddNewPlayer(PlayerProfile player);
     Task RemovePlayer(PlayerProfile player);
     Task<PlayerSession> GetOrAddSessionFromUUID(string playerUUID, Func<SessionInfo> createSessionInfo, Func<string /* uuid */, Task<PlayerProfile>> registerNewPlayer);

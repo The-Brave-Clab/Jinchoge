@@ -25,10 +25,10 @@ public class ScenarioResourceVersionEntity : GameResourceVersionEntity
         var playerId = await GetPlayerIdFromCookies();
 
         string scenarioLanguage;
-        await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+        await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
         {
             var player = await PlayerProfile.Load(playerId.code);
-            scenarioLanguage = await IInGameConfigProvider.ActiveProvider!.GetScenarioLanguage(player);
+            scenarioLanguage = await PrivateServer.ResourceProvider.inGameConfigProvider.GetScenarioLanguage(player);
         }
 
         Utils.Log(Resources.LOG_PS_REDIRECT_API);

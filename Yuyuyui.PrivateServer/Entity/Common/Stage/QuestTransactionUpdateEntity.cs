@@ -49,7 +49,7 @@ namespace Yuyuyui.PrivateServer
             StageProgress stageProgress;
             EpisodeProgress episodeProgress;
             ChapterProgress chapterProgress;
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 var player = await PlayerProfile.Load(playerId.code);
                 stageProgress = await StageProgress.GetOrCreate(player, dbStage.Id);

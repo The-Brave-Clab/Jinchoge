@@ -53,14 +53,9 @@ namespace Yuyuyui.PrivateServer.CLI
                 Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()!
                     .InformationalVersion));
 
-            PlayerDataProviderFactory.ActiveFactory = new FilesystemPlayerDataProviderFactory();
-            IPlayerProfileSessionProvider.ActiveProvider = new InMemoryPlayerProfileSessionProvider();
-            IDistributedLockProvider.ActiveProvider = new LocalLockProvider();
-            IMasterDataProvider.ActiveProvider = new AWSMasterDataProvider();
-            IInGameConfigProvider.ActiveProvider = new DesktopInGameConfigProvider();
+            DesktopServerResourceProvider serverResourceProvider = new DesktopServerResourceProvider();
 
-            PrivateServerDesktop.SetPrivateServerURIRewriter();
-            await PrivateServer.Init();
+            await PrivateServer.Init(serverResourceProvider);
             var endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
 
             //foreach (var endPoint in proxyServer.ProxyEndPoints)

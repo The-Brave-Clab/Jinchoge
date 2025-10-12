@@ -5,8 +5,6 @@ namespace Yuyuyui.PrivateServer;
 
 public interface IInGameConfigProvider
 {
-    public static IInGameConfigProvider? ActiveProvider { get; set; } = null;
-
     public static readonly List<string> SupportedInGameScenarioLanguage = ["ja", "zh", "en"];
 
     Task<string> GetScenarioLanguage(PlayerProfile playerProfile);

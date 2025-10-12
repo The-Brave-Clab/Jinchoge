@@ -36,7 +36,7 @@ namespace Yuyuyui.PrivateServer
             }
 
             Response.Stage[] responseStages;
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 var player = await PlayerProfile.Load(playerId.code);
                 responseStages = await targetStages
@@ -117,7 +117,7 @@ namespace Yuyuyui.PrivateServer
                     // TODO: check config of unlocking all difficulties, left it here for easier debugging
                     // Leave the scenario only stage as-is, 
                     // for better indication of whether the player has already watched it.
-                    if (dbStage.Kind != 0 && await IInGameConfigProvider.ActiveProvider!.GetUnlockAllDifficulties(player))
+                    if (dbStage.Kind != 0 && await PrivateServer.ResourceProvider.inGameConfigProvider.GetUnlockAllDifficulties(player))
                     {
                         // To trick the client to unlock the hard and expert difficulty for us,
                         // we can just 3 star every non-scenario stage.

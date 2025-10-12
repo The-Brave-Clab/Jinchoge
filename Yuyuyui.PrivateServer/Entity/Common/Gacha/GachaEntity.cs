@@ -23,7 +23,7 @@ namespace Yuyuyui.PrivateServer
             var playerId = await GetPlayerIdFromCookies();
 
             List<Gacha> currentActiveGachas;
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 PlayerProfile player = await PlayerProfile.Load(playerId.code);
                 currentActiveGachas = GetCurrentActiveGachas(player).ToList();

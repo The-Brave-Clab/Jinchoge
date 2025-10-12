@@ -8,7 +8,6 @@ namespace Yuyuyui.PrivateServer;
 /// </summary>
 public interface IDistributedLockProvider
 {
-    public static IDistributedLockProvider? ActiveProvider { get; set; }
     /// <summary>
     /// Acquires a lock for a specific PlayerProfile. The lock is released when the returned IDisposable is disposed.
     /// </summary>

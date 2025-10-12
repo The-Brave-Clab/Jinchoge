@@ -25,7 +25,7 @@ namespace Yuyuyui.PrivateServer
             
             // Remove the friend from our friend list
             // Respects the path parameter
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 PlayerProfile player = await PlayerProfile.Load(playerId.code);
                 if (player.friends.Remove(friendCode))
@@ -36,7 +36,7 @@ namespace Yuyuyui.PrivateServer
             // Respects the request body
             // This is indeed not necessary since the game does always send the same parameter
             Request request = Deserialize<Request>(requestBody)!;
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(request.user_id))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(request.user_id))
             {
                 PlayerProfile friend = await PlayerProfile.Load(request.user_id);
                 if (friend.friends.Remove(playerId.code))

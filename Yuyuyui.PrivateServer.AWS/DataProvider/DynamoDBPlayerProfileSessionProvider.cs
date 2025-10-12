@@ -152,7 +152,7 @@ public class DynamoDBPlayerProfileSessionProvider : IPlayerProfileSessionProvide
     {
         // Use GSI2 on PlayerData table to find profile by UUID
         // This is an O(1) query operation that scales efficiently
-        var dynamoDBPlayerDataProvider = PlayerDataProviderFactory.ActiveFactory!.Get<PlayerProfile, string>()
+        var dynamoDBPlayerDataProvider = Function.ServerResourceProvider.GetDataProvider<PlayerProfile, string>()
             as DynamoDBPlayerDataProvider<PlayerProfile, string>;
         return (await dynamoDBPlayerDataProvider!.LoadPlayerProfileByUUID(playerUUID))?.id;
     }

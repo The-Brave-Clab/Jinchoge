@@ -26,7 +26,7 @@ namespace Yuyuyui.PrivateServer
                 // Utils.LogWarning("PUT Method, Needs more tests!");
                 Request request = Deserialize<Request>(requestBody)!;
 
-                await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+                await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
                 {
                     var player = await PlayerProfile.Load(playerId.code);
                     if (request.sub_category_id == -1)
@@ -55,7 +55,7 @@ namespace Yuyuyui.PrivateServer
                 IList<long> playerReceivedGifts;
                 IList<long> playerFriendRequests;
                 IDictionary<int, IList<int>> playerNewAlbum;
-                await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+                await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
                 {
                     var player = await PlayerProfile.Load(playerId.code);
                     playerReceivedGifts = player.receivedGifts;

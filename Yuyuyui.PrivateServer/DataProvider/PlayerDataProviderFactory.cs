@@ -5,8 +5,6 @@ namespace Yuyuyui.PrivateServer;
 
 public abstract class PlayerDataProviderFactory
 {
-    public static PlayerDataProviderFactory? ActiveFactory { get; set; } = null;
-
     private static readonly ConcurrentDictionary<(Type playerDataType, Type identifierType), object> _providers = new();
 
     public IPlayerDataProvider<TPlayerData, TIdentifier> Get<TPlayerData, TIdentifier>()

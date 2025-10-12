@@ -53,7 +53,7 @@ namespace Yuyuyui.PrivateServer
             EpisodeEntity.Response.Episode episode;
             StageEntity.Response.Stage stage;
 
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
             {
                 player = await PlayerProfile.Load(playerId.code);
 

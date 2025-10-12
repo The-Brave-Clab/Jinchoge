@@ -14,22 +14,22 @@ namespace Yuyuyui.PrivateServer
 
         public async Task Save()
         {
-            await PlayerDataProviderFactory.ActiveFactory!.Get<TSelf, TIdentifier>().Save((TSelf)this, Identifier);
+            await PrivateServer.ResourceProvider.GetDataProvider<TSelf, TIdentifier>().Save((TSelf)this, Identifier);
         }
 
         public static async Task<TSelf> Load(TIdentifier identifier)
         {
-            return await PlayerDataProviderFactory.ActiveFactory!.Get<TSelf, TIdentifier>().Load(identifier);
+            return await PrivateServer.ResourceProvider.GetDataProvider<TSelf, TIdentifier>().Load(identifier);
         }
 
         public static async Task<IEnumerable<TSelf>> LoadMany(IEnumerable<TIdentifier> identifiers)
         {
-            return await PlayerDataProviderFactory.ActiveFactory!.Get<TSelf, TIdentifier>().LoadMany(identifiers);
+            return await PrivateServer.ResourceProvider.GetDataProvider<TSelf, TIdentifier>().LoadMany(identifiers);
         }
 
         public static async Task Delete(TIdentifier identifier)
         {
-            await PlayerDataProviderFactory.ActiveFactory!.Get<TSelf, TIdentifier>().Delete(identifier);
+            await PrivateServer.ResourceProvider.GetDataProvider<TSelf, TIdentifier>().Delete(identifier);
         }
 
         public async Task Delete()
@@ -39,7 +39,7 @@ namespace Yuyuyui.PrivateServer
 
         public static async Task<bool> Exists(TIdentifier identifier)
         {
-            return await PlayerDataProviderFactory.ActiveFactory!.Get<TSelf, TIdentifier>().Exists(identifier);
+            return await PrivateServer.ResourceProvider.GetDataProvider<TSelf, TIdentifier>().Exists(identifier);
         }
     }
 }

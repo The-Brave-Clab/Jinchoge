@@ -27,7 +27,7 @@ namespace Yuyuyui.PrivateServer
             {
                 PostRequest requestObj = Deserialize<PostRequest>(requestBody)!;
 
-                await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+                await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
                 {
                     var player = await PlayerProfile.Load(playerId.code);
                     player.data.titleItemID = requestObj.title_item_id;
@@ -42,7 +42,7 @@ namespace Yuyuyui.PrivateServer
             else
             {
                 IList<long> playerTitleItems;
-                await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+                await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
                 {
                     var player = await PlayerProfile.Load(playerId.code);
                     if (!player.items.titleItems.Any())

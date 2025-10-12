@@ -9,28 +9,24 @@ namespace Yuyuyui.PrivateServer
 {
     public static class PrivateServer
     {
-        public const string YUYUYUI_APP_VERSION = "3.28.0";
+        public const string YUYUYUI_APP_VERSION = "3.27.0";
 
         public const string OFFICIAL_API_SERVER = "app.yuyuyui.jp";
         public const string PRIVATE_PUBLIC_API_SERVER = "936fkiz1v2.execute-api.ap-northeast-1.amazonaws.com";
 
-        public static Func<Uri, Uri> RequestURIRewriter = uri => uri;
+        private static IPrivateServerResourceProvider? resourceProvider = null;
 
-        public static async Task Init()
+        public static IPrivateServerResourceProvider ResourceProvider =>
+            resourceProvider ??
+            throw new InvalidOperationException(
+                "PrivateServer is not initialized. Call PrivateServer.Init() first.");
+
+        public static async Task Init(IPrivateServerResourceProvider privateServerResourceProvider)
         {
-            if (PlayerDataProviderFactory.ActiveFactory == null)
-                throw new Exception("No PlayerDataProviderFactory is set.");
-            if (IPlayerProfileSessionProvider.ActiveProvider == null)
-                throw new Exception("No IPlayerProfileSessionProvider is set.");
-            if (IDistributedLockProvider.ActiveProvider == null)
-                throw new Exception("No IDistributedLockProvider is set.");
-            if (IMasterDataProvider.ActiveProvider == null)
-                throw new Exception("No IMasterDataProvider is set.");
-            if (IInGameConfigProvider.ActiveProvider == null)
-                throw new Exception("No IInGameConfigProvider is set.");
+            resourceProvider = privateServerResourceProvider;
 
-            DataModel.Config.BaseDir = IMasterDataProvider.ActiveProvider.Directory;
-            await IMasterDataProvider.ActiveProvider!.Initialize();
+            DataModel.Config.BaseDir = ResourceProvider.masterDataProvider.Directory;
+            await ResourceProvider.masterDataProvider.Initialize();
         }
 
         public async static Task<PlayerProfile> RegisterNewPlayer(string uuid, string? code = null)
@@ -50,9 +46,9 @@ namespace Yuyuyui.PrivateServer
                 }
             };
 
-            await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(player.id.code))
+            await using (await ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(player.id.code))
             {
-                await IPlayerProfileSessionProvider.ActiveProvider!.AddNewPlayer(player);
+                await ResourceProvider.sessionProvider.AddNewPlayer(player);
                 await player.Save();
             }
 
@@ -104,7 +100,7 @@ namespace Yuyuyui.PrivateServer
         public static async Task<IPlayerProfileSessionProvider.PlayerSession> CreateSessionForPlayer(string uuid, EntityBase entity)
         {
             IPlayerProfileSessionProvider.PlayerSession playerSession =
-                await IPlayerProfileSessionProvider.ActiveProvider!.GetOrAddSessionFromUUID(uuid,
+                await ResourceProvider.sessionProvider.GetOrAddSessionFromUUID(uuid,
                     () => new IPlayerProfileSessionProvider.SessionInfo
                     {
                         id = Utils.GenerateRandomHexString(32),
@@ -139,7 +135,7 @@ namespace Yuyuyui.PrivateServer
 
             if (cookies.TryGetValue("_session_id", out var c))
             {
-                return await IPlayerProfileSessionProvider.ActiveProvider!.GetSessionFromSessionID(c);
+                return await ResourceProvider.sessionProvider.GetSessionFromSessionID(c);
             }
 
             return null;
@@ -147,7 +143,7 @@ namespace Yuyuyui.PrivateServer
 
         public static async Task RemovePlayerProfile(PlayerProfile player)
         {
-            await IPlayerProfileSessionProvider.ActiveProvider!.RemovePlayer(player);
+            await ResourceProvider.sessionProvider.RemovePlayer(player);
         }
     }
 }

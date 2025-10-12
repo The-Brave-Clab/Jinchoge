@@ -15,13 +15,14 @@ public class AWSMasterDataProvider : IMasterDataProvider
     public AWSMasterDataProvider(Action<string, float>? singleFileProgress = null,
         Action<int, int>? totalProgress = null)
     {
-        this.singleFileProgress = singleFileProgress;
-        this.totalProgress = totalProgress;
+        SingleFileProgress = singleFileProgress;
+        TotalProgress = totalProgress;
     }
 
-    private readonly Action<string, float>? singleFileProgress = null;
-    private readonly Action<int, int>? totalProgress = null;
     private const string URL = "https://tqdc60uiqc.execute-api.ap-northeast-1.amazonaws.com/test/master_data";
+
+    public Action<string, float>? SingleFileProgress { get; set; } = null;
+    public Action<int, int>? TotalProgress { get; set; } = null;
 
     private static string GetAssemblyVersion()
     {
@@ -40,7 +41,7 @@ public class AWSMasterDataProvider : IMasterDataProvider
         // Get remote data
         HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, new Uri(url));
 
-        HttpResponseMessage response = await PrivateServerDesktop.HttpClient.SendAsync(requestMessage);
+        HttpResponseMessage response = await DesktopServerResourceProvider.HttpClient.SendAsync(requestMessage);
         string responseStr = await response.Content.ReadAsStringAsync();
 
         LocalDataResult localDataResult = JsonConvert.DeserializeObject<LocalDataResult>(responseStr)!;
@@ -84,7 +85,7 @@ public class AWSMasterDataProvider : IMasterDataProvider
         int count = 0;
         foreach (var data in needUpdate)
         {
-            totalProgress?.Invoke(count, needUpdate.Count);
+            TotalProgress?.Invoke(count, needUpdate.Count);
             // Download each file
             var filePath = Path.Combine(ResourceDir, data.key.Replace('/', Path.DirectorySeparatorChar));
 
@@ -96,12 +97,12 @@ public class AWSMasterDataProvider : IMasterDataProvider
             Utils.Log(string.Format(Resources.LOG_PS_LOCAL_DATA_DOWNLOADING, fileName));
 
             await using FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
-            await PrivateServerDesktop.HttpClient.DownloadAsync(fileUrl, fs,
-                new Progress<float>(progress => { singleFileProgress?.Invoke(fileName, progress); }));
+            await DesktopServerResourceProvider.HttpClient.DownloadAsync(fileUrl, fs,
+                new Progress<float>(progress => { SingleFileProgress?.Invoke(fileName, progress); }));
             ++count;
         }
 
-        totalProgress?.Invoke(needUpdate.Count, needUpdate.Count);
+        TotalProgress?.Invoke(needUpdate.Count, needUpdate.Count);
 
         if (count == 0)
         {

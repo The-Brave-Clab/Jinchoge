@@ -39,7 +39,7 @@ public class ExchangeItemUpdateEntity : BaseEntity<ExchangeItemUpdateEntity>
         long masterCardId = cardProduct.master_id;
         int potentialCount = exchangeBoothRequest.count;
 
-        await using (await IDistributedLockProvider.ActiveProvider!.AcquirePlayerProfileLock(playerId.code))
+        await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
         {
             var player = await PlayerProfile.Load(playerId.code);
             await player.GrantCard(masterCardId, potentialCount);
