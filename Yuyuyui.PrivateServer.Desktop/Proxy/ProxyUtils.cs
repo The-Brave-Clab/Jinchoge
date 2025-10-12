@@ -61,17 +61,17 @@ public static class ProxyUtils
             var html = htmlTemplate.Replace("{{ title }}", title).Replace("{{ body }}", body);
             e.Ok(html, htmlHeaders);
         }
-        else if (ServerResources.EmbeddedResources
+        else if (DesktopResources.EmbeddedResources
                  .Any(r => r.Contains(expectedFile, StringComparison.InvariantCultureIgnoreCase)))
         {
-            var content = ServerResources.ReadAllTextFromAssemblyResources(expectedFile);
+            var content = DesktopResources.ReadAllTextFromAssemblyResources(expectedFile);
             e.Ok(content, htmlHeaders);
         }
         else
         {
-            var page404 = ServerResources.EmbeddedResources.First(r =>
+            var page404 = DesktopResources.EmbeddedResources.First(r =>
                 r.Contains("404.html", StringComparison.InvariantCultureIgnoreCase));
-            var content = ServerResources.ReadAllTextFromAssemblyResources(page404);
+            var content = DesktopResources.ReadAllTextFromAssemblyResources(page404);
             var response = new Response(Encoding.UTF8.GetBytes(content))
                 { StatusCode = 404, HttpVersion = HttpVersion.Version11 };
             response.Headers.AddHeaders(htmlHeaders);
