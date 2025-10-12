@@ -192,6 +192,7 @@ public class DynamoDBPlayerProfileSessionProvider : IPlayerProfileSessionProvide
                 { "PK", new AttributeValue { S = sessionID } }
             },
             UpdateExpression = "SET #ttl = :ttl, #lastActive = :lastActive",
+            ConditionExpression = "#ttl < :threshold",
             ExpressionAttributeNames = new Dictionary<string, string>
             {
                 { "#ttl", "ttl" },
@@ -200,10 +201,18 @@ public class DynamoDBPlayerProfileSessionProvider : IPlayerProfileSessionProvide
             ExpressionAttributeValues = new Dictionary<string, AttributeValue>
             {
                 { ":ttl", new AttributeValue { N = newTtl.ToString() } },
-                { ":lastActive", new AttributeValue { N = currentTime.ToString() } }
+                { ":lastActive", new AttributeValue { N = currentTime.ToString() } },
+                { ":threshold", new AttributeValue { N = (currentTime + TTL_REFRESH_THRESHOLD).ToString() } }
             }
         };
 
-        await client.UpdateItemAsync(updateRequest);
+        try
+        {
+            await client.UpdateItemAsync(updateRequest);
+        }
+        catch (ConditionalCheckFailedException)
+        {
+            // TTL was already updated by another process, no action needed
+        }
     }
 }
