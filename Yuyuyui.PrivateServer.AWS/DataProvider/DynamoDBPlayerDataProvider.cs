@@ -68,7 +68,7 @@ public class DynamoDBPlayerDataProvider<TPlayerData, TIdentifier> : IPlayerDataP
 
         // DynamoDB BatchGetItem has a limit of 100 items per request
         const int batchSize = 100;
-        var results = new List<TPlayerData>();
+        var resultsDictionary = new Dictionary<TIdentifier, TPlayerData>();
 
         for (int i = 0; i < identifiers.Count; i += batchSize)
         {
@@ -93,24 +93,37 @@ public class DynamoDBPlayerDataProvider<TPlayerData, TIdentifier> : IPlayerDataP
 
             var batchResponse = await client.BatchGetItemAsync(batchRequest);
 
-            if (batchResponse.Responses.TryGetValue(PLAYER_DATA_TABLE_NAME, out var items))
+            if (!batchResponse.Responses.TryGetValue(PLAYER_DATA_TABLE_NAME, out var items)) continue;
+
+            // Store results in dictionary by identifier
+            foreach (var entity in items.Select(DeserializeEntity))
             {
-                results.AddRange(items.Select(DeserializeEntity));
+                resultsDictionary[entity.Identifier] = entity; // Index by ID
             }
         }
 
-        if (results.Count != identifiers.Count)
+        // Log warning if some items weren't found
+        if (resultsDictionary.Count != identifiers.Count)
         {
             Utils.LogWarning($"Requested to load {identifiers.Count} PlayerData of type {typeof(TPlayerData).Name}, " +
-                             $"but only {results.Count} PlayerData were found");
+                             $"but only {resultsDictionary.Count} were found");
         }
 
-        foreach (var result in results)
+        var orderedResults = new List<TPlayerData>(identifiers.Count);
+        foreach (var id in identifiers)
         {
-            Utils.LogTrace($"{typeof(TPlayerData).Name} #{result.Identifier} loaded with version {result._version}");
+            if (resultsDictionary.TryGetValue(id, out var entity))
+            {
+                orderedResults.Add(entity);
+                Utils.LogTrace($"{typeof(TPlayerData).Name} #{id} loaded with version {entity._version}");
+            }
+            else
+            {
+                throw new KeyNotFoundException($"{typeof(TPlayerData).Name} with ID {id} not found");
+            }
         }
 
-        return results;
+        return orderedResults;
     }
 
     public async Task Save(TPlayerData entity, TIdentifier id)
