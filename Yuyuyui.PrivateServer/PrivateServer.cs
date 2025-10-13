@@ -29,12 +29,20 @@ namespace Yuyuyui.PrivateServer
             await ResourceProvider.masterDataProvider.Initialize();
         }
 
-        public async static Task<PlayerProfile> RegisterNewPlayer(string uuid, string? code = null)
+        private static async Task<PlayerProfile> RegisterNewPlayer(string uuid, string? code = null)
         {
-            string newCode = Utils.GenerateRandomDigit(10);
-            while (await PlayerProfile.Exists(newCode))
+            string finalCode;
+            if (code == null)
             {
-                newCode = Utils.GenerateRandomDigit(10);
+                finalCode = Utils.GenerateRandomDigit(10);
+                while (await PlayerProfile.Exists(finalCode))
+                {
+                    finalCode = Utils.GenerateRandomDigit(10);
+                }
+            }
+            else
+            {
+                finalCode = code;
             }
             
             var player = new PlayerProfile
@@ -42,7 +50,7 @@ namespace Yuyuyui.PrivateServer
                 id = new()
                 {
                     uuid = uuid, 
-                    code = code ?? newCode
+                    code = finalCode
                 }
             };
 
@@ -55,46 +63,6 @@ namespace Yuyuyui.PrivateServer
             Utils.Log(string.Format(Resources.LOG_PS_REGISTER_NEW_PLAYER, player.id.code));
 
             return player;
-        }
-
-        public static async Task<PlayerProfile?> EnsureDummyPlayer()
-        {
-            const string DUMMY_CODE = "0000000001";
-            const string DUMMY_UUID = "0000000000000000000000000000000000000000000000000000000000000001";
-
-            if (await PlayerProfile.Exists(DUMMY_CODE))
-                return await PlayerProfile.Load(DUMMY_CODE);
-
-            var dummyPlayer = await RegisterNewPlayer(DUMMY_UUID, DUMMY_CODE);
-            dummyPlayer.profile.nickname = "無名な勇者さん";
-            dummyPlayer.profile.comment = "無名な勇者さん";
-            
-            var yuuna = await Card.DefaultYuuna();
-            yuuna.id = 1;
-
-            dummyPlayer.cards.Add(100010, yuuna.id);
-            await yuuna.Save();
-
-            var yuunaUnit = await yuuna.CreateUnit();
-            yuunaUnit.id = 1;
-            
-            await yuunaUnit.Save();
-            
-            var firstDeck = new Deck
-            {
-                id = 1,
-                leaderUnitID = yuunaUnit.id,
-                name = null,
-                units = new List<long> {yuunaUnit.id}
-            };
-            dummyPlayer.decks.Add(firstDeck.id);
-            await firstDeck.Save();
-            
-            await dummyPlayer.Save();
-
-            Utils.Log(Resources.LOG_PS_CREATED_DUMMY_PLAYER);
-
-            return dummyPlayer;
         }
 
         public static async Task<IPlayerProfileSessionProvider.PlayerSession> CreateSessionForPlayer(string uuid, EntityBase entity)

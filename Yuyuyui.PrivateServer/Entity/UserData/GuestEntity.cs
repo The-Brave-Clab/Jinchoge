@@ -22,13 +22,13 @@ public class GuestEntity : BaseEntity<GuestEntity>
     {
         // PlayerProfile player = await GetPlayerFromCookies();
 
-        var dummyPlayer = await PrivateServer.EnsureDummyPlayer();
+        var dummyPlayer = await PlayerProfile.Load(PlayerProfile.DUMMY_CODE);
 
         var responseObj = new Response
         {
             supporters = new Dictionary<long, Response.SupporterData>
             {
-                { long.Parse(dummyPlayer!.id.code), await Response.SupporterData.FromPlayer(dummyPlayer) },
+                { long.Parse(dummyPlayer.id.code), await Response.SupporterData.FromPlayer(dummyPlayer) },
                 //{ long.Parse(player.id.code), await Response.SupporterData.FromPlayer(player) },
             }
         };

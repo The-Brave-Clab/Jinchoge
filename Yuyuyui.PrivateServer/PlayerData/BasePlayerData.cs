@@ -12,7 +12,7 @@ namespace Yuyuyui.PrivateServer
         public abstract TIdentifier Identifier { get; }
         protected override string DataType => typeof(TSelf).Name;
 
-        public async Task Save()
+        public virtual async Task Save()
         {
             await PrivateServer.ResourceProvider.GetDataProvider<TSelf, TIdentifier>().Save((TSelf)this, Identifier);
         }

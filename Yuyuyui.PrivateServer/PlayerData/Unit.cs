@@ -15,6 +15,8 @@ public class Unit : BasePlayerData<Unit, long>
     public IList<long> accessories { get; set; } = new List<long>(); // Seirei ID
     public override long Identifier => id;
 
+    public const long DUMMY_UNIT_ID = 1;
+
     public static async Task<long> GetID()
     {
         long new_id = long.Parse(Utils.RandomStrFromChar("123456789", 1) + Utils.GenerateRandomDigit(8));
@@ -151,6 +153,29 @@ public class Unit : BasePlayerData<Unit, long>
     public async Task<Card?> Assist()
     {
         return assistCardID == null ? null : await Card.Load((long) assistCardID);
+    }
+
+    public new static async Task<Unit> Load(long id)
+    {
+        if (id != DUMMY_UNIT_ID)
+            return await BasePlayerData<Unit, long>.Load(id);
+
+        return new Unit
+        {
+            id = DUMMY_UNIT_ID,
+            baseCardID = Card.DUMMY_CARD_ID,
+            supportCardID = null,
+            supportCard2ID = null,
+            assistCardID = null,
+            accessories = new List<long>(),
+        };
+    }
+
+    public override async Task Save()
+    {
+        if (id == DUMMY_UNIT_ID)
+            return;
+        await base.Save();
     }
 
     // This is used for JSON response

@@ -42,9 +42,11 @@ namespace Yuyuyui.PrivateServer
         public Transactions transactions { get; set; } = new();
 
         public override string Identifier => id.code;
-        
-        
 
+        public const string DUMMY_CODE = "0000000001";
+        public const string DUMMY_UUID = "0000000000000000000000000000000000000000000000000000000000000001";
+        public const string DUMMY_NICKNAME = "無名な勇者さん";
+        public const string DUMMY_COMMENT = "無名な勇者さん";
 
         public async Task<CharacterFamiliarityWithAssist> GetCharacterFamiliarity(long characterId1, long characterId2)
         {
@@ -256,6 +258,37 @@ namespace Yuyuyui.PrivateServer
                 .Where(card => card.level >= MINIMAL_CARD_LEVEL)
                 .Where(card => card.evolution_level >= MINIMAL_EVOLUTION_LEVEL)
                 .Select(card => card.MasterData().BaseCardId);
+        }
+
+        public new static async Task<PlayerProfile> Load(string identifier)
+        {
+            if (identifier != DUMMY_CODE)
+                return await BasePlayerData<PlayerProfile, string>.Load(identifier);
+
+            var dummyPlayer = new PlayerProfile
+            {
+                id = new()
+                {
+                    uuid = DUMMY_UUID, 
+                    code = DUMMY_CODE
+                },
+                profile =
+                {
+                    nickname = DUMMY_NICKNAME,
+                    comment = DUMMY_COMMENT
+                }
+            };
+            dummyPlayer.cards.Add(100011, Card.DUMMY_CARD_ID);
+            dummyPlayer.decks.Add(Deck.DUMMY_DECK_ID);
+
+            return dummyPlayer;
+        }
+
+        public override async Task Save()
+        {
+            if (id.code == DUMMY_CODE)
+                return;
+            await base.Save();
         }
         
 

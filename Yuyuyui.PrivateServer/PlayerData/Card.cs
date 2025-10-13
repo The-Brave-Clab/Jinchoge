@@ -19,6 +19,8 @@ namespace Yuyuyui.PrivateServer
         public int evolution_level { get; set; }
         public int base_sp_increment { get; set; }
 
+        public const long DUMMY_CARD_ID = 1;
+
         // for different level of Taisha Point bonus
         // Maybe consider changing getter/setter?
         //public float exchange_point_rate { get; set; } // 0.0, 1.0, 2.0, 3.0, 5.0
@@ -179,6 +181,32 @@ namespace Yuyuyui.PrivateServer
             }
 
             await Save();
+        }
+
+        public new static async Task<Card> Load(long id)
+        {
+            if (id != DUMMY_CARD_ID)
+                return await BasePlayerData<Card, long>.Load(id);
+
+            return new Card
+            {
+                id = DUMMY_CARD_ID,
+                master_id = 100011,
+                level = 15,
+                exp = 10000,
+                potential = 0,
+                active_skill_level = 1,
+                support_skill_level = 1,
+                evolution_level = 2,
+                base_sp_increment = 0
+            };
+        }
+
+        public override async Task Save()
+        {
+            if (id == DUMMY_CARD_ID)
+                return;
+            await base.Save();
         }
     }
 
