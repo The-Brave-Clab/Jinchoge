@@ -4,69 +4,68 @@ using System.Linq;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
 
-namespace Yuyuyui.PrivateServer
+namespace Yuyuyui.PrivateServer;
+
+public class AutoClearTicketsEntity : BaseEntity<AutoClearTicketsEntity>
 {
-    public class AutoClearTicketsEntity : BaseEntity<AutoClearTicketsEntity>
+    public AutoClearTicketsEntity(
+        Uri requestUri,
+        string httpMethod,
+        Dictionary<string, string> requestHeaders,
+        byte[] requestBody,
+        RouteConfig config)
+        : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
-        public AutoClearTicketsEntity(
-            Uri requestUri,
-            string httpMethod,
-            Dictionary<string, string> requestHeaders,
-            byte[] requestBody,
-            RouteConfig config)
-            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
+    }
+
+    protected override async Task ProcessRequest()
+    {
+        var playerId = await GetPlayerIdFromCookies();
+
+        bool infiniteItems;
+        IDictionary<long, long> playerAutoClearTickets;
+        await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
         {
+            var player = await PlayerProfile.Load(playerId.code);
+            infiniteItems = await PrivateServer.ResourceProvider.inGameConfigProvider.GetInfiniteItems(player);
+            playerAutoClearTickets = player.items.autoClearTickets;
         }
 
-        protected override async Task ProcessRequest()
+        Response responseObj;
+        if (infiniteItems)
         {
-            var playerId = await GetPlayerIdFromCookies();
-
-            bool infiniteItems;
-            IDictionary<long, long> playerAutoClearTickets;
-            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
+            await using ItemsContext itemsDb = new();
+            responseObj = new()
             {
-                var player = await PlayerProfile.Load(playerId.code);
-                infiniteItems = await PrivateServer.ResourceProvider.inGameConfigProvider.GetInfiniteItems(player);
-                playerAutoClearTickets = player.items.autoClearTickets;
-            }
-
-            Response responseObj;
-            if (infiniteItems)
+                tickets = itemsDb.AutoClearTickets
+                    .Select(t => new Item
+                    {
+                        id = t.Id,
+                        master_id = t.Id,
+                        quantity = 999
+                    })
+                    .ToList()
+            };
+        }
+        else
+        {
+            var autoClearTickets = await Item.LoadMany(
+                playerAutoClearTickets
+                    .Select(p => p.Value));
+            responseObj = new()
             {
-                await using ItemsContext itemsDb = new();
-                responseObj = new()
-                {
-                    tickets = itemsDb.AutoClearTickets
-                        .Select(t => new Item
-                        {
-                            id = t.Id,
-                            master_id = t.Id,
-                            quantity = 999
-                        })
-                        .ToList()
-                };
-            }
-            else
-            {
-                var autoClearTickets = await Item.LoadMany(
-                    playerAutoClearTickets
-                        .Select(p => p.Value));
-                responseObj = new()
-                {
-                    tickets = autoClearTickets
-                        .Where(t => t.quantity > 0)
-                        .ToList()
-                };
-            }
-
-            responseBody = Serialize(responseObj);
-            SetBasicResponseHeaders();
+                tickets = autoClearTickets
+                    .Where(t => t.quantity > 0)
+                    .ToList()
+            };
         }
 
-        public class Response
-        {
-            public IList<Item> tickets { get; set; } = new List<Item>();
-        }
+        responseBody = Serialize(responseObj);
+        SetBasicResponseHeaders();
+    }
+
+    public class Response
+    {
+        public IList<Item> tickets { get; set; } = new List<Item>();
     }
 }

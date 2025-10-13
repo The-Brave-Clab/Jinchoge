@@ -3,58 +3,57 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Yuyuyui.PrivateServer
+namespace Yuyuyui.PrivateServer;
+
+public class ClubWorkingSlotEntity : BaseEntity<ClubWorkingSlotEntity>
 {
-    public class ClubWorkingSlotEntity : BaseEntity<ClubWorkingSlotEntity>
+    public ClubWorkingSlotEntity(
+        Uri requestUri,
+        string httpMethod,
+        Dictionary<string, string> requestHeaders,
+        byte[] requestBody,
+        RouteConfig config)
+        : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
-        public ClubWorkingSlotEntity(
-            Uri requestUri,
-            string httpMethod,
-            Dictionary<string, string> requestHeaders,
-            byte[] requestBody,
-            RouteConfig config)
-            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
-        {
-        }
+    }
 
-        protected override async Task ProcessRequest()
-        {
-            var playerId = await GetPlayerIdFromCookies();
+    protected override async Task ProcessRequest()
+    {
+        var playerId = await GetPlayerIdFromCookies();
 
-            IList<long> playerSlots;
-            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
+        IList<long> playerSlots;
+        await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
+        {
+            var player = await PlayerProfile.Load(playerId.code);
+
+            if (player.clubWorkingSlots.Count == 0)
             {
-                var player = await PlayerProfile.Load(playerId.code);
-
-                if (player.clubWorkingSlots.Count == 0)
+                player.clubWorkingSlots = new List<long>(3);
+                for (int i = 0; i < 3; ++i)
                 {
-                    player.clubWorkingSlots = new List<long>(3);
-                    for (int i = 0; i < 3; ++i)
-                    {
-                        var newSlot = await ClubWorkingSlot.NewEmptySlot();
-                        player.clubWorkingSlots.Add(newSlot.id);
-                        await newSlot.Save();
-                    }
-
-                    await player.Save();
+                    var newSlot = await ClubWorkingSlot.NewEmptySlot();
+                    player.clubWorkingSlots.Add(newSlot.id);
+                    await newSlot.Save();
                 }
 
-                // Utils.LogWarning("Stub API! Process finished club working here!");
-                playerSlots = player.clubWorkingSlots;
+                await player.Save();
             }
 
-            Response responseObj = new()
-            {
-                club_working_slots = (await ClubWorkingSlot.LoadMany(playerSlots)).ToList()
-            };
-
-            responseBody = Serialize(responseObj);
-            SetBasicResponseHeaders();
+            // Utils.LogWarning("Stub API! Process finished club working here!");
+            playerSlots = player.clubWorkingSlots;
         }
 
-        public class Response
+        Response responseObj = new()
         {
-            public IList<ClubWorkingSlot> club_working_slots { get; set; } = new List<ClubWorkingSlot>();
-        }
+            club_working_slots = (await ClubWorkingSlot.LoadMany(playerSlots)).ToList()
+        };
+
+        responseBody = Serialize(responseObj);
+        SetBasicResponseHeaders();
+    }
+
+    public class Response
+    {
+        public IList<ClubWorkingSlot> club_working_slots { get; set; } = new List<ClubWorkingSlot>();
     }
 }

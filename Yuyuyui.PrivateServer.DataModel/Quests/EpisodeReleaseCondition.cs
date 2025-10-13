@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Yuyuyui.PrivateServer.DataModel
+namespace Yuyuyui.PrivateServer.DataModel;
+
+public partial class EpisodeReleaseCondition
 {
-    public partial class EpisodeReleaseCondition
-    {
-        public long Id { get; set; }
-        public long EpisodeId { get; set; }
-        public long? FinishEpisodeId { get; set; } = null;
-    }
+    public long Id { get; set; }
+    public long EpisodeId { get; set; }
+    public long? FinishEpisodeId { get; set; } = null;
 }

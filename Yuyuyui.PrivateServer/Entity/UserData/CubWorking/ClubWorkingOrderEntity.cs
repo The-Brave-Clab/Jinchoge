@@ -4,105 +4,104 @@ using System.Linq;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
 
-namespace Yuyuyui.PrivateServer
+namespace Yuyuyui.PrivateServer;
+
+public class ClubWorkingOrderEntity : BaseEntity<ClubWorkingOrderEntity>
 {
-    public class ClubWorkingOrderEntity : BaseEntity<ClubWorkingOrderEntity>
+    public ClubWorkingOrderEntity(
+        Uri requestUri,
+        string httpMethod,
+        Dictionary<string, string> requestHeaders,
+        byte[] requestBody,
+        RouteConfig config)
+        : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
-        public ClubWorkingOrderEntity(
-            Uri requestUri,
-            string httpMethod,
-            Dictionary<string, string> requestHeaders,
-            byte[] requestBody,
-            RouteConfig config)
-            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
+    }
+
+    protected override async Task ProcessRequest()
+    {
+        var playerId = await GetPlayerIdFromCookies();
+
+        bool infiniteItems;
+        IList<long> playerClubOrders;
+        await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
         {
+            var player = await PlayerProfile.Load(playerId.code);
+            infiniteItems = await PrivateServer.ResourceProvider.inGameConfigProvider.GetInfiniteItems(player);
+            playerClubOrders = player.clubOrders;
         }
 
-        protected override async Task ProcessRequest()
-        {
-            var playerId = await GetPlayerIdFromCookies();
+        // Utils.LogWarning("Reward boxes of club orders not filled!");
 
-            bool infiniteItems;
-            IList<long> playerClubOrders;
-            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
+        Response responseObj;
+        if (infiniteItems)
+        {
+            List<DataModel.ClubOrder> clubOrders;
+            List<ClubOrderRewardBox> clubOrderRewardBoxes;
+            await using (ClubWorkingsContext clubWorkingsDb = new())
             {
-                var player = await PlayerProfile.Load(playerId.code);
-                infiniteItems = await PrivateServer.ResourceProvider.inGameConfigProvider.GetInfiniteItems(player);
-                playerClubOrders = player.clubOrders;
+                clubOrders = clubWorkingsDb.ClubOrders.ToList();
+                clubOrderRewardBoxes = clubWorkingsDb.ClubOrderRewardBoxes.ToList();
             }
 
-            // Utils.LogWarning("Reward boxes of club orders not filled!");
-
-            Response responseObj;
-            if (infiniteItems)
+            responseObj = new()
             {
-                List<DataModel.ClubOrder> clubOrders;
-                List<ClubOrderRewardBox> clubOrderRewardBoxes;
-                await using (ClubWorkingsContext clubWorkingsDb = new())
-                {
-                    clubOrders = clubWorkingsDb.ClubOrders.ToList();
-                    clubOrderRewardBoxes = clubWorkingsDb.ClubOrderRewardBoxes.ToList();
-                }
-
-                responseObj = new()
-                {
-                    club_orders = clubOrders
-                        .Select(o => new Response.ClubOrderWithReward
+                club_orders = clubOrders
+                    .Select(o => new Response.ClubOrderWithReward
+                    {
+                        id = o.Id,
+                        master_id = o.Id,
+                        quantity = 999,
+                        reward_boxes = new List<long?>
                             {
-                                id = o.Id,
-                                master_id = o.Id,
-                                quantity = 999,
-                                reward_boxes = new List<long?>
-                                    {
-                                        o.RewardBox1Id,
-                                        o.RewardBox2Id,
-                                        o.RewardBox3Id
-                                    }
-                                    .Where(id => id != null)
-                                    .Select(id => (long)id!)
-                                    .Select(id => clubOrderRewardBoxes.FirstOrDefault(box => box.Id == id))
-                                    .Where(box => box != null)
-                                    .Select(box => new ClubOrder.RewardBox
-                                    {
-                                        id = box!.Id,
-                                        title = box!.Title
-                                    })
-                                    .ToList()
+                                o.RewardBox1Id,
+                                o.RewardBox2Id,
+                                o.RewardBox3Id
+                            }
+                            .Where(id => id != null)
+                            .Select(id => (long)id!)
+                            .Select(id => clubOrderRewardBoxes.FirstOrDefault(box => box.Id == id))
+                            .Where(box => box != null)
+                            .Select(box => new ClubOrder.RewardBox
+                            {
+                                id = box!.Id,
+                                title = box!.Title
                             })
-                        .ToList()
-                };
-            }
-            else
+                            .ToList()
+                    })
+                    .ToList()
+            };
+        }
+        else
+        {
+            var orders = await ClubOrder.LoadMany(playerClubOrders);
+            responseObj = new()
             {
-                var orders = await ClubOrder.LoadMany(playerClubOrders);
-                responseObj = new()
-                {
-                    club_orders = orders
-                        .Select(order => new Response.ClubOrderWithReward
-                        {
-                            id = order.id,
-                            master_id = order.master_id,
-                            quantity = order.quantity,
-                            reward_boxes = new List<ClubOrder.RewardBox>()
-                        }).ToList()
-                };
-            }
-
-            responseBody = Serialize(responseObj);
-            SetBasicResponseHeaders();
+                club_orders = orders
+                    .Select(order => new Response.ClubOrderWithReward
+                    {
+                        id = order.id,
+                        master_id = order.master_id,
+                        quantity = order.quantity,
+                        reward_boxes = new List<ClubOrder.RewardBox>()
+                    }).ToList()
+            };
         }
 
-        public class Response
-        {
-            public IList<ClubOrderWithReward> club_orders { get; set; } = new List<ClubOrderWithReward>();
+        responseBody = Serialize(responseObj);
+        SetBasicResponseHeaders();
+    }
 
-            public class ClubOrderWithReward
-            {
-                public long id { get; set; }
-                public long master_id { get; set; }
-                public int quantity { get; set; }
-                public IList<ClubOrder.RewardBox> reward_boxes { get; set; } = new List<ClubOrder.RewardBox>();
-            }
+    public class Response
+    {
+        public IList<ClubOrderWithReward> club_orders { get; set; } = new List<ClubOrderWithReward>();
+
+        public class ClubOrderWithReward
+        {
+            public long id { get; set; }
+            public long master_id { get; set; }
+            public int quantity { get; set; }
+            public IList<ClubOrder.RewardBox> reward_boxes { get; set; } = new List<ClubOrder.RewardBox>();
         }
     }
 }

@@ -3,57 +3,56 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
 
-namespace Yuyuyui.PrivateServer
+namespace Yuyuyui.PrivateServer;
+
+public class UpdateFellowRequestEntity : BaseEntity<UpdateFellowRequestEntity>
 {
-    public class UpdateFellowRequestEntity : BaseEntity<UpdateFellowRequestEntity>
+    public UpdateFellowRequestEntity(
+        Uri requestUri,
+        string httpMethod,
+        Dictionary<string, string> requestHeaders,
+        byte[] requestBody,
+        RouteConfig config)
+        : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
-        public UpdateFellowRequestEntity(
-            Uri requestUri,
-            string httpMethod,
-            Dictionary<string, string> requestHeaders,
-            byte[] requestBody,
-            RouteConfig config)
-            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
-        {
-        }
+    }
 
-        protected override async Task ProcessRequest()
-        {
-            //var player = GetPlayerFromCookies();
+    protected override async Task ProcessRequest()
+    {
+        //var player = GetPlayerFromCookies();
             
-            long requestID = long.Parse(GetPathParameter("request_id"));
-            FriendRequest friendRequest = await FriendRequest.Load(requestID);
+        long requestID = long.Parse(GetPathParameter("request_id"));
+        FriendRequest friendRequest = await FriendRequest.Load(requestID);
 
-            Request requestObj = Deserialize<Request>(requestBody)!;
+        Request requestObj = Deserialize<Request>(requestBody)!;
             
-            // Update the friend request
-            friendRequest.status = requestObj.fellow_request.status;
-            await friendRequest.ProcessStatus(); // should ultimately delete the request file
+        // Update the friend request
+        friendRequest.status = requestObj.fellow_request.status;
+        await friendRequest.ProcessStatus(); // should ultimately delete the request file
 
-            Response responseObj = new()
-            {
-                fellow_request =
-                    await FellowRequestEntity.Response.Data.FromFriendRequest(friendRequest)
-            };
+        Response responseObj = new()
+        {
+            fellow_request =
+                await FellowRequestEntity.Response.Data.FromFriendRequest(friendRequest)
+        };
             
-            responseBody = Serialize(responseObj);
-            SetBasicResponseHeaders();
-        }
+        responseBody = Serialize(responseObj);
+        SetBasicResponseHeaders();
+    }
 
-        public class Request
+    public class Request
+    {
+        public long id { get; set; }
+        public FellowRequestStatus fellow_request { get; set; } = new FellowRequestStatus();
+
+        public class FellowRequestStatus
         {
-            public long id { get; set; }
-            public FellowRequestStatus fellow_request { get; set; } = new FellowRequestStatus();
-
-            public class FellowRequestStatus
-            {
-                public int status { get; set; }
-            }
+            public int status { get; set; }
         }
+    }
 
-        public class Response
-        {
-            public FellowRequestEntity.Response.Data fellow_request { get; set; } = new();
-        }
+    public class Response
+    {
+        public FellowRequestEntity.Response.Data fellow_request { get; set; } = new();
     }
 }

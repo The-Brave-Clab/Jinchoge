@@ -1,8 +1,7 @@
 using ReactiveUI;
 
-namespace Yuyuyui.PrivateServer.GUI.ViewModels
+namespace Yuyuyui.PrivateServer.GUI.ViewModels;
+
+public class ViewModelBase : ReactiveObject
 {
-    public class ViewModelBase : ReactiveObject
-    {
-    }
 }

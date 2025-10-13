@@ -2,52 +2,51 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Yuyuyui.PrivateServer
+namespace Yuyuyui.PrivateServer;
+
+public class RequirementVersionEntity : BaseEntity<RequirementVersionEntity>
 {
-    public class RequirementVersionEntity : BaseEntity<RequirementVersionEntity>
+    public RequirementVersionEntity(
+        Uri requestUri,
+        string httpMethod,
+        Dictionary<string, string> requestHeaders,
+        byte[] requestBody,
+        RouteConfig config)
+        : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
-        public RequirementVersionEntity(
-            Uri requestUri,
-            string httpMethod,
-            Dictionary<string, string> requestHeaders,
-            byte[] requestBody,
-            RouteConfig config)
-            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
-        {
-        }
+    }
 
-        protected override Task ProcessRequest()
+    protected override Task ProcessRequest()
+    {
+        Response responseObj = new()
         {
-            Response responseObj = new()
+            requirement_version = new()
             {
-                requirement_version = new()
-                {
-                    version = PrivateServer.YUYUYUI_APP_VERSION,
-                    need_update = false,
-                    review = false,
-                    api_server = RequestAuthority,
-                    enable_cooperation = false
-                }
-            };
-
-            responseBody = Serialize(responseObj);
-            SetBasicResponseHeaders();
-
-            return Task.CompletedTask;
-        }
-
-        public class Response
-        {
-            public RequirementVersion requirement_version { get; set; } = new();
-
-            public class RequirementVersion
-            {
-                public string version { get; set; } = "";
-                public bool need_update { get; set; }
-                public bool review { get; set; }
-                public string api_server { get; set; } = "";
-                public bool enable_cooperation { get; set; }
+                version = PrivateServer.YUYUYUI_APP_VERSION,
+                need_update = false,
+                review = false,
+                api_server = RequestAuthority,
+                enable_cooperation = false
             }
+        };
+
+        responseBody = Serialize(responseObj);
+        SetBasicResponseHeaders();
+
+        return Task.CompletedTask;
+    }
+
+    public class Response
+    {
+        public RequirementVersion requirement_version { get; set; } = new();
+
+        public class RequirementVersion
+        {
+            public string version { get; set; } = "";
+            public bool need_update { get; set; }
+            public bool review { get; set; }
+            public string api_server { get; set; } = "";
+            public bool enable_cooperation { get; set; }
         }
     }
 }

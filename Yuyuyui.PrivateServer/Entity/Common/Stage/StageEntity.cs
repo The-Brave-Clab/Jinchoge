@@ -4,129 +4,128 @@ using System.Linq;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
 
-namespace Yuyuyui.PrivateServer
+namespace Yuyuyui.PrivateServer;
+
+public class StageEntity : BaseEntity<StageEntity>
 {
-    public class StageEntity : BaseEntity<StageEntity>
+    public StageEntity(
+        Uri requestUri,
+        string httpMethod,
+        Dictionary<string, string> requestHeaders,
+        byte[] requestBody,
+        RouteConfig config)
+        : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
-        public StageEntity(
-            Uri requestUri,
-            string httpMethod,
-            Dictionary<string, string> requestHeaders,
-            byte[] requestBody,
-            RouteConfig config)
-            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
+    }
+
+    protected override async Task ProcessRequest()
+    {
+        var playerId = await GetPlayerIdFromCookies();
+
+        long chapterId = long.Parse(GetPathParameter("chapter_id"));
+        long episodeId = long.Parse(GetPathParameter("episode_id"));
+
+        // Utils.LogWarning("Many status not filled.");
+
+        List<Stage> targetStages;
+        await using (QuestsContext questsDb = new())
         {
+            targetStages = questsDb.Stages
+                .Where(s => s.ChapterId == chapterId && s.EpisodeId == episodeId)
+                .ToList();
         }
 
-        protected override async Task ProcessRequest()
+        Response.Stage[] responseStages;
+        await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
         {
-            var playerId = await GetPlayerIdFromCookies();
-
-            long chapterId = long.Parse(GetPathParameter("chapter_id"));
-            long episodeId = long.Parse(GetPathParameter("episode_id"));
-
-            // Utils.LogWarning("Many status not filled.");
-
-            List<Stage> targetStages;
-            await using (QuestsContext questsDb = new())
-            {
-                targetStages = questsDb.Stages
-                    .Where(s => s.ChapterId == chapterId && s.EpisodeId == episodeId)
-                    .ToList();
-            }
-
-            Response.Stage[] responseStages;
-            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
-            {
-                var player = await PlayerProfile.Load(playerId.code);
-                responseStages = await targetStages
-                    .Select(s => Response.Stage.GetFromDatabase(s, player))
-                    .WhenAll();
-            }
-
-            Response responseObj = new()
-            {
-                // Checking for chapter id might not be necessary
-                stages = responseStages.ToDictionary(s => s.id, s => s)
-            };
-
-            responseBody = Serialize(responseObj);
-            SetBasicResponseHeaders();
+            var player = await PlayerProfile.Load(playerId.code);
+            responseStages = await targetStages
+                .Select(s => Response.Stage.GetFromDatabase(s, player))
+                .WhenAll();
         }
 
-        public class Response
+        Response responseObj = new()
         {
-            public IDictionary<long, Stage> stages { get; set; } = new Dictionary<long, Stage>();
+            // Checking for chapter id might not be necessary
+            stages = responseStages.ToDictionary(s => s.id, s => s)
+        };
 
-            public class Stage
+        responseBody = Serialize(responseObj);
+        SetBasicResponseHeaders();
+    }
+
+    public class Response
+    {
+        public IDictionary<long, Stage> stages { get; set; } = new Dictionary<long, Stage>();
+
+        public class Stage
+        {
+            public long id { get; set; } // When dealing with transaction, this should be the id of the player progress
+            public long master_id { get; set; }
+            public bool finish { get; set; }
+            public int score_finished_count { get; set; } // star count
+            public bool locked { get; set; }
+            public float campaign_exchange_point_rate { get; set; }
+            public float campaign_stamina_rate { get; set; }
+            public long? end_at_stamina_campaign { get; set; } = null; // unixtime
+            public long? stage_by_level_end_at { get; set; } // unixtime
+            public bool play_auto_clear { get; set; } // flag for enabling auto play
+            public bool? no_friend { get; set; } = null; // only saw null
+
+            public static async Task<Stage> GetFromDatabase(Yuyuyui.PrivateServer.DataModel.Stage dbStage, PlayerProfile player)
             {
-                public long id { get; set; } // When dealing with transaction, this should be the id of the player progress
-                public long master_id { get; set; }
-                public bool finish { get; set; }
-                public int score_finished_count { get; set; } // star count
-                public bool locked { get; set; }
-                public float campaign_exchange_point_rate { get; set; }
-                public float campaign_stamina_rate { get; set; }
-                public long? end_at_stamina_campaign { get; set; } = null; // unixtime
-                public long? stage_by_level_end_at { get; set; } // unixtime
-                public bool play_auto_clear { get; set; } // flag for enabling auto play
-                public bool? no_friend { get; set; } = null; // only saw null
-
-                public static async Task<Stage> GetFromDatabase(Yuyuyui.PrivateServer.DataModel.Stage dbStage, PlayerProfile player)
+                Stage result = new()
                 {
-                    Stage result = new()
-                    {
-                        id = dbStage.Id,
-                        master_id = dbStage.Id,
-                        finish = false,
-                        score_finished_count = 0,
-                        locked = false, // TODO
-                        campaign_exchange_point_rate = dbStage.ExchangePointRate,
-                        campaign_stamina_rate = 1, // TODO
-                        end_at_stamina_campaign = null, // ?
-                        stage_by_level_end_at = 1869663600,
-                        play_auto_clear = false,
-                        no_friend = dbStage.NoFriend == 1
-                    };
+                    id = dbStage.Id,
+                    master_id = dbStage.Id,
+                    finish = false,
+                    score_finished_count = 0,
+                    locked = false, // TODO
+                    campaign_exchange_point_rate = dbStage.ExchangePointRate,
+                    campaign_stamina_rate = 1, // TODO
+                    end_at_stamina_campaign = null, // ?
+                    stage_by_level_end_at = 1869663600,
+                    play_auto_clear = false,
+                    no_friend = dbStage.NoFriend == 1
+                };
 
-                    if (player.progress.stages.TryGetValue(dbStage.Id, out var stage))
-                    {
-                        StageProgress progress = await StageProgress.Load(stage);
-                        result.finish = progress.finished;
+                if (player.progress.stages.TryGetValue(dbStage.Id, out var stage))
+                {
+                    StageProgress progress = await StageProgress.Load(stage);
+                    result.finish = progress.finished;
 
-                        // Scenario only stages will also affect the total star count of the episode
-                        // so we manually set it to zero
-                        if (dbStage.Kind == 0)
-                        {
-                            result.score_finished_count = 0;
-                        }
-                        else if (progress.finished)
-                        {
-                            result.score_finished_count = 1;
-                            if (progress.finishedInTime)
-                                ++result.score_finished_count;
-                            if (progress.finishedNoInjury)
-                                ++result.score_finished_count;
-                        }
-                        else
-                        {
-                            result.score_finished_count = 0;
-                        }
+                    // Scenario only stages will also affect the total star count of the episode
+                    // so we manually set it to zero
+                    if (dbStage.Kind == 0)
+                    {
+                        result.score_finished_count = 0;
                     }
-
-                    // TODO: check config of unlocking all difficulties, left it here for easier debugging
-                    // Leave the scenario only stage as-is, 
-                    // for better indication of whether the player has already watched it.
-                    if (dbStage.Kind != 0 && await PrivateServer.ResourceProvider.inGameConfigProvider.GetUnlockAllDifficulties(player))
+                    else if (progress.finished)
                     {
-                        // To trick the client to unlock the hard and expert difficulty for us,
-                        // we can just 3 star every non-scenario stage.
-                        result.finish = true;
-                        result.score_finished_count = 3;
+                        result.score_finished_count = 1;
+                        if (progress.finishedInTime)
+                            ++result.score_finished_count;
+                        if (progress.finishedNoInjury)
+                            ++result.score_finished_count;
                     }
-
-                    return result;
+                    else
+                    {
+                        result.score_finished_count = 0;
+                    }
                 }
+
+                // TODO: check config of unlocking all difficulties, left it here for easier debugging
+                // Leave the scenario only stage as-is, 
+                // for better indication of whether the player has already watched it.
+                if (dbStage.Kind != 0 && await PrivateServer.ResourceProvider.inGameConfigProvider.GetUnlockAllDifficulties(player))
+                {
+                    // To trick the client to unlock the hard and expert difficulty for us,
+                    // we can just 3 star every non-scenario stage.
+                    result.finish = true;
+                    result.score_finished_count = 3;
+                }
+
+                return result;
             }
         }
     }

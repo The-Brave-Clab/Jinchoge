@@ -3,83 +3,82 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
 
-namespace Yuyuyui.PrivateServer
+namespace Yuyuyui.PrivateServer;
+
+public class DeckUpdateEntity : BaseEntity<DeckUpdateEntity>
 {
-    public class DeckUpdateEntity : BaseEntity<DeckUpdateEntity>
+    public DeckUpdateEntity(
+        Uri requestUri,
+        string httpMethod,
+        Dictionary<string, string> requestHeaders,
+        byte[] requestBody,
+        RouteConfig config)
+        : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
-        public DeckUpdateEntity(
-            Uri requestUri,
-            string httpMethod,
-            Dictionary<string, string> requestHeaders,
-            byte[] requestBody,
-            RouteConfig config)
-            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
+    }
+
+    protected override async Task ProcessRequest()
+    {
+        var playerId = await GetPlayerIdFromCookies();
+
+        Request requestObj = Deserialize<Request>(requestBody)!;
+
+        Deck targetDeck = await Deck.Load(requestObj.deck.id);
+        targetDeck.name = requestObj.deck.name;
+
+        foreach (var unitUpdateRequest in requestObj.deck.cards)
         {
+            Unit targetUnit = await Unit.Load(unitUpdateRequest.deck_card_id);
+            targetUnit.baseCardID = unitUpdateRequest.user_card_id;
+            targetUnit.supportCardID = unitUpdateRequest.support_user_card_id;
+            targetUnit.supportCard2ID = unitUpdateRequest.support_user_card_2_id;
+            targetUnit.assistCardID = unitUpdateRequest.assist_user_card_id;
+            targetUnit.accessories = unitUpdateRequest.accessory_ids ??= new List<long>();
+            await targetUnit.Save();
         }
 
-        protected override async Task ProcessRequest()
+        await targetDeck.Save();
+
+        Response responseObj;
+        await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
         {
-            var playerId = await GetPlayerIdFromCookies();
-
-            Request requestObj = Deserialize<Request>(requestBody)!;
-
-            Deck targetDeck = await Deck.Load(requestObj.deck.id);
-            targetDeck.name = requestObj.deck.name;
-
-            foreach (var unitUpdateRequest in requestObj.deck.cards)
+            var player = await PlayerProfile.Load(playerId.code);
+            responseObj = new()
             {
-                Unit targetUnit = await Unit.Load(unitUpdateRequest.deck_card_id);
-                targetUnit.baseCardID = unitUpdateRequest.user_card_id;
-                targetUnit.supportCardID = unitUpdateRequest.support_user_card_id;
-                targetUnit.supportCard2ID = unitUpdateRequest.support_user_card_2_id;
-                targetUnit.assistCardID = unitUpdateRequest.assist_user_card_id;
-                targetUnit.accessories = unitUpdateRequest.accessory_ids ??= new List<long>();
-                await targetUnit.Save();
-            }
-
-            await targetDeck.Save();
-
-            Response responseObj;
-            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
-            {
-                var player = await PlayerProfile.Load(playerId.code);
-                responseObj = new()
-                {
-                    deck = await DeckEntity.Response.Deck.FromPlayerDeck(targetDeck, player)
-                };
-            }
-
-            responseBody = Serialize(responseObj);
-            SetBasicResponseHeaders();
+                deck = await DeckEntity.Response.Deck.FromPlayerDeck(targetDeck, player)
+            };
         }
 
-        public class Request
+        responseBody = Serialize(responseObj);
+        SetBasicResponseHeaders();
+    }
+
+    public class Request
+    {
+        public Deck deck { get; set; } = new();
+
+        public class Deck
         {
-            public Deck deck { get; set; } = new();
+            public IList<UpdateDeckCard> cards { get; set; } = new List<UpdateDeckCard>();
+            public long id { get; set; }
+            public string? name { get; set; } = "";
 
-            public class Deck
+            public class UpdateDeckCard
             {
-                public IList<UpdateDeckCard> cards { get; set; } = new List<UpdateDeckCard>();
-                public long id { get; set; }
-                public string? name { get; set; } = "";
-
-                public class UpdateDeckCard
-                {
-                    public long setId { get; set; } // ignored
-                    public long deckId { get; set; } // ignored
-                    public long deck_card_id { get; set; } // unit id
-                    public long? user_card_id { get; set; } = null; // leader card id
-                    public long? support_user_card_id { get; set; } = null;
-                    public long? support_user_card_2_id { get; set; } = null;
-                    public long? assist_user_card_id { get; set; } = null;
-                    public IList<long>? accessory_ids { get; set; } = null;
-                }
+                public long setId { get; set; } // ignored
+                public long deckId { get; set; } // ignored
+                public long deck_card_id { get; set; } // unit id
+                public long? user_card_id { get; set; } = null; // leader card id
+                public long? support_user_card_id { get; set; } = null;
+                public long? support_user_card_2_id { get; set; } = null;
+                public long? assist_user_card_id { get; set; } = null;
+                public IList<long>? accessory_ids { get; set; } = null;
             }
         }
+    }
 
-        public class Response
-        {
-            public DeckEntity.Response.Deck deck { get; set; } = new();
-        }
+    public class Response
+    {
+        public DeckEntity.Response.Deck deck { get; set; } = new();
     }
 }

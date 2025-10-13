@@ -1,12 +1,11 @@
 ﻿using Avalonia.Controls;
 
-namespace Yuyuyui.PrivateServer.GUI.Views
+namespace Yuyuyui.PrivateServer.GUI.Views;
+
+public partial class ConnectToProxyView : HelpSubViewBase
 {
-    public partial class ConnectToProxyView : HelpSubViewBase
+    public ConnectToProxyView()
     {
-        public ConnectToProxyView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

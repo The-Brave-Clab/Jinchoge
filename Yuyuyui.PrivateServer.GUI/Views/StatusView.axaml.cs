@@ -1,12 +1,11 @@
 using Avalonia.Controls;
 
-namespace Yuyuyui.PrivateServer.GUI.Views
+namespace Yuyuyui.PrivateServer.GUI.Views;
+
+public partial class StatusView : UserControl
 {
-    public partial class StatusView : UserControl
+    public StatusView()
     {
-        public StatusView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -1,12 +1,11 @@
 using Avalonia.Controls;
 
-namespace Yuyuyui.PrivateServer.GUI.Views
+namespace Yuyuyui.PrivateServer.GUI.Views;
+
+public partial class SettingsView : UserControl
 {
-    public partial class SettingsView : UserControl
+    public SettingsView()
     {
-        public SettingsView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

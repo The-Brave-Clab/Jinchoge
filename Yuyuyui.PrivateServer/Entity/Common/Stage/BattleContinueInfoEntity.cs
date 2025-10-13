@@ -3,41 +3,40 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Yuyuyui.PrivateServer
+namespace Yuyuyui.PrivateServer;
+
+public class BattleContinueInfoEntity : BaseEntity<BattleContinueInfoEntity>
 {
-    public class BattleContinueInfoEntity : BaseEntity<BattleContinueInfoEntity>
+    public BattleContinueInfoEntity(
+        Uri requestUri,
+        string httpMethod,
+        Dictionary<string, string> requestHeaders,
+        byte[] requestBody,
+        RouteConfig config)
+        : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
-        public BattleContinueInfoEntity(
-            Uri requestUri,
-            string httpMethod,
-            Dictionary<string, string> requestHeaders,
-            byte[] requestBody,
-            RouteConfig config)
-            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
-        {
-        }
+    }
 
-        protected override async Task ProcessRequest()
-        {
-            long transactionId = long.Parse(GetPathParameter("transaction_id"));
+    protected override async Task ProcessRequest()
+    {
+        long transactionId = long.Parse(GetPathParameter("transaction_id"));
             
-            // ignore request body
+        // ignore request body
 
-            // TODO: distinguish PUT and GET requests
+        // TODO: distinguish PUT and GET requests
 
-            var responseObj = new Response
-            {
-                // TODO: check for "story" or "special"
-                battle_continue = await QuestTransaction.Exists(transactionId)
-            };
-            
-            responseBody = Serialize(responseObj);
-            SetBasicResponseHeaders();
-        }
-
-        public class Response
+        var responseObj = new Response
         {
-            public bool battle_continue { get; set; } = true; // true for continue, false for error
-        }
+            // TODO: check for "story" or "special"
+            battle_continue = await QuestTransaction.Exists(transactionId)
+        };
+            
+        responseBody = Serialize(responseObj);
+        SetBasicResponseHeaders();
+    }
+
+    public class Response
+    {
+        public bool battle_continue { get; set; } = true; // true for continue, false for error
     }
 }

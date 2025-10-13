@@ -4,31 +4,30 @@ using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Yuyuyui.PrivateServer.DataModel
+namespace Yuyuyui.PrivateServer.DataModel;
+
+public abstract class BaseContext<TSelf> : DbContext
+    where TSelf : BaseContext<TSelf>
 {
-    public abstract class BaseContext<TSelf> : DbContext
-        where TSelf : BaseContext<TSelf>
+    protected BaseContext()
     {
-        protected BaseContext()
-        {
-        }
+    }
 
-        protected BaseContext(DbContextOptions<TSelf> options)
-            : base(options)
-        {
-        }
+    protected BaseContext(DbContextOptions<TSelf> options)
+        : base(options)
+    {
+    }
 
-        protected abstract string DatabaseFileName { get; }
+    protected abstract string DatabaseFileName { get; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                var path = Path.Combine(Config.BaseDir, $"{DatabaseFileName}.db.compress");
-                optionsBuilder.UseSqlite($"Data Source={path}");
-                // We are always read-only and never write, so no need to track changes
-                optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-            }
+            var path = Path.Combine(Config.BaseDir, $"{DatabaseFileName}.db.compress");
+            optionsBuilder.UseSqlite($"Data Source={path}");
+            // We are always read-only and never write, so no need to track changes
+            optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }
     }
 }

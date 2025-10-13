@@ -1,12 +1,11 @@
 ﻿using Avalonia.Controls;
 
-namespace Yuyuyui.PrivateServer.GUI.Views
+namespace Yuyuyui.PrivateServer.GUI.Views;
+
+public partial class InstallCertificateAndroidView : HelpSubViewBase
 {
-    public partial class InstallCertificateAndroidView : HelpSubViewBase
+    public InstallCertificateAndroidView()
     {
-        public InstallCertificateAndroidView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

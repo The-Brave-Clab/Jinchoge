@@ -3,28 +3,27 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Yuyuyui.PrivateServer
+namespace Yuyuyui.PrivateServer;
+
+public class CharacterTitleItemsEntity : BaseEntity<CharacterTitleItemsEntity>
 {
-    public class CharacterTitleItemsEntity : BaseEntity<CharacterTitleItemsEntity>
+    public CharacterTitleItemsEntity(
+        Uri requestUri,
+        string httpMethod,
+        Dictionary<string, string> requestHeaders,
+        byte[] requestBody,
+        RouteConfig config)
+        : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
-        public CharacterTitleItemsEntity(
-            Uri requestUri,
-            string httpMethod,
-            Dictionary<string, string> requestHeaders,
-            byte[] requestBody,
-            RouteConfig config)
-            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
-        {
-        }
+    }
 
-        protected override Task ProcessRequest()
-        {
-            // Utils.LogError("Request is {}, response is {}, WTF IS THIS ONE");
+    protected override Task ProcessRequest()
+    {
+        // Utils.LogError("Request is {}, response is {}, WTF IS THIS ONE");
 
-            responseBody = "{}"u8.ToArray();
-            SetBasicResponseHeaders();
+        responseBody = "{}"u8.ToArray();
+        SetBasicResponseHeaders();
 
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

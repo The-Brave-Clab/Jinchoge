@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Yuyuyui.PrivateServer.DataModel
+namespace Yuyuyui.PrivateServer.DataModel;
+
+public partial class BattleLimitEntry
 {
-    public partial class BattleLimitEntry
-    {
-        public long Id { get; set; }
-        public string EnableId { get; set; } = ""; // "<long>,<long>,<long>" or "<long>...", character ids maybe?
-    }
+    public long Id { get; set; }
+    public string EnableId { get; set; } = ""; // "<long>,<long>,<long>" or "<long>...", character ids maybe?
 }

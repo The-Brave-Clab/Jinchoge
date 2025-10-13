@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Yuyuyui.PrivateServer.DataModel
+namespace Yuyuyui.PrivateServer.DataModel;
+
+public partial class Gift
 {
-    public partial class Gift
-    {
-        public long Id { get; set; }
-        public long ContentId { get; set; }
-        public string ContentType { get; set; } = "";
-        public int Quantity { get; set; }
-        public string Title { get; set; } = "";
-    }
+    public long Id { get; set; }
+    public long ContentId { get; set; }
+    public string ContentType { get; set; } = "";
+    public int Quantity { get; set; }
+    public string Title { get; set; } = "";
 }

@@ -4,66 +4,65 @@ using System.Linq;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
 
-namespace Yuyuyui.PrivateServer
+namespace Yuyuyui.PrivateServer;
+
+public class FellowRequestEntity : BaseEntity<FellowRequestEntity>
 {
-    public class FellowRequestEntity : BaseEntity<FellowRequestEntity>
+    public FellowRequestEntity(
+        Uri requestUri,
+        string httpMethod,
+        Dictionary<string, string> requestHeaders,
+        byte[] requestBody,
+        RouteConfig config)
+        : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
-        public FellowRequestEntity(
-            Uri requestUri,
-            string httpMethod,
-            Dictionary<string, string> requestHeaders,
-            byte[] requestBody,
-            RouteConfig config)
-            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
+    }
+
+    protected override async Task ProcessRequest()
+    {
+        var playerId = await GetPlayerIdFromCookies();
+
+        IList<long> playerFriendRequests;
+        await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
         {
+            var player = await PlayerProfile.Load(playerId.code);
+            playerFriendRequests = player.friendRequests;
         }
 
-        protected override async Task ProcessRequest()
+        var friendRequests = await FriendRequest.LoadMany(playerFriendRequests);
+        var responseFriendRequests = await friendRequests
+            .Select(Response.Data.FromFriendRequest)
+            .WhenAll();
+        Response responseObj = new()
         {
-            var playerId = await GetPlayerIdFromCookies();
-
-            IList<long> playerFriendRequests;
-            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
-            {
-                var player = await PlayerProfile.Load(playerId.code);
-                playerFriendRequests = player.friendRequests;
-            }
-
-            var friendRequests = await FriendRequest.LoadMany(playerFriendRequests);
-            var responseFriendRequests = await friendRequests
-                .Select(Response.Data.FromFriendRequest)
-                .WhenAll();
-            Response responseObj = new()
-            {
-                fellow_requests = responseFriendRequests.ToDictionary(r => r.id, r => r)
-            };
+            fellow_requests = responseFriendRequests.ToDictionary(r => r.id, r => r)
+        };
             
-            responseBody = Serialize(responseObj);
-            SetBasicResponseHeaders();
-        }
+        responseBody = Serialize(responseObj);
+        SetBasicResponseHeaders();
+    }
 
-        public class Response
+    public class Response
+    {
+        public IDictionary<long, Data> fellow_requests { get; set; } = new Dictionary<long, Data>();
+
+        public class Data
         {
-            public IDictionary<long, Data> fellow_requests { get; set; } = new Dictionary<long, Data>();
+            public long id { get; set; }
+            public int status { get; set; }
+            public long created_at { get; set; }
+            public UserInfoEntity.Response.User from_user { get; set; } = new();
 
-            public class Data
+            public static async Task<Data> FromFriendRequest(FriendRequest friendRequest)
             {
-                public long id { get; set; }
-                public int status { get; set; }
-                public long created_at { get; set; }
-                public UserInfoEntity.Response.User from_user { get; set; } = new();
-
-                public static async Task<Data> FromFriendRequest(FriendRequest friendRequest)
+                var fromPlayerProfile = await PlayerProfile.Load(friendRequest.fromUser);
+                return new()
                 {
-                    var fromPlayerProfile = await PlayerProfile.Load(friendRequest.fromUser);
-                    return new()
-                    {
-                        id = friendRequest.id,
-                        status = friendRequest.status,
-                        created_at = friendRequest.createdAt,
-                        from_user = await UserInfoEntity.Response.User.FromPlayerProfile(fromPlayerProfile)
-                    };
-                }
+                    id = friendRequest.id,
+                    status = friendRequest.status,
+                    created_at = friendRequest.createdAt,
+                    from_user = await UserInfoEntity.Response.User.FromPlayerProfile(fromPlayerProfile)
+                };
             }
         }
     }

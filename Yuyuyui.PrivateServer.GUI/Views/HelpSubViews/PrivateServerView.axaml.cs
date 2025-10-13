@@ -1,13 +1,12 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 
-namespace Yuyuyui.PrivateServer.GUI.Views
+namespace Yuyuyui.PrivateServer.GUI.Views;
+
+public partial class PrivateServerView : HelpSubViewBase
 {
-    public partial class PrivateServerView : HelpSubViewBase
+    public PrivateServerView()
     {
-        public PrivateServerView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

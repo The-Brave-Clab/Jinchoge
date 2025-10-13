@@ -1,13 +1,12 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 
-namespace Yuyuyui.PrivateServer.GUI.Views
+namespace Yuyuyui.PrivateServer.GUI.Views;
+
+public partial class HelpView : UserControl
 {
-    public partial class HelpView : UserControl
+    public HelpView()
     {
-        public HelpView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

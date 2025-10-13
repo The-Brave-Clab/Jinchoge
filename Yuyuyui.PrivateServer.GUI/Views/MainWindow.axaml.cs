@@ -13,184 +13,183 @@ using Avalonia.Threading;
 using Yuyuyui.PrivateServer.GUI.ViewModels;
 using Yuyuyui.PrivateServer.GUI.Controls;
 
-namespace Yuyuyui.PrivateServer.GUI.Views
+namespace Yuyuyui.PrivateServer.GUI.Views;
+
+public partial class MainWindow : Window
 {
-    public partial class MainWindow : Window
+    private ReleaseView releaseView;
+    private LogView logView;
+    private StatusView statusView;
+    private SettingsView settingsView;
+    private HelpView helpView;
+    private AboutView aboutView;
+
+    private MainWindowViewModel mainWindowVM;
+
+    public MainWindow()
     {
-        private ReleaseView releaseView;
-        private LogView logView;
-        private StatusView statusView;
-        private SettingsView settingsView;
-        private HelpView helpView;
-        private AboutView aboutView;
+        mainWindowVM = new MainWindowViewModel(this);
+        DataContext = mainWindowVM;
+            
+        InitializeComponent();
 
-        private MainWindowViewModel mainWindowVM;
-
-        public MainWindow()
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            mainWindowVM = new MainWindowViewModel(this);
-            DataContext = mainWindowVM;
+            TransparencyLevelHint = [
+                WindowTransparencyLevel.Mica,
+                WindowTransparencyLevel.AcrylicBlur,
+                WindowTransparencyLevel.Blur,
+                WindowTransparencyLevel.None
+            ];
+            ExtendClientAreaToDecorationsHint = true;
+            Background = Brushes.Transparent;
+        }
+        else
+        {
+            TransparencyLevelHint = [WindowTransparencyLevel.None];
+            ExtendClientAreaToDecorationsHint = false;
+            Background = Brushes.Gray;
+        }
+
+        var toolbarVM = new ToolbarViewModel
+        {
+            ToolbarText = "",
+            IsProgressIndeterminate = false,
+            ShowProgressText = false,
+            ToolbarProgress = 0,
+            ProgressBarText = ""
+        };
+        BottomToolBar.DataContext = toolbarVM;
+
+        releaseView = new ReleaseView
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            DataContext = mainWindowVM.releaseVM
+        };
+
+        logView = new LogView
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            DataContext = mainWindowVM.logVM
+        };
+
+        statusView = new StatusView
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            DataContext = mainWindowVM.statusVM
+        };
+
+        settingsView = new SettingsView
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            DataContext = mainWindowVM.settingsVM
+        };
+
+        helpView = new HelpView
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            DataContext = mainWindowVM.helpVM
+        };
+
+        aboutView = new AboutView
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            DataContext = mainWindowVM.aboutVM
+        };
+
+
+        MainPageContentControl.Content = logView;
+
+        var logTextDefaultBrush = LogText.Foreground;
             
-            InitializeComponent();
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        Utils.SetLogCallback(
+            (o, t) =>
             {
-                TransparencyLevelHint = [
-                    WindowTransparencyLevel.Mica,
-                    WindowTransparencyLevel.AcrylicBlur,
-                    WindowTransparencyLevel.Blur,
-                    WindowTransparencyLevel.None
-                ];
-                ExtendClientAreaToDecorationsHint = true;
-                Background = Brushes.Transparent;
-            }
-            else
-            {
-                TransparencyLevelHint = [WindowTransparencyLevel.None];
-                ExtendClientAreaToDecorationsHint = false;
-                Background = Brushes.Gray;
-            }
-
-            var toolbarVM = new ToolbarViewModel
-            {
-                ToolbarText = "",
-                IsProgressIndeterminate = false,
-                ShowProgressText = false,
-                ToolbarProgress = 0,
-                ProgressBarText = ""
-            };
-            BottomToolBar.DataContext = toolbarVM;
-
-            releaseView = new ReleaseView
-            {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch,
-                DataContext = mainWindowVM.releaseVM
-            };
-
-            logView = new LogView
-            {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch,
-                DataContext = mainWindowVM.logVM
-            };
-
-            statusView = new StatusView
-            {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch,
-                DataContext = mainWindowVM.statusVM
-            };
-
-            settingsView = new SettingsView
-            {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch,
-                DataContext = mainWindowVM.settingsVM
-            };
-
-            helpView = new HelpView
-            {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch,
-                DataContext = mainWindowVM.helpVM
-            };
-
-            aboutView = new AboutView
-            {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch,
-                DataContext = mainWindowVM.aboutVM
-            };
-
-
-            MainPageContentControl.Content = logView;
-
-            var logTextDefaultBrush = LogText.Foreground;
-            
-            Utils.SetLogCallback(
-                (o, t) =>
+                Dispatcher.UIThread.Post(() =>
                 {
-                    Dispatcher.UIThread.Post(() =>
+                    string content = o.ToString() ?? "";
+                    LogText.Foreground = t switch
                     {
-                        string content = o.ToString() ?? "";
-                        LogText.Foreground = t switch
-                        {
-                            Utils.LogType.Trace => Brushes.Green,
-                            Utils.LogType.Info => logTextDefaultBrush,
-                            Utils.LogType.Warning => Brushes.Yellow,
-                            Utils.LogType.Error => Brushes.Red,
-                            _ => throw new ArgumentOutOfRangeException(nameof(t), t, null)
-                        };
-                        toolbarVM.ToolbarText = content;
-                        mainWindowVM.logVM.Logs.Add(new LogEntry
-                        {
-                            LogType = t,
-                            LogContent = content
-                        });
+                        Utils.LogType.Trace => Brushes.Green,
+                        Utils.LogType.Info => logTextDefaultBrush,
+                        Utils.LogType.Warning => Brushes.Yellow,
+                        Utils.LogType.Error => Brushes.Red,
+                        _ => throw new ArgumentOutOfRangeException(nameof(t), t, null)
+                    };
+                    toolbarVM.ToolbarText = content;
+                    mainWindowVM.logVM.Logs.Add(new LogEntry
+                    {
+                        LogType = t,
+                        LogContent = content
                     });
-                }
-            );
+                });
+            }
+        );
             
-            Utils.LogTrace(Localization.Resources.LOG_GUI_INITIALIZED);
+        Utils.LogTrace(Localization.Resources.LOG_GUI_INITIALIZED);
 
-            if (!Design.IsDesignMode)
+        if (!Design.IsDesignMode)
+        {
+            mainWindowVM.InitializeGUIApplication();
+        }
+    }
+
+    private void WindowOnClosing(object? sender, WindowClosingEventArgs e)
+    {
+        mainWindowVM.StopPrivateServer();
+    }
+
+    private void OnPointerEnterNavigation(object? sender, PointerEventArgs e)
+    {
+        Task.Run(() =>
+        {
+            float time = 0;
+            while (time < 0.5f)
             {
-                mainWindowVM.InitializeGUIApplication();
-            }
-        }
-
-        private void WindowOnClosing(object? sender, WindowClosingEventArgs e)
-        {
-            mainWindowVM.StopPrivateServer();
-        }
-
-        private void OnPointerEnterNavigation(object? sender, PointerEventArgs e)
-        {
-            Task.Run(() =>
-            {
-                float time = 0;
-                while (time < 0.5f)
-                {
-                    Thread.Sleep(100);
-                    time += 0.1f;
-                    if (!NavigationPanel.IsPointerOver) return;
-                }
-
-                Dispatcher.UIThread.Post(() => MainSplitView.IsPaneOpen = true);
-            });
-        }
-
-        private void OnPointerLeaveNavigation(object? sender, PointerEventArgs e)
-        {
-            MainSplitView.IsPaneOpen = false;
-        }
-
-        private void OnNavigationButtonChecked(object? sender, RoutedEventArgs e)
-        {
-            NavigationButton button = (sender as NavigationButton)!;
-
-            if (MainPageContentControl != null)
-            {
-                MainPageContentControl.Content = button.Name switch
-                {
-                    nameof(ReleaseButton) => releaseView,
-                    nameof(LogButton) => logView,
-                    nameof(StatusButton) => statusView,
-                    nameof(SettingsButton) => settingsView,
-                    nameof(HelpButton) => helpView,
-                    nameof(AboutButton) => aboutView,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
+                Thread.Sleep(100);
+                time += 0.1f;
+                if (!NavigationPanel.IsPointerOver) return;
             }
 
-            mainWindowVM.ProjectName = "JINCHŌGE";
-            mainWindowVM.ProjectDescription = Localization.Resources.PROJ_DESC_JINCHOGE;
+            Dispatcher.UIThread.Post(() => MainSplitView.IsPaneOpen = true);
+        });
+    }
 
-            if (button.Name == nameof(SettingsButton))
+    private void OnPointerLeaveNavigation(object? sender, PointerEventArgs e)
+    {
+        MainSplitView.IsPaneOpen = false;
+    }
+
+    private void OnNavigationButtonChecked(object? sender, RoutedEventArgs e)
+    {
+        NavigationButton button = (sender as NavigationButton)!;
+
+        if (MainPageContentControl != null)
+        {
+            MainPageContentControl.Content = button.Name switch
             {
-                mainWindowVM.settingsVM.Refresh();
-            }
+                nameof(ReleaseButton) => releaseView,
+                nameof(LogButton) => logView,
+                nameof(StatusButton) => statusView,
+                nameof(SettingsButton) => settingsView,
+                nameof(HelpButton) => helpView,
+                nameof(AboutButton) => aboutView,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
+        mainWindowVM.ProjectName = "JINCHŌGE";
+        mainWindowVM.ProjectDescription = Localization.Resources.PROJ_DESC_JINCHOGE;
+
+        if (button.Name == nameof(SettingsButton))
+        {
+            mainWindowVM.settingsVM.Refresh();
         }
     }
 }

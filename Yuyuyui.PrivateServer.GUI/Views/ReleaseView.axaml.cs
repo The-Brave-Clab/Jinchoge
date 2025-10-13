@@ -1,12 +1,11 @@
 using Avalonia.Controls;
 
-namespace Yuyuyui.PrivateServer.GUI.Views
+namespace Yuyuyui.PrivateServer.GUI.Views;
+
+public partial class ReleaseView : UserControl
 {
-    public partial class ReleaseView : UserControl
+    public ReleaseView()
     {
-        public ReleaseView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

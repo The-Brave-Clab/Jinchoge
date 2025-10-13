@@ -2,57 +2,56 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Yuyuyui.PrivateServer
+namespace Yuyuyui.PrivateServer;
+
+public class TutorialProgressEntity : BaseEntity<TutorialProgressEntity>
 {
-    public class TutorialProgressEntity : BaseEntity<TutorialProgressEntity>
+    public TutorialProgressEntity(
+        Uri requestUri,
+        string httpMethod,
+        Dictionary<string, string> requestHeaders,
+        byte[] requestBody,
+        RouteConfig config)
+        : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
-        public TutorialProgressEntity(
-            Uri requestUri,
-            string httpMethod,
-            Dictionary<string, string> requestHeaders,
-            byte[] requestBody,
-            RouteConfig config)
-            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
-        {
-        }
+    }
 
-        protected override async Task ProcessRequest()
-        {
-            var playerId = await GetPlayerIdFromCookies();
+    protected override async Task ProcessRequest()
+    {
+        var playerId = await GetPlayerIdFromCookies();
 
-            int tutorialProgress;
-            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
+        int tutorialProgress;
+        await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
+        {
+            var player = await PlayerProfile.Load(playerId.code);
+            if (requestBody.Length > 0)
             {
-                var player = await PlayerProfile.Load(playerId.code);
-                if (requestBody.Length > 0)
-                {
-                    Request requestObj = Deserialize<Request>(requestBody)!;
-                    player.data.tutorialProgress = requestObj.progress;
-                    await player.Save();
-                }
-
-                tutorialProgress = player.data.tutorialProgress;
+                Request requestObj = Deserialize<Request>(requestBody)!;
+                player.data.tutorialProgress = requestObj.progress;
+                await player.Save();
             }
 
-            Response responseObj = new()
-            {
-                progress = tutorialProgress,
-                tutee = tutorialProgress != 1000
-            };
-
-            responseBody = Serialize(responseObj);
-            SetBasicResponseHeaders();
+            tutorialProgress = player.data.tutorialProgress;
         }
 
-        public class Request
+        Response responseObj = new()
         {
-            public int progress { get; set; }
-        }
+            progress = tutorialProgress,
+            tutee = tutorialProgress != 1000
+        };
 
-        public class Response
-        {
-            public bool tutee { get; set; }
-            public int progress { get; set; }
-        }
+        responseBody = Serialize(responseObj);
+        SetBasicResponseHeaders();
+    }
+
+    public class Request
+    {
+        public int progress { get; set; }
+    }
+
+    public class Response
+    {
+        public bool tutee { get; set; }
+        public int progress { get; set; }
     }
 }

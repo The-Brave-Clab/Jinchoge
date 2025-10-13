@@ -4,124 +4,123 @@ using System.Linq;
 using System.Threading.Tasks;
 using Yuyuyui.PrivateServer.DataModel;
 
-namespace Yuyuyui.PrivateServer
+namespace Yuyuyui.PrivateServer;
+
+public class EnhancementItemsEntity : BaseEntity<EnhancementItemsEntity>
 {
-    public class EnhancementItemsEntity : BaseEntity<EnhancementItemsEntity>
+    public EnhancementItemsEntity(
+        Uri requestUri,
+        string httpMethod,
+        Dictionary<string, string> requestHeaders,
+        byte[] requestBody,
+        RouteConfig config)
+        : base(requestUri, httpMethod, requestHeaders, requestBody, config)
     {
-        public EnhancementItemsEntity(
-            Uri requestUri,
-            string httpMethod,
-            Dictionary<string, string> requestHeaders,
-            byte[] requestBody,
-            RouteConfig config)
-            : base(requestUri, httpMethod, requestHeaders, requestBody, config)
+    }
+
+    protected override async Task ProcessRequest()
+    {
+        var playerId = await GetPlayerIdFromCookies();
+
+        bool infiniteItems;
+        IDictionary<long, long> playerEnhancementItems;
+        await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
         {
+            var player = await PlayerProfile.Load(playerId.code);
+            infiniteItems = await PrivateServer.ResourceProvider.inGameConfigProvider.GetInfiniteItems(player);
+            playerEnhancementItems = player.items.enhancement;
         }
 
-        protected override async Task ProcessRequest()
+        Response responseObj;
+
+        if (infiniteItems)
         {
-            var playerId = await GetPlayerIdFromCookies();
-
-            bool infiniteItems;
-            IDictionary<long, long> playerEnhancementItems;
-            await using (await PrivateServer.ResourceProvider.distributedLockProvider.AcquirePlayerProfileLock(playerId.code))
+            List<EnhancementItem> enhancementItems;
+            await using (ItemsContext itemsDb = new())
             {
-                var player = await PlayerProfile.Load(playerId.code);
-                infiniteItems = await PrivateServer.ResourceProvider.inGameConfigProvider.GetInfiniteItems(player);
-                playerEnhancementItems = player.items.enhancement;
+                enhancementItems = itemsDb.EnhancementItems.ToList();
             }
 
-            Response responseObj;
-
-            if (infiniteItems)
+            responseObj = new()
             {
-                List<EnhancementItem> enhancementItems;
-                await using (ItemsContext itemsDb = new())
-                {
-                    enhancementItems = itemsDb.EnhancementItems.ToList();
-                }
-
-                responseObj = new()
-                {
-                    enhancement_items = enhancementItems
-                        .Select(masterData => new Response.EnhancementItem
-                        {
-                            id = masterData.Id,
-                            master_id = masterData.Id,
-                            quantity = 999,
-                            active_skill_level_potential = masterData.ActiveSkillLevelPotential,
-                            rarity = masterData.Rarity,
-                            available_character_1_id = masterData.AvailableCharacterId1,
-                            available_character_2_id = masterData.AvailableCharacterId2,
-                            pair_limited = masterData.AvailableCharacterId1 != null &&
-                                           masterData.AvailableCharacterId2 != null,
-                            priority = masterData.Priority,
-                            support_skill_level_potential = masterData.SupportSkillLevelPotential,
-                            support_skill_level_category = masterData.SupportSkillLevelCategory
-                        })
-                        .ToList()
-                };
-            }
-            else
-            {
-                var enhancementItems = await playerEnhancementItems
-                    .Select(async p =>
+                enhancement_items = enhancementItems
+                    .Select(masterData => new Response.EnhancementItem
                     {
-                        EnhancementItem masterData;
-                        await using (ItemsContext itemsDb = new())
-                        {
-                            masterData = itemsDb.EnhancementItems.First(m => m.Id == p.Key);
-                        }
-
-                        Item userItem = await Item.Load(p.Value);
-                        return new Response.EnhancementItem
-                        {
-                            id = p.Value,
-                            master_id = masterData.Id,
-                            quantity = userItem.quantity,
-                            active_skill_level_potential = masterData.ActiveSkillLevelPotential,
-                            rarity = masterData.Rarity,
-                            available_character_1_id = masterData.AvailableCharacterId1,
-                            available_character_2_id = masterData.AvailableCharacterId2,
-                            pair_limited = masterData.AvailableCharacterId1 != null &&
-                                           masterData.AvailableCharacterId2 != null,
-                            priority = masterData.Priority,
-                            support_skill_level_potential = masterData.SupportSkillLevelPotential,
-                            support_skill_level_category = masterData.SupportSkillLevelCategory
-                        };
+                        id = masterData.Id,
+                        master_id = masterData.Id,
+                        quantity = 999,
+                        active_skill_level_potential = masterData.ActiveSkillLevelPotential,
+                        rarity = masterData.Rarity,
+                        available_character_1_id = masterData.AvailableCharacterId1,
+                        available_character_2_id = masterData.AvailableCharacterId2,
+                        pair_limited = masterData.AvailableCharacterId1 != null &&
+                                       masterData.AvailableCharacterId2 != null,
+                        priority = masterData.Priority,
+                        support_skill_level_potential = masterData.SupportSkillLevelPotential,
+                        support_skill_level_category = masterData.SupportSkillLevelCategory
                     })
-                    .WhenAll();
-                responseObj = new()
+                    .ToList()
+            };
+        }
+        else
+        {
+            var enhancementItems = await playerEnhancementItems
+                .Select(async p =>
                 {
-                    enhancement_items = enhancementItems
-                        .Where(ei => ei.quantity > 0) // don't show consumed items
-                        .ToList()
-                };
-            }
+                    EnhancementItem masterData;
+                    await using (ItemsContext itemsDb = new())
+                    {
+                        masterData = itemsDb.EnhancementItems.First(m => m.Id == p.Key);
+                    }
 
-            responseBody = Serialize(responseObj);
-            SetBasicResponseHeaders();
+                    Item userItem = await Item.Load(p.Value);
+                    return new Response.EnhancementItem
+                    {
+                        id = p.Value,
+                        master_id = masterData.Id,
+                        quantity = userItem.quantity,
+                        active_skill_level_potential = masterData.ActiveSkillLevelPotential,
+                        rarity = masterData.Rarity,
+                        available_character_1_id = masterData.AvailableCharacterId1,
+                        available_character_2_id = masterData.AvailableCharacterId2,
+                        pair_limited = masterData.AvailableCharacterId1 != null &&
+                                       masterData.AvailableCharacterId2 != null,
+                        priority = masterData.Priority,
+                        support_skill_level_potential = masterData.SupportSkillLevelPotential,
+                        support_skill_level_category = masterData.SupportSkillLevelCategory
+                    };
+                })
+                .WhenAll();
+            responseObj = new()
+            {
+                enhancement_items = enhancementItems
+                    .Where(ei => ei.quantity > 0) // don't show consumed items
+                    .ToList()
+            };
         }
 
-        public class Response
-        {
-            public IList<EnhancementItem> enhancement_items { get; set; }
-                = new List<EnhancementItem>();
+        responseBody = Serialize(responseObj);
+        SetBasicResponseHeaders();
+    }
 
-            public class EnhancementItem
-            {
-                public long id { get; set; }
-                public long master_id { get; set; }
-                public int quantity { get; set; }
-                public int active_skill_level_potential { get; set; }
-                public int rarity { get; set; }
-                public long? available_character_1_id { get; set; } = null;
-                public long? available_character_2_id { get; set; } = null;
-                public bool pair_limited { get; set; }
-                public long priority { get; set; }
-                public int support_skill_level_potential { get; set; }
-                public int support_skill_level_category { get; set; }
-            }
+    public class Response
+    {
+        public IList<EnhancementItem> enhancement_items { get; set; }
+            = new List<EnhancementItem>();
+
+        public class EnhancementItem
+        {
+            public long id { get; set; }
+            public long master_id { get; set; }
+            public int quantity { get; set; }
+            public int active_skill_level_potential { get; set; }
+            public int rarity { get; set; }
+            public long? available_character_1_id { get; set; } = null;
+            public long? available_character_2_id { get; set; } = null;
+            public bool pair_limited { get; set; }
+            public long priority { get; set; }
+            public int support_skill_level_potential { get; set; }
+            public int support_skill_level_category { get; set; }
         }
     }
 }
