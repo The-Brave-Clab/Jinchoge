@@ -98,7 +98,7 @@ public abstract class EntityBase
 
         Utils.LogTrace($"{args.requestMethod} {apiPath}");
 
-        foreach (var config in configs)
+        foreach (var config in Configs)
         {
             if (ApiPathMatch(config.Value.apiPath, apiPath) &&
                 config.Value.httpMethods.Contains(args.requestMethod))
@@ -247,7 +247,7 @@ public abstract class EntityBase
         pathParameters = ExtractPathParameters(config.apiPath, StripApiPrefix(requestUri.AbsolutePath))!;
     }
 
-    public static readonly Dictionary<Type, RouteConfig> configs = new()
+    public static readonly Dictionary<Type, RouteConfig> Configs = new()
     {
         {
             typeof(TutorialProgressEntity),

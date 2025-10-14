@@ -63,7 +63,7 @@ public class BannerEntity : BaseEntity<BannerEntity>
                 {
                     image_id = 9000,
                     transition_screen_kind = "",
-                    transition_url = $"{RequestAuthority}/",
+                    transition_url = PrivateServer.ResourceProvider.urlProvider.MainPage,
                     available_user_level = 0
                 },
             }

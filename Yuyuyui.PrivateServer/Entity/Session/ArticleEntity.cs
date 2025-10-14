@@ -24,37 +24,37 @@ public class ArticleEntity : BaseEntity<ArticleEntity>
             [
                 new()
                 {
-                    url = $"{RequestAuthority}/{ServerResources.RELEASE_NOTES_PATH}",
+                    url = PrivateServer.ResourceProvider.urlProvider.Topics,
                     kind = 0,
                     label = "topics"
                 },
                 new()
                 {
-                    url = $"{RequestAuthority}/",
+                    url = PrivateServer.ResourceProvider.urlProvider.Defects,
                     kind = 0,
                     label = "defect_topics"
                 },
                 new()
                 {
-                    url = $"{RequestAuthority}/",
+                    url = PrivateServer.ResourceProvider.urlProvider.Inquiry,
                     kind = 0,
                     label = "inquiry"
                 },
                 new()
                 {
-                    url = $"{RequestAuthority}/",
+                    url = PrivateServer.ResourceProvider.urlProvider.Terms,
                     kind = 0,
                     label = "terms"
                 },
                 new()
                 {
-                    url = $"{RequestAuthority}/",
+                    url = PrivateServer.ResourceProvider.urlProvider.Helps,
                     kind = 0,
                     label = "helps"
                 },
                 new()
                 {
-                    url = $"{RequestAuthority}/",
+                    url = PrivateServer.ResourceProvider.urlProvider.OfficialLinks,
                     kind = 0,
                     label = "official_links"
                 }

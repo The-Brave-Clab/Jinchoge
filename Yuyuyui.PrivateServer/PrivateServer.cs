@@ -26,6 +26,7 @@ public static class PrivateServer
         resourceProvider = privateServerResourceProvider;
 
         DataModel.Config.BaseDir = ResourceProvider.masterDataProvider.Directory;
+        resourceProvider.OverrideRouteConfigs(EntityBase.Configs);
         await ResourceProvider.masterDataProvider.Initialize();
     }
 

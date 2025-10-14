@@ -25,7 +25,7 @@ public class RequirementVersionEntity : BaseEntity<RequirementVersionEntity>
                 version = PrivateServer.YUYUYUI_APP_VERSION,
                 need_update = false,
                 review = false,
-                api_server = RequestAuthority,
+                api_server = PrivateServer.ResourceProvider.urlProvider.APIBase,
                 enable_cooperation = false
             }
         };

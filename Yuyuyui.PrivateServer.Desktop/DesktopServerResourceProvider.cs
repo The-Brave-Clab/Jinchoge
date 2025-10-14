@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 
 namespace Yuyuyui.PrivateServer.Desktop;
@@ -14,6 +15,7 @@ public class DesktopServerResourceProvider : IPrivateServerResourceProvider
     private AWSMasterDataProvider desktopMasterDataProvider = new();
     private DesktopInGameConfigProvider desktopInGameConfigProvider = new();
     private LocalLockProvider desktopDistributedLockProvider = new();
+    private DesktopInGameURLProvider desktopInGameURLProvider = new();
 
     public AWSMasterDataProvider AWSMasterDataProvider => desktopMasterDataProvider;
 
@@ -33,6 +35,7 @@ public class DesktopServerResourceProvider : IPrivateServerResourceProvider
     public IMasterDataProvider masterDataProvider => desktopMasterDataProvider;
     public IInGameConfigProvider inGameConfigProvider => desktopInGameConfigProvider;
     public IDistributedLockProvider distributedLockProvider => desktopDistributedLockProvider;
+    public IInGameURLProvider urlProvider => desktopInGameURLProvider;
 
     public Uri RewriteRequestUri(Uri originalRequestUri)
     {
@@ -45,6 +48,10 @@ public class DesktopServerResourceProvider : IPrivateServerResourceProvider
             Host = PRIVATE_LOCAL_API_SERVER
         };
         return builder.Uri;
+    }
 
+    public void OverrideRouteConfigs(Dictionary<Type, RouteConfig> configs)
+    {
+        // Does nothing
     }
 }
