@@ -82,7 +82,8 @@ public static class PrivateServer
 
         playerSession.deviceInfo = new IPlayerProfileSessionProvider.DeviceInfo
         {
-            os = entity.GetRequestHeaderValue("X-APP-PLATFORM").Split(' ')[0] == "Android"
+            os = entity.GetRequestHeaderValue("X-APP-PLATFORM").Split(' ')[0]
+                .Equals("android", StringComparison.InvariantCultureIgnoreCase)
                 ? IPlayerProfileSessionProvider.DeviceInfo.OS.Android
                 : IPlayerProfileSessionProvider.DeviceInfo.OS.iOS,
             platformName = entity.GetRequestHeaderValue("X-APP-PLATFORM"),
