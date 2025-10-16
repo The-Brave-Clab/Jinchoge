@@ -44,7 +44,7 @@ public class RegulationEntity : BaseEntity<RegulationEntity>
             {
                 current_version = 1,
                 checked_version = regulationVersion,
-                regulation_url = PrivateServer.ResourceProvider.urlProvider.Regulation
+                regulation_url = PrivateServer.ResourceProvider.Regulation
             }
         };
 

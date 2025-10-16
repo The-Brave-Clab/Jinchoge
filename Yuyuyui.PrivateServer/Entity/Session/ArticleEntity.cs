@@ -20,45 +20,7 @@ public class ArticleEntity : BaseEntity<ArticleEntity>
     {
         Response responseObj = new()
         {
-            articles =
-            [
-                new()
-                {
-                    url = PrivateServer.ResourceProvider.urlProvider.Topics,
-                    kind = 0,
-                    label = "topics"
-                },
-                new()
-                {
-                    url = PrivateServer.ResourceProvider.urlProvider.Defects,
-                    kind = 0,
-                    label = "defect_topics"
-                },
-                new()
-                {
-                    url = PrivateServer.ResourceProvider.urlProvider.Inquiry,
-                    kind = 0,
-                    label = "inquiry"
-                },
-                new()
-                {
-                    url = PrivateServer.ResourceProvider.urlProvider.Terms,
-                    kind = 0,
-                    label = "terms"
-                },
-                new()
-                {
-                    url = PrivateServer.ResourceProvider.urlProvider.Helps,
-                    kind = 0,
-                    label = "helps"
-                },
-                new()
-                {
-                    url = PrivateServer.ResourceProvider.urlProvider.OfficialLinks,
-                    kind = 0,
-                    label = "official_links"
-                }
-            ]
+            articles = PrivateServer.ResourceProvider.GetArticles()
         };
 
         responseBody = Serialize(responseObj);
