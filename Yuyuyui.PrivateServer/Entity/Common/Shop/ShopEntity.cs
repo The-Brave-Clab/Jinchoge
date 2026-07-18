@@ -191,10 +191,22 @@ namespace Yuyuyui.PrivateServer
                 }
             };
 
+            foreach (var shop in responseObj.shops)
+            foreach (var product in shop.products.Values)
+                product.purchased_quantity = GetPurchasedQuantity(player, shop.id, product.id);
+
             responseBody = Serialize(responseObj);
             SetBasicResponseHeaders();
 
             return Task.CompletedTask;
+        }
+
+        private static int GetPurchasedQuantity(PlayerProfile player, string shopId, long productId)
+        {
+            string purchaseKey = $"{shopId}/{productId}";
+            return player.transactions.shopProductPurchaseCounts.TryGetValue(purchaseKey, out int purchasedQuantity)
+                ? purchasedQuantity
+                : 0;
         }
 
         public class Response

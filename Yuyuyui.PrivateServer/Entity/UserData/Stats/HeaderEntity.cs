@@ -43,7 +43,7 @@ namespace Yuyuyui.PrivateServer
                     friend_point = infiniteItems ? 99999999 : player.data.friendPoint,
                     billing_point = infiniteItems ? 999999 : player.data.paidBlessing + player.data.freeBlessing,
                     brave_coin = infiniteItems ? 999 : player.data.braveCoin,
-                    enhancement_item_capacity = 590, // database + player bought
+                    enhancement_item_capacity = player.data.enhancementItemCapacity, // database + player bought
                     has_complete_mission = false, // club order prompt
                     has_present = false,
                     weekday_stamina = player.data.weekdayStamina,

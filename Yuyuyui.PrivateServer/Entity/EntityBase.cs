@@ -134,16 +134,17 @@ namespace Yuyuyui.PrivateServer
                 }
             }
 
+            string notImplementedMessage = $"{Resources.LOG_PS_API_NOT_IMPLEMENTED}{e.HttpClient.Request.Method} {apiPath}";
+            Utils.LogWarning(notImplementedMessage);
             return new RequestErrorEntity(
-                "S2000",
-                $"\n\nAPI Not Implemented:\n\n{e.HttpClient.Request.Method} {apiPath}",
+                "A1321",
+                notImplementedMessage,
                 e.HttpClient.Request.RequestUri,
                 e.HttpClient.Request.Method,
                 new RouteConfig(apiPath, e.HttpClient.Request.Method),
                 headersAndBody.Item1,
                 headersAndBody.Item2,
-                Resources.LOG_PS_API_NOT_IMPLEMENTED + $"{e.HttpClient.Request.Method} {apiPath}"
-            ); // error type
+                notImplementedMessage);
         }
 
         protected abstract Task ProcessRequest();
@@ -235,7 +236,7 @@ namespace Yuyuyui.PrivateServer
             pathParameters = ExtractPathParameters(config.apiPath, StripApiPrefix(requestUri.AbsolutePath))!;
         }
 
-        public static readonly Dictionary<Type, RouteConfig> configs = new()
+        public static readonly RouteConfigCollection configs = new()
         {
             {
                 typeof(TutorialProgressEntity),
@@ -281,34 +282,46 @@ namespace Yuyuyui.PrivateServer
             	typeof(AccessoryEnhancementResultEntity),
             	new RouteConfig("/my/accessories/{accessory_id}", "PUT")
             },
-            //{
-            //	typeof(MenuUserTransferEntity),
-            //	new Config("/my/inherited_password", "Json/Menu/transfer", 0)
-            //},
-            //{
-            //	typeof(InheritedExcuteEntity),
-            //	new Config("/inherited_executions", string.Empty, 0)
-            //},
-            //{
-            //	typeof(CooperationIssueEntity),
-            //	new Config("/portalsite/cooperations", string.Empty, 0)
-            //},
-            //{
-            //	typeof(CooperationConfirmEntity),
-            //	new Config("/portalsite/cooperations/confirm", string.Empty, 0)
-            //},
-            //{
-            //	typeof(CooperationExecuteEntity),
-            //	new Config("/portalsite/cooperations/execute", string.Empty, 0)
-            //},
-            //{
-            //	typeof(BraveSystemListEntity),
-            //	new Config("/my/brave_system/components", "Json/Strategy/brave_user", 0)
-            //},
-            //{
-            //	typeof(BraveSystemEnhacementEntity),
-            //	new Config("/my/brave_system/components/{0}", "Json/Strategy/brave_enhance", 0)
-            //},
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/my/inherited_password", "GET", "POST")
+            },
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/inherited_executions", "POST")
+            },
+            {
+                typeof(CooperationEntity),
+                new RouteConfig("/portalsite/cooperations", "GET", "POST")
+            },
+            {
+                typeof(CooperationEntity),
+                new RouteConfig("/portalsite/cooperations/confirm", "GET", "POST")
+            },
+            {
+                typeof(CooperationEntity),
+                new RouteConfig("/portalsite/cooperations/execute", "POST")
+            },
+            {
+                typeof(AchievementsEntity),
+                new RouteConfig("/achievements", "GET", "POST", "PUT")
+            },
+            {
+                typeof(AchievementsEntity),
+                new RouteConfig("/my/achievements", "GET", "POST", "PUT")
+            },
+            {
+                typeof(AchievementsEntity),
+                new RouteConfig("/my/achievements/{achievement_id}", "GET", "POST", "PUT")
+            },
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/my/brave_system/components", "GET")
+            },
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/my/brave_system/components/{component_id}", "PUT")
+            },
             {
                 typeof(EpisodeEntity),
                 new RouteConfig("/my/chapters/{chapter_id}/episodes", "GET")
@@ -333,14 +346,14 @@ namespace Yuyuyui.PrivateServer
                 typeof(EventChapterEntity),
                 new RouteConfig("/special/chapters", "GET")
             },
-            //{
-            //	typeof(EventEpisodeEntity),
-            //	new Config("/special/chapters/{0}/episodes", string.Empty, 0)
-            //},
-            //{
-            //	typeof(EventStageEntity),
-            //	new Config("/special/chapters/{0}/episodes/{1}/stages", string.Empty, 0)
-            //},
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/special/chapters/{chapter_id}/episodes", "GET")
+            },
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/special/chapters/{chapter_id}/episodes/{episode_id}/stages", "GET")
+            },
             {
                 typeof(BingoSheetsEntity),
                 new RouteConfig("/my/bingo_sheets", "GET")
@@ -369,46 +382,46 @@ namespace Yuyuyui.PrivateServer
                 typeof(ShopEntity),
                 new RouteConfig("/shops", "GET")
             },
-            //{
-            //	typeof(BirthdateRegistrationEntity),
-            //	new Config("/my/birthdate_registration", "Json/Shop/age_authorize", 0)
-            //},
+            {
+                typeof(BirthdateRegistrationEntity),
+                new RouteConfig("/my/birthdate_registration", "POST", "PUT")
+            },
             {
                 typeof(IABItemStatsEntity),
                 new RouteConfig("/my/billing_point", "GET")
             },
-            //{
-            //	typeof(StaminaRecoveryTransactionCreateEntity),
-            //	new Config("/billing_point_shop/stamina_recovery/transactions", "Json/Shop/recover_stamina_create", 0)
-            //},
-            //{
-            //	typeof(StaminaRecoveryTransactionUpdateEntity),
-            //	new Config("/billing_point_shop/stamina_recovery/transactions/{0}", "Json/Shop/recover_stamina_update", 0)
-            //},
-            //{
-            //	typeof(BoxCapacityTransactionCreateEntity),
-            //	new Config("/billing_point_shop/enhancement_item_capacity/transactions", "Json/Shop/box_capacity_create", 0)
-            //},
-            //{
-            //	typeof(BoxCapacityTransactionUpdateEntity),
-            //	new Config("/billing_point_shop/enhancement_item_capacity/transactions/{0}", "Json/Shop/box_capacity_update", 0)
-            //},
-            //{
-            //	typeof(ShopProductTransactionCreateEntity),
-            //	new Config("/shops/{0}/products/{1}/transactions", "Json/Shop/shop_product_create", 0)
-            //},
-            //{
-            //	typeof(ShopProductTransactionUpdateEntity),
-            //	new Config("/shops/{0}/products/{1}/transactions/{2}", "Json/Shop/shop_product_update", 0)
-            //},
-            //{
-            //	typeof(UpdateUserPaymentEntity),
-            //	new Config("/purchase/receipts", "Json/Shop/update_user_payment", 0)
-            //},
-            //{
-            //	typeof(DMMUserPaymentEntity),
-            //	new Config("/portalsite/dmm/payments", string.Empty, 0)
-            //},
+            {
+                typeof(BillingPointTransactionCreateEntity),
+                new RouteConfig("/billing_point_shop/stamina_recovery/transactions", "POST")
+            },
+            {
+                typeof(BillingPointTransactionUpdateEntity),
+                new RouteConfig("/billing_point_shop/stamina_recovery/transactions/{transaction_id}", "PUT")
+            },
+            {
+                typeof(BillingPointTransactionCreateEntity),
+                new RouteConfig("/billing_point_shop/enhancement_item_capacity/transactions", "POST")
+            },
+            {
+                typeof(BillingPointTransactionUpdateEntity),
+                new RouteConfig("/billing_point_shop/enhancement_item_capacity/transactions/{transaction_id}", "PUT")
+            },
+            {
+                typeof(ShopProductTransactionCreateEntity),
+                new RouteConfig("/shops/{shop_id}/products/{product_id}/transactions", "POST")
+            },
+            {
+                typeof(ShopProductTransactionUpdateEntity),
+                new RouteConfig("/shops/{shop_id}/products/{product_id}/transactions/{transaction_id}", "PUT")
+            },
+            {
+                typeof(UpdateUserPaymentEntity),
+                new RouteConfig("/purchase/receipts", "POST")
+            },
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/portalsite/dmm/payments", "POST")
+            },
             {
                 typeof(BillingItemListEntity),
                 new RouteConfig("/platform_products", "GET")
@@ -457,18 +470,18 @@ namespace Yuyuyui.PrivateServer
                 typeof(UpdateUserSelectEntity),
                 new RouteConfig("/select_gachas/update_user_select", "POST")
             },
-            //{
-            //	typeof(GachaTicketEntity),
-            //	new Config("/my/gacha_tickets", "Json/Gacha/ticket", 0)
-            //},
-            //{
-            //	typeof(GachaTransactionCreateEntity),
-            //	new Config("/gachas/{0}/lineups/{1}/transactions", "Json/Gacha/transaction_create", 0)
-            //},
-            //{
-            //	typeof(GachaTransactionUpdateEntity),
-            //	new Config("/gachas/{0}/lineups/{1}/transactions/{2}", "Json/Gacha/transaction_update", 0)
-            //},
+            {
+                typeof(GachaTicketEntity),
+                new RouteConfig("/my/gacha_tickets", "GET")
+            },
+            {
+                typeof(GachaTransactionCreateEntity),
+                new RouteConfig("/gachas/{gacha_id}/lineups/{lineup_id}/transactions", "POST")
+            },
+            {
+                typeof(GachaTransactionUpdateEntity),
+                new RouteConfig("/gachas/{gacha_id}/lineups/{lineup_id}/transactions/{transaction_id}", "PUT")
+            },
             {
                 typeof(PresentsEntity),
                 new RouteConfig("/my/gifts", "GET")
@@ -477,14 +490,14 @@ namespace Yuyuyui.PrivateServer
                 typeof(PresentsHistoryEntity),
                 new RouteConfig("/my/gifts/received", "GET")
             },
-            //{
-            //	typeof(UpdatePresentEntity),
-            //	new Config("/my/gifts/{0}", "Json/Present/update_present", 0)
-            //},
-            //{
-            //	typeof(PresentBulkEntity),
-            //	new Config("/my/gifts/bulk", string.Empty, 0)
-            //},
+            {
+                typeof(GiftAcceptEntity),
+                new RouteConfig("/my/gifts/bulk", "POST", "PUT")
+            },
+            {
+                typeof(GiftAcceptEntity),
+                new RouteConfig("/my/gifts/{gift_id}", "PUT")
+            },
             {
             	typeof(FriendEntity),
             	new RouteConfig("/my/fellowships", "GET")
@@ -513,22 +526,22 @@ namespace Yuyuyui.PrivateServer
                 typeof(ClubWorkingOrderEntity),
                 new RouteConfig("/my/club_working/orders", "GET")
             },
-            //{
-            //	typeof(ClubWorkingStartEntity),
-            //	new Config("/my/club_working/workings/start", "Json/ClubWorking/Start", 0)
-            //},
-            //{
-            //	typeof(ClubWorkingRewardEntity),
-            //	new Config("/my/club_working/workings/{0}/result", "Json/ClubWorking/Reward", 0)
-            //},
-            //{
-            //	typeof(ClubWorkingForceCompleteTransactionCreateEntity),
-            //	new Config("/my/club_working/workings/{0}/transactions", "Json/ClubWorking/complete_transaction_create", 0)
-            //},
-            //{
-            //	typeof(ClubWorkingForceCompleteTransactionUpdateEntity),
-            //	new Config("/my/club_working/workings/{0}/transactions/{1}", "Json/ClubWorking/complete_transaction_update", 0)
-            //},
+            {
+                typeof(ClubWorkingStartEntity),
+                new RouteConfig("/my/club_working/workings/start", "POST")
+            },
+            {
+                typeof(ClubWorkingRewardEntity),
+                new RouteConfig("/my/club_working/workings/{club_working_id}/result", "PUT")
+            },
+            {
+                typeof(ClubWorkingForceCompleteTransactionCreateEntity),
+                new RouteConfig("/my/club_working/workings/{club_working_id}/transactions", "POST")
+            },
+            {
+                typeof(ClubWorkingForceCompleteTransactionUpdateEntity),
+                new RouteConfig("/my/club_working/workings/{club_working_id}/transactions/{transaction_id}", "PUT")
+            },
             {
                 typeof(UserInfoEntity),
                 new RouteConfig("/users/{user_id}", "GET")
@@ -541,66 +554,82 @@ namespace Yuyuyui.PrivateServer
                 typeof(LoginBonusEntity),
                 new RouteConfig("/my/checkin", "POST")
             },
-            //{
-            //	typeof(MissionListEntity),
-            //	new Config("/my/missions", "Json/Mission/mission_list", 0)
-            //},
-            //{
-            //	typeof(DailyMissionListEntity),
-            //	new Config("/my/daily_missions", string.Empty, 0)
-            //},
-            //{
-            //	typeof(MissionUpdateEntity),
-            //	new Config("/my/missions/{0}", "Json/Mission/mission_update", 0)
-            //},
-            //{
-            //	typeof(DailyMissionUpdateEntity),
-            //	new Config("/my/daily_missions/{0}", "Json/Mission/mission_update", 0)
-            //},
-            //{
-            //	typeof(MissionADVUpdateEntity),
-            //	new Config("/my/mission_adventures/{0}", string.Empty, 0)
-            //},
-            //{
-            //	typeof(BattlePrepareEntity),
-            //	new Config("/level_design/quests/{0}/start", "Json/Battle/battle_prepare", 0)
-            //},
-            //{
-            //	typeof(BattleResultEntity),
-            //	new Config("/level_design/quests/{0}/finish", "Json/Battle/battle_result", 0)
-            //},
+            {
+                typeof(MissionListEntity),
+                new RouteConfig("/missions", "GET")
+            },
+            {
+                typeof(MissionListEntity),
+                new RouteConfig("/my/missions", "GET")
+            },
+            {
+                typeof(DailyMissionListEntity),
+                new RouteConfig("/daily_missions", "GET")
+            },
+            {
+                typeof(DailyMissionListEntity),
+                new RouteConfig("/my/daily_missions", "GET")
+            },
+            {
+                typeof(MissionListEntity),
+                new RouteConfig("/mission_adventures", "GET")
+            },
+            {
+                typeof(MissionListEntity),
+                new RouteConfig("/my/mission_adventures", "GET")
+            },
+            {
+                typeof(MissionUpdateEntity),
+                new RouteConfig("/my/missions/{mission_id}", "PUT")
+            },
+            {
+                typeof(DailyMissionUpdateEntity),
+                new RouteConfig("/my/daily_missions/{mission_id}", "PUT")
+            },
+            {
+                typeof(MissionADVUpdateEntity),
+                new RouteConfig("/my/mission_adventures/{mission_adventure_id}", "PUT")
+            },
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/level_design/quests/{quest_id}/start", "POST")
+            },
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/level_design/quests/{quest_id}/finish", "POST", "PUT")
+            },
             {
                 typeof(EnhancementItemsEntity),
                 new RouteConfig("/my/enhancement_items", "GET")
             },
-            //{
-            //	typeof(EnhancementItemDisposalEntity),
-            //	new Config("/my/enhancement_items/{0}/disposal", string.Empty, 0)
-            //},
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/my/enhancement_items/{enhancement_item_id}/disposal", "POST", "PUT")
+            },
             {
                 typeof(StaminaItemsEntity),
                 new RouteConfig("/my/stamina_items", "GET")
             },
-            //{
-            //	typeof(StaminaTransactionCreateEntity),
-            //	new Config("/my/stamina_items/{0}/transactions", string.Empty, 0)
-            //},
-            //{
-            //	typeof(StaminaTransactionUpdateEntity),
-            //	new Config("/my/stamina_items/{0}/transactions/{1}", string.Empty, 0)
-            //},
+            {
+                typeof(StaminaItemTransactionCreateEntity),
+                new RouteConfig("/my/stamina_items/{stamina_item_id}/transactions", "POST")
+            },
+            {
+                typeof(StaminaItemTransactionUpdateEntity),
+                new RouteConfig("/my/stamina_items/{stamina_item_id}/transactions/{transaction_id}", "PUT")
+            },
             {
                 typeof(EvolutionItemsEntity),
                 new RouteConfig("/my/evolution_items", "GET")
             },
-            //{
-            //	typeof(EnhancementItemDisposalTransactionCreateEntity),
-            //	new Config("/my/enhancement_items/{0}/disposal/transactions", string.Empty, 0)
-            //},
-            //{
-            //	typeof(EnhancementItemDisposalTransactionUpdateEntity),
-            //	new Config("/my/enhancement_items/{0}/disposal/transactions/{1}", string.Empty, 0)
-            //},
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/my/enhancement_items/{enhancement_item_id}/disposal/transactions", "POST")
+            },
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/my/enhancement_items/{enhancement_item_id}/disposal/transactions/{transaction_id}", "PUT")
+            },
             {
                 typeof(TitleItemsEntity),
                 new RouteConfig("/my/title_items", "GET", "POST")
@@ -649,34 +678,34 @@ namespace Yuyuyui.PrivateServer
             	typeof(QuestTransactionDefeatEntity),
             	new RouteConfig("/stages/{stage_id}/transactions/{transaction_id}/defeat", "PUT")
             },
-            //{
-            //	typeof(EventTransactionCreateEntity),
-            //	new Config("/special/stages/{0}/transactions", string.Empty, 0)
-            //},
-            //{
-            //	typeof(EventTransactionUpdateEntity),
-            //	new Config("/special/stages/{0}/transactions/{1}", string.Empty, 0)
-            //},
-            //{
-            //	typeof(EventTransactionResultEntity),
-            //	new Config("/special/stages/{0}/transactions/{1}/result", string.Empty, 0)
-            //},
-            //{
-            //	typeof(EventTransactionRetireEntity),
-            //	new Config("/special/stages/{0}/transactions/{1}/retire", string.Empty, 0)
-            //},
-            //{
-            //	typeof(EventTransactionDefeatEntity),
-            //	new Config("/special/stages/{0}/transactions/{1}/defeat", string.Empty, 0)
-            //},
-            //{
-            //	typeof(WeekdayStaminaRecoveryTransactionCreate),
-            //	new Config("/billing_point_shop/weekday_stamina_recovery/transactions", string.Empty, 0)
-            //},
-            //{
-            //	typeof(WeekdayStaminaRecoveryTransactionUpdate),
-            //	new Config("/billing_point_shop/weekday_stamina_recovery/transactions/{0}", string.Empty, 0)
-            //},
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/special/stages/{stage_id}/transactions", "POST")
+            },
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/special/stages/{stage_id}/transactions/{transaction_id}", "PUT")
+            },
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/special/stages/{stage_id}/transactions/{transaction_id}/result", "PUT")
+            },
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/special/stages/{stage_id}/transactions/{transaction_id}/retire", "PUT")
+            },
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/special/stages/{stage_id}/transactions/{transaction_id}/defeat", "PUT")
+            },
+            {
+                typeof(BillingPointTransactionCreateEntity),
+                new RouteConfig("/billing_point_shop/weekday_stamina_recovery/transactions", "POST")
+            },
+            {
+                typeof(BillingPointTransactionUpdateEntity),
+                new RouteConfig("/billing_point_shop/weekday_stamina_recovery/transactions/{transaction_id}", "PUT")
+            },
             {
                 typeof(CharacterFamiliarityEntity),
                 new RouteConfig("/my/character_familiarities", "GET")
@@ -705,14 +734,14 @@ namespace Yuyuyui.PrivateServer
                 typeof(PushTokenEntity),
                 new RouteConfig("/my/push_token", "POST")
             },
-            //{
-            //	typeof(DeletePushTokenEnity),
-            //	new Config("/my/push_token/removal", string.Empty, 0)
-            //},
-            //{
-            //	typeof(CampaignEntity),
-            //	new Config("/campaigns/{0}/entry", string.Empty, 0)
-            //},
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/my/push_token/removal", "POST", "DELETE")
+            },
+            {
+                typeof(NoopEntity),
+                new RouteConfig("/campaigns/{campaign_id}/entry", "POST")
+            },
             //{
             //	typeof(ResponseErrorEntity),
             //	new Config("http://toybox.kaeru-the-frog.xyz/404.html", string.Empty, 0)
@@ -768,5 +797,13 @@ namespace Yuyuyui.PrivateServer
 
         public readonly string apiPath;
         public readonly string[] httpMethods;
+    }
+
+    public class RouteConfigCollection : List<KeyValuePair<Type, RouteConfig>>
+    {
+        public void Add(Type entityType, RouteConfig routeConfig)
+        {
+            Add(new KeyValuePair<Type, RouteConfig>(entityType, routeConfig));
+        }
     }
 }

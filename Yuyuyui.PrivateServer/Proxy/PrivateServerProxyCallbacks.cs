@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Http;
@@ -14,13 +14,6 @@ namespace Yuyuyui.PrivateServer
         public async Task OnRequest(object sender, SessionEventArgs e)
         {
             if (ProxyUtils.WebService(e)) return;
-
-            if (e.HttpClient.Request.RequestUri.Host.Contains("perf-events.cloud.unity3d.com"))
-            {
-                byte[] body = await e.GetRequestBody();
-                string bodyStr = Encoding.UTF8.GetString(body);
-                Utils.LogWarning(bodyStr);
-            }
 
             if (!e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.OFFICIAL_API_SERVER) &&
                 !e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.PRIVATE_LOCAL_API_SERVER))
@@ -45,6 +38,21 @@ namespace Yuyuyui.PrivateServer
                     headersAndBody.Item1,
                     headersAndBody.Item2,
                     $"{apiError.body}");
+                await entity.Process();
+            }
+            catch (Exception exception)
+            {
+                Utils.LogError(exception.ToString());
+
+                entity = new RequestErrorEntity(
+                    "A1321",
+                    "Internal private server error",
+                    e.HttpClient.Request.RequestUri,
+                    e.HttpClient.Request.Method,
+                    new RouteConfig(entity.RequestUri.AbsolutePath, e.HttpClient.Request.Method),
+                    new Dictionary<string, string>(),
+                    Array.Empty<byte>(),
+                    exception.Message);
                 await entity.Process();
             }
 
@@ -95,8 +103,7 @@ namespace Yuyuyui.PrivateServer
             }
 
             e.DecryptSsl = e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.OFFICIAL_API_SERVER)
-                || e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.PRIVATE_LOCAL_API_SERVER)
-                || e.HttpClient.Request.RequestUri.Host.Contains("perf-events.cloud.unity3d.com");
+                || e.HttpClient.Request.RequestUri.Host.Contains(PrivateServer.PRIVATE_LOCAL_API_SERVER);
 
             return Task.CompletedTask;
         }

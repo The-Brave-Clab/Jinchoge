@@ -44,10 +44,14 @@ namespace Yuyuyui.PrivateServer
             // Utils.LogWarning("Taisha point bonus not applied!");
 
             using var cardsDb = new CardsContext();
+            NormalizePlayerCardMap(player, cardsDb);
+
             Response responseObj = new()
             {
                 cards = player.cards
                     .Select(p => p.Value)
+                    .Distinct()
+                    .Where(Yuyuyui.PrivateServer.Card.Exists)
                     .ToDictionary(c => c, c => Card.FromPlayerCardData(cardsDb, c))
             };
 
@@ -55,6 +59,43 @@ namespace Yuyuyui.PrivateServer
             SetBasicResponseHeaders();
 
             return Task.CompletedTask;
+        }
+
+
+        private static void NormalizePlayerCardMap(PlayerProfile player, CardsContext cardsDb)
+        {
+            bool changed = false;
+            foreach (var entry in player.cards.ToList())
+            {
+                if (!Yuyuyui.PrivateServer.Card.Exists(entry.Value))
+                {
+                    player.cards.Remove(entry.Key);
+                    changed = true;
+                    continue;
+                }
+
+                var userCard = Yuyuyui.PrivateServer.Card.Load(entry.Value);
+                if (!cardsDb.Cards.Any(card => card.Id == userCard.master_id))
+                {
+                    Utils.LogWarning($"User card {entry.Value} references missing master card {userCard.master_id}; removing it from /my/cards to avoid client character-load failures.");
+                    player.cards.Remove(entry.Key);
+                    changed = true;
+                    continue;
+                }
+
+                long profileKey = player.GetCardProfileKey(userCard.master_id, cardsDb);
+                if (profileKey == entry.Key)
+                    continue;
+
+                if (!player.cards.ContainsKey(profileKey))
+                    player.cards[profileKey] = entry.Value;
+
+                player.cards.Remove(entry.Key);
+                changed = true;
+            }
+
+            if (changed)
+                player.Save();
         }
 
         public class Response

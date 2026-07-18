@@ -18,9 +18,11 @@ namespace Yuyuyui.PrivateServer
 
         protected override Task ProcessRequest()
         {
+            var player = GetPlayerFromCookies();
+
             Response responseObj = new()
             {
-                birthdate_registration = false,
+                birthdate_registration = player.data.birthdateRegistered,
                 products = new List<Response.Product>()
             };
 

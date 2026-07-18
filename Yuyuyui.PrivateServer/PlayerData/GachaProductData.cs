@@ -72,6 +72,7 @@ public class GachaProductData
         public int? played_count { get; set; } = null;
         public bool has_bonus { get; set; }
         public string? bonus_description { get; set; } = null;
+        public int free_rare_gacha { get; set; }
 
         // public enum ConsumptionResourceId
         // {

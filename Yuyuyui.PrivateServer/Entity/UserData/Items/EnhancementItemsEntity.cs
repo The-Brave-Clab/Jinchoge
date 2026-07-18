@@ -56,8 +56,11 @@ namespace Yuyuyui.PrivateServer
                     enhancement_items = player.items.enhancement
                         .Select(p =>
                         {
-                            EnhancementItem masterData = 
-                                itemsDb.EnhancementItems.First(m => m.Id == p.Key);
+                            EnhancementItem? masterData =
+                                itemsDb.EnhancementItems.FirstOrDefault(m => m.Id == p.Key);
+                            if (masterData == null || !Item.Exists(p.Value))
+                                return null;
+
                             Item userItem = Item.Load(p.Value);
                             return new Response.EnhancementItem
                             {
@@ -75,7 +78,8 @@ namespace Yuyuyui.PrivateServer
                                 support_skill_level_category = masterData.SupportSkillLevelCategory
                             };
                         })
-                        .Where(ei => ei.quantity > 0) // don't show consumed items
+                        .Where(ei => ei != null && ei.quantity > 0) // don't show consumed/missing items
+                        .Select(ei => ei!)
                         .ToList()
                 };
             }

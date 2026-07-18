@@ -15,11 +15,19 @@ namespace Yuyuyui.PrivateServer.CLI
         public static async Task Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
+            CliOptions options = CliOptions.Parse(args);
 
             Config.Load();
-            var cultureInfo = CultureInfo.GetCultureInfo(Config.Get().General.Language);
+            var cultureInfo = CultureInfo.GetCultureInfo(
+                Config.ResolveInterfaceCultureName(Config.Get().General.Language));
             if (!cultureInfo.Equals(CultureInfo.InvariantCulture))
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;
+
+            if (options.ShowHelp)
+            {
+                PrintHelp();
+                return;
+            }
 
             object logLock = new();
             Utils.SetLogCallback(
@@ -52,9 +60,15 @@ namespace Yuyuyui.PrivateServer.CLI
                 Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()!
                     .InformationalVersion));
 
+            if (options.ShowVersion)
+                return;
+
             await LocalData.Update();
 
-            var endpoint = Proxy<PrivateServerProxyCallbacks>.Start();
+            if (options.UpdateDataOnly)
+                return;
+
+            var endpoint = Proxy<PrivateServerProxyCallbacks>.Start(options.Port);
 
             //foreach (var endPoint in proxyServer.ProxyEndPoints)
             Console.Write(Resources.LOG_LISTENING_AT);
@@ -93,9 +107,67 @@ namespace Yuyuyui.PrivateServer.CLI
             
             Console.WriteLine();
 
-            Console.Read();
+            Console.ReadLine();
 
             Proxy<PrivateServerProxyCallbacks>.Stop();
+        }
+
+        private static void PrintHelp()
+        {
+            string executable = Assembly.GetExecutingAssembly().GetName().Name ?? "Jinchoge.CLI";
+
+            Console.WriteLine($"{executable} [options]");
+            Console.WriteLine();
+            Console.WriteLine("Options:");
+            Console.WriteLine("  -h, --help              Show this help text and exit.");
+            Console.WriteLine("  -v, --version           Show the application version and exit.");
+            Console.WriteLine("  -p, --port <port>       Listen on the specified proxy port. Defaults to 44460.");
+            Console.WriteLine("      --update-data-only  Update local game data, then exit without starting the proxy.");
+        }
+
+        private class CliOptions
+        {
+            public bool ShowHelp { get; private set; }
+            public bool ShowVersion { get; private set; }
+            public bool UpdateDataOnly { get; private set; }
+            public int Port { get; private set; } = 44460;
+
+            public static CliOptions Parse(string[] args)
+            {
+                CliOptions options = new();
+
+                for (int i = 0; i < args.Length; i++)
+                {
+                    switch (args[i])
+                    {
+                        case "-h":
+                        case "--help":
+                            options.ShowHelp = true;
+                            break;
+                        case "-v":
+                        case "--version":
+                            options.ShowVersion = true;
+                            break;
+                        case "--update-data-only":
+                            options.UpdateDataOnly = true;
+                            break;
+                        case "-p":
+                        case "--port":
+                            if (i + 1 >= args.Length ||
+                                !int.TryParse(args[++i], out int port) ||
+                                port < IPEndPoint.MinPort ||
+                                port > IPEndPoint.MaxPort)
+                                throw new ArgumentException("The port option requires a value from 0 to 65535.");
+
+                            options.Port = port;
+                            break;
+                        default:
+                            throw new ArgumentException($"Unknown option: {args[i]}");
+                    }
+                }
+
+                return options;
+            }
         }
     }
 }

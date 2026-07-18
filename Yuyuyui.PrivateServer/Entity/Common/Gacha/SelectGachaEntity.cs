@@ -64,10 +64,14 @@ namespace Yuyuyui.PrivateServer
 
             if (!hasSelected) return new List<Response.SelectedContent>();
 
-            return selected!.Select(s => new Response.SelectedContent
-            {
-                content_id = gachasDb.GachaContents.First(g => g.GachaBoxId == gachaBoxId && g.SelectId == s).ContentId
-            }).ToList();
+            return selected!
+                .Select(s => gachasDb.GachaContents
+                    .FirstOrDefault(g => g.GachaBoxId == gachaBoxId && g.SelectId == s))
+                .Where(content => content != null)
+                .Select(content => new Response.SelectedContent
+                {
+                    content_id = content!.ContentId
+                }).ToList();
         }
 
         public class Response

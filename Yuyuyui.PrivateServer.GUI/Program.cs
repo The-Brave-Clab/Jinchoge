@@ -23,7 +23,7 @@ namespace Yuyuyui.PrivateServer.GUI
         {
             Config.Load();
 
-            string language = Config.Get().General.Language;
+            string language = Config.ResolveInterfaceCultureName(Config.Get().General.Language);
             CultureInfo cultureInfo = CultureInfo.GetCultureInfo(language);
             if (!Equals(cultureInfo, CultureInfo.InvariantCulture))
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;

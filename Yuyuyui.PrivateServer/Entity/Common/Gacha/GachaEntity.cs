@@ -80,10 +80,12 @@ namespace Yuyuyui.PrivateServer
         {
             var commonGacha = gachasDb.Gachas.ToList()
                 .Where(g => g.Kind == 0) // common gacha
-                .MaxBy(g => g.EndAt.ToDateTime());
-            commonGacha!.Name = "Private Server 勇者ガチャ";
-            commonGacha!.EndAt = "2028/12/31 18:59:59";
-            commonGacha!.NoDisplayEndAt = "1";
+                .OrderByDescending(g => g.EndAt.ToDateTime())
+                .FirstOrDefault();
+            commonGacha ??= CreateFallbackGacha(0, "Private Server 勇者ガチャ");
+            commonGacha.Name = "Private Server 勇者ガチャ";
+            commonGacha.EndAt = "2028/12/31 18:59:59";
+            commonGacha.NoDisplayEndAt = "1";
             return commonGacha;
         }
 
@@ -91,9 +93,25 @@ namespace Yuyuyui.PrivateServer
         {
             var friendGacha = gachasDb.Gachas.ToList()
                 .Where(g => g.Kind == 1) // friend gacha
-                .MaxBy(g => g.EndAt.ToDateTime());
-            friendGacha!.Name = "Private Server " + friendGacha.Name;
+                .OrderByDescending(g => g.EndAt.ToDateTime())
+                .FirstOrDefault();
+            friendGacha ??= CreateFallbackGacha(1, "Friend Gacha");
+            friendGacha.Name = "Private Server " + friendGacha.Name;
             return friendGacha;
+        }
+
+        private static Gacha CreateFallbackGacha(int kind, string name)
+        {
+            return new Gacha
+            {
+                Id = kind,
+                Name = name,
+                Description = "",
+                Kind = kind,
+                StartAt = "2020/01/01 00:00:00",
+                EndAt = "2028/12/31 18:59:59",
+                NoDisplayEndAt = "1"
+            };
         }
 
         private List<GachaProductData.Lineup> GetGachaLineups(GachasContext gachasDb, Gacha gacha)
@@ -114,9 +132,45 @@ namespace Yuyuyui.PrivateServer
                         button_title = l.ButtonTitle,
                         played_count = null, // TODO
                         has_bonus = false, // TODO
-                        bonus_description = null // TODO
+                        bonus_description = null, // TODO
+                        free_rare_gacha = l.FreeRareGacha
                     }).ToList();
+            if (lineups.Count == 0)
+                lineups = GetFallbackGachaLineups(gacha);
             return lineups;
+        }
+
+        private List<GachaProductData.Lineup> GetFallbackGachaLineups(Gacha gacha)
+        {
+            return new List<GachaProductData.Lineup>
+            {
+                CreateFallbackLineup(gacha, 1, 250, "1回"),
+                CreateFallbackLineup(gacha, 10, 2500, "10回")
+            };
+        }
+
+        private GachaProductData.Lineup CreateFallbackLineup(Gacha gacha, int lotCount, int amount, string title)
+        {
+            return new GachaProductData.Lineup
+            {
+                id = gacha.Id * 100 + lotCount,
+                lot_count = lotCount,
+                consumption_resource_id = GetFallbackConsumptionResourceId(gacha),
+                consumption_amount = amount,
+                consumable = true,
+                has_right = true,
+                button_title = title,
+                button_extra = null,
+                played_count = null,
+                has_bonus = false,
+                bonus_description = null,
+                free_rare_gacha = 1
+            };
+        }
+
+        private static int GetFallbackConsumptionResourceId(Gacha gacha)
+        {
+            return gacha.Kind == 1 ? 3 : 1;
         }
 
         private List<GachaProductData.PickupContent> GetGachaPickUps(Gacha gacha)

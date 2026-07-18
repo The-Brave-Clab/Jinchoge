@@ -107,10 +107,18 @@ public static class Config
         return Path.Combine(PrivateServer.BASE_DIR, FILE_NAME);
     }
 
+    public const string EnglishTestInterfaceLocale = "en-test";
+
+    public static string ResolveInterfaceCultureName(string language)
+    {
+        return language == EnglishTestInterfaceLocale ? "en" : language;
+    }
+
     public static readonly List<string> SupportedInterfaceLocale = new()
     {
         "",
         "en",
+        EnglishTestInterfaceLocale,
         "zh"
     };
 

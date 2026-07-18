@@ -37,6 +37,11 @@ namespace Yuyuyui.PrivateServer
                 targetUnit.Save();
             }
 
+            if (requestObj.deck.leader_deck_card_id != null && targetDeck.units.Contains(requestObj.deck.leader_deck_card_id.Value))
+                targetDeck.leaderUnitID = requestObj.deck.leader_deck_card_id.Value;
+            else if (!targetDeck.units.Contains(targetDeck.leaderUnitID) && targetDeck.units.Count > 0)
+                targetDeck.leaderUnitID = targetDeck.units[0];
+
             targetDeck.Save();
             
             Response responseObj;
@@ -63,6 +68,7 @@ namespace Yuyuyui.PrivateServer
             {
                 public IList<UpdateDeckCard> cards { get; set; } = new List<UpdateDeckCard>();
                 public long id { get; set; }
+                public long? leader_deck_card_id { get; set; } = null;
                 public string? name { get; set; } = "";
 
                 public class UpdateDeckCard

@@ -124,7 +124,46 @@ namespace Yuyuyui.PrivateServer
 
         public DataModel.Card MasterData(CardsContext cardDb)
         {
-            return cardDb.Cards.First(c => c.Id == master_id);
+            DataModel.Card? masterCard = cardDb.Cards.FirstOrDefault(c => c.Id == master_id);
+            if (masterCard != null)
+                return masterCard;
+
+            Utils.LogWarning($"Missing card master data for user card {id} with master_id {master_id}; using a safe fallback so card APIs can continue.");
+            return CreateFallbackMasterData();
+        }
+
+        private DataModel.Card CreateFallbackMasterData()
+        {
+            const int fallbackStat = 1;
+
+            return new DataModel.Card
+            {
+                Id = master_id,
+                BaseCardId = master_id,
+                CharacterId = 0,
+                Name = $"Missing card {master_id}",
+                ImageId = master_id,
+                GrowthKind = 3,
+                MinLevel = 1,
+                MaxLevel = 99,
+                Rarity = 0,
+                Cost = 0,
+                SupportPoint = 0,
+                MinHitPoint = fallbackStat,
+                MaxHitPoint = fallbackStat,
+                MinAttack = fallbackStat,
+                MaxAttack = fallbackStat,
+                MinWeight = fallbackStat,
+                MaxWeight = fallbackStat,
+                MinCritical = fallbackStat,
+                MaxCritical = fallbackStat,
+                MinAgility = fallbackStat,
+                MaxAgility = fallbackStat,
+                PotentialHitPointArgument = 0,
+                PotentialAttackArgument = 0,
+                AttackPace = 1,
+                EvolutionLevel = 1
+            };
         }
 
         public int GetHitPoint(CardsContext cardsDb)

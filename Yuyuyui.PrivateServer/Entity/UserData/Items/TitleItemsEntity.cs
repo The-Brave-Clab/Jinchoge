@@ -28,7 +28,7 @@ namespace Yuyuyui.PrivateServer
 
             if (HttpMethod == "POST")
             {
-                PostRequest requestObj = Deserialize<PostRequest>(requestBody)!;
+                PostRequest requestObj = Deserialize<PostRequest>(requestBody) ?? new PostRequest();
 
                 player.data.titleItemID = requestObj.title_item_id;
                 player.Save();
@@ -81,7 +81,7 @@ namespace Yuyuyui.PrivateServer
 
         public class PostRequest
         {
-            public long title_item_id { get; set; } // master id of the title
+            public long? title_item_id { get; set; } // master id of the title; null clears the title
         }
 
         // public class PostResponse

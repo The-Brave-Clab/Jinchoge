@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Yuyuyui.PrivateServer.DataModel;
 
 namespace Yuyuyui.PrivateServer;
 
@@ -19,8 +20,12 @@ public class EventItemBoothsEntity : BaseEntity<EventItemBoothsEntity>
     protected override Task ProcessRequest()
     {
         //var player = GetPlayerFromCookies();
-        
-        responseBody = Serialize(new ExchangeItemListEntity.Response());
+
+        ExchangeItemListEntity.Response boothResponse;
+        using (var cardsDb = new CardsContext())
+            boothResponse = ExchangeItemListEntity.GetInitExchangeItemResponse(cardsDb);
+
+        responseBody = Serialize(boothResponse);
         SetBasicResponseHeaders();
 
         return Task.CompletedTask;

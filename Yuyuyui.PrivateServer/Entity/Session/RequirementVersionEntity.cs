@@ -26,7 +26,7 @@ namespace Yuyuyui.PrivateServer
                     need_update = false,
                     review = false,
                     api_server = $"https://{PrivateServer.PRIVATE_LOCAL_API_SERVER}",
-                    enable_cooperation = false
+                    enable_cooperation = true
                 }
             };
 
